@@ -15,6 +15,7 @@
       "bundleIdentifier": "com.ucsdcsedu.clearmind"
     },
     "android": {
+      "package": "com.ucsdcsedu.clearmind",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
