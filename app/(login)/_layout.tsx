@@ -9,6 +9,12 @@ export default function RootLayout() {
           headerShown: false, // Navigation Optional
         }}
       />
+      <Stack.Screen
+        name="forgetPassword"
+        options={{
+          headerShown: false, // Navigation Optional
+        }}
+      />
     </Stack>
   );
 }
