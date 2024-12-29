@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { View, Alert } from "react-native";
 import { CustomButton } from "../../components/CustomButton";
 import { InputField } from "../../components/InputField";
-import LogoImage from "../../components/LogoImage";
 import BackgroundImage from "../../components/BackgroundImage";
 import { useAuth } from "../../hooks/useAuth";
+import { XStack } from "tamagui";
+import { router } from "expo-router";
+import { LogoImage } from "@/components/LogoImage";
 
 export default function MainScreen() {
   const { handleLogin } = useAuth();
@@ -15,7 +17,14 @@ export default function MainScreen() {
   return (
     <View style={{ flex: 1, backgroundColor: "#F1FED7" }}>
       <BackgroundImage />
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", paddingHorizontal: 16 }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          paddingHorizontal: 16,
+        }}
+      >
         <LogoImage />
         <InputField
           placeholder="Username"
@@ -32,16 +41,18 @@ export default function MainScreen() {
           title="Sign In"
           onPress={() => handleLogin(username, password)}
         />
-        <CustomButton
-          title="Create Account"
-          onPress={() => Alert.alert("Register")}
-          variant="link"
-        />
-        <CustomButton
-          title="Forgot Password?"
-          onPress={() => Alert.alert("Forgot Password")}
-          variant="link"
-        />
+        <XStack paddingHorizontal="$10">
+          <CustomButton
+            title="Create Account"
+            onPress={() => Alert.alert("Register")}
+            variant="link"
+          />
+          <CustomButton
+            title="Forgot Password?"
+            onPress={() => router.push("/forgetPassword")}
+            variant="link"
+          />
+        </XStack>
       </View>
     </View>
   );
