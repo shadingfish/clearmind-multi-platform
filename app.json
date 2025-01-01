@@ -1,5 +1,3 @@
-// app.json
-
 {
   "expo": {
     "name": "clear-mind",
@@ -46,8 +44,15 @@
         "origin": false
       },
       "eas": {
-        "projectId": "582199f6-2b92-4849-8982-6c72b0b48111"
-      }
+        "projectId": "1786dafd-3d4e-44cd-a39b-e51ff97b230a"
+      },
+      "firebaseApiKey": "AIzaSyAN0VTXfY575A6Hr-K225hEuCFAK1U9Tbs",
+      "firebaseAuthDomain": "clearmind-442ad.firebaseapp.com",
+      "firebaseDatabaseUrl": "https://clearmind-442ad-default-rtdb.firebaseio.com",
+      "firebaseProjectId": "clearmind-442ad",
+      "firebaseStorageBucket": "clearmind-442ad.appspot.com",
+      "firebaseMessagingSenderId": "324251870640",
+      "firebaseAppId": "1:324251870640:android:28556d290c35015eff6275"
     }
   }
 }
