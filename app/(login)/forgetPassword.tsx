@@ -1,16 +1,22 @@
 import React, { useState } from "react";
-import { YStack, View, Text, Input, Button } from "tamagui";
+import { YStack, ScrollView, Text, Input, Button } from "tamagui";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LogoImage } from "@/components/LogoImage";
 import { Alert } from "react-native";
+import { DropdownComponent } from "@/components/Dropdown";
 
 export default function ForgetPasswordPage() {
-  const { top } = useSafeAreaInsets();
+  const { top, bottom } = useSafeAreaInsets();
   const [securityQuestion1, setSecurityQuestion1] = useState("");
   const [securityQuestion2, setSecurityQuestion2] = useState("");
 
   return (
-    <View flex={1} backgroundColor="$background" paddingTop={top}>
+    <ScrollView
+      flex={1}
+      backgroundColor="$background"
+      paddingTop={top}
+      paddingBottom={bottom}
+    >
       <YStack marginTop="$8">
         <LogoImage size="sm" />
         <Text
@@ -25,18 +31,12 @@ export default function ForgetPasswordPage() {
       </YStack>
 
       <YStack alignSelf="center" paddingTop="$10" width="85%">
-        <Text fontSize="$5" color="$primary">
+        <Text fontSize="$5" color="$primary" paddingBottom="$2">
           Security Question 1:
         </Text>
-        <Text
-          fontSize="$7"
-          color="$primary"
-          fontWeight="semiBold"
-          paddingStart="$3"
-          paddingTop="$1"
-        >
-          What's the name of your pet?
-        </Text>
+
+        <DropdownComponent items={items} />
+
         <Input
           marginTop="$2"
           size="$4"
@@ -49,18 +49,11 @@ export default function ForgetPasswordPage() {
       </YStack>
 
       <YStack alignSelf="center" paddingTop="$6" width="85%">
-        <Text fontSize="$5" color="$primary">
+        <Text fontSize="$5" color="$primary" paddingBottom="$2">
           Security Question 2:
         </Text>
-        <Text
-          fontSize="$7"
-          color="$primary"
-          fontWeight="semiBold"
-          paddingStart="$3"
-          paddingTop="$1"
-        >
-          What's the name of your pet?
-        </Text>
+
+        <DropdownComponent items={items} />
         <Input
           marginTop="$2"
           size="$4"
@@ -90,6 +83,17 @@ export default function ForgetPasswordPage() {
           SUBMIT
         </Text>
       </Button>
-    </View>
+    </ScrollView>
   );
 }
+
+const items: { name: string }[] = [
+  { name: "In what city were you born?" },
+  { name: "What is the name of your pet?" },
+  { name: "What high school did you attend?" },
+  { name: "What College/University did you attend?" },
+  { name: "What is your major in school?" },
+  { name: "What was your first car?" },
+  { name: "What was your favorite food?" },
+  { name: "What is your favorite color?" },
+];
