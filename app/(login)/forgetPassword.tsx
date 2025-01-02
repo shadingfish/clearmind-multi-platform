@@ -14,7 +14,7 @@ export default function ForgetPasswordPage() {
   return (
     <ScrollView
       flex={1}
-      backgroundColor="$background"
+      backgroundColor={colors.background}
       paddingTop={top}
       paddingBottom={bottom}
     >
