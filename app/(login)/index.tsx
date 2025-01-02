@@ -1,4 +1,4 @@
-// app/screens/MainScreen.tsx
+// clear-mind/app/(login)/index.tsx
 import React, { useState } from "react";
 import { Alert } from "react-native";
 import { Button, Input, Stack, Text, XStack, YStack } from "tamagui";
@@ -6,14 +6,16 @@ import LogoImage from "../../components/LogoImage";
 import BackgroundImage from "../../components/BackgroundImage";
 import { useAuth } from "../../hooks/useAuth";
 import { useFonts } from "expo-font";
+import { useRouter } from "expo-router";
 import colors from "../../constants/colors";
 
 export default function MainScreen() {
+  const router = useRouter();
   const { handleLogin } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fontsLoaded] = useFonts({
-    spacemono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
+    notoSans: require("../../assets/fonts/NotoSans-VariableFont_wdth,wght.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -21,7 +23,9 @@ export default function MainScreen() {
   }
 
   return (
-    <YStack flex={1} >
+    <YStack 
+    flex={1}
+     >
       <BackgroundImage />
 
       <YStack
@@ -32,9 +36,9 @@ export default function MainScreen() {
         width="100%"
         >
           <Text 
-            marginTop="$8"
+            marginTop="$12"
+            fontFamily="notoSans"
             fontSize="$8" 
-            fontWeight="bold" 
             color={colors.primary} 
             textAlign="center"
             width="100%"
@@ -47,6 +51,7 @@ export default function MainScreen() {
 
           <Text 
             marginTop="$4"
+            fontFamily="notoSans" 
             fontSize="$8" 
             fontWeight="bold" 
             color={colors.primary}
@@ -99,7 +104,7 @@ export default function MainScreen() {
             <Button
               size="$3"
               theme="alt2"
-              onPress={() => Alert.alert("Register")}
+              onPress={() => router.push("/register")}
               alignSelf="flex-start"
             >
               Create Account
