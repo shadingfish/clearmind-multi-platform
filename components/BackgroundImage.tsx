@@ -1,5 +1,3 @@
-// components/BackgroundImage.tsx
-
 // import React from "react";
 // import { View } from "react-native";
 // import DarkGreen from "../assets/images/dark_green.svg";
@@ -16,42 +14,56 @@
 //   );
 // }
 
+// components/BackgroundImage.tsx
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { StyleSheet, Image, Dimensions } from "react-native";
+import { YStack } from "tamagui";
+
+const { width: screenWidth } = Dimensions.get("window");
 
 export default function BackgroundImage() {
   return (
-    <View style={styles.container}>
+    <YStack
+      position="absolute"
+      width="100%"
+      height="100%"
+      bottom={0}
+      zIndex={-1}
+      justifyContent="flex-end"
+    >
       <Image
-        source={require("../assets/images/dark_green.png")}
-        style={styles.image}
-        resizeMode="cover"
+        source={require("../assets/images/light_green.png")}
+        style={[styles.image, { zIndex: 3 }]}
+        resizeMode="contain" 
       />
       <Image
         source={require("../assets/images/medium_green.png")}
-        style={[styles.image, styles.imageOverlap]}
-        resizeMode="cover"
+        style={[styles.image, styles.imageOverlap, { zIndex: 2 }]}
+        resizeMode="contain"
       />
       <Image
-        source={require("../assets/images/light_green.png")}
-        style={[styles.image, styles.imageOverlap]}
-        resizeMode="cover"
+        source={require("../assets/images/dark_green.png")}
+        style={[
+          styles.image,
+          styles.imageOverlap,
+          { bottom: styles.imageOverlap.bottom * 2, zIndex: 1 },
+        ]}
+        resizeMode="contain"
       />
-    </View>
+    </YStack>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  image: {
+    width: screenWidth,
+    height: undefined,
+    aspectRatio: 1,
+    alignSelf: "flex-end",
     position: "absolute",
     bottom: 0,
-    width: "100%",
-  },
-  image: {
-    width: "100%",
-    height: 100,
   },
   imageOverlap: {
-    marginTop: -10,
+    bottom: 10,
   },
 });
