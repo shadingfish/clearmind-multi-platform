@@ -1,3 +1,5 @@
+// components/CustomButton.tsx
+
 import React from "react";
 import { Button } from "tamagui";
 import colors from "../constants/colors";

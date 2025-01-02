@@ -1,3 +1,5 @@
+// constants/colors.tsx
+
 const colors = {
     primary: "#007F5F",
     secondary: "#FFFFFF",
