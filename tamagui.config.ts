@@ -1,3 +1,5 @@
+// clear-mind/tamagui.config.ts
+
 import { config as configBase } from '@tamagui/config/v3'
 import { createTamagui } from 'tamagui'
 
