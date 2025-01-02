@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LogoImage } from "@/components/LogoImage";
 import { Alert } from "react-native";
 import { DropdownComponent } from "@/components/Dropdown";
+import colors from "@/constants/colors";
 
 export default function ForgetPasswordPage() {
   const { top, bottom } = useSafeAreaInsets();
@@ -20,7 +21,7 @@ export default function ForgetPasswordPage() {
       <YStack marginTop="$8">
         <LogoImage size="sm" />
         <Text
-          color="$primary"
+          color={colors.primary}
           fontWeight="bold"
           fontSize="$9"
           alignSelf="center"
@@ -31,7 +32,7 @@ export default function ForgetPasswordPage() {
       </YStack>
 
       <YStack alignSelf="center" paddingTop="$10" width="85%">
-        <Text fontSize="$5" color="$primary" paddingBottom="$2">
+        <Text fontSize="$5" color={colors.primary} paddingBottom="$2">
           Security Question 1:
         </Text>
 
@@ -40,7 +41,7 @@ export default function ForgetPasswordPage() {
         <Input
           marginTop="$2"
           size="$4"
-          borderColor="$borderColor"
+          borderColor={colors.border}
           borderWidth="$1"
           placeholder="Answer 1"
           value={securityQuestion1}
@@ -49,7 +50,7 @@ export default function ForgetPasswordPage() {
       </YStack>
 
       <YStack alignSelf="center" paddingTop="$6" width="85%">
-        <Text fontSize="$5" color="$primary" paddingBottom="$2">
+        <Text fontSize="$5" color={colors.primary} paddingBottom="$2">
           Security Question 2:
         </Text>
 
@@ -57,7 +58,7 @@ export default function ForgetPasswordPage() {
         <Input
           marginTop="$2"
           size="$4"
-          borderColor="$borderColor"
+          borderColor={colors.border}
           borderWidth="$1"
           placeholder="Answer 2"
           value={securityQuestion2}
@@ -68,14 +69,14 @@ export default function ForgetPasswordPage() {
       <Button
         size="$3"
         borderRadius="$10"
-        backgroundColor="$primary"
+        backgroundColor={colors.primary}
         alignSelf="center"
         width="80%"
         marginTop="$5"
         onPress={() => Alert.alert("Submit")}
       >
         <Text
-          color="$white1"
+          color="white"
           fontWeight="bold"
           fontSize="$8"
           paddingVertical="$1"

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import Feather from "@expo/vector-icons/Feather";
+import colors from "@/constants/colors";
 
 interface DropDownProps {
   items: { name: string }[];
@@ -53,16 +54,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 5,
-    backgroundColor: "#D0F4C5",
+    backgroundColor: colors.dropdownBackground,
   },
   placeholderStyle: {
     fontSize: 16,
-    color: "#007F5F",
+    color: colors.primary,
     fontWeight: 600,
   },
   selectedTextStyle: {
     fontSize: 16,
-    color: "#007F5F",
+    color: colors.primary,
     fontWeight: 600,
   },
   itemTextStyle: {
