@@ -42,11 +42,7 @@ export default function Page1() {
           </Text>
 
           <Text
-            style={{
-                marginTop: "5%",
-                fontSize: 16,
-                color: "#808080",
-              }}
+            style={styles.textQuestion}
           >
             What's your age?
           </Text>
@@ -61,11 +57,7 @@ export default function Page1() {
         />
 
         <Text
-            style={{
-                marginTop: "5%",
-                fontSize: 16,
-                color: "#808080",
-              }}
+            style={styles.textQuestion}
           >
             What's your major?
           </Text>
@@ -106,5 +98,10 @@ export default function Page1() {
         fontSize: 16,
         paddingVertical: 5,
         width: '100%',
+    },
+    textQuestion: {
+        marginTop: "5%",
+        fontSize: 16,
+        color: "#808080",
     }
   });
