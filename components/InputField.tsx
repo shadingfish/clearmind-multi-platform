@@ -1,40 +1,60 @@
 // components/InputField.tsx
 
-import React from "react";
-import { TextInput, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { Input, YStack, Label, Text } from "tamagui";
+import colors from "@/constants/colors";
 
-interface InputFieldProps {
+type InputFieldProps = {
+  id: string;
+  label: string;
   placeholder: string;
   value: string;
+  error?: string;
   onChangeText: (text: string) => void;
   secureTextEntry?: boolean;
-}
+  keyboardType?: "default" | "email-address" | "numeric" | "phone-pad";
+};
 
-export const InputField: React.FC<InputFieldProps> = ({
+const InputField: React.FC<InputFieldProps> = ({
+  id,
+  label,
   placeholder,
   value,
+  error,
   onChangeText,
   secureTextEntry = false,
+  keyboardType = "default",
 }) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
-    <TextInput
-      style={styles.input}
-      placeholder={placeholder}
-      value={value}
-      onChangeText={onChangeText}
-      secureTextEntry={secureTextEntry}
-    />
+    <YStack gap="$0" width="80%">
+      <Label htmlFor={id}>{label}</Label>
+      <Input
+        flex={1}
+        width="100%" 
+        id={id}
+        placeholder={placeholder}
+        value={value}
+        onChangeText={onChangeText}
+        secureTextEntry={secureTextEntry}
+        keyboardType={keyboardType}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        borderColor={
+          isFocused
+            ? colors.primary
+            : error
+            ? "$red10"
+            : "transparent"
+        }
+        borderWidth={isFocused || error ? 2 : 0}
+        padding="$2"
+        borderRadius="$2"
+      />
+      {error && <Text color="$red10">{error}</Text>}
+    </YStack>
   );
 };
 
-const styles = StyleSheet.create({
-  input: {
-    width: "100%",
-    height: 48,
-    borderWidth: 1,
-    borderColor: "#007F5F",
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    marginBottom: 16,
-  },
-});
+export default InputField;

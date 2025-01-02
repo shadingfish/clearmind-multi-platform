@@ -1,55 +1,98 @@
-// components/CustomButton.tsx
-
 import React from "react";
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Button } from "tamagui";
+import colors from "../constants/colors";
 
-interface ButtonProps {
-  title: string;
-  onPress: () => void;
-  variant?: "solid" | "link";
-}
+type CustomButtonProps = {
+  title?: string; 
+  onPress?: () => void; 
+  size?: string;
+  backgroundColor?: string;
+  color?: string; 
+  fontWeight?: string; 
+  padding?: string,
+  children?: React.ReactNode; 
+  [key: string]: any; 
+};
 
-export const CustomButton: React.FC<ButtonProps> = ({
+export const CustomButton: React.FC<CustomButtonProps> = ({
   title,
-  onPress,
-  variant = "solid",
+  onPress = () => {},
+  size = "$4",
+  backgroundColor = colors.primary,
+  color = colors.secondary,
+  fontWeight = "bold",
+  padding,
+  children,
+  ...rest
 }) => {
   return (
-    <TouchableOpacity
+    <Button
+      size={size}
+      theme="active"
+      padding={padding}
+      color={color}
+      fontWeight={fontWeight}
+      backgroundColor={backgroundColor}
       onPress={onPress}
-      style={[
-        styles.button,
-        variant === "solid" ? styles.solid : styles.link,
-      ]}
+      {...rest}
     >
-      <Text style={[styles.text, variant === "solid" ? styles.solidText : styles.linkText]}>
-        {title}
-      </Text>
-    </TouchableOpacity>
+      {children || title}
+    </Button>
   );
 };
 
-const styles = StyleSheet.create({
-  button: {
-    width: "100%",
-    paddingVertical: 12,
-    borderRadius: 8,
-    marginVertical: 8,
-  },
-  solid: {
-    backgroundColor: "#007F5F",
-  },
-  link: {
-    backgroundColor: "transparent",
-  },
-  text: {
-    textAlign: "center",
-    fontSize: 16,
-  },
-  solidText: {
-    color: "#FFFFFF",
-  },
-  linkText: {
-    color: "#007F5F",
-  },
-});
+export const PrimaryButton: React.FC<CustomButtonProps> = ({
+  title,
+  onPress,
+  size,
+  children,
+  ...rest
+}) => (
+  <CustomButton
+    title={title}
+    onPress={onPress}
+    size={size}
+    fontWeight={"bold"}
+    {...rest}
+  >
+    {children}
+  </CustomButton>
+);
+
+export const SecondaryButton: React.FC<CustomButtonProps> = ({
+  title,
+  onPress,
+  size,
+  children,
+  ...rest
+}) => (
+  <CustomButton
+    title={title}
+    onPress={onPress}
+    size={size}
+    backgroundColor="#6C757D"
+    color="#FFFFFF"
+    {...rest}
+  >
+    {children}
+  </CustomButton>
+);
+
+export const DangerButton: React.FC<CustomButtonProps> = ({
+  title,
+  onPress,
+  size,
+  children,
+  ...rest
+}) => (
+  <CustomButton
+    title={title}
+    onPress={onPress}
+    size={size}
+    backgroundColor="#DC3545"
+    color="#FFFFFF"
+    {...rest}
+  >
+    {children}
+  </CustomButton>
+);

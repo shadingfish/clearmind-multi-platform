@@ -1,3 +1,5 @@
+// clear-mind/app/_layout.tsx
+
 import "../tamagui-web.css";
 import { useEffect } from "react";
 import { StatusBar, useColorScheme } from "react-native";
@@ -20,19 +22,18 @@ export {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [interLoaded, interError] = useFonts({
-    Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
-    InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
+  const [fontsLoaded, fontsError] = useFonts({
+    NotoSans: require("../assets/fonts/NotoSans-VariableFont_wdth,wght.ttf"),
+    NotoSansItalic: require("../assets/fonts/NotoSans-Italic-VariableFont_wdth,wght.ttf"),
   });
 
   useEffect(() => {
-    if (interLoaded || interError) {
-      // Hide the splash screen after the fonts have loaded (or an error was returned) and the UI is ready.
+    if (fontsLoaded || fontsError) {
       SplashScreen.hideAsync();
     }
-  }, [interLoaded, interError]);
+  }, [fontsLoaded, fontsError]);
 
-  if (!interLoaded && !interError) {
+  if (!fontsLoaded && !fontsError) {
     return null;
   }
 
