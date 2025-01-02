@@ -6,5 +6,5 @@ import Page3 from "../components/PreSurvey/Page3";
 
 export default function Index() {
   //return <MainScreen />;
-  return <Page3/>;
+  return <Page1/>;
 }

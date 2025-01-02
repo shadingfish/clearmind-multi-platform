@@ -22,6 +22,7 @@ import type { SizeTokens } from 'tamagui'
 const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
+import * as Progress from "react-native-progress";
 
 export default function Page1() {
     const [age, setAge] = useState("");
@@ -31,6 +32,9 @@ export default function Page1() {
     const [yearsSchooling, setYearsSchooling] = useState("");
 
     const yearOptions = ["0-1 year", "1-2 years","2-3 years", "3-4 years", "4+ years"]
+
+    const windowWidth = Dimensions.get("window").width;
+    const windowHeight = Dimensions.get("window").height;
 
     useEffect(() => {
       console.log('age:', age)
@@ -48,6 +52,15 @@ export default function Page1() {
             <Text style={{ fontSize: 20, fontWeight: "bold" }}>
               ClearMind Pre-Survey
             </Text>
+            <Progress.Bar
+              style={{marginTop: '5%'}}
+              progress={1 / 6}
+              width={windowWidth * 0.8}
+              height={5}
+              color="#1EB688"
+              unfilledColor="#D3D3D3"
+              borderColor="#D3D3D3"
+            />
           </View>
           <Text
             style={{

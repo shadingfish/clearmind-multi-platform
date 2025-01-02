@@ -5,13 +5,17 @@ import type { SizeTokens } from 'tamagui'
 const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
+import * as Progress from "react-native-progress";
 
-export default function Page1() {
+export default function Page3() {
     const [ques6, setQues6] = useState("");
     const [ques7, setQues7] = useState("");
     const [ques8, setQues8] = useState("");
     const [ques9, setQues9] = useState("");
     const [ques10, setQues10] = useState("");
+
+    const windowWidth = Dimensions.get("window").width;
+    const windowHeight = Dimensions.get("window").height;
 
     const options = ['1', '2', '3', '4', '5']
 
@@ -32,6 +36,15 @@ export default function Page1() {
                         <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                         ClearMind Pre-Survey
                         </Text>
+                        <Progress.Bar
+                            style={{marginTop: '5%'}}
+                            progress={3 / 6}
+                            width={windowWidth * 0.8}
+                            height={5}
+                            color="#1EB688"
+                            unfilledColor="#D3D3D3"
+                            borderColor="#D3D3D3"
+                        />
                     </View>
                     <Text
                         style={{

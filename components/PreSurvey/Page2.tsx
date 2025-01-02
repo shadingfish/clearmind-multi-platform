@@ -2,11 +2,10 @@ import React, { useState, useEffect} from "react";
 import { View, Image, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text,Pressable, TextInput } from "react-native";
 import { Label, RadioGroup, XStack, YStack } from 'tamagui'
 import type { SizeTokens } from 'tamagui'
-const { width } = Dimensions.get('window');
-const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
+import * as Progress from "react-native-progress";
 
-export default function Page1() {
+export default function Page2() {
     const [ques1, setQues1] = useState("");
     const [ques2, setQues2] = useState("");
     const [ques3, setQues3] = useState("");
@@ -14,6 +13,9 @@ export default function Page1() {
     const [ques5, setQues5] = useState("");
 
     const options = ['1', '2', '3', '4', '5']
+
+    const windowWidth = Dimensions.get("window").width;
+    const windowHeight = Dimensions.get("window").height;
 
     useEffect(() => {
         console.log('ques1:', ques1)
@@ -32,6 +34,15 @@ export default function Page1() {
                         <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                         ClearMind Pre-Survey
                         </Text>
+                        <Progress.Bar
+                            style={{marginTop: '5%'}}
+                            progress={2 / 6}
+                            width={windowWidth * 0.8}
+                            height={5}
+                            color="#1EB688"
+                            unfilledColor="#D3D3D3"
+                            borderColor="#D3D3D3"
+                        />
                     </View>
                     <Text
                         style={{
