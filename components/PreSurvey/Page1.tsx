@@ -149,7 +149,7 @@ export default function Page1() {
 
         <View>
             <View style={{...styles.radioGroup, flexDirection: 'column'}}>
-                {yearOptions.map((option) => (
+                {yearOptions.map((option, index) => (
                   <View style={styles.radioButton}>
                     <RadioButton.Android
                       key={option}
