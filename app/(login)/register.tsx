@@ -105,16 +105,6 @@ export default function SignupScreen() {
                 console.log("User data successfully saved.");
                 setModalMessage("Registration complete!");
                 setModalVisible(true);
-    
-                router.push({
-                  pathname: "/registerAdditional",
-                  params: {
-                    username: formData.username,
-                    password: formData.password,
-                    fullName: formData.fullName,
-                    email: formData.email,
-                  },
-                });
               })
               .catch((error) => {
                 console.error("Error saving user data: ", error);
@@ -235,8 +225,22 @@ export default function SignupScreen() {
             visible={modalVisible}
             title="Notice"
             message={modalMessage}
-            onClose={() => setModalVisible(false)}
+            onClose={() => {
+              setModalVisible(false);
+              if (modalMessage === "Registration complete!") {
+                router.push({
+                  pathname: "/registerAdditional",
+                  params: {
+                    username: formData.username,
+                    password: formData.password,
+                    fullName: formData.fullName,
+                    email: formData.email,
+                  },
+                });
+              }
+            }}
           />
+
         </YStack>
       </ScrollView>
     );

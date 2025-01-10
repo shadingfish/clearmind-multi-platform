@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { ScrollView, Dimensions } from "react-native";
-import { YStack, Label, Text } from "tamagui";
+import { YStack, Stack, Text } from "tamagui";
 import InputField from "../../components/InputField";
 import RadioGroup from "../../components/RadioGroup";
 import { PrimaryButton } from "../../components/CustomButton";
@@ -55,18 +55,18 @@ export default function AdditionalInfoScreen() {
         flexGrow: 1,
         justifyContent: "center",
         alignItems: "center",
-        padding: 16,
+        padding: 10,
         width: screenWidth,
       }}
     >
       {/* Logo and Title */}
       <LogoImage />
-      <Text fontFamily="notoSans" fontSize="$8" fontWeight="bold" marginBottom="$4" color={colors.primary}>
+      <Text fontFamily="notoSans" fontSize="$8" fontWeight="bold" marginBottom="$0" color={colors.primary}>
         Additional Information
       </Text>
 
       {/* Form */}
-      <YStack flex={1} alignItems="center" width="100%" justifyContent="center" marginTop="$4" gap="$2">
+      <YStack flex={1} alignItems="center" width="100%" justifyContent="center" marginTop="$0" gap="$6">
         {/* Therapy Experience */}
         <RadioGroup
           label="Have you practiced mental health therapy techniques (e.g., ACT or CBT)?"
@@ -97,7 +97,7 @@ export default function AdditionalInfoScreen() {
 
         {/* Submit Button */}
         <PrimaryButton size="$5" marginTop="$6" onPress={handleSubmit}>
-          Submit
+          Next
         </PrimaryButton>
       </YStack>
     </ScrollView>

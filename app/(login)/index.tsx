@@ -73,10 +73,10 @@ export default function MainScreen() {
         top={0}
         left={0}
         right={0}
-        bottom="$11"
+        bottom="$10"
       >
 
-        <Stack width="100%" maxWidth={300} space="$3">
+        <Stack width="100%" maxWidth={300} gap="$2">
           <Input
             placeholder="Username"
             value={username}
@@ -88,32 +88,40 @@ export default function MainScreen() {
             onChangeText={setPassword}
             secureTextEntry
           />
+        <Button
+          backgroundColor={colors.link}
+          size="$1"
+          onPress={() => router.push("/forgetPassword")}
+          alignSelf="flex-end"
+        >
+          <Text fontSize={12} textDecorationLine="underline" color={colors.linkText}>
+            Forgot Password?
+          </Text>
+        </Button>
         </Stack>
 
-        <Stack width="100%" maxWidth={300} space="$3">
-          <Button
-            size="$4"
-            onPress={() => handleLogin(username, password)}
-            color={colors.secondary}
-            fontWeight="bold"
-            backgroundColor={colors.primary}
-          >
+        <Stack width="100%" maxWidth={300} gap="$2">
+        <Button
+          size="$4"
+          onPress={() => handleLogin(username, password)}
+          color={colors.secondary}
+          fontWeight="bold"
+          backgroundColor={colors.primary}
+          borderRadius={20}
+          fontSize={16}
+        >
             Sign In
           </Button>
+          
           <XStack justifyContent="space-between">
             <Button
-              size="$3"
+              size="$4"
+              width="100%"
               onPress={() => router.push("/register")}
-              alignSelf="flex-start"
+              borderRadius={20}
+              fontSize={16}
             >
               Create Account
-            </Button>
-            <Button
-              size="$3"
-              onPress={() => router.push("/forgetPassword")}
-              alignSelf="flex-end"
-            >
-              Forgot Password?
             </Button>
           </XStack>
         </Stack>
