@@ -45,23 +45,7 @@ export default function Page1() {
 
 
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={{flex: 1, margin: '5%', justifyContent: 'space-between'}}>
-        <View>
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-              ClearMind Pre-Survey
-            </Text>
-            <Progress.Bar
-              style={{marginTop: '5%'}}
-              progress={1 / 6}
-              width={windowWidth * 0.8}
-              height={5}
-              color="#1EB688"
-              unfilledColor="#D3D3D3"
-              borderColor="#D3D3D3"
-            />
-          </View>
+        <View style={{width: '100%',}}>
           <Text
             style={{
               marginTop: "5%",
@@ -180,19 +164,6 @@ export default function Page1() {
         </View>
 
         </View>
-
-        {/* navigate and pass the current data as props once the navigation stack is set up */}
-
-        <View style={{alignItems: 'center', flexDirection: "row", justifyContent: "space-between", padding: '5%'}}>
-            <Pressable style={styles.navButtons}>
-                <Text style={{fontSize: 16}}>BACK</Text>
-            </Pressable>
-            <Pressable style={styles.navButtons}>
-                <Text style={{fontSize: 16}}>NEXT</Text>
-            </Pressable>
-        </View>
-        </View>
-      </SafeAreaView>
     );
   }
   

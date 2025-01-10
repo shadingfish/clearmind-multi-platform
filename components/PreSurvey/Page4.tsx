@@ -9,10 +9,10 @@ import * as Progress from "react-native-progress";
 
 export default function Page4() {
     const [ques11, setQues11] = useState("");
-    const [ques7, setQues7] = useState("");
-    const [ques8, setQues8] = useState("");
-    const [ques9, setQues9] = useState("");
-    const [ques10, setQues10] = useState("");
+    const [ques12, setQues12] = useState("");
+    const [ques13, setQues13] = useState("");
+    const [ques14, setQues14] = useState("");
+    const [ques15, setQues15] = useState("");
 
     const windowWidth = Dimensions.get("window").width;
     const windowHeight = Dimensions.get("window").height;
@@ -21,11 +21,11 @@ export default function Page4() {
 
     useEffect(() => {
         console.log('ques11:', ques11)
-        console.log('ques7:', ques7)
-        console.log('ques8:', ques8)
-        console.log('ques9:', ques9)
-        console.log('ques10:', ques10)
-    }, [ques11, ques7, ques8, ques9, ques10]); // Dependency array, this effect runs when "count" changes
+        console.log('ques12:', ques12)
+        console.log('ques13:', ques13)
+        console.log('ques14:', ques14)
+        console.log('ques15:', ques15)
+    }, [ques11, ques12, ques13, ques14, ques15]); // Dependency array, this effect runs when "count" changes
 
     return (
 
@@ -38,7 +38,7 @@ export default function Page4() {
                         </Text>
                         <Progress.Bar
                             style={{marginTop: '5%'}}
-                            progress={4 / 6}
+                            progress={4 / 11}
                             width={windowWidth * 0.8}
                             height={5}
                             color="#1EB688"
@@ -94,7 +94,7 @@ export default function Page4() {
                 <Text
                     style={styles.textQuestion}
                 >
-                    7. I get distracted by other, more fun, things when I am supposed to work on schoolwork.
+                    12. I feel prepared well in advance for most tests.
                 </Text>
 
                 <View>
@@ -104,8 +104,8 @@ export default function Page4() {
                                 <RadioButton.Android
                                 key={option}
                                 value={option}
-                                status={ques7 === option ? 'checked' : 'unchecked'}
-                                onPress={() => setQues7(option)} // Set the selected gender
+                                status={ques12 === option ? 'checked' : 'unchecked'}
+                                onPress={() => setQues12(option)} // Set the selected gender
                                 color="#1EB688"
                                 />
                                 <Text style={styles.radioLabel}>
@@ -119,7 +119,7 @@ export default function Page4() {
                 <Text
                     style={styles.textQuestion}
                 >
-                    8. I concentrate on school work instead of other distractions.
+                    13. "Cramming" and last minute studying is the best way that I study for a big test.
                 </Text>
 
                 <View>
@@ -129,8 +129,8 @@ export default function Page4() {
                                 <RadioButton.Android
                                 key={option}
                                 value={option}
-                                status={ques8 === option ? 'checked' : 'unchecked'}
-                                onPress={() => setQues8(option)} // Set the selected gender
+                                status={ques13 === option ? 'checked' : 'unchecked'}
+                                onPress={() => setQues13(option)} // Set the selected gender
                                 color="#1EB688"
                                 />
                                 <Text style={styles.radioLabel}>
@@ -144,7 +144,7 @@ export default function Page4() {
                 <Text
                     style={styles.textQuestion}
                 >
-                    9. I can't focus on school work or projects for more than an hour until I get distracted.
+                    14. I allocate time so I don't have to "cram" at the end of the semester.
                 </Text>
 
                 <View>
@@ -154,8 +154,8 @@ export default function Page4() {
                                 <RadioButton.Android
                                 key={option}
                                 value={option}
-                                status={ques9 === option ? 'checked' : 'unchecked'}
-                                onPress={() => setQues9(option)} // Set the selected gender
+                                status={ques14 === option ? 'checked' : 'unchecked'}
+                                onPress={() => setQues14(option)} // Set the selected gender
                                 color="#1EB688"
                                 />
                                 <Text style={styles.radioLabel}>
@@ -169,7 +169,7 @@ export default function Page4() {
                 <Text
                     style={styles.textQuestion}
                 >
-                    10. My attention span for schoolwork is very short.
+                    15. I only study the night before exams.
                 </Text>
 
                 <View>
@@ -179,8 +179,8 @@ export default function Page4() {
                                 <RadioButton.Android
                                 key={option}
                                 value={option}
-                                status={ques10 === option ? 'checked' : 'unchecked'}
-                                onPress={() => setQues10(option)} // Set the selected gender
+                                status={ques15 === option ? 'checked' : 'unchecked'}
+                                onPress={() => setQues15(option)} // Set the selected gender
                                 color="#1EB688"
                                 />
                                 <Text style={styles.radioLabel}>

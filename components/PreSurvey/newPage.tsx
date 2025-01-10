@@ -6,7 +6,7 @@ import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
 
 export default function NewPage() {
-    const page1Questions: { [key: string]: string } = {
+    const page2Questions: { [key: string]: string } = {
         ques1: "1. I usually allocate time to review and proofread my work.",
         ques2: "2. I put off projects until the last minute.",
         ques3: "3. I have found myself waiting until the day before to start a big project.",
@@ -14,7 +14,16 @@ export default function NewPage() {
         ques5: "5. When working on schoolwork, I usually get distracted by other things.",
       };
 
-      const [page1Checked, setPage1Checked] = useState<{ [key: string] : string }>({
+      const page3Questions: { [key: string]: string } = {
+        ques1: "6. I waste a lot of time on unimportant things.",
+        ques2: "7. I get distracted by other, more fun, things when I am supposed to work on schoolwork.",
+        ques3: "8. I concentrate on school work instead of other distractions.",
+        ques4: "9. I can't focus on school work or projects for more than an hour until I get distracted.",
+        ques5: "10. My attention span for schoolwork is very short.",
+      };
+
+
+      const [page2Checked, setpage2Checked] = useState<{ [key: string] : string }>({
         "ques1": "",
         "ques2": "",
         "ques3": "",
@@ -22,7 +31,22 @@ export default function NewPage() {
         "ques5": ""
       });
 
-    const page1_questionKeys = Object.keys(page1Questions); // ['ques1', 'ques2', 'ques3']
+      const [page3Checked, setpage3Checked] = useState<{ [key: string] : string }>({
+        "ques6": "",
+        "ques7": "",
+        "ques8": "",
+        "ques9": "",
+        "ques10": ""
+      });
+
+    
+
+    const [currPageNum, setCurrPageNum] = useState(2);
+
+
+    const page2_questionKeys = Object.keys(page2Questions); // ['ques1', 'ques2', 'ques3']
+    const page3_questionKeys = Object.keys(page3Questions); // ['ques1', 'ques2', 'ques3']
+
 
     const handleChange = (key: string, value: string, setter: React.Dispatch<React.SetStateAction<{ [key: string] : string }>>) => {
         setter((prev) => ({
@@ -32,17 +56,36 @@ export default function NewPage() {
     };
 
     const options = ['1', '2', '3', '4', '5']
+    const options_text = "1 = Strongly Disagree; 5 = Strongly Agree"
+
+    const pageSet: {[key: number]: [{ [key: string]: string }, { [key: string] : string }, React.Dispatch<React.SetStateAction<{ [key: string] : string }>>, string[], string[], string]} = {
+        2: [page2Questions, page2Checked, setpage2Checked, page2_questionKeys, options, options_text], //constant questions, user answer, question keys, options list, options text
+        3: [page3Questions, page3Checked, setpage3Checked, page3_questionKeys, options, options_text]
+      }
 
     const windowWidth = Dimensions.get("window").width;
     const windowHeight = Dimensions.get("window").height;
 
+    const handleNext = () => {
+        const currPage = pageSet[currPageNum];
+        const currPageChecked = currPage[1]; 
+        //console.log(currPageChecked);
+        const hasEmptyValues = Object.values(currPageChecked).some((value) => value === "");
+        //console.log(hasEmptyValues);
+
+        if (hasEmptyValues) {
+            console.log("can't go to next")
+        }
+        else {
+            let newPageNum = currPageNum + 1;
+            setCurrPageNum(newPageNum); //at 11 we should handle Finish instead of handle Next
+        }
+    };
+
     useEffect(() => {
-        console.log('ques1:', page1Checked.ques1)
-        console.log('ques2:', page1Checked.ques2)
-        console.log('ques3:', page1Checked.ques3)
-        console.log('ques4:', page1Checked.ques4)
-        console.log('ques5:', page1Checked.ques5)
-    }, [page1Checked]);
+        console.log('page2checked', page2Checked)
+        console.log('page3checked', page3Checked)
+    }, [page2Checked, page3Checked]);
 
     return (
 
@@ -55,7 +98,7 @@ export default function NewPage() {
                         </Text>
                         <Progress.Bar
                             style={{marginTop: '5%'}}
-                            progress={2 / 6}
+                            progress={currPageNum / 11}
                             width={windowWidth * 0.8}
                             height={5}
                             color="#1EB688"
@@ -83,12 +126,12 @@ export default function NewPage() {
                         1 = Strongly Disagree; 5 = Strongly Agree
                     </Text>
 
-                    {page1_questionKeys.map((ques, index) => (
+                    {pageSet[currPageNum][3].map((ques, index) => (
                         <View>
                             <Text
                                 style={styles.textQuestion}
                             >
-                            {page1Questions[ques]}
+                            {pageSet[currPageNum][0][ques]}
                             </Text>
 
                             <View>
@@ -98,8 +141,8 @@ export default function NewPage() {
                                     <RadioButton.Android
                                     key={option}
                                     value={option}
-                                    status={page1Checked[ques] === option ? 'checked' : 'unchecked'}
-                                    onPress={() => handleChange(ques, option, setPage1Checked)} // Set the selected gender
+                                    status={pageSet[currPageNum][1][ques] === option ? 'checked' : 'unchecked'}
+                                    onPress={() => handleChange(ques, option, pageSet[currPageNum][2])} // Set the selected gender
                                     color="#1EB688"
                                     />
                                     <Text style={styles.radioLabel}>
@@ -118,7 +161,7 @@ export default function NewPage() {
                     <Pressable style={styles.navButtons}>
                         <Text style={{fontSize: 16}}>BACK</Text>
                     </Pressable>
-                    <Pressable style={styles.navButtons}>
+                    <Pressable style={styles.navButtons} onPress={() => handleNext()}>
                         <Text style={{fontSize: 16}}>NEXT</Text>
                     </Pressable>
                 </View>

@@ -38,7 +38,7 @@ export default function Page3() {
                         </Text>
                         <Progress.Bar
                             style={{marginTop: '5%'}}
-                            progress={3 / 6}
+                            progress={3 / 11}
                             width={windowWidth * 0.8}
                             height={5}
                             color="#1EB688"
