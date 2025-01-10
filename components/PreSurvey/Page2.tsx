@@ -50,155 +50,155 @@ interface CurrentPageComponentProps {
     }, [ques1, ques2, ques3, ques4, ques5]); // Dependency array, this effect runs when "count" changes
 
     return (
-                <View style={{width: '100%'}}>
-                    <Text
-                        style={{
-                        marginTop: "5%",
-                        fontSize: 16,
-                        fontWeight: "bold",
-                        color: "#808080",
-                        }}
-                    >
-                        How much do you, yourself agree to the following statements?
-                    </Text>
-                    <Text
-                        style={{
-                        fontSize: 16,
-                        fontWeight: "bold",
-                        color: "#808080",
-                        }}
-                    >
-                        1 = Strongly Disagree; 5 = Strongly Agree
-                    </Text>
+        <View style={{width: '100%'}}>
+            <Text
+                style={{
+                marginTop: "5%",
+                fontSize: 16,
+                fontWeight: "bold",
+                color: "#808080",
+                }}
+            >
+                How much do you, yourself agree to the following statements?
+            </Text>
+            <Text
+                style={{
+                fontSize: 16,
+                fontWeight: "bold",
+                color: "#808080",
+                }}
+            >
+                1 = Strongly Disagree; 5 = Strongly Agree
+            </Text>
 
-                    <Text
-                        style={styles.textQuestion}
-                    >
-                        1. I usually allocate time to review and proofread my work.
-                    </Text>
+            <Text
+                style={styles.textQuestion}
+            >
+                1. I usually allocate time to review and proofread my work.
+            </Text>
 
-                    <View>
-                        <View style={{...styles.radioGroup}}>
-                            {options.map((option, index) => (
-                            <View style={styles.radioButton}>
-                                <RadioButton.Android
-                                key={option}
-                                value={option}
-                                status={ques1 === option ? 'checked' : 'unchecked'}
-                                onPress={() => setQues1(option)} // Set the selected gender
-                                color="#1EB688"
-                                />
-                                <Text style={styles.radioLabel}>
-                                    {option}
-                                </Text>
-                            </View>
-                            ))}
-                        </View>
+            <View>
+                <View style={{...styles.radioGroup}}>
+                    {options.map((option, index) => (
+                    <View style={styles.radioButton}>
+                        <RadioButton.Android
+                        key={option}
+                        value={option}
+                        status={ques1 === option ? 'checked' : 'unchecked'}
+                        onPress={() => setQues1(option)} // Set the selected gender
+                        color="#1EB688"
+                        />
+                        <Text style={styles.radioLabel}>
+                            {option}
+                        </Text>
                     </View>
-
-                <Text
-                    style={styles.textQuestion}
-                >
-                    2. I put off projects until the last minute.
-                </Text>
-
-                <View>
-                        <View style={{...styles.radioGroup}}>
-                            {options.map((option, index) => (
-                            <View style={styles.radioButton}>
-                                <RadioButton.Android
-                                key={option}
-                                value={option}
-                                status={ques2 === option ? 'checked' : 'unchecked'}
-                                onPress={() => setQues2(option)} // Set the selected gender
-                                color="#1EB688"
-                                />
-                                <Text style={styles.radioLabel}>
-                                    {option}
-                                </Text>
-                            </View>
-                            ))}
-                        </View>
+                    ))}
                 </View>
+            </View>
 
-                <Text
-                    style={styles.textQuestion}
-                >
-                    3. I have found myself waiting until the day before to start a big project.
-                </Text>
+        <Text
+            style={styles.textQuestion}
+        >
+            2. I put off projects until the last minute.
+        </Text>
 
-                <View>
-                        <View style={{...styles.radioGroup}}>
-                            {options.map((option, index) => (
-                            <View style={styles.radioButton}>
-                                <RadioButton.Android
-                                key={option}
-                                value={option}
-                                status={ques3 === option ? 'checked' : 'unchecked'}
-                                onPress={() => setQues3(option)} // Set the selected gender
-                                color="#1EB688"
-                                />
-                                <Text style={styles.radioLabel}>
-                                    {option}
-                                </Text>
-                            </View>
-                            ))}
-                        </View>
+        <View>
+                <View style={{...styles.radioGroup}}>
+                    {options.map((option, index) => (
+                    <View style={styles.radioButton}>
+                        <RadioButton.Android
+                        key={option}
+                        value={option}
+                        status={ques2 === option ? 'checked' : 'unchecked'}
+                        onPress={() => setQues2(option)} // Set the selected gender
+                        color="#1EB688"
+                        />
+                        <Text style={styles.radioLabel}>
+                            {option}
+                        </Text>
+                    </View>
+                    ))}
                 </View>
+        </View>
 
-                <Text
-                    style={styles.textQuestion}
-                >
-                    4. I know I should work on school work, but I just don't do it.
-                </Text>
+        <Text
+            style={styles.textQuestion}
+        >
+            3. I have found myself waiting until the day before to start a big project.
+        </Text>
 
-                <View>
-                        <View style={{...styles.radioGroup}}>
-                            {options.map((option, index) => (
-                            <View style={styles.radioButton}>
-                                <RadioButton.Android
-                                key={option}
-                                value={option}
-                                status={ques4 === option ? 'checked' : 'unchecked'}
-                                onPress={() => setQues4(option)} // Set the selected gender
-                                color="#1EB688"
-                                />
-                                <Text style={styles.radioLabel}>
-                                    {option}
-                                </Text>
-                            </View>
-                            ))}
-                        </View>
+        <View>
+                <View style={{...styles.radioGroup}}>
+                    {options.map((option, index) => (
+                    <View style={styles.radioButton}>
+                        <RadioButton.Android
+                        key={option}
+                        value={option}
+                        status={ques3 === option ? 'checked' : 'unchecked'}
+                        onPress={() => setQues3(option)} // Set the selected gender
+                        color="#1EB688"
+                        />
+                        <Text style={styles.radioLabel}>
+                            {option}
+                        </Text>
+                    </View>
+                    ))}
                 </View>
+        </View>
 
-                <Text
-                    style={styles.textQuestion}
-                >
-                    5. When working on schoolwork, I usually get distracted by other things.
-                </Text>
+        <Text
+            style={styles.textQuestion}
+        >
+            4. I know I should work on school work, but I just don't do it.
+        </Text>
 
-                <View>
-                        <View style={{...styles.radioGroup}}>
-                            {options.map((option, index) => (
-                            <View style={styles.radioButton}>
-                                <RadioButton.Android
-                                key={option}
-                                value={option}
-                                status={ques5 === option ? 'checked' : 'unchecked'}
-                                onPress={() => setQues5(option)} // Set the selected gender
-                                color="#1EB688"
-                                />
-                                <Text style={styles.radioLabel}>
-                                    {option}
-                                </Text>
-                            </View>
-                            ))}
-                        </View>
+        <View>
+                <View style={{...styles.radioGroup}}>
+                    {options.map((option, index) => (
+                    <View style={styles.radioButton}>
+                        <RadioButton.Android
+                        key={option}
+                        value={option}
+                        status={ques4 === option ? 'checked' : 'unchecked'}
+                        onPress={() => setQues4(option)} // Set the selected gender
+                        color="#1EB688"
+                        />
+                        <Text style={styles.radioLabel}>
+                            {option}
+                        </Text>
+                    </View>
+                    ))}
                 </View>
+        </View>
 
+        <Text
+            style={styles.textQuestion}
+        >
+            5. When working on schoolwork, I usually get distracted by other things.
+        </Text>
 
-
+        <View>
+                <View style={{...styles.radioGroup}}>
+                    {options.map((option, index) => (
+                    <View style={styles.radioButton}>
+                        <RadioButton.Android
+                        key={option}
+                        value={option}
+                        status={ques5 === option ? 'checked' : 'unchecked'}
+                        onPress={() => setQues5(option)} // Set the selected gender
+                        color="#1EB688"
+                        />
+                        <Text style={styles.radioLabel}>
+                            {option}
+                        </Text>
+                    </View>
+                    ))}
                 </View>
+        </View>
+
+
+
+        </View>
     )
 
 };

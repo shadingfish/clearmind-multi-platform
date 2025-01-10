@@ -14,12 +14,12 @@ interface CurrentPageComponentProps {
     setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
   }
 
-const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) =>  {
-    const [ques6, setQues6] = useState<string>(data.ques6 || "");
-    const [ques7, setQues7] = useState<string>(data.ques7 || "");
-    const [ques8, setQues8] = useState<string>(data.ques8 || "");
-    const [ques9, setQues9] = useState<string>(data.ques9 || "");
-    const [ques10, setQues10] = useState<string>(data.ques10 || "");
+  const Page5: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) =>{
+    const [ques16, setQues16] = useState<string>(data.ques16 || "");
+    const [ques17, setQues17] = useState<string>(data.ques17 || "");
+    const [ques18, setQues18] = useState<string>(data.ques18 || "");
+    const [ques19, setQues19] = useState<string>(data.ques19 || "");
+    const [ques20, setQues20] = useState<string>(data.ques20 || "");
 
     const windowWidth = Dimensions.get("window").width;
     const windowHeight = Dimensions.get("window").height;
@@ -27,81 +27,81 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
     const options = ['1', '2', '3', '4', '5']
 
     useEffect(() => {
-        /* console.log('ques6:', ques6)
-        console.log('ques7:', ques7)
-        console.log('ques8:', ques8)
-        console.log('ques9:', ques9)
-        console.log('ques10:', ques10) */
+        /* console.log('ques16:', ques16)
+        console.log('ques17:', ques17)
+        console.log('ques18:', ques18)
+        console.log('ques19:', ques19)
+        console.log('ques20:', ques20) */
 
         console.log('dataisfilled beginning', dataFilled)
 
         setData((prevData) => ({
             ...prevData, 
-            ques6: ques6, 
-            ques7: ques7,
-            ques8: ques8,
-            ques9: ques9,
-            ques10: ques10,
+            ques16: ques16, 
+            ques17: ques17,
+            ques18: ques18,
+            ques19: ques19,
+            ques20: ques20,
           }));
       
           // Optionally, you can check if all the fields are filled and update dataFilled
-          const isFilled = ques6 !== "" && ques7 !== "" && ques8 !== "" && ques9 !== "" && ques10 !== "";
+          const isFilled = ques16 !== "" && ques17 !== "" && ques18 !== "" && ques19 !== "" && ques20 !== "";
           setDataFilled(isFilled);
     
           console.log('data:', data);
-    }, [ques6, ques7, ques8, ques9, ques10]); // Dependency array, this effect runs when "count" changes
+    }, [ques16, ques17, ques18, ques19, ques20]); // Dependency array, this effect runs when "count" changes
 
     return (
         <View style={{width: '100%',}}>
-                <Text
-                    style={{
-                    marginTop: "5%",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                    color: "#808080",
-                    }}
-                >
-                    How much do you, yourself agree to the following statements?
-                </Text>
-                <Text
-                    style={{
-                    fontSize: 16,
-                    fontWeight: "bold",
-                    color: "#808080",
-                    }}
-                >
-                    1 = Strongly Disagree; 5 = Strongly Agree
-                </Text>
+            <Text
+                style={{
+                marginTop: "5%",
+                fontSize: 16,
+                fontWeight: "bold",
+                color: "#808080",
+                }}
+            >
+                How much do you, yourself agree to the following statements?
+            </Text>
+            <Text
+                style={{
+                fontSize: 16,
+                fontWeight: "bold",
+                color: "#808080",
+                }}
+            >
+                1 = Strongly Disagree; 5 = Strongly Agree
+            </Text>
 
-                <Text
-                    style={styles.textQuestion}
-                >
-                    6. I waste a lot of time on unimportant things.
-                </Text>
+            <Text
+                style={styles.textQuestion}
+            >
+                16. If an assignment is due at midnight, I will work on it until 11:59.
+            </Text>
 
-                <View>
-                    <View style={{...styles.radioGroup}}>
-                        {options.map((option, index) => (
-                        <View style={styles.radioButton}>
-                            <RadioButton.Android
-                            key={option}
-                            value={option}
-                            status={ques6 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues6(option)} // Set the selected gender
-                            color="#1EB688"
-                            />
-                            <Text style={styles.radioLabel}>
-                                {option}
-                            </Text>
-                        </View>
-                        ))}
+            <View>
+                <View style={{...styles.radioGroup}}>
+                    {options.map((option, index) => (
+                    <View style={styles.radioButton}>
+                        <RadioButton.Android
+                        key={option}
+                        value={option}
+                        status={ques16 === option ? 'checked' : 'unchecked'}
+                        onPress={() => setQues16(option)} // Set the selected gender
+                        color="#1EB688"
+                        />
+                        <Text style={styles.radioLabel}>
+                            {option}
+                        </Text>
                     </View>
+                    ))}
                 </View>
+            </View>
 
             <Text
                 style={styles.textQuestion}
             >
-                7. I get distracted by other, more fun, things when I am supposed to work on schoolwork.
+                17. When given an assignment, I usually put it away and forget about it until it is almost due.
             </Text>
 
             <View>
@@ -111,8 +111,8 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques7 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues7(option)} // Set the selected gender
+                            status={ques17 === option ? 'checked' : 'unchecked'}
+                            onPress={() => setQues17(option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -126,7 +126,7 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
             <Text
                 style={styles.textQuestion}
             >
-                8. I concentrate on school work instead of other distractions.
+                18. Friends usually distract me from schoolwork.
             </Text>
 
             <View>
@@ -136,8 +136,8 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques8 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues8(option)} // Set the selected gender
+                            status={ques18 === option ? 'checked' : 'unchecked'}
+                            onPress={() => setQues18(option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -151,7 +151,7 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
             <Text
                 style={styles.textQuestion}
             >
-                9. I can't focus on school work or projects for more than an hour until I get distracted.
+                19. I find myself talking to friends or family instead of working on school work.
             </Text>
 
             <View>
@@ -161,8 +161,8 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques9 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues9(option)} // Set the selected gender
+                            status={ques19 === option ? 'checked' : 'unchecked'}
+                            onPress={() => setQues19(option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -176,7 +176,7 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
             <Text
                 style={styles.textQuestion}
             >
-                10. My attention span for schoolwork is very short.
+                20. On the weekends, I make plans to do homework and projects, but I get distracted and hang out with friends.
             </Text>
 
             <View>
@@ -186,8 +186,8 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques10 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues10(option)} // Set the selected gender
+                            status={ques20 === option ? 'checked' : 'unchecked'}
+                            onPress={() => setQues20(option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -199,6 +199,7 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
             </View>
         </View>
     )
+
 };
 
 const styles = StyleSheet.create({
@@ -248,4 +249,4 @@ const styles = StyleSheet.create({
     }
   });
 
-  export default Page3;
+export default Page5;

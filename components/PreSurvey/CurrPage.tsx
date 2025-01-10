@@ -25,6 +25,18 @@ import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
 import Page1 from "./Page1";
 import Page2 from "./Page2";
+import Page3 from "./Page3";
+import Page4 from "./Page4";
+import Page5 from "./Page5";
+import Page6 from "./Page6";
+import Page7 from "./Page7";
+import Page8 from "./Page8";
+import Page9 from "./Page9";
+import Page10 from "./Page10";
+import Page11 from "./Page11";
+import Page12 from "./Page12";
+import Page13 from "./Page13";
+import Page14 from "./Page14";
 
 interface CurrentPageComponentProps {
     data: {[key: string]: string},
@@ -46,6 +58,18 @@ export default function CurrPage() {
     const pageSet: {[key:number]: React.FC<CurrentPageComponentProps>} = {
         1: Page1,
         2: Page2,
+        3: Page3,
+        4: Page4,
+        5: Page5,
+        6: Page6,
+        7: Page7,
+        8: Page8,
+        9: Page9,
+        10: Page10,
+        11: Page11,
+        12: Page12,
+        13: Page13,
+        14: Page14,
     }
 
     const handleNext = () => {
@@ -53,6 +77,15 @@ export default function CurrPage() {
             let newPageNum = currPageNum + 1;
             setCurrPageNum(newPageNum);
             setDataFilled(false);
+        }
+        else {
+            console.log('not all info in page', currPageNum, 'is filled out');
+        }
+    };
+
+    const handleFinish = () => {
+        if (dataFilled) {
+            console.log("close modal, upload data, and exit")
         }
         else {
             console.log('not all info in page', currPageNum, 'is filled out');
@@ -72,14 +105,14 @@ export default function CurrPage() {
 
     return (
       <SafeAreaView style={styles.container}>
-        <View style={{flex: 1, margin: '5%', justifyContent: 'space-between'}}>
+        <View style={{flex: 1, margin: '4%', justifyContent: 'space-between'}}>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
                 <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                 ClearMind Pre-Survey
                 </Text>
                 <Progress.Bar
                 style={{marginTop: '5%'}}
-                progress={currPageNum / 11}
+                progress={currPageNum / 14}
                 width={windowWidth * 0.8}
                 height={5}
                 color="#1EB688"
@@ -100,9 +133,14 @@ export default function CurrPage() {
             <Pressable style={styles.navButtons} onPress={() => handleBack()}>
                 <Text style={{fontSize: 16}}>BACK</Text>
             </Pressable>
-            <Pressable style={styles.navButtons} onPress={() => handleNext()}>
-                <Text style={{fontSize: 16}}>NEXT</Text>
-            </Pressable>
+            { currPageNum != 14 ?
+                <Pressable style={styles.navButtons} onPress={() => handleNext()}>
+                    <Text style={{fontSize: 16}}>NEXT</Text>
+                </Pressable> :
+                <Pressable style={styles.navButtons} onPress={() => handleFinish()}>
+                    <Text style={{fontSize: 16}}>FINISH</Text>
+                </Pressable>
+            }
         </View>
         </View>
       </SafeAreaView>

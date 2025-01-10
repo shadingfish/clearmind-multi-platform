@@ -14,94 +14,87 @@ interface CurrentPageComponentProps {
     setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
   }
 
-const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) =>  {
-    const [ques6, setQues6] = useState<string>(data.ques6 || "");
-    const [ques7, setQues7] = useState<string>(data.ques7 || "");
-    const [ques8, setQues8] = useState<string>(data.ques8 || "");
-    const [ques9, setQues9] = useState<string>(data.ques9 || "");
-    const [ques10, setQues10] = useState<string>(data.ques10 || "");
+const Page12: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) =>{
+    const [ques52, setQues52] = useState<string>(data.ques52 || "");
+    const [ques53, setQues53] = useState<string>(data.ques53 || "");
+    const [ques54, setQues54] = useState<string>(data.ques54 || "");
+    const [ques55, setQues55] = useState<string>(data.ques55 || "");
+    const [ques56, setQues56] = useState<string>(data.ques56 || "");
 
     const windowWidth = Dimensions.get("window").width;
     const windowHeight = Dimensions.get("window").height;
 
-    const options = ['1', '2', '3', '4', '5']
+    const options = ['1', '2', '3', '4']
 
     useEffect(() => {
-        /* console.log('ques6:', ques6)
-        console.log('ques7:', ques7)
-        console.log('ques8:', ques8)
-        console.log('ques9:', ques9)
-        console.log('ques10:', ques10) */
+        /* console.log('ques52:', ques52)
+        console.log('ques53:', ques53)
+        console.log('ques54:', ques54)
+        console.log('ques55:', ques55)
+        console.log('ques56:', ques56) */
 
         console.log('dataisfilled beginning', dataFilled)
 
         setData((prevData) => ({
             ...prevData, 
-            ques6: ques6, 
-            ques7: ques7,
-            ques8: ques8,
-            ques9: ques9,
-            ques10: ques10,
+            ques52: ques52, 
+            ques53: ques53,
+            ques54: ques54,
+            ques55: ques55,
+            ques56: ques56,
           }));
       
           // Optionally, you can check if all the fields are filled and update dataFilled
-          const isFilled = ques6 !== "" && ques7 !== "" && ques8 !== "" && ques9 !== "" && ques10 !== "";
+          const isFilled = ques52 !== "" && ques53 !== "" && ques54 !== "" && ques55 !== "" && ques56 !== "";
           setDataFilled(isFilled);
     
           console.log('data:', data);
-    }, [ques6, ques7, ques8, ques9, ques10]); // Dependency array, this effect runs when "count" changes
+    }, [ques52, ques53, ques54, ques55, ques56]); // Dependency array, this effect runs when "count" changes
 
     return (
         <View style={{width: '100%',}}>
-                <Text
-                    style={{
-                    marginTop: "5%",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                    color: "#808080",
-                    }}
-                >
-                    How much do you, yourself agree to the following statements?
-                </Text>
-                <Text
-                    style={{
-                    fontSize: 16,
-                    fontWeight: "bold",
-                    color: "#808080",
-                    }}
-                >
-                    1 = Strongly Disagree; 5 = Strongly Agree
-                </Text>
+            <Text
+                style={{
+                fontSize: 16,
+                fontWeight: "bold",
+                color: "#808080",
+                marginTop: 15,
+                }}
+            >
+                The following questions ask how you have sought to cope with a hardship in your life. {"\n"}
+                1 = 1 haven't been doing this at all; 2 = A little bit; 3 =
+                A medium amount; 4 = I've been doing this a lot
+            </Text>
 
-                <Text
-                    style={styles.textQuestion}
-                >
-                    6. I waste a lot of time on unimportant things.
-                </Text>
+            <Text
+                style={styles.textQuestion}
+            >
+                52. I've been giving up the attempt to cope.
+            </Text>
 
-                <View>
-                    <View style={{...styles.radioGroup}}>
-                        {options.map((option, index) => (
-                        <View style={styles.radioButton}>
-                            <RadioButton.Android
-                            key={option}
-                            value={option}
-                            status={ques6 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues6(option)} // Set the selected gender
-                            color="#1EB688"
-                            />
-                            <Text style={styles.radioLabel}>
-                                {option}
-                            </Text>
-                        </View>
-                        ))}
+            <View>
+                <View style={{...styles.radioGroup}}>
+                    {options.map((option, index) => (
+                    <View style={styles.radioButton}>
+                        <RadioButton.Android
+                        key={option}
+                        value={option}
+                        status={ques52 === option ? 'checked' : 'unchecked'}
+                        onPress={() => setQues52(option)} // Set the selected gender
+                        color="#1EB688"
+                        />
+                        <Text style={styles.radioLabel}>
+                            {option}
+                        </Text>
                     </View>
+                    ))}
                 </View>
+            </View>
 
             <Text
                 style={styles.textQuestion}
             >
-                7. I get distracted by other, more fun, things when I am supposed to work on schoolwork.
+                53. I've been looking for something good in what is happening.
             </Text>
 
             <View>
@@ -111,8 +104,8 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques7 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues7(option)} // Set the selected gender
+                            status={ques53 === option ? 'checked' : 'unchecked'}
+                            onPress={() => setQues53(option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -126,7 +119,7 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
             <Text
                 style={styles.textQuestion}
             >
-                8. I concentrate on school work instead of other distractions.
+                54. I've been making jokes about it.
             </Text>
 
             <View>
@@ -136,8 +129,8 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques8 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues8(option)} // Set the selected gender
+                            status={ques54 === option ? 'checked' : 'unchecked'}
+                            onPress={() => setQues54(option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -151,7 +144,7 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
             <Text
                 style={styles.textQuestion}
             >
-                9. I can't focus on school work or projects for more than an hour until I get distracted.
+                55. I've been doing something to think about it less, such as going to movies, watching TV, reading, daydreaming, sleeping, or shopping.
             </Text>
 
             <View>
@@ -161,8 +154,8 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques9 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues9(option)} // Set the selected gender
+                            status={ques55 === option ? 'checked' : 'unchecked'}
+                            onPress={() => setQues55(option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -176,29 +169,30 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
             <Text
                 style={styles.textQuestion}
             >
-                10. My attention span for schoolwork is very short.
+                56. I've been accepting the reality of the fact that it has happened.
             </Text>
 
             <View>
-                    <View style={{...styles.radioGroup}}>
-                        {options.map((option, index) => (
-                        <View style={styles.radioButton}>
-                            <RadioButton.Android
-                            key={option}
-                            value={option}
-                            status={ques10 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues10(option)} // Set the selected gender
-                            color="#1EB688"
-                            />
-                            <Text style={styles.radioLabel}>
-                                {option}
-                            </Text>
-                        </View>
-                        ))}
+                <View style={{...styles.radioGroup}}>
+                    {options.map((option, index) => (
+                    <View style={styles.radioButton}>
+                        <RadioButton.Android
+                        key={option}
+                        value={option}
+                        status={ques56 === option ? 'checked' : 'unchecked'}
+                        onPress={() => setQues56(option)} // Set the selected gender
+                        color="#1EB688"
+                        />
+                        <Text style={styles.radioLabel}>
+                            {option}
+                        </Text>
                     </View>
+                    ))}
+                </View>
             </View>
         </View>
     )
+
 };
 
 const styles = StyleSheet.create({
@@ -226,6 +220,7 @@ const styles = StyleSheet.create({
     radioGroup: {
       flexDirection: 'row',
       //alignItems: 'center',
+      justifyContent: 'center',
       paddingHorizontal: '5%',
       marginTop: 5,
     },
@@ -248,4 +243,4 @@ const styles = StyleSheet.create({
     }
   });
 
-  export default Page3;
+export default Page12;

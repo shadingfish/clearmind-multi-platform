@@ -14,69 +14,58 @@ interface CurrentPageComponentProps {
     setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
   }
 
-  const Page4: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) =>{
-    const [ques11, setQues11] = useState<string>(data.ques11 || "");
-    const [ques12, setQues12] = useState<string>(data.ques12 || "");
-    const [ques13, setQues13] = useState<string>(data.ques13 || "");
-    const [ques14, setQues14] = useState<string>(data.ques14 || "");
-    const [ques15, setQues15] = useState<string>(data.ques15 || "");
+const Page14: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) =>{
+    const [ques62, setQues62] = useState<string>(data.ques62 || "");
+    const [ques63, setQues63] = useState<string>(data.ques63 || "");
+    const [ques64, setQues64] = useState<string>(data.ques64 || "");
 
     const windowWidth = Dimensions.get("window").width;
     const windowHeight = Dimensions.get("window").height;
 
-    const options = ['1', '2', '3', '4', '5']
+    const options = ['1', '2', '3', '4']
 
     useEffect(() => {
-        /* console.log('ques11:', ques11)
-        console.log('ques12:', ques12)
-        console.log('ques13:', ques13)
-        console.log('ques14:', ques14)
-        console.log('ques15:', ques15) */
+        /* console.log('ques62:', ques62)
+        console.log('ques63:', ques63)
+        console.log('ques64:', ques64)
+        console.log('ques60:', ques60)
+        console.log('ques61:', ques61) */
 
         console.log('dataisfilled beginning', dataFilled)
 
         setData((prevData) => ({
             ...prevData, 
-            ques11: ques11, 
-            ques12: ques12,
-            ques13: ques13,
-            ques14: ques14,
-            ques15: ques15,
+            ques62: ques62, 
+            ques63: ques63,
+            ques64: ques64,
           }));
       
           // Optionally, you can check if all the fields are filled and update dataFilled
-          const isFilled = ques11 !== "" && ques12 !== "" && ques13 !== "" && ques14 !== "" && ques15 !== "";
+          const isFilled = ques62 !== "" && ques63 !== "" && ques64 !== "";
           setDataFilled(isFilled);
     
           console.log('data:', data);
-    }, [ques11, ques12, ques13, ques14, ques15]); // Dependency array, this effect runs when "count" changes
+    }, [ques62, ques63, ques64]); // Dependency array, this effect runs when "count" changes
 
     return (
         <View style={{width: '100%',}}>
             <Text
                 style={{
-                marginTop: "5%",
                 fontSize: 16,
                 fontWeight: "bold",
                 color: "#808080",
+                marginTop: 15,
                 }}
             >
-                How much do you, yourself agree to the following statements?
-            </Text>
-            <Text
-                style={{
-                fontSize: 16,
-                fontWeight: "bold",
-                color: "#808080",
-                }}
-            >
-                1 = Strongly Disagree; 5 = Strongly Agree
+                The following questions ask how you have sought to cope with a hardship in your life. {"\n"}
+                1 = 1 haven't been doing this at all; 2 = A little bit; 3 =
+                A medium amount; 4 = I've been doing this a lot
             </Text>
 
             <Text
                 style={styles.textQuestion}
             >
-                11. Tests are meant to be studied for just the night before.
+                62. I've been blaming myself for things that happened.
             </Text>
 
             <View>
@@ -86,8 +75,8 @@ interface CurrentPageComponentProps {
                         <RadioButton.Android
                         key={option}
                         value={option}
-                        status={ques11 === option ? 'checked' : 'unchecked'}
-                        onPress={() => setQues11(option)} // Set the selected gender
+                        status={ques62 === option ? 'checked' : 'unchecked'}
+                        onPress={() => setQues62(option)} // Set the selected gender
                         color="#1EB688"
                         />
                         <Text style={styles.radioLabel}>
@@ -101,7 +90,7 @@ interface CurrentPageComponentProps {
             <Text
                 style={styles.textQuestion}
             >
-                12. I feel prepared well in advance for most tests.
+                63. I've been praying or meditating.
             </Text>
 
             <View>
@@ -111,8 +100,8 @@ interface CurrentPageComponentProps {
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques12 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues12(option)} // Set the selected gender
+                            status={ques63 === option ? 'checked' : 'unchecked'}
+                            onPress={() => setQues63(option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -126,7 +115,7 @@ interface CurrentPageComponentProps {
             <Text
                 style={styles.textQuestion}
             >
-                13. "Cramming" and last minute studying is the best way that I study for a big test.
+                64. I've been making fun of the situation.
             </Text>
 
             <View>
@@ -136,58 +125,8 @@ interface CurrentPageComponentProps {
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques13 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues13(option)} // Set the selected gender
-                            color="#1EB688"
-                            />
-                            <Text style={styles.radioLabel}>
-                                {option}
-                            </Text>
-                        </View>
-                        ))}
-                    </View>
-            </View>
-
-            <Text
-                style={styles.textQuestion}
-            >
-                14. I allocate time so I don't have to "cram" at the end of the semester.
-            </Text>
-
-            <View>
-                    <View style={{...styles.radioGroup}}>
-                        {options.map((option, index) => (
-                        <View style={styles.radioButton}>
-                            <RadioButton.Android
-                            key={option}
-                            value={option}
-                            status={ques14 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues14(option)} // Set the selected gender
-                            color="#1EB688"
-                            />
-                            <Text style={styles.radioLabel}>
-                                {option}
-                            </Text>
-                        </View>
-                        ))}
-                    </View>
-            </View>
-
-            <Text
-                style={styles.textQuestion}
-            >
-                15. I only study the night before exams.
-            </Text>
-
-            <View>
-                    <View style={{...styles.radioGroup}}>
-                        {options.map((option, index) => (
-                        <View style={styles.radioButton}>
-                            <RadioButton.Android
-                            key={option}
-                            value={option}
-                            status={ques15 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues15(option)} // Set the selected gender
+                            status={ques64 === option ? 'checked' : 'unchecked'}
+                            onPress={() => setQues64(option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -227,6 +166,7 @@ const styles = StyleSheet.create({
     radioGroup: {
       flexDirection: 'row',
       //alignItems: 'center',
+      justifyContent: 'center',
       paddingHorizontal: '5%',
       marginTop: 5,
     },
@@ -249,4 +189,4 @@ const styles = StyleSheet.create({
     }
   });
 
-export default Page4;
+export default Page14;
