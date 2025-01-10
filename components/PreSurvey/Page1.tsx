@@ -24,12 +24,18 @@ const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
 
-export default function Page1() {
-    const [age, setAge] = useState("");
-    const [major, setMajor] = useState("");
+interface CurrentPageComponentProps {
+  data: {[key: string]: string},
+  setData: React.Dispatch<React.SetStateAction<{[key: string]: string}>>,
+  dataFilled: boolean,
+  setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-    const [gender, setGender] = useState("");
-    const [yearsSchooling, setYearsSchooling] = useState("");
+const Page1: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) => {
+    const [age, setAge] = useState<string>(data.age || "");
+    const [major, setMajor] = useState<string>(data.major || "");
+    const [gender, setGender] = useState<string>(data.gender || "");
+    const [yearsSchooling, setYearsSchooling] = useState<string>(data.yearsSchooling || "");
 
     const yearOptions = ["0-1 year", "1-2 years","2-3 years", "3-4 years", "4+ years"]
 
@@ -37,10 +43,25 @@ export default function Page1() {
     const windowHeight = Dimensions.get("window").height;
 
     useEffect(() => {
-      console.log('age:', age)
+      /* console.log('age:', age)
       console.log('gender:', gender)
       console.log('major:', major)
-      console.log('yearsSchooling:', yearsSchooling)
+      console.log('yearsSchooling:', yearsSchooling) */
+
+      setData((prevData) => ({
+        ...prevData, // Spread the previous data
+        age: age, // Add the new value for age
+        gender: gender, // Add the new value for gender
+        major: major, // Add the new value for major
+        yearsSchooling: yearsSchooling, // Add the new value for yearsSchooling
+      }));
+  
+      // Optionally, you can check if all the fields are filled and update dataFilled
+      const isFilled = age !== "" && gender !== "" && major !== "" && yearsSchooling !== "";
+      setDataFilled(isFilled);
+
+      console.log('data:', data);
+
     }, [age, gender, major, yearsSchooling]); // Dependency array, this effect runs when "count" changes
 
 
@@ -212,3 +233,5 @@ export default function Page1() {
       justifyContent: 'center'
     }
   });
+
+  export default Page1;

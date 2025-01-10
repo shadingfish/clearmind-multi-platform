@@ -5,12 +5,19 @@ import type { SizeTokens } from 'tamagui'
 import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
 
-export default function Page2() {
-    const [ques1, setQues1] = useState("");
-    const [ques2, setQues2] = useState("");
-    const [ques3, setQues3] = useState("");
-    const [ques4, setQues4] = useState("");
-    const [ques5, setQues5] = useState("");
+interface CurrentPageComponentProps {
+    data: {[key: string]: string},
+    setData: React.Dispatch<React.SetStateAction<{[key: string]: string}>>,
+    dataFilled: boolean,
+    setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
+  }
+
+  const Page2: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) => {
+    const [ques1, setQues1] = useState<string>(data.ques1 || "");
+    const [ques2, setQues2] = useState<string>(data.ques2 || "");
+    const [ques3, setQues3] = useState<string>(data.ques3 || "");
+    const [ques4, setQues4] = useState<string>(data.ques4 || "");
+    const [ques5, setQues5] = useState<string>(data.ques5 || "");
 
     const options = ['1', '2', '3', '4', '5']
 
@@ -18,11 +25,28 @@ export default function Page2() {
     const windowHeight = Dimensions.get("window").height;
 
     useEffect(() => {
-        console.log('ques1:', ques1)
+        /* console.log('ques1:', ques1)
         console.log('ques2:', ques2)
         console.log('ques3:', ques3)
         console.log('ques4:', ques4)
-        console.log('ques5:', ques5)
+        console.log('ques5:', ques5) */
+        console.log('dataisfilled beginning', dataFilled)
+
+        setData((prevData) => ({
+            ...prevData, 
+            ques1: ques1, 
+            ques2: ques2,
+            ques3: ques3,
+            ques4: ques4,
+            ques5: ques5,
+          }));
+      
+          // Optionally, you can check if all the fields are filled and update dataFilled
+          const isFilled = ques1 !== "" && ques2 !== "" && ques3 !== "" && ques4 !== "" && ques5 !== "";
+          setDataFilled(isFilled);
+    
+          console.log('data:', data);
+        
     }, [ques1, ques2, ques3, ques4, ques5]); // Dependency array, this effect runs when "count" changes
 
     return (
@@ -225,3 +249,5 @@ const styles = StyleSheet.create({
       justifyContent: 'center'
     }
   });
+
+export default Page2;

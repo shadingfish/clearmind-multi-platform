@@ -23,8 +23,15 @@ const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
-import Page1 from "./components/PreSurvey/Page1";
-import Page2 from "./components/PreSurvey/Page2";
+import Page1 from "./Page1";
+import Page2 from "./Page2";
+
+interface CurrentPageComponentProps {
+    data: {[key: string]: string},
+    setData: React.Dispatch<React.SetStateAction<{[key: string]: string}>>,
+    dataFilled: boolean,
+    setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
+  }
 
 export default function CurrPage() {
 
@@ -32,15 +39,24 @@ export default function CurrPage() {
     const windowHeight = Dimensions.get("window").height;
 
     const [currPageNum, setCurrPageNum] = useState(1);
+    const [dataFilled, setDataFilled] = useState(false); //set to true when data in current page is filled, then when you click next it becomes false again
 
-    const pageSet: {[key:number]: React.FC} = {
+    const [data, setData] = useState({});
+
+    const pageSet: {[key:number]: React.FC<CurrentPageComponentProps>} = {
         1: Page1,
         2: Page2,
     }
 
     const handleNext = () => {
-        let newPageNum = currPageNum + 1;
-        setCurrPageNum(newPageNum);
+        if (dataFilled) {
+            let newPageNum = currPageNum + 1;
+            setCurrPageNum(newPageNum);
+            setDataFilled(false);
+        }
+        else {
+            console.log('not all info in page', currPageNum, 'is filled out');
+        }
     };
 
     const handleBack = () => {
@@ -70,7 +86,12 @@ export default function CurrPage() {
                 unfilledColor="#D3D3D3"
                 borderColor="#D3D3D3"
                 />
-                <CurrentPageComponent/>
+                <CurrentPageComponent
+                    data={data}
+                    setData={setData}
+                    dataFilled={dataFilled}
+                    setDataFilled={setDataFilled}
+                />
             </View>
 
         {/* navigate and pass the current data as props once the navigation stack is set up */}
