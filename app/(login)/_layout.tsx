@@ -10,7 +10,7 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
-        name="forgetPassword"
+        name="forgetPassword/[username]"
         options={{
           title: "Forget Password",
         }}

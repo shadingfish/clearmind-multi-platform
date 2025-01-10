@@ -29,10 +29,6 @@ export const DropdownComponent: React.FC<DropDownProps> = ({
     );
   };
 
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
-
   return (
     <Dropdown
       style={[styles.dropdown]}

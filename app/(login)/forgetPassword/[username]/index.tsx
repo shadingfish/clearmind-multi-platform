@@ -1,23 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  YStack,
-  ScrollView,
-  Text,
-  Input,
-  Button,
-  View,
-  Theme,
-  Overlay,
-  Spinner,
-  ZStack,
-} from "tamagui";
+import { YStack, ScrollView, Text, Input, Button, ZStack } from "tamagui";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LogoImage } from "@/components/LogoImage";
 import { DropdownComponent } from "@/components/Dropdown";
 import colors from "@/constants/colors";
 import { useLocalSearchParams } from "expo-router";
 import { useAuth } from "@/hooks/useAuth";
-import { ActivityIndicator } from "react-native";
 import LoadingOverlay from "@/components/LoadingOverlay";
 
 interface userSecurity {
@@ -72,7 +60,6 @@ export default function ForgetPasswordPage() {
     } else {
       if (!matchStringsIgnoreCase(securityAnswer1, user.answer1)) {
         setQ1Error(true);
-        console.log(q1Error);
       }
       if (!matchStringsIgnoreCase(securityAnswer2, user.answer2)) {
         setQ2Error(true);
