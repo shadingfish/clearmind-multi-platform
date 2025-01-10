@@ -28,7 +28,6 @@ export default function MainScreen() {
     if (username != "") {
       getUserSecurity(username).then((snapshot) => {
         if (snapshot.exists()) {
-          const user = snapshot.val();
           router.push(`/forgetPassword/${username}`);
         } else {
           toast.show("User does not exist. Please register.");

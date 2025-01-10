@@ -4,65 +4,101 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LogoImage } from "@/components/LogoImage";
 import { DropdownComponent } from "@/components/Dropdown";
 import colors from "@/constants/colors";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useAuth } from "@/hooks/useAuth";
 import LoadingOverlay from "@/components/LoadingOverlay";
-
-interface userSecurity {
-  question1: string;
-  question2: string;
-  answer1: string;
-  answer2: string;
-}
 
 function matchStringsIgnoreCase(str1: string, str2: string) {
   return str1.toLowerCase().trim() === str2.toLowerCase().trim();
 }
 
 export default function ForgetPasswordPage() {
+  const router = useRouter();
   const { bottom } = useSafeAreaInsets();
   const local = useLocalSearchParams<{ username: string }>();
   const { getUserSecurity } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [securityQuestion1, setSecurityQuestion1] = useState("");
-  const [securityAnswer1, setSecurityAnswer1] = useState("");
-  const [q1Error, setQ1Error] = useState(false);
+  type SecurityQuestion = {
+    question1: string;
+    question2: string;
+    answer1: string;
+    answer2: string;
+    userAnswer1: string;
+    userAnswer2: string;
+  };
 
-  const [securityQuestion2, setSecurityQuestion2] = useState("");
-  const [securityAnswer2, setSecurityAnswer2] = useState("");
-  const [q2Error, setQ2Error] = useState(false);
+  type Error = {
+    question1: boolean;
+    question2: boolean;
+  };
 
-  const [user, setUser] = useState<userSecurity>();
+  const [secureQuestion, setSecureQuestion] = useState<SecurityQuestion>({
+    question1: "",
+    question2: "",
+    answer1: "",
+    answer2: "",
+    userAnswer1: "",
+    userAnswer2: "",
+  });
+  const [userError, setUserErrors] = useState<Error>({
+    question1: false,
+    question2: false,
+  });
+
+  const updateSecurityQuestion = (
+    field: keyof SecurityQuestion,
+    value: string
+  ) => {
+    setSecureQuestion((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const updateErrors = (field: keyof Error, value: boolean) => {
+    setUserErrors((prev) => ({ ...prev, [field]: value }));
+  };
 
   useEffect(() => {
     setIsLoading(true);
-    getUserSecurity(local.username).then((snapshot) => {
-      const userData = snapshot.val();
-      setSecurityQuestion1(userData.question1);
-      setSecurityQuestion2(userData.question2);
-      setUser(userData);
-      setIsLoading(false);
-    });
+    getUserSecurity(local.username)
+      .then((snapshot) => {
+        const userData = snapshot.val();
+        updateSecurityQuestion("question1", userData.question1);
+        updateSecurityQuestion("question2", userData.question2);
+        updateSecurityQuestion("answer1", userData.answer1);
+        updateSecurityQuestion("answer2", userData.answer2);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setIsLoading(false);
   }, []);
 
   const onSubmit = () => {
-    if (!user) {
-      return;
-    }
-
     if (
-      matchStringsIgnoreCase(securityAnswer1, user.answer1) &&
-      matchStringsIgnoreCase(securityAnswer2, user.answer2)
+      matchStringsIgnoreCase(
+        secureQuestion.userAnswer1,
+        secureQuestion.answer1
+      ) &&
+      matchStringsIgnoreCase(secureQuestion.userAnswer2, secureQuestion.answer2)
     ) {
-      console.log("success");
+      router.push("./setNewPassword", { relativeToDirectory: true });
     } else {
-      if (!matchStringsIgnoreCase(securityAnswer1, user.answer1)) {
-        setQ1Error(true);
+      if (
+        !matchStringsIgnoreCase(
+          secureQuestion.userAnswer1,
+          secureQuestion.answer1
+        )
+      ) {
+        updateErrors("question1", true);
       }
-      if (!matchStringsIgnoreCase(securityAnswer2, user.answer2)) {
-        setQ2Error(true);
+      if (
+        !matchStringsIgnoreCase(
+          secureQuestion.userAnswer2,
+          secureQuestion.answer2
+        )
+      ) {
+        updateErrors("question2", true);
       }
     }
   };
@@ -95,23 +131,23 @@ export default function ForgetPasswordPage() {
 
           <DropdownComponent
             items={items}
-            value={securityQuestion1}
-            setValue={setSecurityQuestion1}
+            value={secureQuestion.question1}
+            setValue={(val) => updateSecurityQuestion("question1", val)}
           />
 
           <Input
             marginTop="$2"
             size="$4"
-            borderColor={q1Error ? "$red10Light" : colors.border}
+            borderColor={userError.question1 ? "$red10Light" : colors.border}
             borderWidth="$1"
             placeholder="Answer 1"
-            value={securityAnswer1}
-            onChangeText={setSecurityAnswer1}
+            value={secureQuestion.userAnswer1}
+            onChangeText={(val) => updateSecurityQuestion("userAnswer1", val)}
             onFocus={() => {
-              setQ1Error(false);
+              updateErrors("question1", false);
             }}
           />
-          {q1Error && (
+          {userError.question1 && (
             <Text paddingStart="$1" paddingTop="$1" color="$red10Light">
               Question 1 incorrect
             </Text>
@@ -125,23 +161,23 @@ export default function ForgetPasswordPage() {
 
           <DropdownComponent
             items={items}
-            value={securityQuestion2}
-            setValue={setSecurityQuestion2}
+            value={secureQuestion.question2}
+            setValue={(val) => updateSecurityQuestion("question2", val)}
           />
 
           <Input
             marginTop="$2"
             size="$4"
-            borderColor={q2Error ? "$red10Light" : colors.border}
+            borderColor={userError.question2 ? "$red10Light" : colors.border}
             borderWidth="$1"
             placeholder="Answer 2"
-            value={securityAnswer2}
-            onChangeText={setSecurityAnswer2}
+            value={secureQuestion.userAnswer2}
+            onChangeText={(val) => updateSecurityQuestion("userAnswer2", val)}
             onFocus={() => {
-              setQ2Error(false);
+              updateErrors("question2", false);
             }}
           />
-          {q2Error && (
+          {userError.question2 && (
             <Text paddingStart="$1" paddingTop="$1" color="$red10Light">
               Question 2 incorrect
             </Text>

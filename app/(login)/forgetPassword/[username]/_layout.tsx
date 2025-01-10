@@ -9,6 +9,12 @@ export default function RootLayout() {
           headerShown: false, // Navigation Optional
         }}
       />
+      <Stack.Screen
+        name="setNewPassword" // Map to `app/index.tsx`
+        options={{
+          headerShown: false, // Navigation Optional
+        }}
+      />
     </Stack>
   );
 }
