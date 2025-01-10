@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { ScrollView, Dimensions } from "react-native";
 import { Button, Input, Stack, YStack, Label, Text } from "tamagui";
 import InputField from "../../components/InputField";
-import { PrimaryButton } from "../../components/CustomButton"
+import { PrimaryButton } from "../../components/CustomButton";
 import ModalScreen from "../modal";
-import LogoImage from "../../components/LogoImage";
+import { LogoImage } from "../../components/LogoImage";
 import colors from "@/constants/colors";
 import { useFonts } from "expo-font";
 import { useRouter } from "expo-router";

@@ -4,7 +4,7 @@ import { YStack, Label, Text } from "tamagui";
 import InputField from "../../components/InputField";
 import RadioGroup from "../../components/RadioGroup"; // 引入自定义的 RadioGroup
 import { PrimaryButton } from "../../components/CustomButton";
-import LogoImage from "../../components/LogoImage";
+import { LogoImage } from "../../components/LogoImage";
 import colors from "@/constants/colors";
 import { useRouter } from "expo-router";
 
