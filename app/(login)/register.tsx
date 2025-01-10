@@ -1,3 +1,5 @@
+// app/(login)/register.tsx
+
 import React, { useState } from "react";
 import { ScrollView, Dimensions } from "react-native";
 import { Button, Input, Stack, YStack, Label, Text } from "tamagui";
@@ -9,6 +11,8 @@ import colors from "@/constants/colors";
 import { useFonts } from "expo-font";
 import { useRouter } from "expo-router";
 import SelectField from "../../components/SelectField";
+import { ref, set, get, child } from "firebase/database";
+import { database } from "@/constants/firebaseConfig";
 
 
 const screenWidth = Dimensions.get("window").width;
@@ -76,24 +80,54 @@ export default function SignupScreen() {
         setModalVisible(true);
         return;
       }
-  
-      console.log("Form Submitted:", formData);
-      setModalMessage("Registration complete!");
-      setModalVisible(true);
-
-      router.push({
-        pathname: "/registerAdditional",
-        params: {
-          username,
-          password,
-          fullName,
-          email,
-          question1,
-          answer1,
-          question2,
-          answer2,
-        },
-      });
+    
+      const userRef = ref(database, `users/${username}`);
+      get(userRef)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            console.error("Username already exists.");
+            setModalMessage("Username already exists. Please choose a different one.");
+            setModalVisible(true);
+          } else {
+            const userData = {
+              username,
+              password,
+              fullName,
+              email,
+              securityQuestions: [
+                { question: question1, answer: answer1 },
+                { question: question2, answer: answer2 },
+              ],
+            };
+    
+            set(userRef, userData)
+              .then(() => {
+                console.log("User data successfully saved.");
+                setModalMessage("Registration complete!");
+                setModalVisible(true);
+    
+                router.push({
+                  pathname: "/registerAdditional",
+                  params: {
+                    username: formData.username,
+                    password: formData.password,
+                    fullName: formData.fullName,
+                    email: formData.email,
+                  },
+                });
+              })
+              .catch((error) => {
+                console.error("Error saving user data: ", error);
+                setModalMessage("Failed to save user data. Please try again.");
+                setModalVisible(true);
+              });
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking username existence: ", error);
+          setModalMessage("An error occurred while checking username. Please try again.");
+          setModalVisible(true);
+        });
     };
 
     const secureQuestions = [

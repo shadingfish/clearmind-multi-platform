@@ -1,12 +1,11 @@
 // clear-mind/app/(login)/index.tsx
 import React, { useState } from "react";
-import { View, Alert, Dimensions, Text} from "react-native";
-import { CustomButton } from "../../components/CustomButton";
+import {Dimensions} from "react-native";
 import BackgroundImage from "../../components/BackgroundImage";
 import { useAuth } from "../../hooks/useAuth";
 import { useFonts } from "expo-font";
 import { useRouter } from "expo-router";
-import { Button, Input, YStack, XStack, Stack} from "tamagui";
+import { Button, Input, YStack, XStack, Stack, Text} from "tamagui";
 import { LogoImage } from "@/components/LogoImage";
 import colors from "@/constants/colors";
 
@@ -74,7 +73,7 @@ export default function MainScreen() {
         top={0}
         left={0}
         right={0}
-        bottom="$10"
+        bottom="$11"
       >
 
         <Stack width="100%" maxWidth={300} space="$3">
@@ -95,7 +94,6 @@ export default function MainScreen() {
           <Button
             size="$4"
             onPress={() => handleLogin(username, password)}
-            theme="active"
             color={colors.secondary}
             fontWeight="bold"
             backgroundColor={colors.primary}
@@ -105,7 +103,6 @@ export default function MainScreen() {
           <XStack justifyContent="space-between">
             <Button
               size="$3"
-              theme="alt2"
               onPress={() => router.push("/register")}
               alignSelf="flex-start"
             >
@@ -113,8 +110,7 @@ export default function MainScreen() {
             </Button>
             <Button
               size="$3"
-              theme="alt2"
-              onPress={() => Alert.alert("Forgot Password")}
+              onPress={() => router.push("/forgetPassword")}
               alignSelf="flex-end"
             >
               Forgot Password?
