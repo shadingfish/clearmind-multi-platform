@@ -35,6 +35,7 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
       fontWeight={fontWeight}
       backgroundColor={backgroundColor}
       onPress={onPress}
+      borderRadius={20}
       {...rest}
     >
       {children || title}
