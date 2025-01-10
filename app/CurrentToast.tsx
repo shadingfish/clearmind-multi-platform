@@ -1,3 +1,4 @@
+import colors from "@/constants/colors";
 import { Toast, useToastController, useToastState } from "@tamagui/toast";
 import { Button, H4, XStack, YStack, isWeb } from "tamagui";
 
@@ -17,7 +18,14 @@ export function CurrentToast() {
       br="$6"
       // animation="quick"
     >
-      <YStack ai="center" p="$2" gap="$2">
+      <YStack
+        ai="center"
+        p="$2"
+        gap="$2"
+        backgroundColor={colors.background}
+        borderRadius="$4"
+        paddingHorizontal="$3"
+      >
         <Toast.Title fow="bold" fontSize="$5">
           {currentToast.title}
         </Toast.Title>

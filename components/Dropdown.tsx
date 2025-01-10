@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import Feather from "@expo/vector-icons/Feather";
@@ -6,10 +6,15 @@ import colors from "@/constants/colors";
 
 interface DropDownProps {
   items: { name: string }[];
+  value: string;
+  setValue: (val: string) => void;
 }
 
-export const DropdownComponent: React.FC<DropDownProps> = ({ items }) => {
-  const [value, setValue] = useState("");
+export const DropdownComponent: React.FC<DropDownProps> = ({
+  items,
+  value,
+  setValue,
+}) => {
   const [isFocus, setIsFocus] = useState(false);
 
   // @ts-ignore
@@ -23,6 +28,10 @@ export const DropdownComponent: React.FC<DropDownProps> = ({ items }) => {
       </View>
     );
   };
+
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
 
   return (
     <Dropdown
@@ -40,6 +49,7 @@ export const DropdownComponent: React.FC<DropDownProps> = ({ items }) => {
       onFocus={() => setIsFocus(true)}
       onBlur={() => setIsFocus(false)}
       onChange={(item) => {
+        console.log(item);
         setValue(item.name);
         setIsFocus(false);
       }}

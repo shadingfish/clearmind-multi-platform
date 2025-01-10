@@ -8,10 +8,12 @@ import { useAuth } from "../../hooks/useAuth";
 import { useFonts } from "expo-font";
 import { useRouter } from "expo-router";
 import colors from "../../constants/colors";
+import { useToastController } from "@tamagui/toast";
 
 export default function MainScreen() {
   const router = useRouter();
-  const { handleLogin } = useAuth();
+  const toast = useToastController();
+  const { handleLogin, getUserSecurity } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fontsLoaded] = useFonts({
@@ -21,6 +23,21 @@ export default function MainScreen() {
   if (!fontsLoaded) {
     return null;
   }
+
+  const onPressForgetPassword = () => {
+    if (username != "") {
+      getUserSecurity(username).then((snapshot) => {
+        if (snapshot.exists()) {
+          const user = snapshot.val();
+          router.push(`/forgetPassword/${username}`);
+        } else {
+          toast.show("User does not exist. Please register.");
+        }
+      });
+    } else {
+      toast.show("Please input username");
+    }
+  };
 
   return (
     <YStack flex={1}>
@@ -106,7 +123,7 @@ export default function MainScreen() {
             </Button>
             <Button
               size="$3"
-              onPress={() => router.push("/forgetPassword")}
+              onPress={onPressForgetPassword}
               alignSelf="flex-end"
             >
               Forgot Password?

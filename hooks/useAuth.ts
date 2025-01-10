@@ -25,5 +25,10 @@ export const useAuth = () => {
     });
   };
 
-  return { handleLogin };
+  const getUserSecurity = (username: string) => {
+    const userRef = ref(database, `security/${username}`);
+    return get(userRef);
+  };
+
+  return { handleLogin, getUserSecurity };
 };
