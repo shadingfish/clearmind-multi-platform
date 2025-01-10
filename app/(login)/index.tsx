@@ -1,13 +1,15 @@
 // clear-mind/app/(login)/index.tsx
 import React, { useState } from "react";
-import { View, Alert } from "react-native";
+import { View, Alert, Dimensions } from "react-native";
 import { CustomButton } from "../../components/CustomButton";
 import BackgroundImage from "../../components/BackgroundImage";
 import { useAuth } from "../../hooks/useAuth";
 import { useFonts } from "expo-font";
 import { useRouter } from "expo-router";
-import { Input, YStack, XStack } from "tamagui";
+import { Button, Input, YStack, XStack } from "tamagui";
 import { LogoImage } from "@/components/LogoImage";
+
+const screenWidth = Dimensions.get("window").width;
 
 export default function MainScreen() {
   const router = useRouter();
@@ -26,17 +28,25 @@ export default function MainScreen() {
     <YStack 
     flex={1} >
       <BackgroundImage />
+
+      <YStack >
+      <LogoImage />
+      </YStack>
+      
       <View
         style={{
           flex: 1,
+          gap: 10,
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "flex-end",
           paddingHorizontal: 16,
+          paddingBottom: 100, 
+          width: screenWidth
         }}
       >
-        <LogoImage />
         <Input
           placeholder="Username"
+          width="80%"
           value={username}
           onChangeText={setUsername}
           color="$primary"
@@ -44,6 +54,7 @@ export default function MainScreen() {
         <Input
           placeholder="Password"
           color="$primary"
+          width="80%"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -53,16 +64,18 @@ export default function MainScreen() {
           onPress={() => handleLogin(username, password)}
         />
         <XStack paddingHorizontal="$10">
-          <CustomButton
-            title="Create Account"
-            onPress={() => router.push("/register")}
-            variant="link"
-          />
-          <CustomButton
-            title="Forgot Password?"
-            onPress={() => router.push("/(login)/register")}
-            variant="link"
-          />
+        <Button 
+          themeInverse size="$3"
+          onPress={() => router.push("/register")}
+         >
+        Create Account
+        </Button>
+        < Button
+          themeInverse size="$3"
+          onPress={() => router.push("/forgetPassword")}
+        >
+          Forgot Password?
+        </Button>
         </XStack>
       </View>
     </YStack>
