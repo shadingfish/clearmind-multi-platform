@@ -1,13 +1,14 @@
 // clear-mind/app/(login)/index.tsx
 import React, { useState } from "react";
-import { View, Alert, Dimensions } from "react-native";
+import { View, Alert, Dimensions, Text} from "react-native";
 import { CustomButton } from "../../components/CustomButton";
 import BackgroundImage from "../../components/BackgroundImage";
 import { useAuth } from "../../hooks/useAuth";
 import { useFonts } from "expo-font";
 import { useRouter } from "expo-router";
-import { Button, Input, YStack, XStack } from "tamagui";
+import { Button, Input, YStack, XStack, Stack} from "tamagui";
 import { LogoImage } from "@/components/LogoImage";
+import colors from "@/constants/colors";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -26,58 +27,101 @@ export default function MainScreen() {
 
   return (
     <YStack 
-    flex={1} >
+    flex={1}
+     >
       <BackgroundImage />
-
-      <YStack >
-      <LogoImage />
-      </YStack>
-      
-      <View
-        style={{
-          flex: 1,
-          gap: 10,
-          alignItems: "center",
-          justifyContent: "flex-end",
-          paddingHorizontal: 16,
-          paddingBottom: 100, 
-          width: screenWidth
-        }}
-      >
-        <Input
-          placeholder="Username"
-          width="80%"
-          value={username}
-          onChangeText={setUsername}
-          color="$primary"
-        />
-        <Input
-          placeholder="Password"
-          color="$primary"
-          width="80%"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-        <CustomButton
-          title="Sign In"
-          onPress={() => handleLogin(username, password)}
-        />
-        <XStack paddingHorizontal="$10">
-        <Button 
-          themeInverse size="$3"
-          onPress={() => router.push("/register")}
-         >
-        Create Account
-        </Button>
-        < Button
-          themeInverse size="$3"
-          onPress={() => router.push("/forgetPassword")}
+      <YStack
+        flex={1}
+        position="absolute"
+        alignItems="center"
+        justifyContent="center"
+        width={screenWidth}
         >
-          Forgot Password?
-        </Button>
-        </XStack>
-      </View>
+          <Text 
+            marginTop="$12"
+            fontFamily="notoSans"
+            fontSize="$8" 
+            color="$primary"
+            textAlign="center"
+            width="100%"
+          >
+            Learn Acceptance and commitment therapy for free!
+          </Text>
+
+          {/* Logo */}
+          <LogoImage />
+
+          <Text 
+            marginTop="$4"
+            fontFamily="notoSans" 
+            fontSize="$8" 
+            fontWeight="bold" 
+            color="$primary"
+            textAlign="center"
+            width="100%"
+          >
+            On-demand help for overcoming procrastination
+        </Text>
+      </YStack>
+
+      <YStack
+        flex={1}
+        alignItems="center"
+        justifyContent="flex-end"
+        paddingHorizontal="$4"
+        gap="$4"
+        position="absolute"
+        top={0}
+        left={0}
+        right={0}
+        bottom="$10"
+      >
+
+        <Stack width="100%" maxWidth={300} space="$3">
+          <Input
+            placeholder="Username"
+            value={username}
+            onChangeText={setUsername}
+          />
+          <Input
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+        </Stack>
+
+        <Stack width="100%" maxWidth={300} space="$3">
+          <Button
+            size="$4"
+            onPress={() => handleLogin(username, password)}
+            theme="active"
+            color={colors.secondary}
+            fontWeight="bold"
+            backgroundColor={colors.primary}
+          >
+            Sign In
+          </Button>
+          <XStack justifyContent="space-between">
+            <Button
+              size="$3"
+              theme="alt2"
+              onPress={() => router.push("/register")}
+              alignSelf="flex-start"
+            >
+              Create Account
+            </Button>
+            <Button
+              size="$3"
+              theme="alt2"
+              onPress={() => Alert.alert("Forgot Password")}
+              alignSelf="flex-end"
+            >
+              Forgot Password?
+            </Button>
+          </XStack>
+        </Stack>
+      </YStack>
     </YStack>
   );
 }
