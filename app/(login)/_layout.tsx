@@ -12,7 +12,19 @@ export default function RootLayout() {
       <Stack.Screen
         name="forgetPassword"
         options={{
-          headerShown: false, // Navigation Optional
+          title: "Forget Password",
+        }}
+      />
+      <Stack.Screen
+        name="register"
+        options={{
+          title: "Register",
+        }}
+      />
+      <Stack.Screen
+        name="registerAdditional"
+        options={{
+          title: "Register",
         }}
       />
     </Stack>

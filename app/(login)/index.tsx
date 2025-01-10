@@ -106,7 +106,7 @@ export default function MainScreen() {
             </Button>
             <Button
               size="$3"
-              onPress={() => Alert.alert("Forgot Password")}
+              onPress={() => router.push("/forgetPassword")}
               alignSelf="flex-end"
             >
               Forgot Password?
