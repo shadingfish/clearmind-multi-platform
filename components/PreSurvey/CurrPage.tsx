@@ -54,6 +54,7 @@ export default function CurrPage() {
     const [dataFilled, setDataFilled] = useState(false); //set to true when data in current page is filled, then when you click next it becomes false again
 
     const [data, setData] = useState({});
+    const [isVisible, setIsVisible] = useState(false); //empty input box
 
     const pageSet: {[key:number]: React.FC<CurrentPageComponentProps>} = {
         1: Page1,
@@ -79,6 +80,10 @@ export default function CurrPage() {
             setDataFilled(false);
         }
         else {
+            setIsVisible(true);
+            setTimeout(() => {
+                setIsVisible(false); // Hide the view after 3 seconds
+            }, 3000);
             console.log('not all info in page', currPageNum, 'is filled out');
         }
     };
@@ -133,6 +138,17 @@ export default function CurrPage() {
             <Pressable style={styles.navButtons} onPress={() => handleBack()}>
                 <Text style={{fontSize: 16}}>BACK</Text>
             </Pressable>
+            { isVisible ?
+                <View style={styles.noInputBox}>
+                    <Image
+                        source={require('../../assets/images/clearmind_icon.png')}
+                        style={{ width: 20, height: 20, marginRight: 5 }}
+                    />
+                    <Text style={{fontSize: 13,}}>Empty input</Text>
+                </View> :
+                <View/>
+            }
+            
             { currPageNum != 14 ?
                 <Pressable style={styles.navButtons} onPress={() => handleNext()}>
                     <Text style={{fontSize: 16}}>NEXT</Text>
@@ -190,5 +206,18 @@ export default function CurrPage() {
       borderRadius: 5,
       alignItems: 'center',
       justifyContent: 'center'
+    },
+    noInputBox: {
+        paddingVertical: '3%',
+        paddingHorizontal: '4%',
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        borderRadius: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
     }
   });
