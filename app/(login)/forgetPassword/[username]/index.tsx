@@ -1,3 +1,5 @@
+// app/(login)/forgetPassword/[username]/index.tsx
+
 import React, { useEffect, useState } from "react";
 import { YStack, ScrollView, Text, Input, Button, ZStack } from "tamagui";
 import { useSafeAreaInsets } from "react-native-safe-area-context";

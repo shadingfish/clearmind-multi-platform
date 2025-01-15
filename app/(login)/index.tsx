@@ -1,4 +1,4 @@
-// clear-mind/app/(login)/index.tsx
+// app/(login)/index.tsx
 import React, { useState } from "react";
 import {Dimensions} from "react-native";
 import { Alert } from "react-native";
@@ -106,7 +106,7 @@ export default function MainScreen() {
         <Button
           backgroundColor={colors.link}
           size="$1"
-          onPress={() => router.push("/forgetPassword")}
+          onPress={() => router.push(`/forgetPassword/${username}`)}
           alignSelf="flex-end"
         >
           <Text fontSize={12} textDecorationLine="underline" color={colors.linkText}>
