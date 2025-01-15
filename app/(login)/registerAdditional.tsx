@@ -6,7 +6,7 @@ import { YStack, Stack, Text, Button, XStack } from "tamagui";
 import InputField from "../../components/InputField";
 import RadioGroup from "../../components/RadioGroup";
 import { PrimaryButton } from "../../components/CustomButton";
-import { LogoImage } from "../../components/LogoImage";
+import { LogoImage } from "@/components/LogoImage";
 import colors from "@/constants/colors";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { ref, update } from "firebase/database";

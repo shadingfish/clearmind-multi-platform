@@ -6,7 +6,7 @@ import { Button, Input, Stack, YStack, Label, Text, XStack } from "tamagui";
 import InputField from "../../components/InputField";
 import { PrimaryButton, SecondaryButton } from "../../components/CustomButton";
 import ModalScreen from "../modal";
-import { LogoImage } from "../../components/LogoImage";
+import { LogoImage } from "@/components/LogoImage";
 import colors from "@/constants/colors";
 import { useFonts } from "expo-font";
 import { useRouter } from "expo-router";
@@ -18,31 +18,31 @@ import { database } from "@/constants/firebaseConfig";
 const screenWidth = Dimensions.get("window").width;
 
 export default function SignupScreen() {
-    const router = useRouter();
+  const router = useRouter();
 
-    type FormData = {
-      username: string;
-      password: string;
-      fullName: string;
-      email: string;
-      question1: string;
-      answer1: string;
-      question2: string;
-      answer2: string;
-    };
-  
-    type FormErrors = Partial<Record<keyof FormData, string>>;
-  
-    const [formData, setFormData] = useState<FormData>({
-      username: "",
-      password: "",
-      fullName: "",
-      email: "",
-      question1: "",
-      answer1: "",
-      question2: "",
-      answer2: "",
-    });
+  type FormData = {
+    username: string;
+    password: string;
+    fullName: string;
+    email: string;
+    question1: string;
+    answer1: string;
+    question2: string;
+    answer2: string;
+  };
+
+  type FormErrors = Partial<Record<keyof FormData, string>>;
+
+  const [formData, setFormData] = useState<FormData>({
+    username: "",
+    password: "",
+    fullName: "",
+    email: "",
+    question1: "",
+    answer1: "",
+    question2: "",
+    answer2: "",
+  });
 
     const [fontsLoaded] = useFonts({
         notoSans: require("../../assets/fonts/NotoSans-VariableFont_wdth,wght.ttf"),
@@ -120,30 +120,35 @@ export default function SignupScreen() {
         });
     };
 
-    const secureQuestions = [
-        "In what city were you born?",
-        "What is the name of your pet?",
-        "What high school did you attend?",
-        "What College/University did you attend?",
-        "What is your major in school?",
-        "What was your first car?",
-        "What was your favorite food?",
-        "What is your favorite color?",
-      ];
-      
-  
-    return (
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          padding: 16,
-          width: screenWidth
-        }}
+  const secureQuestions = [
+    "In what city were you born?",
+    "What is the name of your pet?",
+    "What high school did you attend?",
+    "What College/University did you attend?",
+    "What is your major in school?",
+    "What was your first car?",
+    "What was your favorite food?",
+    "What is your favorite color?",
+  ];
+
+  return (
+    <ScrollView
+      contentContainerStyle={{
+        flexGrow: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 16,
+        width: screenWidth,
+      }}
+    >
+      <LogoImage />
+      <Text
+        fontFamily="notoSans"
+        fontSize="$8"
+        fontWeight="bold"
+        marginBottom="$4"
+        color={colors.primary}
       >
-        <LogoImage />
-        <Text fontFamily="notoSans" fontSize="$8" fontWeight="bold" marginBottom="$4" color={colors.primary}>
         Create Your Account
         </Text>
         <YStack flex={1} alignItems="center" width="100%" justifyContent="center" marginTop="$4" gap="$2">

@@ -10,21 +10,9 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
-        name="forgetPassword/[username]"
+        name="setNewPassword" // Map to `app/index.tsx`
         options={{
-          title: "Forget Password",
-        }}
-      />
-      <Stack.Screen
-        name="register"
-        options={{
-          title: "Register",
-        }}
-      />
-      <Stack.Screen
-        name="registerAdditional"
-        options={{
-          title: "Register Additional",
+          headerShown: false, // Navigation Optional
         }}
       />
     </Stack>

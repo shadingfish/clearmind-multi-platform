@@ -1,19 +1,22 @@
 // clear-mind/app/(login)/index.tsx
 import React, { useState } from "react";
 import {Dimensions} from "react-native";
+import { Alert } from "react-native";
 import BackgroundImage from "../../components/BackgroundImage";
 import { useAuth } from "../../hooks/useAuth";
 import { useFonts } from "expo-font";
-import { useRouter } from "expo-router";
+import { RelativePathString, useRouter } from "expo-router";
 import { Button, Input, YStack, XStack, Stack, Text} from "tamagui";
 import { LogoImage } from "@/components/LogoImage";
 import colors from "@/constants/colors";
+import { useToastController } from "@tamagui/toast";
 
 const screenWidth = Dimensions.get("window").width;
 
 export default function MainScreen() {
   const router = useRouter();
-  const { handleLogin } = useAuth();
+  const toast = useToastController();
+  const { handleLogin, getUserSecurity } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fontsLoaded] = useFonts({
@@ -24,10 +27,22 @@ export default function MainScreen() {
     return null;
   }
 
+  const onPressForgetPassword = () => {
+    if (username != "") {
+      getUserSecurity(username).then((snapshot) => {
+        if (snapshot.exists()) {
+          router.push(`/forgetPassword/${username}` as RelativePathString);
+        } else {
+          toast.show("User does not exist. Please register.");
+        }
+      });
+    } else {
+      toast.show("Please input username");
+    }
+  };
+
   return (
-    <YStack 
-    flex={1}
-     >
+    <YStack flex={1}>
       <BackgroundImage />
       <YStack
         flex={1}
@@ -47,8 +62,8 @@ export default function MainScreen() {
             Learn Acceptance and commitment therapy for free!
           </Text>
 
-          {/* Logo */}
-          <LogoImage />
+        {/* Logo */}
+        <LogoImage />
 
           <Text 
             marginTop="$4"
