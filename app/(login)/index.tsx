@@ -106,7 +106,7 @@ export default function MainScreen() {
         <Button
           backgroundColor={colors.link}
           size="$1"
-          onPress={() => router.push(`/forgetPassword/${username}`)}
+          onPress={() => onPressForgetPassword()}
           alignSelf="flex-end"
         >
           <Text fontSize={12} textDecorationLine="underline" color={colors.linkText}>
