@@ -30,7 +30,6 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
   return (
     <Button
       size={size}
-      theme="active"
       padding={padding}
       color={color}
       fontWeight={fontWeight}
