@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { ScrollView, Dimensions } from "react-native";
-import { YStack, Stack, Text } from "tamagui";
+import { YStack, Stack, Text, Button, XStack } from "tamagui";
 import InputField from "../../components/InputField";
 import RadioGroup from "../../components/RadioGroup";
 import { PrimaryButton } from "../../components/CustomButton";
@@ -96,10 +96,22 @@ export default function AdditionalInfoScreen() {
         />
 
         {/* Submit Button */}
+        <XStack gap="$10">
         <PrimaryButton size="$5" marginTop="$6" onPress={handleSubmit}>
           Next
         </PrimaryButton>
+        <Button
+              size="$5" 
+              marginTop="$6"
+              onPress={() => router.push("/register")}
+              borderRadius={30}
+              fontSize={16}
+            >
+              Back
+            </Button>
+          </XStack>
       </YStack>
+      
     </ScrollView>
   );
 }

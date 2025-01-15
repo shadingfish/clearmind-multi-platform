@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { ScrollView, Dimensions } from "react-native";
-import { Button, Input, Stack, YStack, Label, Text } from "tamagui";
+import { Button, Input, Stack, YStack, Label, Text, XStack } from "tamagui";
 import InputField from "../../components/InputField";
-import { PrimaryButton } from "../../components/CustomButton";
+import { PrimaryButton, SecondaryButton } from "../../components/CustomButton";
 import ModalScreen from "../modal";
 import { LogoImage } from "../../components/LogoImage";
 import colors from "@/constants/colors";
@@ -217,9 +217,21 @@ export default function SignupScreen() {
                 error={errors.answer2}
                 onChangeText={(text) => updateFormData("answer2", text)}
             />
-          <PrimaryButton size="$5" marginTop="$6" onPress={handleSubmit}>
-            Submit
-          </PrimaryButton>
+            <XStack gap="$8">
+            <PrimaryButton size="$5" marginTop="$6" onPress={handleSubmit}>
+              Submit
+            </PrimaryButton>
+            <Button
+              size="$5" 
+              marginTop="$6"
+              onPress={() => router.push("/")}
+              borderRadius={30}
+              fontSize={16}
+            >
+              Back
+            </Button>
+            </XStack>
+
   
           <ModalScreen
             visible={modalVisible}
