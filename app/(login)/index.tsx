@@ -1,5 +1,5 @@
 // app/(login)/index.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {Dimensions} from "react-native";
 import { Alert } from "react-native";
 import BackgroundImage from "../../components/BackgroundImage";
@@ -10,6 +10,8 @@ import { Button, Input, YStack, XStack, Stack, Text} from "tamagui";
 import { LogoImage } from "@/components/LogoImage";
 import colors from "@/constants/colors";
 import { useToastController } from "@tamagui/toast";
+import auth from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -25,6 +27,40 @@ export default function MainScreen() {
 
   if (!fontsLoaded) {
     return null;
+  }
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: '324251870640-gdslopcmn3vp58qv3me4f878sc04kj1r.apps.googleusercontent.com',
+    });
+  }, [])
+
+  async function onGoogleButtonPress() {
+    try {
+      // Check if your device supports Google Play
+      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+      // Get the users ID token
+      const signInResult = await GoogleSignin.signIn();
+
+      // Try the new style of google-sign in result, from v13+ of that module
+      const idToken = signInResult.data?.idToken;
+
+      if (!idToken) {
+        throw new Error('ID token is not available');
+      }
+
+      console.log('idToken', idToken);
+      Alert.alert("success google login");
+
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+      // Sign-in the user with the credential
+      return auth().signInWithCredential(googleCredential);
+    }
+    catch (e) {
+      console.log('error signing in with google', e);
+    }
   }
 
   const onPressForgetPassword = () => {
@@ -127,6 +163,9 @@ export default function MainScreen() {
         >
             Sign In
           </Button>
+        <Button onPress={() => onGoogleButtonPress()}>
+          Sign in with google
+        </Button>
           
           <XStack justifyContent="space-between">
             <Button

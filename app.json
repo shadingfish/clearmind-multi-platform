@@ -10,7 +10,8 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ucsdcsedu.clearmind"
+      "bundleIdentifier": "com.ucsdcsedu.clearmind",
+      "googleServicesFile": "./ios/GoogleService-Info.plist"
     },
     "android": {
       "package": "com.ucsdcsedu.clearmind",
@@ -34,7 +35,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "@react-native-google-signin/google-signin"
     ],
     "experiments": {
       "typedRoutes": true
