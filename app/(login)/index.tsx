@@ -1,15 +1,23 @@
 // app/(login)/index.tsx
 import React, { useState } from "react";
-import {Dimensions} from "react-native";
+import { Dimensions } from "react-native";
 import { Alert } from "react-native";
 import BackgroundImage from "../../components/BackgroundImage";
 import { useAuth } from "../../hooks/useAuth";
 import { useFonts } from "expo-font";
 import { RelativePathString, useRouter } from "expo-router";
-import { Button, Input, YStack, XStack, Stack, Text} from "tamagui";
+import { Button, Input, YStack, XStack, Stack, Text } from "tamagui";
 import { LogoImage } from "@/components/LogoImage";
 import colors from "@/constants/colors";
 import { useToastController } from "@tamagui/toast";
+
+import {
+  fetchSignInMethodsForEmail,
+  getAuth,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+import { auth } from "@/constants/firebaseConfig";
+import { isValidEmail } from "@/constants/helper";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -29,13 +37,34 @@ export default function MainScreen() {
 
   const onPressForgetPassword = () => {
     if (username != "") {
-      getUserSecurity(username).then((snapshot) => {
-        if (snapshot.exists()) {
-          router.push(`/forgetPassword/${username}` as RelativePathString);
-        } else {
-          toast.show("User does not exist. Please register.");
-        }
-      });
+      if (!isValidEmail(username)) {
+        toast.show("Please input valid email address");
+        return;
+      }
+      fetchSignInMethodsForEmail(auth, username)
+        .then((res) => {
+          if (res.length == 0) {
+            toast.show("User doesn't exists.");
+            return;
+          }
+
+          sendPasswordResetEmail(auth, username)
+            .then(() => {
+              toast.show("Password Reset Email send!");
+              return;
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((err) => console.log(err));
+      // getUserSecurity(username).then((snapshot) => {
+      //   if (snapshot.exists()) {
+      //     router.push(`/forgetPassword/${username}` as RelativePathString);
+      //   } else {
+      //     toast.show("User does not exist. Please register.");
+      //   }
+      // });
     } else {
       toast.show("Please input username");
     }
@@ -50,31 +79,31 @@ export default function MainScreen() {
         alignItems="center"
         justifyContent="center"
         width={screenWidth}
+      >
+        <Text
+          marginTop="$12"
+          fontFamily="notoSans"
+          fontSize="$8"
+          color="$primary"
+          textAlign="center"
+          width="100%"
         >
-          <Text 
-            marginTop="$12"
-            fontFamily="notoSans"
-            fontSize="$8" 
-            color="$primary"
-            textAlign="center"
-            width="100%"
-          >
-            Learn Acceptance and commitment therapy for free!
-          </Text>
+          Learn Acceptance and commitment therapy for free!
+        </Text>
 
         {/* Logo */}
         <LogoImage />
 
-          <Text 
-            marginTop="$4"
-            fontFamily="notoSans" 
-            fontSize="$8" 
-            fontWeight="bold" 
-            color="$primary"
-            textAlign="center"
-            width="100%"
-          >
-            On-demand help for overcoming procrastination
+        <Text
+          marginTop="$4"
+          fontFamily="notoSans"
+          fontSize="$8"
+          fontWeight="bold"
+          color="$primary"
+          textAlign="center"
+          width="100%"
+        >
+          On-demand help for overcoming procrastination
         </Text>
       </YStack>
 
@@ -90,7 +119,6 @@ export default function MainScreen() {
         right={0}
         bottom="$10"
       >
-
         <Stack width="100%" maxWidth={300} gap="$2">
           <Input
             placeholder="Username"
@@ -103,31 +131,35 @@ export default function MainScreen() {
             onChangeText={setPassword}
             secureTextEntry
           />
-        <Button
-          backgroundColor={colors.link}
-          size="$1"
-          onPress={() => onPressForgetPassword()}
-          alignSelf="flex-end"
-        >
-          <Text fontSize={12} textDecorationLine="underline" color={colors.linkText}>
-            Forgot Password?
-          </Text>
-        </Button>
+          <Button
+            backgroundColor={colors.link}
+            size="$1"
+            onPress={() => onPressForgetPassword()}
+            alignSelf="flex-end"
+          >
+            <Text
+              fontSize={12}
+              textDecorationLine="underline"
+              color={colors.linkText}
+            >
+              Forgot Password?
+            </Text>
+          </Button>
         </Stack>
 
         <Stack width="100%" maxWidth={300} gap="$2">
-        <Button
-          size="$4"
-          onPress={() => handleLogin(username, password)}
-          color={colors.secondary}
-          fontWeight="bold"
-          backgroundColor={colors.primary}
-          borderRadius={20}
-          fontSize={16}
-        >
+          <Button
+            size="$4"
+            onPress={() => handleLogin(username, password)}
+            color={colors.secondary}
+            fontWeight="bold"
+            backgroundColor={colors.primary}
+            borderRadius={20}
+            fontSize={16}
+          >
             Sign In
           </Button>
-          
+
           <XStack justifyContent="space-between">
             <Button
               size="$4"

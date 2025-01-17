@@ -20,7 +20,7 @@ export function Provider({
     >
       <ToastProvider
         swipeDirection="vertical"
-        // duration={1000000}
+        duration={1000000}
         native={
           [
             /* uncomment the next line to do native toasts on mobile. NOTE: it'll require you making a dev build and won't work with Expo Go */
@@ -30,7 +30,7 @@ export function Provider({
       >
         {children}
         <CurrentToast />
-        <ToastViewport top="$8" left={0} right={0} />
+        <ToastViewport top="$9" left={0} right={0} />
       </ToastProvider>
     </TamaguiProvider>
   );
