@@ -64,7 +64,7 @@ export default function Page1() {
         image={require("assets/images/icon_practice.png")}
         imageDone={require("assets/images/icon_practice_done.png")}
         done={false}
-        onPress={() => router.push("/(login)/chapter2/content/opening")}
+        onPress={() => router.push("/(login)/chapter2/content/activity3")}
       />
 
       <ChapterItem
@@ -72,7 +72,7 @@ export default function Page1() {
         image={require("assets/images/icon_diagram.png")}
         imageDone={require("assets/images/icon_diagram_done.png")}
         done={false}
-        onPress={() => router.push("/(login)/chapter2/content/opening")}
+        onPress={() => router.push("/(login)/chapter2/content/activity4")}
       />
 
       <ChapterItem

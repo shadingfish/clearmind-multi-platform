@@ -103,7 +103,7 @@ export default function Activity2() {
             router.push("/(login)/chapter2/content/activity1");
           }}
           next={() => {
-            router.push("/(login)/chapter2/content/activity2");
+            router.push("/(login)/chapter2/content/activity3");
           }}
         />
       </YStack>

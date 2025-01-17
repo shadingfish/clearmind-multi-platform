@@ -70,13 +70,15 @@ export default function RootLayout() {
                   fontWeight: "bold", // Bold font
                   fontSize: 19,
                   color: "#FFFFFF",
+                  width: "120%",
+                  alignSelf: "center",
                 }}
               >
                 Identify and Describe Your Challenging Emotions
               </Text>
             ),
             headerStyle: {
-              height: 140,
+              height: 125,
               backgroundColor: colors.headerBackground,
             },
           }}
@@ -92,9 +94,57 @@ export default function RootLayout() {
                   fontWeight: "bold", // Bold font
                   fontSize: 19,
                   color: "#FFFFFF",
+                  alignSelf: "center",
                 }}
               >
                 Passengers on the Bus Metaphor
+              </Text>
+            ),
+            headerStyle: {
+              height: 120,
+              backgroundColor: colors.headerBackground,
+            },
+          }}
+        />
+
+        <Drawer.Screen
+          name="activity3" // This is the name of the page and must match the url from root
+          options={{
+            drawerLabel: "Examples of Driving the bus",
+            headerTitle: () => (
+              <Text
+                style={{
+                  fontWeight: "bold", // Bold font
+                  fontSize: 19,
+                  color: "#FFFFFF",
+                  alignSelf: "center",
+                }}
+              >
+                Examples of Driving The Bus
+              </Text>
+            ),
+            headerStyle: {
+              height: 120,
+              backgroundColor: colors.headerBackground,
+            },
+          }}
+        />
+
+        <Drawer.Screen
+          name="activity4" // This is the name of the page and must match the url from root
+          options={{
+            drawerLabel: "Identify Your Passengers",
+            headerTitle: () => (
+              <Text
+                style={{
+                  fontWeight: "bold", // Bold font
+                  fontSize: 19,
+                  color: "#FFFFFF",
+                  alignSelf: "center",
+                  width: "120%",
+                }}
+              >
+                Identify Your Own Destination & Passengers
               </Text>
             ),
             headerStyle: {

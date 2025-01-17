@@ -8,5 +8,8 @@ const colors = {
   dropdownBackground: "#D0F4C5",
   border: "#54B363",
   headerBackground: "#54B363",
+  hintColor: "#388e3c",
+  correct: "#008000",
+  incorrect: "#FF0000",
 };
 export default colors;
