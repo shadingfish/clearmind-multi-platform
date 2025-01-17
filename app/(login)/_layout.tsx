@@ -30,7 +30,7 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
-        name="learn" // Map to `app/index.tsx`
+        name="chapter2" // Map to `app/index.tsx`
         options={{
           headerShown: false, // Navigation Optional
         }}

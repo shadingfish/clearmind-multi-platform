@@ -123,7 +123,7 @@ export default function MainScreen() {
             size="$4"
             onPress={() => {
               // handleLogin(username, password)
-              router.push("/(login)/learn");
+              router.push("/(login)/chapter2");
             }}
             color={colors.secondary}
             fontWeight="bold"

@@ -7,5 +7,6 @@ const colors = {
   text: "#000000",
   dropdownBackground: "#D0F4C5",
   border: "#54B363",
+  headerBackground: "#54B363",
 };
 export default colors;
