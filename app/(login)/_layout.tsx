@@ -29,6 +29,12 @@ export default function RootLayout() {
           title: "Register Additional",
         }}
       />
+      <Stack.Screen
+        name="learn" // Map to `app/index.tsx`
+        options={{
+          headerShown: false, // Navigation Optional
+        }}
+      />
     </Stack>
   );
 }
