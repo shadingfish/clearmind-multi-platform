@@ -16,7 +16,7 @@ const screenWidth = Dimensions.get("window").width;
 export default function MainScreen() {
   const router = useRouter();
   const toast = useToastController();
-  const { handleLogin, getUserSecurity } = useAuth();
+  const { handleLogin, handleFirebaseLogin, handleFirebaseRegister, getUserSecurity } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fontsLoaded] = useFonts({
@@ -37,7 +37,7 @@ export default function MainScreen() {
         }
       });
     } else {
-      toast.show("Please input username");
+      toast.show("Please input username or email");
     }
   };
 
@@ -93,7 +93,8 @@ export default function MainScreen() {
 
         <Stack width="100%" maxWidth={300} gap="$2">
           <Input
-            placeholder="Username"
+            // placeholder="Username"
+            placeholder="Email"
             value={username}
             onChangeText={setUsername}
           />
@@ -118,7 +119,8 @@ export default function MainScreen() {
         <Stack width="100%" maxWidth={300} gap="$2">
         <Button
           size="$4"
-          onPress={() => handleLogin(username, password)}
+          // onPress={() => handleLogin(username, password)}
+          onPress={() => handleFirebaseLogin(username, password)}
           color={colors.secondary}
           fontWeight="bold"
           backgroundColor={colors.primary}

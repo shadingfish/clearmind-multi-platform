@@ -3,6 +3,7 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import Constants from "expo-constants";
+import { getAuth } from "firebase/auth";
 
 // Ensure fallback values are provided in case of undefined
 const firebaseConfig = {
@@ -17,6 +18,9 @@ const firebaseConfig = {
 
 // Initialize Firebase app
 const app = initializeApp(firebaseConfig);
+
+// authentication
+export const auth = getAuth(app);
 
 // Export Firebase services
 export const database = getDatabase(app);
