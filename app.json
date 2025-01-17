@@ -11,7 +11,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ucsdcsedu.clearmind",
-      "googleServicesFile": "./ios/GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "package": "com.ucsdcsedu.clearmind",
