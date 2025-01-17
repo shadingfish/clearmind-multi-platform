@@ -1,4 +1,4 @@
-package com.clearmind
+package com.ucsdcsedu.clearmind
 
 import android.os.Build
 import android.os.Bundle

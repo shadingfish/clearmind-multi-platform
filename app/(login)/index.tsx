@@ -10,7 +10,7 @@ import { Button, Input, YStack, XStack, Stack, Text} from "tamagui";
 import { LogoImage } from "@/components/LogoImage";
 import colors from "@/constants/colors";
 import { useToastController } from "@tamagui/toast";
-import auth from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth'; //  https://rnfirebase.io/#expo ... React Native Firebase cannot be used in the pre-compiled Expo Go app because React Native Firebase uses native code that is not compiled into Expo Go.
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const screenWidth = Dimensions.get("window").width;

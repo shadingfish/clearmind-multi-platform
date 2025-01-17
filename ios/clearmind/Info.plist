@@ -29,6 +29,11 @@
         <array>
           <string>myapp</string>
           <string>com.ucsdcsedu.clearmind</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
           <string>com.googleusercontent.apps.324251870640-gdslopcmn3vp58qv3me4f878sc04kj1r</string>
         </array>
       </dict>

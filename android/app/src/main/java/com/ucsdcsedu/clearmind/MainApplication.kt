@@ -1,4 +1,4 @@
-package com.clearmind
+package com.ucsdcsedu.clearmind
 
 import android.app.Application
 import android.content.res.Configuration
