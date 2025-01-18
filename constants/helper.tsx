@@ -6,3 +6,7 @@ export const isValidEmail = (email: string): boolean => {
 export const matchStringsIgnoreCase = (str1: string, str2: string): boolean => {
   return str1.toLowerCase().trim() === str2.toLowerCase().trim();
 };
+
+export const isValidUsername = (str: string): boolean => {
+  return /^[^\.#$\[\]]+$/.test(str);
+};

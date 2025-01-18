@@ -12,19 +12,20 @@ import colors from "@/constants/colors";
 import { useToastController } from "@tamagui/toast";
 
 import {
+  createUserWithEmailAndPassword,
   fetchSignInMethodsForEmail,
   getAuth,
   sendPasswordResetEmail,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth } from "@/constants/firebaseConfig";
-import { isValidEmail } from "@/constants/helper";
+import { isValidEmail, isValidUsername } from "@/constants/helper";
 
 const screenWidth = Dimensions.get("window").width;
 
 export default function MainScreen() {
   const router = useRouter();
   const toast = useToastController();
-  const { handleLogin, getUserSecurity } = useAuth();
+  const { handleLogin, getUserInfo } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fontsLoaded] = useFonts({
@@ -36,35 +37,38 @@ export default function MainScreen() {
   }
 
   const onPressForgetPassword = () => {
+    const auth = getAuth();
     if (username != "") {
-      if (!isValidEmail(username)) {
-        toast.show("Please input valid email address");
-        return;
-      }
-      fetchSignInMethodsForEmail(auth, username)
-        .then((res) => {
-          if (res.length == 0) {
-            toast.show("User doesn't exists.");
-            return;
-          }
+      if (isValidUsername(username)) {
+        getUserInfo(username).then((snapshot) => {
+          if (snapshot.exists()) {
+            const user = snapshot.val();
 
-          sendPasswordResetEmail(auth, username)
-            .then(() => {
-              toast.show("Password Reset Email send!");
-              return;
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        })
-        .catch((err) => console.log(err));
-      // getUserSecurity(username).then((snapshot) => {
-      //   if (snapshot.exists()) {
-      //     router.push(`/forgetPassword/${username}` as RelativePathString);
-      //   } else {
-      //     toast.show("User does not exist. Please register.");
-      //   }
-      // });
+            if (user.email) {
+              sendPasswordResetEmail(auth, user.email)
+                .then(() => {
+                  toast.show("Password reset email sent!");
+                })
+                .catch((error) => {
+                  // An error happened.
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                  console.error(
+                    "Error sending password reset email:",
+                    errorCode,
+                    errorMessage
+                  );
+                });
+            } else {
+              router.push(`/forgetPassword/${username}` as RelativePathString);
+            }
+          } else {
+            toast.show("User does not exist.");
+          }
+        });
+      } else {
+        toast.show("Please input valid username");
+      }
     } else {
       toast.show("Please input username");
     }
