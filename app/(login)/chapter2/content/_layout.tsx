@@ -153,6 +153,38 @@ export default function RootLayout() {
             },
           }}
         />
+
+        <Drawer.Screen
+          name="activity5" // This is the name of the page and must match the url from root
+          options={{
+            drawerLabel: "Willingness to Carry On",
+            headerTitle: () => (
+              <Text
+                style={{
+                  fontWeight: "bold", // Bold font
+                  fontSize: 19,
+                  color: "#FFFFFF",
+                  alignSelf: "center",
+                  width: "125%",
+                }}
+              >
+                Allow Challenging Passengers Be on Your Bus
+              </Text>
+            ),
+            headerStyle: {
+              height: 120,
+              backgroundColor: colors.headerBackground,
+            },
+          }}
+        />
+
+        <Drawer.Screen
+          name="summary" // This is the name of the page and must match the url from root
+          options={{
+            drawerLabel: "Summary",
+            title: "Part 2 Summary",
+          }}
+        />
       </Drawer>
     </GestureHandlerRootView>
   );

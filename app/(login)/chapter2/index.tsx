@@ -80,7 +80,7 @@ export default function Page1() {
         image={require("assets/images/icon_practice.png")}
         imageDone={require("assets/images/icon_practice_done.png")}
         done={false}
-        onPress={() => router.push("/(login)/chapter2/content/opening")}
+        onPress={() => router.push("/(login)/chapter2/content/activity5")}
       />
 
       <ChapterItem
@@ -88,7 +88,7 @@ export default function Page1() {
         image={require("assets/images/icon_summary.png")}
         imageDone={require("assets/images/icon_summary_done.png")}
         done={false}
-        onPress={() => router.push("/(login)/chapter2/content/opening")}
+        onPress={() => router.push("/(login)/chapter2/content/summary")}
       />
     </YStack>
   );

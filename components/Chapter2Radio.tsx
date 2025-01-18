@@ -12,8 +12,7 @@ export interface Chapter2RadioProps {
   incorrectText: string;
 }
 
-export const Chapter2Radio: React.FC<Chapter2RadioProps & { id: number }> = ({
-  id,
+export const Chapter2Radio: React.FC<Chapter2RadioProps> = ({
   question,
   option1,
   option2,
@@ -32,7 +31,7 @@ export const Chapter2Radio: React.FC<Chapter2RadioProps & { id: number }> = ({
     }
   }, [checked]);
   return (
-    <YStack key={id}>
+    <YStack>
       <Text>{question}</Text>
 
       <XStack
