@@ -17,13 +17,15 @@
 // }
 import React, { useState, useEffect} from "react";
 import { View, Image, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text,Pressable, TextInput } from "react-native";
-import { Label, RadioGroup, XStack, YStack, Theme } from 'tamagui'
+import { Label, RadioGroup, XStack, YStack, Theme, Input } from 'tamagui'
 import type { SizeTokens } from 'tamagui'
 const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
 import InputField from "../InputField";
+import colors from "@/constants/colors";
+
 
 interface CurrentPageComponentProps {
   data: {[key: string]: string},
@@ -63,35 +65,56 @@ const Page2: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
             <Text style={styles.textBox}>
                 Now as a practice, let's reflect on your own recent procrastination episode.
             </Text>
-            <Text style={styles.textBox}>
+            <Text style={{...styles.textBox, marginBottom: '3%'}}>
                 Briefly describe your recent procrastination episode:
             </Text>
-            <InputField
-                id="p2_recentProcrastination"
-                placeholder="(your procrastination episode)"
+
+            <Input
+                unstyled
+                placeholder={"(your procrastination episode)"}
+                borderColor={colors.border}
+                borderWidth={3}
+                borderRadius={7}
+                size="$4"
+                width={"100%"}
+                alignSelf="center"
                 value={p2_recentProcrastination}
                 onChangeText={setP2_recentProcrastination}
-            />
+                />
             <Text style={styles.textBox}>
                 Enter the emotion you experiencing most strongly:
             </Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={styles.textBox}>I'm feeling: </Text>
-                    <InputField
-                        id="p2_feeling"
-                        placeholder="(name of the emotion)"
+            <View style={{flexDirection: 'row', alignItems: 'center',}}>
+                <Text style={{...styles.textBox, marginRight: 20}}>I'm feeling: </Text>
+                    <Input
+                        unstyled
+                        placeholder={"(name of the emotion)"}
+                        borderColor={colors.border}
+                        borderWidth={3}
+                        borderRadius={7}
+                        size="$4"
+                        width={"50%"}
+                        alignSelf="center"
                         value={p2_feeling}
                         onChangeText={setP2_feeling}
-                    />
+                        style={{marginTop: '5%'}}
+                        />
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={styles.textBox}>because: </Text>
-                <InputField
-                        id="p2_because"
-                        placeholder="(an event)"
+                <Text style={{...styles.textBox, marginRight: 20}}>because: </Text>
+                <Input
+                        unstyled
+                        placeholder={"(name of the emotion)"}
+                        borderColor={colors.border}
+                        borderWidth={3}
+                        borderRadius={7}
+                        size="$4"
+                        width={"50%"}
+                        alignSelf="center"
                         value={p2_because}
                         onChangeText={setP2_Because}
-                    />
+                        style={{marginTop: '5%'}}
+                        />
             </View>
             <Text style={{marginTop: '5%', fontSize: 16, color: "#636363"}}>
                 <Text style={{ fontWeight: "bold" }}>Example:</Text> I'm feeling <Text style={{ textDecorationLine: 'underline' }}>anxious</Text> because <Text style={{ textDecorationLine: 'underline' }}>I haven't yet started preparing for my final exam scheduled for tomorrow.</Text>
