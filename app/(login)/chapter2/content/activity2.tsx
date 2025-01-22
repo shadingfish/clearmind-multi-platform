@@ -1,27 +1,11 @@
 // app/(login)/index.tsx
 import React, { useState } from "react";
-import { Check as CheckIcon } from "@tamagui/lucide-icons";
 
-import { useRouter } from "expo-router";
-import {
-  Button,
-  Input,
-  YStack,
-  XStack,
-  Stack,
-  Text,
-  ScrollView,
-  View,
-  Checkbox,
-  Paragraph,
-} from "tamagui";
-import colors from "@/constants/colors";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
-import YoutubePlayer from "react-native-youtube-iframe";
+import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Dimensions } from "react-native";
-
-const screenWidth = Dimensions.get("window").width;
+import YoutubePlayer from "react-native-youtube-iframe";
+import { ScrollView, Text, View, YStack } from "tamagui";
 
 export default function Activity2() {
   const router = useRouter();

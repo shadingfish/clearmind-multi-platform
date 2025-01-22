@@ -1,25 +1,14 @@
 // app/(login)/index.tsx
 import React, { useState } from "react";
-import { Check as CheckIcon } from "@tamagui/lucide-icons";
 
-import { useRouter } from "expo-router";
-import {
-  Button,
-  Input,
-  YStack,
-  Image,
-  Text,
-  ScrollView,
-  View,
-  Checkbox,
-} from "tamagui";
-import colors from "@/constants/colors";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
-import { CheckboxWithLabel } from "@/components/CheckboxWithLabel";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Dimensions } from "react-native";
+import colors from "@/constants/colors";
 import { hasEmptyValues } from "@/constants/helper";
 import { useToastController } from "@tamagui/toast";
+import { useRouter } from "expo-router";
+import { Dimensions } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Image, Input, ScrollView, Text, YStack } from "tamagui";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -98,7 +87,7 @@ export default function Activity4() {
         </Text>
 
         <Image
-          source={require("../../../../assets/images/bus_diagram_new.png")}
+          source={require("assets/images/bus_diagram_new.png")}
           width="100%"
           height={screenWidth * (281 / 600) * 0.9}
         />

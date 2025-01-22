@@ -1,23 +1,22 @@
 // app/(login)/index.tsx
-import React, { useState } from "react";
 import { Check as CheckIcon } from "@tamagui/lucide-icons";
+import React, { useState } from "react";
 
-import { useRouter } from "expo-router";
-import {
-  Button,
-  Input,
-  YStack,
-  XStack,
-  Stack,
-  Text,
-  ScrollView,
-  View,
-  Checkbox,
-} from "tamagui";
-import colors from "@/constants/colors";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { CheckboxWithLabel } from "@/components/CheckboxWithLabel";
+import colors from "@/constants/colors";
+import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  Button,
+  Checkbox,
+  Input,
+  ScrollView,
+  Text,
+  View,
+  XStack,
+  YStack,
+} from "tamagui";
 
 export default function Activity1() {
   const router = useRouter();

@@ -1,13 +1,13 @@
 // app/(login)/_layout.tsx
 
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Drawer } from "expo-router/drawer";
-import { View, Text, StyleSheet } from "react-native";
-import { useNavigation, router } from "expo-router";
-import { Button } from "tamagui";
+import colors from "@/constants/colors";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import colors from "@/constants/colors";
+import { router } from "expo-router";
+import { Drawer } from "expo-router/drawer";
+import { Text } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Button } from "tamagui";
 
 export default function RootLayout() {
   return (

@@ -1,16 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Dimensions } from "react-native";
-import { Alert } from "react-native";
-import { useFonts } from "expo-font";
-import { RelativePathString, useNavigation, useRouter } from "expo-router";
-import { Button, Input, YStack, XStack, Stack, Text, View } from "tamagui";
-import { LogoImage } from "@/components/LogoImage";
-import colors from "@/constants/colors";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
-
-const screenWidth = Dimensions.get("window").width;
+import { useRouter } from "expo-router";
+import React from "react";
+import { Text, YStack } from "tamagui";
 
 export default function Opening() {
   const router = useRouter();

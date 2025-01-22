@@ -1,9 +1,9 @@
 // app/(login)/_layout.tsx
 
-import { router, Stack } from "expo-router";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { Button } from "tamagui";
 import colors from "@/constants/colors";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { router, Stack } from "expo-router";
+import { Button } from "tamagui";
 
 export default function RootLayout() {
   return (
@@ -21,7 +21,7 @@ export default function RootLayout() {
             backgroundColor: colors.headerBackground,
           },
           headerLeft: () => (
-            <Button onPress={() => router.back()} unstyled>
+            <Button onPress={() => router.dismissTo("/(login)")} unstyled>
               <Ionicons name="chevron-back" size={24} color="black" />
             </Button>
           ),

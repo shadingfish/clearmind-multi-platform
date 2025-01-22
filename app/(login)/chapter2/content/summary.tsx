@@ -1,28 +1,14 @@
 // app/(login)/index.tsx
 import React, { useState } from "react";
 
-import { useRouter } from "expo-router";
-import {
-  Button,
-  Input,
-  YStack,
-  XStack,
-  Stack,
-  Text,
-  ScrollView,
-  View,
-  Checkbox,
-  Paragraph,
-} from "tamagui";
-import colors from "@/constants/colors";
-import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
-import YoutubePlayer from "react-native-youtube-iframe";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Dimensions } from "react-native";
-import RadioGroup from "@/components/RadioGroup";
-import RadioButtonGroup from "@/components/RadioButtonGroup";
 import { SummaryQuestion } from "@/components/Chapter2SummaryQuestion";
+import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { Chapter2 } from "@/constants/data";
+import { hasEmptyValues } from "@/constants/helper";
+import { useToastController } from "@tamagui/toast";
+import { useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ScrollView, Text, View, YStack } from "tamagui";
 
 export type SummaryQuestions = {
   question1: string;
@@ -45,6 +31,8 @@ export default function Summary() {
   const updateQuestion = (field: keyof SummaryQuestions, value: string) => {
     setQuestions((prev) => ({ ...prev, [field]: value }));
   };
+
+  const toast = useToastController();
 
   return (
     <ScrollView>
@@ -88,7 +76,11 @@ export default function Summary() {
             router.push("/(login)/chapter2/content/activity5");
           }}
           next={() => {
-            router.push("/(login)/chapter2/content/activity3");
+            if (hasEmptyValues(questions)) {
+              toast.show("Empty Input");
+            } else {
+              router.push("/(login)/chapter2");
+            }
           }}
         />
       </YStack>

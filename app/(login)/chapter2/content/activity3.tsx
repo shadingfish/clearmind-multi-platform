@@ -1,21 +1,11 @@
 // app/(login)/index.tsx
-import React, { useEffect, useState } from "react";
-import { useRouter } from "expo-router";
-import {
-  Button,
-  Input,
-  YStack,
-  XStack,
-  Stack,
-  Text,
-  ScrollView,
-  View,
-  Checkbox,
-} from "tamagui";
-import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Chapter2Radio, Chapter2RadioProps } from "@/components/Chapter2Radio";
+import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { Chapter2 } from "@/constants/data";
+import { useRouter } from "expo-router";
+import React from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ScrollView, Text, View, YStack } from "tamagui";
 
 export default function Activity3() {
   const router = useRouter();

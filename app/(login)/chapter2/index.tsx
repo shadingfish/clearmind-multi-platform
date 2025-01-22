@@ -1,17 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Dimensions } from "react-native";
-import { Alert } from "react-native";
-import { useFonts } from "expo-font";
-import { RelativePathString, useNavigation, useRouter } from "expo-router";
-import { Button, Input, YStack, XStack, Stack, Text, Image } from "tamagui";
-import { LogoImage } from "@/components/LogoImage";
-import colors from "@/constants/colors";
-import { useToastController } from "@tamagui/toast";
-
-const screenWidth = Dimensions.get("window").width;
+import { useRouter } from "expo-router";
+import React from "react";
+import { Image, Text, XStack, YStack } from "tamagui";
 
 export default function Page1() {
-  const navigation = useNavigation();
   const router = useRouter();
 
   const ChapterItem: React.FC<{
