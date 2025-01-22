@@ -9,10 +9,7 @@ import colors from "@/constants/colors";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useAuth } from "@/hooks/useAuth";
 import LoadingOverlay from "@/components/LoadingOverlay";
-
-function matchStringsIgnoreCase(str1: string, str2: string) {
-  return str1.toLowerCase().trim() === str2.toLowerCase().trim();
-}
+import { matchStringsIgnoreCase } from "@/constants/helper";
 
 export default function ForgetPasswordPage() {
   const router = useRouter();

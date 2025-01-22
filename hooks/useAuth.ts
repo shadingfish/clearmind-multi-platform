@@ -25,6 +25,11 @@ export const useAuth = () => {
     });
   };
 
+  const getUserInfo = (username: string) => {
+    const userRef = ref(database, `users/${username}`);
+    return get(userRef);
+  };
+
   const getUserSecurity = (username: string) => {
     const userRef = ref(database, `security/${username}`);
     return get(userRef);
@@ -37,5 +42,5 @@ export const useAuth = () => {
     });
   };
 
-  return { handleLogin, getUserSecurity, updateUserPassword };
+  return { handleLogin, getUserSecurity, updateUserPassword, getUserInfo };
 };

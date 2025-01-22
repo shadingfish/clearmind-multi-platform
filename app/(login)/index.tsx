@@ -11,12 +11,21 @@ import { LogoImage } from "@/components/LogoImage";
 import colors from "@/constants/colors";
 import { useToastController } from "@tamagui/toast";
 
+import {
+  createUserWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
+  getAuth,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { isValidEmail, isValidUsername } from "@/constants/helper";
+
 const screenWidth = Dimensions.get("window").width;
 
 export default function MainScreen() {
   const router = useRouter();
   const toast = useToastController();
-  const { handleLogin, getUserSecurity } = useAuth();
+  const { handleLogin, getUserInfo } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fontsLoaded] = useFonts({
@@ -28,14 +37,38 @@ export default function MainScreen() {
   }
 
   const onPressForgetPassword = () => {
+    const auth = getAuth();
     if (username != "") {
-      getUserSecurity(username).then((snapshot) => {
-        if (snapshot.exists()) {
-          router.push(`/forgetPassword/${username}` as RelativePathString);
-        } else {
-          toast.show("User does not exist. Please register.");
-        }
-      });
+      if (isValidUsername(username)) {
+        getUserInfo(username).then((snapshot) => {
+          if (snapshot.exists()) {
+            const user = snapshot.val();
+
+            if (user.email) {
+              sendPasswordResetEmail(auth, user.email)
+                .then(() => {
+                  toast.show("Password reset email sent!");
+                })
+                .catch((error) => {
+                  // An error happened.
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                  console.error(
+                    "Error sending password reset email:",
+                    errorCode,
+                    errorMessage
+                  );
+                });
+            } else {
+              router.push(`/forgetPassword/${username}` as RelativePathString);
+            }
+          } else {
+            toast.show("User does not exist.");
+          }
+        });
+      } else {
+        toast.show("Please input valid username");
+      }
     } else {
       toast.show("Please input username");
     }
@@ -125,6 +158,7 @@ export default function MainScreen() {
               // handleLogin(username, password)
               router.push("/(login)/chapter2");
             }}
+            // onPress={() => handleLogin(username, password)}
             color={colors.secondary}
             fontWeight="bold"
             backgroundColor={colors.primary}
