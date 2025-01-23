@@ -80,7 +80,7 @@ export default function Summary() {
 
         <ChapterNavigationButton
           prev={"/(app)/chapter2/content/activity5"}
-          next={"/(app)/chapter2/content/chapter2"}
+          next={"/(app)/chapter2"}
           progress_index="8_Summary"
           username={user?.uid!}
           canGoNext={!hasEmptyValues(questions)}
