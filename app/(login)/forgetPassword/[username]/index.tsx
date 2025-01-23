@@ -1,4 +1,4 @@
-// app/(login)/forgetPassword/[username]/index.tsx
+// app/(app)/forgetPassword/[username]/index.tsx
 
 import React, { useEffect, useState } from "react";
 import { YStack, ScrollView, Text, Input, Button, ZStack } from "tamagui";
@@ -7,15 +7,15 @@ import { LogoImage } from "@/components/LogoImage";
 import { DropdownComponent } from "@/components/Dropdown";
 import colors from "@/constants/colors";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useAuth } from "@/hooks/useAuth";
 import LoadingOverlay from "@/components/LoadingOverlay";
 import { matchStringsIgnoreCase } from "@/constants/helper";
+import { useCustomAuth } from "@/hooks/useAuth";
 
 export default function ForgetPasswordPage() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
   const local = useLocalSearchParams<{ username: string }>();
-  const { getUserSecurity } = useAuth();
+  const { getUserSecurity } = useCustomAuth();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -106,6 +106,7 @@ export default function ForgetPasswordPage() {
     <ZStack height="100%">
       {isLoading && <LoadingOverlay />}
       <ScrollView
+        automaticallyAdjustKeyboardInsets={true}
         flex={1}
         backgroundColor={colors.background}
         paddingBottom={bottom}

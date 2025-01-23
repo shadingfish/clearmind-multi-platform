@@ -27,7 +27,7 @@ export default function setNewPassword() {
         .then(() => {
           toast.show("Password change successfully!");
           router.dismissAll();
-          router.replace("/(login)");
+          router.replace("/(app)");
         })
         .catch((error) => {
           console.error("Error updating data:", error);
@@ -40,6 +40,7 @@ export default function setNewPassword() {
       flex={1}
       backgroundColor={colors.background}
       paddingBottom={bottom}
+      automaticallyAdjustKeyboardInsets={true}
     >
       <YStack alignItems="flex-start" marginHorizontal="$6" marginTop="$15">
         <Text fontSize={"$5"} fontWeight={900}>

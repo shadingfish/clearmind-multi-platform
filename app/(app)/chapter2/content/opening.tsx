@@ -17,10 +17,10 @@ export default function Opening() {
 
       <ChapterNavigationButton
         prev={() => {
-          router.dismissTo("/(login)/chapter2");
+          router.dismissTo("/(app)/chapter2");
         }}
         next={() => {
-          router.push("/(login)/chapter2/content/activity1");
+          router.push("/(app)/chapter2/content/activity1");
         }}
       />
     </YStack>

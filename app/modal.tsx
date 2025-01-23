@@ -1,15 +1,20 @@
+import { PrimaryButton } from "@/components/CustomButton";
 import React from "react";
-import { Button, Paragraph, View, XStack, YStack, Text } from "tamagui";
-import { PrimaryButton } from "../components/CustomButton"
+import { Paragraph, Text, View, YStack } from "tamagui";
 
 type ModalScreenProps = {
   visible: boolean;
-  title: string; 
+  title: string;
   message: string;
   onClose: () => void;
 };
 
-export default function ModalScreen({ visible, title, message, onClose }: ModalScreenProps) {
+export default function ModalScreen({
+  visible,
+  title,
+  message,
+  onClose,
+}: ModalScreenProps) {
   if (!visible) return null;
 
   return (
@@ -34,17 +39,19 @@ export default function ModalScreen({ visible, title, message, onClose }: ModalS
         shadowOpacity={0.2}
         shadowRadius={10}
       >
-        <Text fontFamily="$body" fontSize="$8" fontWeight="bold" textAlign="center" marginBottom="$2">
+        <Text
+          fontFamily="$body"
+          fontSize="$8"
+          fontWeight="bold"
+          textAlign="center"
+          marginBottom="$2"
+        >
           {title}
         </Text>
         <Paragraph fontFamily="$body" textAlign="center" marginBottom="$4">
           {message}
         </Paragraph>
-        <PrimaryButton
-          size="$4"
-          alignSelf="center"
-          onPress={onClose}
-        >
+        <PrimaryButton size="$4" alignSelf="center" onPress={onClose}>
           Close
         </PrimaryButton>
       </YStack>

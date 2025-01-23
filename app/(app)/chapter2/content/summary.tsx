@@ -1,4 +1,4 @@
-// app/(login)/index.tsx
+// app/(app)/index.tsx
 import React, { useState } from "react";
 
 import { SummaryQuestion } from "@/components/Chapter2SummaryQuestion";
@@ -35,7 +35,7 @@ export default function Summary() {
   const toast = useToastController();
 
   return (
-    <ScrollView>
+    <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"} paddingBottom={bottom}>
         <Text fontSize={"$5"} lineHeight={20}>
           In this part, we explored the “Passengers on the Bus,” a metaphor
@@ -73,13 +73,13 @@ export default function Summary() {
 
         <ChapterNavigationButton
           prev={() => {
-            router.push("/(login)/chapter2/content/activity5");
+            router.push("/(app)/chapter2/content/activity5");
           }}
           next={() => {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
-              router.push("/(login)/chapter2");
+              router.push("/(app)/chapter2");
             }
           }}
         />

@@ -1,4 +1,4 @@
-// app/(login)/index.tsx
+// app/(app)/index.tsx
 import React, { useState } from "react";
 
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
@@ -62,7 +62,7 @@ export default function Activity4() {
   );
 
   return (
-    <ScrollView>
+    <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"} paddingBottom={bottom}>
         <Text fontSize={"$5"} lineHeight={20}>
           The destination here can be big, such as your top value mentioned in
@@ -130,13 +130,13 @@ export default function Activity4() {
 
         <ChapterNavigationButton
           prev={() => {
-            router.push("/(login)/chapter2/content/activity3");
+            router.push("/(app)/chapter2/content/activity3");
           }}
           next={() => {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
-              router.push("/(login)/chapter2/content/activity5");
+              router.push("/(app)/chapter2/content/activity5");
             }
           }}
         />

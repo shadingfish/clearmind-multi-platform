@@ -1,4 +1,4 @@
-// app/(login)/index.tsx
+// app/(app)/index.tsx
 import { Chapter2Radio, Chapter2RadioProps } from "@/components/Chapter2Radio";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { Chapter2 } from "@/constants/data";
@@ -12,7 +12,7 @@ export default function Activity3() {
   const { bottom } = useSafeAreaInsets();
 
   return (
-    <ScrollView>
+    <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"} paddingBottom={bottom} key={"root"}>
         <Text fontSize={"$5"} lineHeight={20} key={"text1"}>
           Here are some examples of how people might respond to difficult
@@ -40,10 +40,10 @@ export default function Activity3() {
 
         <ChapterNavigationButton
           prev={() => {
-            router.push("/(login)/chapter2/content/activity2");
+            router.push("/(app)/chapter2/content/activity2");
           }}
           next={() => {
-            router.push("/(login)/chapter2/content/activity4");
+            router.push("/(app)/chapter2/content/activity4");
           }}
         />
       </YStack>

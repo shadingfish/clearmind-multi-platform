@@ -27,7 +27,7 @@ export default function Page1() {
         image={require("assets/images/icon_opening.png")}
         imageDone={require("assets/images/icon_opening_done.png")}
         done={false}
-        onPress={() => router.push("/(login)/chapter2/content/opening")}
+        onPress={() => router.push("/(app)/chapter2/content/opening")}
       />
 
       <ChapterItem
@@ -36,7 +36,7 @@ export default function Page1() {
         imageDone={require("assets/images/icon_practice_done.png")}
         done={false}
         onPress={() => {
-          router.push("/(login)/chapter2/content/activity1");
+          router.push("/(app)/chapter2/content/activity1");
         }}
       />
 
@@ -46,7 +46,7 @@ export default function Page1() {
         imageDone={require("assets/images/icon_text_done.png")}
         done={false}
         onPress={() => {
-          router.push("/(login)/chapter2/content/activity2");
+          router.push("/(app)/chapter2/content/activity2");
         }}
       />
 
@@ -55,7 +55,7 @@ export default function Page1() {
         image={require("assets/images/icon_practice.png")}
         imageDone={require("assets/images/icon_practice_done.png")}
         done={false}
-        onPress={() => router.push("/(login)/chapter2/content/activity3")}
+        onPress={() => router.push("/(app)/chapter2/content/activity3")}
       />
 
       <ChapterItem
@@ -63,7 +63,7 @@ export default function Page1() {
         image={require("assets/images/icon_diagram.png")}
         imageDone={require("assets/images/icon_diagram_done.png")}
         done={false}
-        onPress={() => router.push("/(login)/chapter2/content/activity4")}
+        onPress={() => router.push("/(app)/chapter2/content/activity4")}
       />
 
       <ChapterItem
@@ -71,7 +71,7 @@ export default function Page1() {
         image={require("assets/images/icon_practice.png")}
         imageDone={require("assets/images/icon_practice_done.png")}
         done={false}
-        onPress={() => router.push("/(login)/chapter2/content/activity5")}
+        onPress={() => router.push("/(app)/chapter2/content/activity5")}
       />
 
       <ChapterItem
@@ -79,7 +79,7 @@ export default function Page1() {
         image={require("assets/images/icon_summary.png")}
         imageDone={require("assets/images/icon_summary_done.png")}
         done={false}
-        onPress={() => router.push("/(login)/chapter2/content/summary")}
+        onPress={() => router.push("/(app)/chapter2/content/summary")}
       />
     </YStack>
   );

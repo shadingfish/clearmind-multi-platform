@@ -3,7 +3,7 @@
 import { database } from "../constants/firebaseConfig";
 import { ref, get, update } from "firebase/database";
 
-export const useAuth = () => {
+export const useCustomAuth = () => {
   const handleLogin = (username: string, password: string) => {
     if (!username || !password) {
       alert("Please enter username and password");

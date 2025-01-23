@@ -1,4 +1,4 @@
-// app/(login)/index.tsx
+// app/(app)/index.tsx
 import React from "react";
 
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
@@ -11,7 +11,7 @@ export default function Activity5() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
   return (
-    <ScrollView>
+    <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"} paddingBottom={bottom}>
         <Text fontSize={"$5"} lineHeight={20}>
           Now what do we do with those challenging passengers? You can simply
@@ -41,10 +41,10 @@ export default function Activity5() {
 
         <ChapterNavigationButton
           prev={() => {
-            router.push("/(login)/chapter2/content/activity4");
+            router.push("/(app)/chapter2/content/activity4");
           }}
           next={() => {
-            router.push("/(login)/chapter2/content/summary");
+            router.push("/(app)/chapter2/content/summary");
           }}
         />
       </YStack>

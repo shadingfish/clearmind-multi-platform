@@ -44,7 +44,7 @@ export function CurrentToast() {
         }}
       >
         <Image
-          source={require("../assets/images/toast.png")}
+          source={require("assets/images/toast.png")}
           height={28}
           width={28}
         />

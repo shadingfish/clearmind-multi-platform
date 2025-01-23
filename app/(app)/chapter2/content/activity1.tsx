@@ -1,4 +1,4 @@
-// app/(login)/index.tsx
+// app/(app)/index.tsx
 import { Check as CheckIcon } from "@tamagui/lucide-icons";
 import React, { useState } from "react";
 
@@ -56,7 +56,7 @@ export default function Activity1() {
   };
 
   return (
-    <ScrollView>
+    <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"} paddingBottom={bottom}>
         <Text fontSize={"$5"} lineHeight={20}>
           One reason people often procrastinate and choose not to follow their
@@ -139,10 +139,10 @@ export default function Activity1() {
 
         <ChapterNavigationButton
           prev={() => {
-            router.push("/(login)/chapter2/content/opening");
+            router.push("/(app)/chapter2/content/opening");
           }}
           next={() => {
-            router.push("/(login)/chapter2/content/activity2");
+            router.push("/(app)/chapter2/content/activity2");
           }}
         />
       </YStack>

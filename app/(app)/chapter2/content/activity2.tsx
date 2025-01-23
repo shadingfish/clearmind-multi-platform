@@ -1,4 +1,4 @@
-// app/(login)/index.tsx
+// app/(app)/index.tsx
 import React, { useState } from "react";
 
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
@@ -12,7 +12,7 @@ export default function Activity2() {
   const { bottom } = useSafeAreaInsets();
   const [showMore, setShowMore] = useState(false);
   return (
-    <ScrollView>
+    <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"} paddingBottom={bottom}>
         <Text fontSize={"$5"} lineHeight={20}>
           If challenging thoughts you wrote earlier are causing you to
@@ -84,10 +84,10 @@ export default function Activity2() {
 
         <ChapterNavigationButton
           prev={() => {
-            router.push("/(login)/chapter2/content/activity1");
+            router.push("/(app)/chapter2/content/activity1");
           }}
           next={() => {
-            router.push("/(login)/chapter2/content/activity3");
+            router.push("/(app)/chapter2/content/activity3");
           }}
         />
       </YStack>
