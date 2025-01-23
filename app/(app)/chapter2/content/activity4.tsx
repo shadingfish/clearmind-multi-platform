@@ -8,7 +8,7 @@ import { useToastController } from "@tamagui/toast";
 import { useRouter } from "expo-router";
 import { Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Image, Input, ScrollView, Text, YStack } from "tamagui";
+import { Image, Input, ScrollView, Text, YStack, View } from "tamagui";
 import { useAuth } from "@/hooks/useAuth";
 import {
   getChapter2Activity2,
@@ -17,6 +17,30 @@ import {
 } from "@/hooks/Chapter2Activity";
 
 const screenWidth = Dimensions.get("window").width;
+
+const Activity4QuestionInput = ({
+  placeholder,
+  value,
+  onChange,
+}: {
+  placeholder: string;
+  value: string;
+  onChange: (val: string) => void;
+}) => (
+  <Input
+    unstyled
+    placeholder={placeholder}
+    placeholderTextColor={colors.placeholder}
+    borderColor={colors.border}
+    borderWidth={3}
+    borderRadius={7}
+    size="$4"
+    width={"100%"}
+    alignSelf="center"
+    value={value}
+    onChangeText={onChange}
+  />
+);
 
 type Activity4Questions = {
   diagram_destination: string;
@@ -44,30 +68,6 @@ export default function Activity4() {
   const updateQuestion = (field: keyof Activity4Questions, value: string) => {
     setQuestions((prev) => ({ ...prev, [field]: value }));
   };
-
-  const ActivityQuestion = ({
-    placeholder,
-    value,
-    onChange,
-  }: {
-    placeholder: string;
-    value: string;
-    onChange: (val: string) => void;
-  }) => (
-    <Input
-      unstyled
-      placeholder={placeholder}
-      placeholderTextColor={colors.placeholder}
-      borderColor={colors.border}
-      borderWidth={3}
-      borderRadius={7}
-      size="$4"
-      width={"100%"}
-      alignSelf="center"
-      value={value}
-      onChangeText={onChange}
-    />
-  );
 
   useEffect(() => {
     if (user) {
@@ -116,25 +116,25 @@ export default function Activity4() {
         />
 
         <YStack gap={"$3"}>
-          <ActivityQuestion
+          <Activity4QuestionInput
             placeholder="My Destination"
             value={questions.diagram_destination}
             onChange={(val) => updateQuestion("diagram_destination", val)}
           />
 
-          <ActivityQuestion
+          <Activity4QuestionInput
             placeholder="Passenger A"
             value={questions.diagram_passenger_A}
             onChange={(val) => updateQuestion("diagram_passenger_A", val)}
           />
 
-          <ActivityQuestion
+          <Activity4QuestionInput
             placeholder="Passenger B"
             value={questions.diagram_passenger_B}
             onChange={(val) => updateQuestion("diagram_passenger_B", val)}
           />
 
-          <ActivityQuestion
+          <Activity4QuestionInput
             placeholder="Passenger C"
             value={questions.diagram_passenger_C}
             onChange={(val) => updateQuestion("diagram_passenger_C", val)}
@@ -145,7 +145,7 @@ export default function Activity4() {
           How do your passengers persuade you to give up on your goal?
         </Text>
 
-        <ActivityQuestion
+        <Activity4QuestionInput
           placeholder="Passengers' persuasion"
           value={questions.diagram_persuasion}
           onChange={(val) => updateQuestion("diagram_persuasion", val)}
