@@ -80,7 +80,6 @@ export default function MainScreen() {
     try {
       handleFirebaseLogin(username, password)
         .then((usr) => {
-          console.log(usr);
           router.replace("/(app)");
         })
         .catch((err) => {

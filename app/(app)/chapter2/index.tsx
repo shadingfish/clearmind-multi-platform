@@ -1,86 +1,56 @@
-import { useRouter } from "expo-router";
-import React from "react";
-import { Image, Text, XStack, YStack } from "tamagui";
+import { ChapterItem } from "@/components/ChapterActivityIcon";
+import { Chapter2, ChapterProgress } from "@/constants/data";
+import { auth } from "@/constants/firebaseConfig";
+import {
+  getChapter2Progress,
+  initChapter2Progress,
+} from "@/hooks/UserActivity";
+import { RelativePathString } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { View, YStack } from "tamagui";
 
-export default function Page1() {
-  const router = useRouter();
+export default function Chapter2Index() {
+  const user = auth.currentUser;
+  const [progress, setProgress] = useState<ChapterProgress>(
+    Chapter2.EmptyProgress
+  );
 
-  const ChapterItem: React.FC<{
-    name: string;
-    image: any;
-    imageDone: any;
-    done: boolean;
-    onPress: () => void;
-  }> = ({ name, image, imageDone, done, onPress }) => {
-    return (
-      <XStack alignItems="center" gap={"$2"} onPress={onPress}>
-        <Image source={done ? imageDone : image} />
-        <Text fontSize={"$5"}>{name}</Text>
-      </XStack>
-    );
-  };
+  useEffect(() => {
+    if (user) {
+      try {
+        getChapter2Progress(user.uid)
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              const curProgress = snapshot.val();
+              delete curProgress["5_Identify_your_passengers"];
+              setProgress(curProgress);
+            } else {
+              initChapter2Progress(user.uid);
+            }
+          })
+          .catch((err) => console.log(err));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, [user]);
 
   return (
     <YStack flex={1} marginHorizontal={"$7"} marginVertical={"$6"} gap={"$4"}>
-      <ChapterItem
-        name="OPENING"
-        image={require("assets/images/icon_opening.png")}
-        imageDone={require("assets/images/icon_opening_done.png")}
-        done={false}
-        onPress={() => router.push("/(app)/chapter2/content/opening")}
-      />
-
-      <ChapterItem
-        name="YOUR CHALLENGING EMOTIONS"
-        image={require("assets/images/icon_practice.png")}
-        imageDone={require("assets/images/icon_practice_done.png")}
-        done={false}
-        onPress={() => {
-          router.push("/(app)/chapter2/content/activity1");
-        }}
-      />
-
-      <ChapterItem
-        name="PASSENGERS ON THE BUS"
-        image={require("assets/images/icon_text.png")}
-        imageDone={require("assets/images/icon_text_done.png")}
-        done={false}
-        onPress={() => {
-          router.push("/(app)/chapter2/content/activity2");
-        }}
-      />
-
-      <ChapterItem
-        name="EXAMPLE OF DRIVING THE BUS"
-        image={require("assets/images/icon_practice.png")}
-        imageDone={require("assets/images/icon_practice_done.png")}
-        done={false}
-        onPress={() => router.push("/(app)/chapter2/content/activity3")}
-      />
-
-      <ChapterItem
-        name="IDENTIFY YOUR PASSENGERS"
-        image={require("assets/images/icon_diagram.png")}
-        imageDone={require("assets/images/icon_diagram_done.png")}
-        done={false}
-        onPress={() => router.push("/(app)/chapter2/content/activity4")}
-      />
-
-      <ChapterItem
-        name="WILLINGNESS TO CARRY ON"
-        image={require("assets/images/icon_practice.png")}
-        imageDone={require("assets/images/icon_practice_done.png")}
-        done={false}
-        onPress={() => router.push("/(app)/chapter2/content/activity5")}
-      />
-
-      <ChapterItem
-        name="SUMMARY"
-        image={require("assets/images/icon_summary.png")}
-        imageDone={require("assets/images/icon_summary_done.png")}
-        done={false}
-        onPress={() => router.push("/(app)/chapter2/content/summary")}
-      />
+      {Chapter2.Activity.map((ele, i) => {
+        return (
+          <View key={i}>
+            <ChapterItem
+              name={ele.name}
+              image={ele.icon}
+              imageDone={ele.icon_done}
+              progressIndex={ele.progress_index as keyof ChapterProgress}
+              progress={progress}
+              route={ele.route as RelativePathString}
+            />
+          </View>
+        );
+      })}
     </YStack>
   );
 }
