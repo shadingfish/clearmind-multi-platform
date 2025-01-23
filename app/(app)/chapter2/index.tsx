@@ -1,12 +1,10 @@
 import { ChapterItem } from "@/components/ChapterActivityIcon";
-import colors from "@/constants/colors";
 import { Chapter2, ChapterProgress } from "@/constants/data";
-import { auth } from "@/constants/firebaseConfig";
-import { useAuth } from "@/hooks/useAuth";
 import {
   getChapter2Progress,
   initChapter2Progress,
-} from "@/hooks/UserActivity";
+} from "@/hooks/Chapter2Activity";
+import { useAuth } from "@/hooks/useAuth";
 import { Link, RelativePathString } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Text, View, YStack } from "tamagui";
@@ -24,21 +22,17 @@ export default function Chapter2Index() {
 
   useEffect(() => {
     if (user) {
-      try {
-        getChapter2Progress(user.uid)
-          .then((snapshot) => {
-            if (snapshot.exists()) {
-              const curProgress = snapshot.val();
-              delete curProgress["5_Identify_your_passengers"];
-              setProgress(curProgress);
-            } else {
-              initChapter2Progress(user.uid);
-            }
-          })
-          .catch((err) => console.log(err));
-      } catch (err) {
-        console.log(err);
-      }
+      getChapter2Progress(user.uid)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const curProgress = snapshot.val();
+            delete curProgress["5_Identify_your_passengers"];
+            setProgress(curProgress);
+          } else {
+            initChapter2Progress(user.uid);
+          }
+        })
+        .catch((err) => console.log(err));
     }
   }, [pending]);
 

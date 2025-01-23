@@ -1,15 +1,20 @@
 // app/(app)/index.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { SummaryQuestion } from "@/components/Chapter2SummaryQuestion";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { Chapter2 } from "@/constants/data";
 import { hasEmptyValues } from "@/constants/helper";
+import { useAuth } from "@/hooks/useAuth";
 import { useToastController } from "@tamagui/toast";
-import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScrollView, Text, View, YStack } from "tamagui";
-import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "expo-router";
+import {
+  getChapter2Summary,
+  setChapter2Summary,
+  updateChapter2Progress,
+} from "@/hooks/Chapter2Activity";
 
 export type SummaryQuestions = {
   question1: string;
@@ -37,9 +42,20 @@ export default function Summary() {
 
   const { user, pending } = useAuth();
 
-  if (pending) {
-    return null;
-  }
+  useEffect(() => {
+    if (user) {
+      getChapter2Summary(user.uid)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const answer = snapshot.val();
+            for (const [key, value] of Object.entries(answer)) {
+              updateQuestion(key as keyof SummaryQuestions, value as string);
+            }
+          }
+        })
+        .catch((err) => console.log("Error get chapter 2 summary: " + err));
+    }
+  }, [pending]);
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -80,12 +96,14 @@ export default function Summary() {
 
         <ChapterNavigationButton
           prev={"/(app)/chapter2/content/activity5"}
-          next={"/(app)/chapter2"}
-          progress_index="8_Summary"
-          username={user?.uid!}
-          canGoNext={!hasEmptyValues(questions)}
-          failAction={() => {
-            toast.show("Empty Input");
+          next={() => {
+            if (hasEmptyValues(questions)) {
+              toast.show("Empty Input");
+            } else {
+              setChapter2Summary(user!.uid, questions);
+              router.push("/(app)/chapter2");
+              updateChapter2Progress(user!.uid, "8_Summary");
+            }
           }}
         />
       </YStack>

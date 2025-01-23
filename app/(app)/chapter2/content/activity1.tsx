@@ -1,10 +1,16 @@
 // app/(app)/index.tsx
 import { Check as CheckIcon } from "@tamagui/lucide-icons";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { CheckboxWithLabel } from "@/components/CheckboxWithLabel";
 import colors from "@/constants/colors";
+import {
+  getChapter2Activity1,
+  updateChapter2Activity1,
+  updateChapter2Progress,
+} from "@/hooks/Chapter2Activity";
+import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
@@ -17,13 +23,12 @@ import {
   XStack,
   YStack,
 } from "tamagui";
-import { updateChapter2Progress } from "@/hooks/UserActivity";
-import { useAuth } from "@/hooks/useAuth";
 
 export default function Activity1() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
   const [topChoice, setTopChoice] = useState("undefined");
+  const [selectionText, setSelectionText] = useState("");
   const [checkboxes, setCheckboxes] = useState([
     { id: "1", label: "Sadness", checked: false },
     { id: "2", label: "Anger", checked: false },
@@ -57,9 +62,34 @@ export default function Activity1() {
       .map((checkbox) => checkbox.label);
 
     if (checkboxOther) {
-      return { original: checkboxList, other: otherInput };
+      checkboxList.push(otherInput);
     }
-    return { original: checkboxList };
+    return checkboxList;
+  };
+
+  const getTop3Text = (selection: { [key: string]: number }) => {
+    const total = Object.values(selection).reduce(
+      (sum, value) => sum + value,
+      0
+    );
+    const sortedEntries = Object.entries(selection).sort((a, b) => b[1] - a[1]);
+    const top3 = sortedEntries.slice(0, 3);
+    const resultText = top3
+      .map(([attr, value], index) => {
+        const percentage = ((value / total) * 100).toFixed(2);
+        return `${index + 1}. ${attr} - ${percentage}%`;
+      })
+      .join("\n");
+    setSelectionText(resultText);
+  };
+
+  const onPressSubmit = async () => {
+    const labels = getCheckedLabels();
+    const selectionData = await getChapter2Activity1();
+    getTop3Text(selectionData);
+    if (labels.length != 0) {
+      updateChapter2Activity1(user!.uid, getCheckedLabels());
+    }
   };
 
   return (
@@ -131,25 +161,35 @@ export default function Activity1() {
               backgroundColor={colors.headerBackground}
               alignSelf="center"
               width={"40%"}
-              onPress={() => {
-                console.log(getCheckedLabels());
-              }}
+              onPress={onPressSubmit}
             >
               SUBMIT
             </Button>
           </YStack>
         </View>
 
-        <Text fontSize={"$5"} lineHeight={20} marginBottom={"$4"}>
+        <Text
+          fontSize={"$5"}
+          lineHeight={20}
+          marginBottom={selectionText == "" ? "$4" : 0}
+        >
           Here are some common challenging thoughts that other app users have
           encountered:
         </Text>
 
+        {selectionText != "" && (
+          <YStack marginHorizontal={"$5"} marginBottom={"$4"}>
+            <Text>Top 3 Common Thoughts:</Text>
+            <Text>{selectionText}</Text>
+          </YStack>
+        )}
+
         <ChapterNavigationButton
           prev={"/(app)/chapter2/content/opening"}
-          next={"/(app)/chapter2/content/activity2"}
-          progress_index="2_Activity2_1"
-          username={user?.uid!}
+          next={() => {
+            router.push("/(app)/chapter2/content/activity2");
+            updateChapter2Progress(user!.uid, "2_Activity2_1");
+          }}
         />
       </YStack>
     </ScrollView>

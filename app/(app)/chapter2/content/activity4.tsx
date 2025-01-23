@@ -1,5 +1,5 @@
 // app/(app)/index.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import colors from "@/constants/colors";
@@ -10,6 +10,11 @@ import { Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image, Input, ScrollView, Text, YStack } from "tamagui";
 import { useAuth } from "@/hooks/useAuth";
+import {
+  getChapter2Activity2,
+  setChapter2Activity2,
+  updateChapter2Progress,
+} from "@/hooks/Chapter2Activity";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -64,9 +69,20 @@ export default function Activity4() {
     />
   );
 
-  if (pending) {
-    return null;
-  }
+  useEffect(() => {
+    if (user) {
+      getChapter2Activity2(user.uid)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const answer = snapshot.val();
+            for (const [key, value] of Object.entries(answer)) {
+              updateQuestion(key as keyof Activity4Questions, value as string);
+            }
+          }
+        })
+        .catch((err) => console.log("Error get chapter 2 activity2: " + err));
+    }
+  }, [pending]);
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -137,12 +153,14 @@ export default function Activity4() {
 
         <ChapterNavigationButton
           prev={"/(app)/chapter2/content/activity3"}
-          next={"/(app)/chapter2/content/activity5"}
-          progress_index="6_Diagram"
-          username={user?.uid!}
-          canGoNext={!hasEmptyValues(questions)}
-          failAction={() => {
-            toast.show("Empty Input");
+          next={() => {
+            if (hasEmptyValues(questions)) {
+              toast.show("Empty Input");
+            } else {
+              setChapter2Activity2(user!.uid, questions);
+              router.push("/(app)/chapter2/content/activity5");
+              updateChapter2Progress(user!.uid, "6_Diagram");
+            }
           }}
         />
       </YStack>

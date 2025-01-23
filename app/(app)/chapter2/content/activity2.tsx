@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { ScrollView, Text, View, YStack } from "tamagui";
 import { useAuth } from "@/hooks/useAuth";
-import { updateChapter2Progress } from "@/hooks/UserActivity";
+import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
 
 export default function Activity2() {
   const router = useRouter();
@@ -91,9 +91,10 @@ export default function Activity2() {
 
         <ChapterNavigationButton
           prev={"/(app)/chapter2/content/activity1"}
-          next={"/(app)/chapter2/content/activity3"}
-          progress_index="3_Passengers_On_The_Bus"
-          username={user?.uid!}
+          next={() => {
+            router.push("/(app)/chapter2/content/activity3");
+            updateChapter2Progress(user!.uid, "3_Passengers_On_The_Bus");
+          }}
         />
       </YStack>
     </ScrollView>

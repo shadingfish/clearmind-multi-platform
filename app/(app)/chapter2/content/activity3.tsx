@@ -3,6 +3,7 @@ import { Chapter2Radio, Chapter2RadioProps } from "@/components/Chapter2Radio";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { Chapter2 } from "@/constants/data";
 import { useAuth } from "@/hooks/useAuth";
+import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
 import { useRouter } from "expo-router";
 import React from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -46,9 +47,10 @@ export default function Activity3() {
 
         <ChapterNavigationButton
           prev={"/(app)/chapter2/content/activity2"}
-          next={"/(app)/chapter2/content/activity4"}
-          progress_index="4_Example"
-          username={user?.uid!}
+          next={() => {
+            router.push("/(app)/chapter2/content/activity4");
+            updateChapter2Progress(user!.uid, "4_Example");
+          }}
         />
       </YStack>
     </ScrollView>

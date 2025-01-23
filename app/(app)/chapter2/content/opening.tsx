@@ -1,6 +1,6 @@
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useAuth } from "@/hooks/useAuth";
-import { updateChapter2Progress } from "@/hooks/UserActivity";
+import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Text, YStack } from "tamagui";
@@ -20,9 +20,10 @@ export default function Opening() {
 
       <ChapterNavigationButton
         prev={"/(app)/chapter2/content/chapter2"}
-        next={"/(app)/chapter2/content/activity1"}
-        progress_index="1_Opening"
-        username={user?.uid!}
+        next={() => {
+          router.push("/(app)/chapter2/content/activity1");
+          updateChapter2Progress(user!.uid, "1_Opening");
+        }}
       />
     </YStack>
   );
