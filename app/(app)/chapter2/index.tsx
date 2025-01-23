@@ -1,16 +1,17 @@
 import { ChapterItem } from "@/components/ChapterActivityIcon";
 import { Chapter2, ChapterProgress } from "@/constants/data";
 import { auth } from "@/constants/firebaseConfig";
+import { useAuth } from "@/hooks/useAuth";
 import {
   getChapter2Progress,
   initChapter2Progress,
 } from "@/hooks/UserActivity";
 import { RelativePathString } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { View, YStack } from "tamagui";
+import { isPresent, View, YStack } from "tamagui";
 
 export default function Chapter2Index() {
-  const user = auth.currentUser;
+  const { user, pending } = useAuth();
   const [progress, setProgress] = useState<ChapterProgress>(
     Chapter2.EmptyProgress
   );
@@ -33,7 +34,7 @@ export default function Chapter2Index() {
         console.log(err);
       }
     }
-  }, [user]);
+  }, [pending]);
 
   return (
     <YStack flex={1} marginHorizontal={"$7"} marginVertical={"$6"} gap={"$4"}>

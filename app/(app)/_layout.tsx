@@ -1,20 +1,22 @@
 // app/(app)/_layout.tsx
 
 import { auth } from "@/constants/firebaseConfig";
+import { useAuth } from "@/hooks/useAuth";
 import { Stack, useRouter } from "expo-router";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 
 export default function AppRootLayout() {
   const router = useRouter();
+  const { isSignedIn, pending } = useAuth();
+
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user == null) {
-        router.replace("/(login)");
-        console.log("Not Login");
-      }
-    });
-  }, []);
+    if (!isSignedIn && pending == false) {
+      router.replace("/(login)");
+      console.log("Not Login");
+    }
+  }, [pending]);
+
   return (
     <Stack>
       <Stack.Screen

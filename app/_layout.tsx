@@ -1,7 +1,7 @@
 // clear-mind/app/_layout.tsx
 
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { Slot, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import "../tamagui-web.css";
 import { Provider } from "./Provider";
@@ -44,6 +44,12 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 function RootLayoutNav() {
   return (
     <Stack>
+      <Stack.Screen
+        name="index"
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
         name="(login)"
         options={{

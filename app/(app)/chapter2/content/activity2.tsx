@@ -6,11 +6,18 @@ import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { ScrollView, Text, View, YStack } from "tamagui";
+import { useAuth } from "@/hooks/useAuth";
+import { updateChapter2Progress } from "@/hooks/UserActivity";
 
 export default function Activity2() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
   const [showMore, setShowMore] = useState(false);
+  const { user, pending } = useAuth();
+
+  if (pending) {
+    return null;
+  }
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"} paddingBottom={bottom}>
@@ -83,12 +90,10 @@ export default function Activity2() {
         </YStack>
 
         <ChapterNavigationButton
-          prev={() => {
-            router.push("/(app)/chapter2/content/activity1");
-          }}
-          next={() => {
-            router.push("/(app)/chapter2/content/activity3");
-          }}
+          prev={"/(app)/chapter2/content/activity1"}
+          next={"/(app)/chapter2/content/activity3"}
+          progress_index="3_Passengers_On_The_Bus"
+          username={user?.uid!}
         />
       </YStack>
     </ScrollView>

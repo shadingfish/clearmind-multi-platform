@@ -1,6 +1,6 @@
 // app/(app)/index.tsx
 import { Check as CheckIcon } from "@tamagui/lucide-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { CheckboxWithLabel } from "@/components/CheckboxWithLabel";
@@ -17,6 +17,8 @@ import {
   XStack,
   YStack,
 } from "tamagui";
+import { updateChapter2Progress } from "@/hooks/UserActivity";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Activity1() {
   const router = useRouter();
@@ -33,6 +35,11 @@ export default function Activity1() {
   ]);
   const [checkboxOther, setCheckboxOther] = useState(false);
   const [otherInput, setOtherInput] = useState("");
+  const { user, pending } = useAuth();
+
+  if (pending) {
+    return null;
+  }
 
   const toggleCheckbox = (id: string) => {
     setCheckboxes((prevCheckboxes) =>
@@ -139,12 +146,10 @@ export default function Activity1() {
         </Text>
 
         <ChapterNavigationButton
-          prev={() => {
-            router.push("/(app)/chapter2/content/opening");
-          }}
-          next={() => {
-            router.push("/(app)/chapter2/content/activity2");
-          }}
+          prev={"/(app)/chapter2/content/opening"}
+          next={"/(app)/chapter2/content/activity2"}
+          progress_index="2_Activity2_1"
+          username={user?.uid!}
         />
       </YStack>
     </ScrollView>

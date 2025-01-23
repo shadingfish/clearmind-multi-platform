@@ -12,14 +12,18 @@ export function initChapter2Progress(username: string) {
   set(progress, Chapter2.EmptyProgress)
     .then(() => console.log("success"))
     .catch((err) => {
-      throw new Error(err);
+      throw new Error("Init chapter 2 progress error: " + err);
     });
 }
 
 export function updateChapter2Progress(username: string, field: string) {
   const progress = ref(database, `Chapter2/progress/${username}`);
   const updates = {
-    [`Chapter2/progress/${username}/${field}`]: 1,
+    [`${field}`]: "1",
   };
-  return update(progress, updates);
+  update(progress, updates)
+    .then(() => console.log("success"))
+    .catch((err) => {
+      throw new Error(`Chapter 2 ${field} update error: ` + err);
+    });
 }

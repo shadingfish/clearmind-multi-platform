@@ -2,6 +2,7 @@
 import { Chapter2Radio, Chapter2RadioProps } from "@/components/Chapter2Radio";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { Chapter2 } from "@/constants/data";
+import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 import React from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -10,6 +11,11 @@ import { ScrollView, Text, View, YStack } from "tamagui";
 export default function Activity3() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
+  const { user, pending } = useAuth();
+
+  if (pending) {
+    return null;
+  }
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -39,12 +45,10 @@ export default function Activity3() {
         })}
 
         <ChapterNavigationButton
-          prev={() => {
-            router.push("/(app)/chapter2/content/activity2");
-          }}
-          next={() => {
-            router.push("/(app)/chapter2/content/activity4");
-          }}
+          prev={"/(app)/chapter2/content/activity2"}
+          next={"/(app)/chapter2/content/activity4"}
+          progress_index="4_Example"
+          username={user?.uid!}
         />
       </YStack>
     </ScrollView>

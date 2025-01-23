@@ -1,17 +1,42 @@
 import colors from "@/constants/colors";
 import { Button, View, XStack } from "tamagui";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { useRouter } from "expo-router";
+import { RelativePathString, useRouter } from "expo-router";
+import { updateChapter2Progress } from "@/hooks/UserActivity";
 
 interface ChapterNavigationButtonProps {
-  prev: () => void;
-  next: () => void;
+  prev: string;
+  next: string;
+  username: string;
+  progress_index: string;
+  canGoNext?: boolean;
+  failAction?: () => void;
 }
 
 export const ChapterNavigationButton: React.FC<
   ChapterNavigationButtonProps
-> = ({ prev, next }) => {
+> = ({
+  prev,
+  next,
+  username,
+  progress_index,
+  canGoNext = true,
+  failAction = () => {},
+}) => {
   const router = useRouter();
+  const onPressNext = () => {
+    try {
+      if (canGoNext) {
+        router.push(next as RelativePathString);
+        updateChapter2Progress(username, progress_index);
+      } else {
+        failAction();
+        console.log("here");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <XStack justifyContent="space-between">
       <Button
@@ -21,7 +46,7 @@ export const ChapterNavigationButton: React.FC<
         justifyContent="center"
         alignItems="center"
         height={"$3"}
-        onPress={prev}
+        onPress={() => router.push(prev as RelativePathString)}
       >
         <View marginHorizontal={"$3"} marginRight={"$5"}>
           <AntDesign name="doubleleft" size={20} color="white" />
@@ -35,7 +60,7 @@ export const ChapterNavigationButton: React.FC<
         justifyContent="center"
         alignItems="center"
         height={"$3"}
-        onPress={next}
+        onPress={onPressNext}
       >
         <View marginHorizontal={"$3"} marginLeft={"$5"}>
           <AntDesign name="doubleright" size={20} color="white" />

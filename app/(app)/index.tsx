@@ -14,7 +14,12 @@ export default function Page1() {
         <Text>Chapter 2</Text>
       </Button>
 
-      <Button onPress={() => auth.signOut()}>
+      <Button
+        onPress={() => {
+          auth.signOut();
+          router.replace("/(login)");
+        }}
+      >
         <Text>Log Out</Text>
       </Button>
     </YStack>

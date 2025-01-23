@@ -6,9 +6,32 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  User,
 } from "firebase/auth";
+import { useEffect, useState } from "react";
 
 export const useAuth = () => {
+  const [authState, setAuthState] = useState<{
+    isSignedIn: boolean;
+    pending: boolean;
+    user: User | null;
+  }>({
+    isSignedIn: false,
+    pending: true,
+    user: null,
+  });
+
+  useEffect(() => {
+    const unregisterAuthObserver = auth.onAuthStateChanged((user) => {
+      if (user != null) {
+        setAuthState({ user, pending: false, isSignedIn: true });
+      } else {
+        setAuthState({ ...authState, pending: false });
+      }
+    });
+    return () => unregisterAuthObserver();
+  }, []);
+
   const handleLogin = (username: string, password: string) => {
     if (!username || !password) {
       alert("Please enter username and password");
@@ -85,6 +108,7 @@ export const useAuth = () => {
     getUserInfo,
     handleFirebaseLogin,
     handleFirebaseRegister,
+    ...authState,
   };
 };
 

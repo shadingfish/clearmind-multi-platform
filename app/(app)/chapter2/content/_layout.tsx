@@ -30,7 +30,7 @@ export default function RootLayout() {
             <Button
               unstyled
               onPress={() => {
-                router.dismissTo("/(app)/chapter2");
+                router.replace("/(app)/chapter2");
               }}
               style={{ marginLeft: 20 }}
             >

@@ -9,6 +9,7 @@ import { useToastController } from "@tamagui/toast";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScrollView, Text, View, YStack } from "tamagui";
+import { useAuth } from "@/hooks/useAuth";
 
 export type SummaryQuestions = {
   question1: string;
@@ -33,6 +34,12 @@ export default function Summary() {
   };
 
   const toast = useToastController();
+
+  const { user, pending } = useAuth();
+
+  if (pending) {
+    return null;
+  }
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -72,15 +79,13 @@ export default function Summary() {
         })}
 
         <ChapterNavigationButton
-          prev={() => {
-            router.push("/(app)/chapter2/content/activity5");
-          }}
-          next={() => {
-            if (hasEmptyValues(questions)) {
-              toast.show("Empty Input");
-            } else {
-              router.push("/(app)/chapter2");
-            }
+          prev={"/(app)/chapter2/content/activity5"}
+          next={"/(app)/chapter2/content/chapter2"}
+          progress_index="8_Summary"
+          username={user?.uid!}
+          canGoNext={!hasEmptyValues(questions)}
+          failAction={() => {
+            toast.show("Empty Input");
           }}
         />
       </YStack>

@@ -1,10 +1,13 @@
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
+import { useAuth } from "@/hooks/useAuth";
+import { updateChapter2Progress } from "@/hooks/UserActivity";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Text, YStack } from "tamagui";
 
 export default function Opening() {
   const router = useRouter();
+  const { user } = useAuth();
 
   return (
     <YStack margin={"$4"} gap={"$4"}>
@@ -16,12 +19,10 @@ export default function Opening() {
       </Text>
 
       <ChapterNavigationButton
-        prev={() => {
-          router.dismissTo("/(app)/chapter2");
-        }}
-        next={() => {
-          router.push("/(app)/chapter2/content/activity1");
-        }}
+        prev={"/(app)/chapter2/content/chapter2"}
+        next={"/(app)/chapter2/content/activity1"}
+        progress_index="1_Opening"
+        username={user?.uid!}
       />
     </YStack>
   );

@@ -9,6 +9,7 @@ import { useRouter } from "expo-router";
 import { Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image, Input, ScrollView, Text, YStack } from "tamagui";
+import { useAuth } from "@/hooks/useAuth";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -22,6 +23,7 @@ type Activity4Questions = {
 
 export default function Activity4() {
   const router = useRouter();
+  const { user, pending } = useAuth();
   const { bottom } = useSafeAreaInsets();
 
   const toast = useToastController();
@@ -61,6 +63,10 @@ export default function Activity4() {
       onChangeText={onChange}
     />
   );
+
+  if (pending) {
+    return null;
+  }
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -130,15 +136,13 @@ export default function Activity4() {
         />
 
         <ChapterNavigationButton
-          prev={() => {
-            router.push("/(app)/chapter2/content/activity3");
-          }}
-          next={() => {
-            if (hasEmptyValues(questions)) {
-              toast.show("Empty Input");
-            } else {
-              router.push("/(app)/chapter2/content/activity5");
-            }
+          prev={"/(app)/chapter2/content/activity3"}
+          next={"/(app)/chapter2/content/activity5"}
+          progress_index="6_Diagram"
+          username={user?.uid!}
+          canGoNext={!hasEmptyValues(questions)}
+          failAction={() => {
+            toast.show("Empty Input");
           }}
         />
       </YStack>
