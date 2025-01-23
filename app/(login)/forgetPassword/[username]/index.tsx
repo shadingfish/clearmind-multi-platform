@@ -9,13 +9,13 @@ import colors from "@/constants/colors";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import LoadingOverlay from "@/components/LoadingOverlay";
 import { matchStringsIgnoreCase } from "@/constants/helper";
-import { useCustomAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function ForgetPasswordPage() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
   const local = useLocalSearchParams<{ username: string }>();
-  const { getUserSecurity } = useCustomAuth();
+  const { getUserSecurity } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
 

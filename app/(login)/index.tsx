@@ -16,7 +16,7 @@ import {
   YStack,
 } from "tamagui";
 import BackgroundImage from "../../components/BackgroundImage";
-import { useCustomAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 
 import { auth } from "@/constants/firebaseConfig";
 import { isValidUsername } from "@/constants/helper";
@@ -27,7 +27,13 @@ const screenWidth = Dimensions.get("window").width;
 export default function MainScreen() {
   const router = useRouter();
   const toast = useToastController();
-  const { getUserInfo } = useCustomAuth();
+  const {
+    getUserInfo,
+    handleLogin,
+    handleFirebaseLogin,
+    handleFirebaseRegister,
+    getUserSecurity,
+  } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fontsLoaded] = useFonts({
@@ -64,7 +70,27 @@ export default function MainScreen() {
         toast.show("Please input valid username");
       }
     } else {
-      toast.show("Please input username");
+      toast.show("Please input username or email");
+    }
+  };
+
+  const onPressLogin = () => {
+    try {
+      handleFirebaseLogin(username, password)
+        .then((usr) => {
+          console.log(usr);
+          router.replace("/(app)");
+        })
+        .catch((err) => {
+          toast.show("Registration failed:", err.message);
+          console.error("Registration failed:", err.message);
+        });
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.show(err.message);
+      } else {
+        console.log(err);
+      }
     }
   };
 
@@ -137,11 +163,7 @@ export default function MainScreen() {
           <Stack width="100%" maxWidth={300} gap="$2">
             <Button
               size="$4"
-              onPress={() => {
-                // handleLogin(username, password)
-                router.replace("/(app)");
-              }}
-              // onPress={() => handleLogin(username, password)}
+              onPress={onPressLogin}
               color={colors.secondary}
               fontWeight="bold"
               backgroundColor={colors.primary}

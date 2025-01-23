@@ -12,6 +12,8 @@ export default function AppRootLayout() {
       if (user == null) {
         router.replace("/(login)");
         console.log("Not Login");
+      } else {
+        console.log(user);
       }
     });
   }, []);

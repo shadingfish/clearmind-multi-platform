@@ -1,3 +1,4 @@
+import { auth } from "@/constants/firebaseConfig";
 import { useRouter } from "expo-router";
 import React from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -13,7 +14,7 @@ export default function Page1() {
         <Text>Chapter 2</Text>
       </Button>
 
-      <Button onPress={() => router.back()}>
+      <Button onPress={() => auth.signOut()}>
         <Text>Log Out</Text>
       </Button>
     </YStack>
