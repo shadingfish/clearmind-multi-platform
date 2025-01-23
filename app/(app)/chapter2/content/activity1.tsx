@@ -106,6 +106,7 @@ export default function Activity1() {
               <Input
                 unstyled
                 placeholder="Input here"
+                placeholderTextColor={colors.placeholder}
                 borderColor={colors.border}
                 borderWidth={3}
                 borderRadius={7}

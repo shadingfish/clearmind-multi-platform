@@ -75,6 +75,8 @@ export default function MainScreen() {
   };
 
   const onPressLogin = () => {
+    setUsername("t2tu@ucsd.edu");
+    setPassword("123456");
     try {
       handleFirebaseLogin(username, password)
         .then((usr) => {
@@ -82,7 +84,6 @@ export default function MainScreen() {
           router.replace("/(app)");
         })
         .catch((err) => {
-          toast.show("Registration failed:", err.message);
           console.error("Registration failed:", err.message);
         });
     } catch (err) {
@@ -135,11 +136,13 @@ export default function MainScreen() {
           <Stack width="100%" maxWidth={300} gap="$2">
             <Input
               placeholder="Username"
+              placeholderTextColor={colors.placeholder}
               value={username}
               onChangeText={setUsername}
             />
             <Input
               placeholder="Password"
+              placeholderTextColor={colors.placeholder}
               value={password}
               onChangeText={setPassword}
               secureTextEntry

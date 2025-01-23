@@ -141,6 +141,7 @@ export default function ForgetPasswordPage() {
             borderColor={userError.question1 ? "$red10Light" : colors.border}
             borderWidth="$1"
             placeholder="Answer 1"
+            placeholderTextColor={colors.placeholder}
             value={secureQuestion.userAnswer1}
             onChangeText={(val) => updateSecurityQuestion("userAnswer1", val)}
             onFocus={() => {
@@ -171,6 +172,7 @@ export default function ForgetPasswordPage() {
             borderColor={userError.question2 ? "$red10Light" : colors.border}
             borderWidth="$1"
             placeholder="Answer 2"
+            placeholderTextColor={colors.placeholder}
             value={secureQuestion.userAnswer2}
             onChangeText={(val) => updateSecurityQuestion("userAnswer2", val)}
             onFocus={() => {

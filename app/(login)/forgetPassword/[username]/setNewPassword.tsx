@@ -53,6 +53,7 @@ export default function setNewPassword() {
           borderColor={colors.border}
           borderWidth="$1"
           placeholder="new password"
+          placeholderTextColor={colors.placeholder}
           value={newPassword}
           onChangeText={setNewPassword}
           onFocus={() => setError(false)}
@@ -70,6 +71,7 @@ export default function setNewPassword() {
           borderColor={error ? "$red10Light" : colors.border}
           borderWidth="$1"
           placeholder="re-enter password"
+          placeholderTextColor={colors.placeholder}
           value={reEnterPassword}
           onChangeText={setReEnterPassword}
           onFocus={() => setError(false)}

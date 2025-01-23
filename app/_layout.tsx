@@ -1,17 +1,10 @@
 // clear-mind/app/_layout.tsx
 
-import "../tamagui-web.css";
-import { useEffect } from "react";
-import { StatusBar, useColorScheme } from "react-native";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
+import { useEffect } from "react";
+import "../tamagui-web.css";
 import { Provider } from "./Provider";
-import { useTheme } from "tamagui";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -49,40 +42,30 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 };
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-  const theme = useTheme();
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <StatusBar
-        barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+    <Stack>
+      <Stack.Screen
+        name="(login)"
+        options={{
+          headerShown: false,
+        }}
       />
-      <Stack>
-        <Stack.Screen
-          name="(login)"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="(app)"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="modal"
-          options={{
-            title: "Tamagui + Expo",
-            presentation: "modal",
-            animation: "slide_from_right",
-            gestureEnabled: true,
-            gestureDirection: "horizontal",
-            contentStyle: {
-              backgroundColor: theme.background.val,
-            },
-          }}
-        />
-      </Stack>
-    </ThemeProvider>
+      <Stack.Screen
+        name="(app)"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="modal"
+        options={{
+          title: "Tamagui + Expo",
+          presentation: "modal",
+          animation: "slide_from_right",
+          gestureEnabled: true,
+          gestureDirection: "horizontal",
+        }}
+      />
+    </Stack>
   );
 }

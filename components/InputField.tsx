@@ -32,9 +32,10 @@ const InputField: React.FC<InputFieldProps> = ({
       <Label htmlFor={id}>{label}</Label>
       <Input
         flex={1}
-        width="100%" 
+        width="100%"
         id={id}
         placeholder={placeholder}
+        placeholderTextColor={colors.placeholder}
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
@@ -42,11 +43,7 @@ const InputField: React.FC<InputFieldProps> = ({
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         borderColor={
-          isFocused
-            ? colors.primary
-            : error
-            ? "$red10"
-            : "transparent"
+          isFocused ? colors.primary : error ? "$red10" : "transparent"
         }
         borderWidth={isFocused || error ? 2 : 0}
         padding="$2"
