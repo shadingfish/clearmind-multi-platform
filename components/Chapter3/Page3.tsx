@@ -27,8 +27,8 @@ import InputField from "../InputField";
 import {DropdownComponent} from "../Dropdown";
 
 interface CurrentPageComponentProps {
-  data: {[key: string]: string},
-  setData: React.Dispatch<React.SetStateAction<{[key: string]: string}>>,
+  data: {[key: string]: any},
+  setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
   dataFilled: boolean,
   setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
 }

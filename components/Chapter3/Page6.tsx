@@ -31,7 +31,7 @@ interface CurrentPageComponentProps {
   setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Page1: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) => {
+const Page6: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) => {
     useEffect(() => {
         setDataFilled(true);
     }, []);
@@ -39,21 +39,20 @@ const Page1: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
     return (
         <View style={{width: '100%',}}>
             <Text style={{fontSize: 18,}}>
-                So far we learned that:
+                Earlier you tried positive cognitive strategies which help you recognize and
+                manage when an urge to procrastinate comes up. However, is there anything we can do to even 
+                prevent the urge to procrastinate from the first place?
+                Cognitive distortions can help.
             </Text>
             <Text style={styles.textBox}>
-                • Procrastination is often a resulting behavior triggered by some challenging emotions (part 1)
+                Cognitive distortions are internal mental filters or biases that 
+                can lead to misperceptions of reality, negative emotions, and unhealthy mindsets.
+                They often make you view things more negatively than they really are and question 
+                your abilities. Once you learn to recognize those cognitive distortions you can 
+                reframe your thoughts to feel better and act more positively.
             </Text>
             <Text style={styles.textBox}>
-                •You can allow those challenging emotions to exist but just do not let them sabotage your goal/value (part 2)
-            </Text>
-            <Text style={styles.textBox}>
-                In this part, we'll guide you through a step-by-step approach for managing challenging emotions. We will start with identifying your challenging emotions (Activity
-                3.1), followed by noticing how these emotions manifest physically within your body (Activity
-                3.2). Next, you'll engage in some meditation exercises to help you stay calm and focused (Activity 3.3). In Activity 3.4, you'll create a compassionate self-talk statement to help manage your challenging emotions. To understand where these emotions come from, try Activity 3.5.
-            </Text>
-            <Text style={styles.textBox}>
-                After this part, you will better understand and manage the challenging emotions that can lead to procrastination, helping you stay aligned with your values and achieve your goals.
+                Now, let's talk about the ten most common cognitive distortions with examples:
             </Text>
         </View>
     );
@@ -66,4 +65,4 @@ const Page1: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
     }
   });
 
-  export default Page1;
+  export default Page6;

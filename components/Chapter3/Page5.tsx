@@ -31,7 +31,7 @@ interface CurrentPageComponentProps {
   setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Page1: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) => {
+const Page5: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) => {
     useEffect(() => {
         setDataFilled(true);
     }, []);
@@ -39,21 +39,19 @@ const Page1: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
     return (
         <View style={{width: '100%',}}>
             <Text style={{fontSize: 18,}}>
-                So far we learned that:
+                When you're calmed down, write a short and simple belief statement addressing the 
+                challenging thoughts and emotions you observed earlier. For example, if stress is 
+                from difficult schoolwork, your belief statement could be "I'm developing strategies 
+                to manage stress and avoid procrastination" or "I can master challenging emotions by 
+                staying focused on my goals."
             </Text>
+            <Text>INSERT IMAGE</Text>
             <Text style={styles.textBox}>
-                • Procrastination is often a resulting behavior triggered by some challenging emotions (part 1)
-            </Text>
-            <Text style={styles.textBox}>
-                •You can allow those challenging emotions to exist but just do not let them sabotage your goal/value (part 2)
-            </Text>
-            <Text style={styles.textBox}>
-                In this part, we'll guide you through a step-by-step approach for managing challenging emotions. We will start with identifying your challenging emotions (Activity
-                3.1), followed by noticing how these emotions manifest physically within your body (Activity
-                3.2). Next, you'll engage in some meditation exercises to help you stay calm and focused (Activity 3.3). In Activity 3.4, you'll create a compassionate self-talk statement to help manage your challenging emotions. To understand where these emotions come from, try Activity 3.5.
-            </Text>
-            <Text style={styles.textBox}>
-                After this part, you will better understand and manage the challenging emotions that can lead to procrastination, helping you stay aligned with your values and achieve your goals.
+            You can use your belief statement like a lighthouse during tough times. 
+            You can also connect your belief statement with your breathing, making 
+            it a part of your new, positive mindset with each breath. For instance,
+             when you breathe in, think, "I am not defined by my challenges," and 
+             when you breathe out, think, "I am learning new ways to improve."
             </Text>
         </View>
     );
@@ -66,4 +64,4 @@ const Page1: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
     }
   });
 
-  export default Page1;
+  export default Page5;

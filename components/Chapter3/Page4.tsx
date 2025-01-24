@@ -28,30 +28,38 @@ import {DropdownComponent} from "../Dropdown";
 import { Ionicons } from '@expo/vector-icons';
 
 interface CurrentPageComponentProps {
-  data: {[key: string]: string},
-  setData: React.Dispatch<React.SetStateAction<{[key: string]: string}>>,
+  data: {[key: string]: any},
+  setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
   dataFilled: boolean,
   setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) => {
     const [pathsCompleted, setPathsCompleted] = useState(data.pathsCompleted || 0);
+    const [whichPaths, setWhichPaths] = useState<Set<string>>(data.whichPaths || new Set<String>())
 
     useEffect(() => {
         console.log('dataisfilled beginning', dataFilled)
 
         setData((prevData) => ({
             ...prevData, 
-            pathsCompleted: String(pathsCompleted), 
+            whichPaths: whichPaths, 
           }));
       
-          // Optionally, you can check if all the fields are filled and update dataFilled
-          const isFilled = pathsCompleted > 1;
+          const isFilled = whichPaths.size > 1;
           setDataFilled(isFilled);
     
           console.log('data:', data);
         
-    }, [pathsCompleted]); // Dependency array, this effect runs when "count" changes
+    }, [whichPaths]); // Dependency array, this effect runs when "count" changes
+
+    const handlePress = (pathName: string) => {
+        setWhichPaths(prevPaths => {
+            const newPaths = new Set(prevPaths);
+            newPaths.add(pathName);
+            return newPaths;
+          });
+    };
 
     return (
         <View style={{width: '100%',}}>
@@ -68,29 +76,41 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 you.
             </Text>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
-                <Pressable style={styles.box}>
+                <Pressable style={styles.box} onPress={() => handlePress("The 20 Breath Meditation")}>
                     <View style={styles.circle}>
-                        <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text>
+                        {   whichPaths.has("The 20 Breath Meditation") ?
+                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
+                        }
                     </View>
                     <Text style={{color: "grey"}}>The 20 Breath Meditation</Text>
                 </Pressable>
-                <Pressable style={styles.box}>
+                <Pressable style={styles.box} onPress={() => handlePress("Relaxing Breathing")}>
                     <View style={styles.circle}>
-                        <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text>
+                        {   whichPaths.has("Relaxing Breathing") ?
+                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
+                        }
                     </View>
                     <Text style={{color: "grey"}}>Relaxing Breathing</Text>
                 </Pressable>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: '2%' }}>
-                <Pressable style={styles.box}>
+                <Pressable style={styles.box} onPress={() => handlePress("Mindful Daily Tasks")}>
                     <View style={styles.circle}>
-                        <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text>
+                        {   whichPaths.has("Mindful Daily Tasks") ?
+                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
+                        }
                     </View>
                     <Text style={{color: "grey"}}>Mindful Daily Tasks</Text>
                 </Pressable>
-                <Pressable style={styles.box}>
+                <Pressable style={styles.box} onPress={() => handlePress("Leaves on a Stream")}>
                     <View style={styles.circle}>
-                        <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text>
+                        {   whichPaths.has("Leaves on a Stream") ?
+                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
+                        }
                     </View>
                     <Text style={{color: "grey"}}>Leaves on a Stream</Text>
                 </Pressable>

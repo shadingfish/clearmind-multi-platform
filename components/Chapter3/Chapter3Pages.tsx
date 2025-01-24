@@ -9,14 +9,22 @@ import Page1 from "./Page1";
 import Page2 from "./Page2";
 import Page3 from "./Page3";
 import Page4 from "./Page4";
+import Page5 from "./Page5";
+import Page6 from "./Page6";
+import Page7 from "./Page7";
+import Page8 from "./Page8";
+import Page9 from "./Page9";
 import { Ionicons } from '@expo/vector-icons';
 import { Input, YStack, Label, } from "tamagui";
 import colors from "@/constants/colors";
 import InputField from "../InputField";
+import Page10 from "./Page10";
+
+
 
 interface CurrentPageComponentProps {
-    data: {[key: string]: string},
-    setData: React.Dispatch<React.SetStateAction<{[key: string]: string}>>,
+    data: {[key: string]: any},
+    setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
     dataFilled: boolean,
     setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
   }
@@ -37,13 +45,25 @@ export default function Chapter3Pages() {
         2: Page2,
         3: Page3,
         4: Page4,
+        5: Page5, 
+        6: Page6,
+        7: Page7,
+        8: Page8,
+        9: Page9,
+        10: Page10,
     }
 
     const pageTitle: {[key:number]: string} = {
         1: "Part 3 Opening",
         2: "Label the Passengers on the Bus",
         3: "Identify How it Feels Within Your Body",
-        4: "Learn How to Meditate"
+        4: "Learn How to Meditate",
+        5: "Make a Belief Statement",
+        6: "Be Aware of Cognitive Distortions",
+        7: "Be Aware of Cognitive Distortions",
+        8: "Summary of Cognitive Distortions",
+        9: "Reflecting on Cognitive Distortions in Various Procrastination Types",
+        10: "Part 3 Summary"
     }
 
     const [currTitle, setCurrTitle] = useState(pageTitle[currPageNum]);
