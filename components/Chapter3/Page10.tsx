@@ -48,7 +48,7 @@ const Page10: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
           }));
       
           // Optionally, you can check if all the fields are filled and update dataFilled
-          const isFilled = summaryQues1 !== "" || summaryQues2 !== "" || summaryQues3 !== "";
+          const isFilled = summaryQues1 !== "" && summaryQues2 !== "" && summaryQues3 !== "";
           setDataFilled(isFilled);
     
           console.log('data:', data);
