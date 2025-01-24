@@ -5,13 +5,21 @@ import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { router } from "expo-router";
 import { Drawer } from "expo-router/drawer";
+import { useState } from "react";
 import { Text } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Button } from "tamagui";
+import SidebarModal from "@/components/SidebarModal";
 
 export default function RootLayout() {
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
+  const openModal = () => setIsSidebarVisible(true);
+  const closeModal = () => setIsSidebarVisible(false);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <SidebarModal visible={isSidebarVisible} onClose={closeModal} />
       <Drawer
         screenOptions={({ navigation }) => ({
           drawerPosition: "right", // Set the drawer to open from the right
@@ -40,7 +48,7 @@ export default function RootLayout() {
           headerRight: () => (
             <Button
               unstyled
-              onPress={() => navigation.toggleDrawer()}
+              onPress={() => openModal()}
               style={{ marginRight: 20 }}
             >
               <MaterialIcons
