@@ -10,6 +10,10 @@ export default function Page1() {
 
   return (
     <YStack flex={1} paddingTop={top} gap={"$5"}>
+      <Button onPress={() => router.push("/(app)/chapter1")}>
+        <Text>Chapter 1</Text>
+      </Button>
+
       <Button onPress={() => router.push("/(app)/chapter2")}>
         <Text>Chapter 2</Text>
       </Button>

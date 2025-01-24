@@ -1,3 +1,5 @@
+// hooks/Chapter2Activity.tsx
+
 import { Chapter2 } from "@/constants/data";
 import { database } from "@/constants/firebaseConfig";
 import { get, ref, set, update } from "firebase/database";

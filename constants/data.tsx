@@ -1,6 +1,116 @@
+// constants/data.tsx
+
 export type ChapterProgress = {
   [keyof: string]: string;
 };
+
+export const Chapter1 = {
+  EmptyProgress: {
+    "1_Opening": "0",
+    "2_Activity1_0": "0",
+    "2_Activity1_1": "0",
+    "3_Activity1_2_Discover": "0",
+    "4_Activity1_2_Questions": "0",
+    "5_Summary_and_ACT": "0",
+    "6_Time_Management": "0",
+    "7_Summary": "0"
+  },
+  Activity: [
+    {
+      name: "Opening",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      progress_index: "1_Opening",
+      route: "/(app)/chapter1/content/opening",
+    },
+    {
+      name: "Prioritize Your Life Value",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "2_Activity1_0",
+      route: "/(app)/chapter1/content/activity0",
+    },
+    {
+      name: "Discover Procrastination Reasons",
+      icon: require("assets/images/icon_text.png"),
+      icon_done: require("assets/images/icon_text_done.png"),
+      progress_index: "2_Activity1_1",
+      route: "/(app)/chapter1/content/activity1",
+    },
+    {
+      name: "Procrastination Tendencies",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "3_Activity1_2_Discover",
+      route: "/(app)/chapter1/content/activity2_1",
+    },
+    {
+      name: "Tendencies Questions",
+      icon: require("assets/images/icon_diagram.png"),
+      icon_done: require("assets/images/icon_diagram_done.png"),
+      progress_index: "4_Activity1_2_Questions",
+      route: "/(app)/chapter1/content/activity2_2",
+    },
+    {
+      name: "How to Use the App",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "5_Summary_and_ACT",
+      route: "/(app)/chapter1/content/activity3",
+    },
+    {
+      name: "How to Use the App",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "6_Time_Management",
+      route: "/(app)/chapter1/content/activity4",
+    },
+    {
+      name: "Summary",
+      icon: require("assets/images/icon_summary.png"),
+      icon_done: require("assets/images/icon_summary_done.png"),
+      progress_index: "7_Summary",
+      route: "/(app)/chapter1/content/summary",
+    },
+  ],
+  RadioQuestionsActivity2_2: [
+    {
+      question:
+        "1. Lynn always starts her physics homework the night before the deadline because the pressure helps her to focus. Which type of procrastination is it?",
+      options: ["A. Arousal", "B. Avoidant", "C. Decisional"],
+      correctOptionIndex: 0, // "A. Arousal"
+      hint: "Think about whether Lynn is using pressure to enhance her focus.",
+    },
+    {
+      question:
+        "2. Tommy always procrastinates on his English essay because he thinks the class is super boring. Which type of procrastination is it?",
+      options: ["A. Arousal", "B. Avoidant", "C. Decisional"],
+      correctOptionIndex: 1, // "B. Avoidant"
+      hint: "Consider if Tommy is avoiding something he finds unpleasant.",
+    },
+    {
+      question:
+        "3. Anna has been sick for a while. She puts off seeking medical advice from doctors because of her anxiety about potential diagnoses. Which type of procrastination is it?",
+      options: ["A. Arousal", "B. Avoidant", "C. Decisional"],
+      correctOptionIndex: 1, // "B. Avoidant"
+      hint: "Is Anna avoiding the tasks due to fear or anxiety?",
+    },
+    {
+      question:
+        "4. Vincent is a talented artist, and a local gallery reached out to him to exhibit his artwork. Even though the gallery owner was impressed by his artwork and believed it would be well-received by the audience, he kept putting off submitting his work for the exhibition because of his fear of rejection and criticism by the public. Which type of procrastination is it?",
+      options: ["A. Arousal", "B. Avoidant", "C. Decisional"],
+      correctOptionIndex: 1, // "B. Avoidant"
+      hint: "Does Vincent fear negative feedback or rejection?",
+    },
+    {
+      question:
+        "5. John postponed declaring his college major because he enjoys learning about different subjects and wanting to explore more in different fields. Which type of procrastination is it?",
+      options: ["A. Arousal", "B. Avoidant", "C. Decisional"],
+      correctOptionIndex: 2, // "C. Decisional"
+      hint: "Think about John's hesitation in making a decision about his major.",
+    },
+  ],
+}
 
 export const Chapter2 = {
   RadioQuestion: [

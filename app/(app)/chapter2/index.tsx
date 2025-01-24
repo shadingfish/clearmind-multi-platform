@@ -1,3 +1,5 @@
+// app/(app)/chapter2/index.tsx
+
 import { ChapterItem } from "@/components/ChapterActivityIcon";
 import { Chapter2, ChapterProgress } from "@/constants/data";
 import {

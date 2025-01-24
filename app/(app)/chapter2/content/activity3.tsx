@@ -1,4 +1,4 @@
-// app/(app)/index.tsx
+// app/(app)/chapter2/content/activity3.tsx
 import { Chapter2Radio, Chapter2RadioProps } from "@/components/Chapter2Radio";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { Chapter2 } from "@/constants/data";

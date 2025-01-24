@@ -1,17 +1,19 @@
 // clear-mind/app/_layout.tsx
 
+
 import { useFonts } from "expo-font";
 import { Slot, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import "../tamagui-web.css";
 import { Provider } from "./Provider";
+import { GestureHandlerRootView } from 'react-native-gesture-handler'; // 导入 GestureHandlerRootView
 
 export {
-  // Catch any errors thrown by the Layout component.
+  // 捕获 Layout 组件抛出的任何错误
   ErrorBoundary,
 } from "expo-router";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+// 在资源加载完成前，保持启动画面可见
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -31,9 +33,11 @@ export default function RootLayout() {
   }
 
   return (
-    <Providers>
-      <RootLayoutNav />
-    </Providers>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Providers>
+        <RootLayoutNav />
+      </Providers>
+    </GestureHandlerRootView>
   );
 }
 

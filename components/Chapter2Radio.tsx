@@ -1,3 +1,5 @@
+// components/Chapter2Radio.tsx
+
 import colors from "@/constants/colors";
 import { useEffect, useState } from "react";
 import { RadioButton } from "react-native-paper";
