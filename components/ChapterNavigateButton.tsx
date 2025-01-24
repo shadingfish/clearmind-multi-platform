@@ -1,10 +1,10 @@
 import colors from "@/constants/colors";
-import { Button, View, XStack } from "tamagui";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { useRouter } from "expo-router";
+import { RelativePathString, useRouter } from "expo-router";
+import { Button, View, XStack } from "tamagui";
 
 interface ChapterNavigationButtonProps {
-  prev: () => void;
+  prev: string;
   next: () => void;
 }
 
@@ -21,7 +21,7 @@ export const ChapterNavigationButton: React.FC<
         justifyContent="center"
         alignItems="center"
         height={"$3"}
-        onPress={prev}
+        onPress={() => router.push(prev as RelativePathString)}
       >
         <View marginHorizontal={"$3"} marginRight={"$5"}>
           <AntDesign name="doubleleft" size={20} color="white" />

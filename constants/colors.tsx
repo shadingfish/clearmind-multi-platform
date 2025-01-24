@@ -11,5 +11,6 @@ const colors = {
   hintColor: "#388e3c",
   correct: "#008000",
   incorrect: "#FF0000",
+  placeholder: "#8e8e8e",
 };
 export default colors;

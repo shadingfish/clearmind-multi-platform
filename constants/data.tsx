@@ -1,3 +1,7 @@
+export type ChapterProgress = {
+  [keyof: string]: string;
+};
+
 export const Chapter2 = {
   RadioQuestion: [
     {
@@ -85,4 +89,65 @@ export const Chapter2 = {
       useRadio: true,
     },
   ],
+  Activity: [
+    {
+      name: "OPENING",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      progress_index: "1_Opening",
+      route: "/(app)/chapter2/content/opening",
+    },
+    {
+      name: "YOUR CHALLENGING EMOTIONS",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "2_Activity2_1",
+      route: "/(app)/chapter2/content/activity1",
+    },
+    {
+      name: "PASSENGERS ON THE BUS",
+      icon: require("assets/images/icon_text.png"),
+      icon_done: require("assets/images/icon_text_done.png"),
+      progress_index: "3_Passengers_On_The_Bus",
+      route: "/(app)/chapter2/content/activity2",
+    },
+    {
+      name: "EXAMPLE OF DRIVING THE BUS",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "4_Example",
+      route: "/(app)/chapter2/content/activity3",
+    },
+    {
+      name: "IDENTIFY YOUR PASSENGERS",
+      icon: require("assets/images/icon_diagram.png"),
+      icon_done: require("assets/images/icon_diagram_done.png"),
+      progress_index: "6_Diagram",
+      route: "/(app)/chapter2/content/activity4",
+    },
+    {
+      name: "WILLINGNESS TO CARRY ON",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "7_Willingness_to_Carry_On",
+      route: "/(app)/chapter2/content/activity5",
+    },
+    {
+      name: "SUMMARY",
+      icon: require("assets/images/icon_summary.png"),
+      icon_done: require("assets/images/icon_summary_done.png"),
+      progress_index: "8_Summary",
+      route: "/(app)/chapter2/content/summary",
+    },
+  ],
+  EmptyProgress: {
+    "1_Opening": "0",
+    "2_Activity2_1": "0",
+    "3_Passengers_On_The_Bus": "0",
+    "4_Example": "0",
+    "5_Identify_your_passengers": "0",
+    "6_Diagram": "0",
+    "7_Willingness_to_Carry_On": "0",
+    "8_Summary": "0",
+  },
 };

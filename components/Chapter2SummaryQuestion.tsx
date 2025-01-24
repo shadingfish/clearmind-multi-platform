@@ -31,6 +31,7 @@ export const SummaryQuestion: React.FC<SummaryQuestionProps> = ({
       <Input
         unstyled
         placeholder={placeholder}
+        placeholderTextColor={colors.placeholder}
         borderColor={colors.border}
         borderWidth={3}
         borderRadius={7}

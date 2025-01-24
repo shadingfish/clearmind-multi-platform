@@ -1,5 +1,5 @@
-// app/(login)/index.tsx
-import React, { useState } from "react";
+// app/(app)/index.tsx
+import React, { useEffect, useState } from "react";
 
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import colors from "@/constants/colors";
@@ -8,9 +8,39 @@ import { useToastController } from "@tamagui/toast";
 import { useRouter } from "expo-router";
 import { Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Image, Input, ScrollView, Text, YStack } from "tamagui";
+import { Image, Input, ScrollView, Text, YStack, View } from "tamagui";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  getChapter2Activity2,
+  setChapter2Activity2,
+  updateChapter2Progress,
+} from "@/hooks/Chapter2Activity";
 
 const screenWidth = Dimensions.get("window").width;
+
+const Activity4QuestionInput = ({
+  placeholder,
+  value,
+  onChange,
+}: {
+  placeholder: string;
+  value: string;
+  onChange: (val: string) => void;
+}) => (
+  <Input
+    unstyled
+    placeholder={placeholder}
+    placeholderTextColor={colors.placeholder}
+    borderColor={colors.border}
+    borderWidth={3}
+    borderRadius={7}
+    size="$4"
+    width={"100%"}
+    alignSelf="center"
+    value={value}
+    onChangeText={onChange}
+  />
+);
 
 type Activity4Questions = {
   diagram_destination: string;
@@ -22,6 +52,7 @@ type Activity4Questions = {
 
 export default function Activity4() {
   const router = useRouter();
+  const { user, pending } = useAuth();
   const { bottom } = useSafeAreaInsets();
 
   const toast = useToastController();
@@ -38,31 +69,23 @@ export default function Activity4() {
     setQuestions((prev) => ({ ...prev, [field]: value }));
   };
 
-  const ActivityQuestion = ({
-    placeholder,
-    value,
-    onChange,
-  }: {
-    placeholder: string;
-    value: string;
-    onChange: (val: string) => void;
-  }) => (
-    <Input
-      unstyled
-      placeholder={placeholder}
-      borderColor={colors.border}
-      borderWidth={3}
-      borderRadius={7}
-      size="$4"
-      width={"100%"}
-      alignSelf="center"
-      value={value}
-      onChangeText={onChange}
-    />
-  );
+  useEffect(() => {
+    if (user) {
+      getChapter2Activity2(user.uid)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const answer = snapshot.val();
+            for (const [key, value] of Object.entries(answer)) {
+              updateQuestion(key as keyof Activity4Questions, value as string);
+            }
+          }
+        })
+        .catch((err) => console.log("Error get chapter 2 activity2: " + err));
+    }
+  }, [pending]);
 
   return (
-    <ScrollView>
+    <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"} paddingBottom={bottom}>
         <Text fontSize={"$5"} lineHeight={20}>
           The destination here can be big, such as your top value mentioned in
@@ -93,25 +116,25 @@ export default function Activity4() {
         />
 
         <YStack gap={"$3"}>
-          <ActivityQuestion
+          <Activity4QuestionInput
             placeholder="My Destination"
             value={questions.diagram_destination}
             onChange={(val) => updateQuestion("diagram_destination", val)}
           />
 
-          <ActivityQuestion
+          <Activity4QuestionInput
             placeholder="Passenger A"
             value={questions.diagram_passenger_A}
             onChange={(val) => updateQuestion("diagram_passenger_A", val)}
           />
 
-          <ActivityQuestion
+          <Activity4QuestionInput
             placeholder="Passenger B"
             value={questions.diagram_passenger_B}
             onChange={(val) => updateQuestion("diagram_passenger_B", val)}
           />
 
-          <ActivityQuestion
+          <Activity4QuestionInput
             placeholder="Passenger C"
             value={questions.diagram_passenger_C}
             onChange={(val) => updateQuestion("diagram_passenger_C", val)}
@@ -122,21 +145,21 @@ export default function Activity4() {
           How do your passengers persuade you to give up on your goal?
         </Text>
 
-        <ActivityQuestion
+        <Activity4QuestionInput
           placeholder="Passengers' persuasion"
           value={questions.diagram_persuasion}
           onChange={(val) => updateQuestion("diagram_persuasion", val)}
         />
 
         <ChapterNavigationButton
-          prev={() => {
-            router.push("/(login)/chapter2/content/activity3");
-          }}
+          prev={"/(app)/chapter2/content/activity3"}
           next={() => {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
-              router.push("/(login)/chapter2/content/activity5");
+              setChapter2Activity2(user!.uid, questions);
+              router.push("/(app)/chapter2/content/activity5");
+              updateChapter2Progress(user!.uid, "6_Diagram");
             }
           }}
         />

@@ -1,35 +1,43 @@
-// app/(login)/index.tsx
-import React, { useState } from "react";
-import { Dimensions } from "react-native";
-import { Alert } from "react-native";
-import BackgroundImage from "../../components/BackgroundImage";
-import { useAuth } from "../../hooks/useAuth";
-import { useFonts } from "expo-font";
-import { RelativePathString, useRouter } from "expo-router";
-import { Button, Input, YStack, XStack, Stack, Text } from "tamagui";
+// app/(app)/index.tsx
 import { LogoImage } from "@/components/LogoImage";
 import colors from "@/constants/colors";
 import { useToastController } from "@tamagui/toast";
-
+import { useFonts } from "expo-font";
+import { RelativePathString, useRouter } from "expo-router";
+import React, { useState } from "react";
+import { Dimensions } from "react-native";
 import {
-  createUserWithEmailAndPassword,
-  fetchSignInMethodsForEmail,
-  getAuth,
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { isValidEmail, isValidUsername } from "@/constants/helper";
+  Button,
+  Input,
+  ScrollView,
+  Stack,
+  Text,
+  XStack,
+  YStack,
+} from "tamagui";
+import BackgroundImage from "../../components/BackgroundImage";
+import { useAuth } from "../../hooks/useAuth";
+
+import { auth } from "@/constants/firebaseConfig";
+import { isValidUsername } from "@/constants/helper";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 const screenWidth = Dimensions.get("window").width;
 
 export default function MainScreen() {
   const router = useRouter();
   const toast = useToastController();
-  const { handleLogin, getUserInfo } = useAuth();
+  const {
+    getUserInfo,
+    handleLogin,
+    handleFirebaseLogin,
+    handleFirebaseRegister,
+    getUserSecurity,
+  } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fontsLoaded] = useFonts({
-    notoSans: require("../../assets/fonts/NotoSans-VariableFont_wdth,wght.ttf"),
+    notoSans: require("assets/fonts/NotoSans-VariableFont_wdth,wght.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -37,7 +45,6 @@ export default function MainScreen() {
   }
 
   const onPressForgetPassword = () => {
-    const auth = getAuth();
     if (username != "") {
       if (isValidUsername(username)) {
         getUserInfo(username).then((snapshot) => {
@@ -50,14 +57,7 @@ export default function MainScreen() {
                   toast.show("Password reset email sent!");
                 })
                 .catch((error) => {
-                  // An error happened.
-                  const errorCode = error.code;
-                  const errorMessage = error.message;
-                  console.error(
-                    "Error sending password reset email:",
-                    errorCode,
-                    errorMessage
-                  );
+                  console.error("Error sending password reset email:", error);
                 });
             } else {
               router.push(`/forgetPassword/${username}` as RelativePathString);
@@ -70,117 +70,125 @@ export default function MainScreen() {
         toast.show("Please input valid username");
       }
     } else {
-      toast.show("Please input username");
+      toast.show("Please input username or email");
+    }
+  };
+
+  const onPressLogin = () => {
+    setUsername("t2tu@ucsd.edu");
+    setPassword("123456");
+    try {
+      handleFirebaseLogin(username, password)
+        .then((usr) => {
+          router.replace("/(app)");
+        })
+        .catch((err) => {
+          console.error("Registration failed:", err.message);
+        });
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.show(err.message);
+      } else {
+        console.log(err);
+      }
     }
   };
 
   return (
     <YStack flex={1}>
       <BackgroundImage />
-      <YStack
-        flex={1}
-        position="absolute"
-        alignItems="center"
-        justifyContent="center"
-        width={screenWidth}
-      >
-        <Text
-          marginTop="$12"
-          fontFamily="notoSans"
-          fontSize="$8"
-          color="$primary"
-          textAlign="center"
-          width="100%"
-        >
-          Learn Acceptance and commitment therapy for free!
-        </Text>
-
-        {/* Logo */}
-        <LogoImage />
-
-        <Text
-          marginTop="$4"
-          fontFamily="notoSans"
-          fontSize="$8"
-          fontWeight="bold"
-          color="$primary"
-          textAlign="center"
-          width="100%"
-        >
-          On-demand help for overcoming procrastination
-        </Text>
-      </YStack>
-
-      <YStack
-        flex={1}
-        alignItems="center"
-        justifyContent="flex-end"
-        paddingHorizontal="$4"
-        gap="$4"
-        position="absolute"
-        top={0}
-        left={0}
-        right={0}
-        bottom="$10"
-      >
-        <Stack width="100%" maxWidth={300} gap="$2">
-          <Input
-            placeholder="Username"
-            value={username}
-            onChangeText={setUsername}
-          />
-          <Input
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-          <Button
-            backgroundColor={colors.link}
-            size="$1"
-            onPress={() => onPressForgetPassword()}
-            alignSelf="flex-end"
+      <ScrollView flex={1} automaticallyAdjustKeyboardInsets={true}>
+        <YStack alignItems="center" justifyContent="center" width={screenWidth}>
+          <Text
+            marginTop="$12"
+            fontFamily="notoSans"
+            fontSize="$8"
+            color="$primary"
+            textAlign="center"
+            width="100%"
           >
-            <Text
-              fontSize={12}
-              textDecorationLine="underline"
-              color={colors.linkText}
-            >
-              Forgot Password?
-            </Text>
-          </Button>
-        </Stack>
+            Learn Acceptance and commitment therapy for free!
+          </Text>
 
-        <Stack width="100%" maxWidth={300} gap="$2">
-          <Button
-            size="$4"
-            onPress={() => {
-              // handleLogin(username, password)
-              router.push("/(login)/chapter2");
-            }}
-            // onPress={() => handleLogin(username, password)}
-            color={colors.secondary}
+          {/* Logo */}
+          <LogoImage />
+
+          <Text
+            marginTop="$4"
+            fontFamily="notoSans"
+            fontSize="$8"
             fontWeight="bold"
-            backgroundColor={colors.primary}
-            borderRadius={20}
-            fontSize={16}
+            color="$primary"
+            textAlign="center"
+            width="100%"
           >
-            Sign In
-          </Button>
+            On-demand help for overcoming procrastination
+          </Text>
+        </YStack>
 
-          <XStack justifyContent="space-between">
+        <YStack
+          alignItems="center"
+          paddingHorizontal="$4"
+          gap="$4"
+          marginTop="$10"
+        >
+          <Stack width="100%" maxWidth={300} gap="$2">
+            <Input
+              placeholder="Username"
+              placeholderTextColor={colors.placeholder}
+              value={username}
+              onChangeText={setUsername}
+            />
+            <Input
+              placeholder="Password"
+              placeholderTextColor={colors.placeholder}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+            <Button
+              backgroundColor={colors.link}
+              size="$1"
+              onPress={() => onPressForgetPassword()}
+              alignSelf="flex-end"
+            >
+              <Text
+                fontSize={12}
+                textDecorationLine="underline"
+                color={colors.linkText}
+              >
+                Forgot Password?
+              </Text>
+            </Button>
+          </Stack>
+
+          <Stack width="100%" maxWidth={300} gap="$2">
             <Button
               size="$4"
-              width="100%"
-              onPress={() => router.push("/register")}
+              onPress={onPressLogin}
+              color={colors.secondary}
+              fontWeight="bold"
+              backgroundColor={colors.primary}
               borderRadius={20}
               fontSize={16}
             >
-              Create Account
+              Sign In
             </Button>
-          </XStack>
-        </Stack>
-      </YStack>
+
+            <XStack justifyContent="space-between">
+              <Button
+                size="$4"
+                width="100%"
+                onPress={() => router.push("/register")}
+                borderRadius={20}
+                fontSize={16}
+              >
+                Create Account
+              </Button>
+            </XStack>
+          </Stack>
+        </YStack>
+      </ScrollView>
     </YStack>
   );
 }

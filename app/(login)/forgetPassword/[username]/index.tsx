@@ -1,4 +1,4 @@
-// app/(login)/forgetPassword/[username]/index.tsx
+// app/(app)/forgetPassword/[username]/index.tsx
 
 import React, { useEffect, useState } from "react";
 import { YStack, ScrollView, Text, Input, Button, ZStack } from "tamagui";
@@ -7,9 +7,9 @@ import { LogoImage } from "@/components/LogoImage";
 import { DropdownComponent } from "@/components/Dropdown";
 import colors from "@/constants/colors";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useAuth } from "@/hooks/useAuth";
 import LoadingOverlay from "@/components/LoadingOverlay";
 import { matchStringsIgnoreCase } from "@/constants/helper";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function ForgetPasswordPage() {
   const router = useRouter();
@@ -106,6 +106,7 @@ export default function ForgetPasswordPage() {
     <ZStack height="100%">
       {isLoading && <LoadingOverlay />}
       <ScrollView
+        automaticallyAdjustKeyboardInsets={true}
         flex={1}
         backgroundColor={colors.background}
         paddingBottom={bottom}
@@ -140,6 +141,7 @@ export default function ForgetPasswordPage() {
             borderColor={userError.question1 ? "$red10Light" : colors.border}
             borderWidth="$1"
             placeholder="Answer 1"
+            placeholderTextColor={colors.placeholder}
             value={secureQuestion.userAnswer1}
             onChangeText={(val) => updateSecurityQuestion("userAnswer1", val)}
             onFocus={() => {
@@ -170,6 +172,7 @@ export default function ForgetPasswordPage() {
             borderColor={userError.question2 ? "$red10Light" : colors.border}
             borderWidth="$1"
             placeholder="Answer 2"
+            placeholderTextColor={colors.placeholder}
             value={secureQuestion.userAnswer2}
             onChangeText={(val) => updateSecurityQuestion("userAnswer2", val)}
             onFocus={() => {

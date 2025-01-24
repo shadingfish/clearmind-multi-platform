@@ -1,4 +1,4 @@
-// app/(login)/_layout.tsx
+// app/(app)/_layout.tsx
 
 import colors from "@/constants/colors";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -43,7 +43,7 @@ export default function RootLayout() {
             <Button
               unstyled
               onPress={() => {
-                router.dismissTo("/(login)/chapter2");
+                router.replace("/(app)/chapter2");
               }}
               style={{ marginLeft: 20 }}
             >

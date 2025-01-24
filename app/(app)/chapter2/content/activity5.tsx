@@ -1,4 +1,4 @@
-// app/(login)/index.tsx
+// app/(app)/index.tsx
 import React from "react";
 
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
@@ -6,12 +6,19 @@ import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { ScrollView, Text, YStack } from "tamagui";
+import { useAuth } from "@/hooks/useAuth";
+import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
 
 export default function Activity5() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
+  const { user, pending } = useAuth();
+
+  if (pending) {
+    return null;
+  }
   return (
-    <ScrollView>
+    <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"} paddingBottom={bottom}>
         <Text fontSize={"$5"} lineHeight={20}>
           Now what do we do with those challenging passengers? You can simply
@@ -40,11 +47,10 @@ export default function Activity5() {
         </Text>
 
         <ChapterNavigationButton
-          prev={() => {
-            router.push("/(login)/chapter2/content/activity4");
-          }}
+          prev={"/(app)/chapter2/content/activity4"}
           next={() => {
-            router.push("/(login)/chapter2/content/summary");
+            router.push("/(app)/chapter2/content/summary");
+            updateChapter2Progress(user!.uid, "7_Willingness_to_Carry_On");
           }}
         />
       </YStack>

@@ -1,14 +1,12 @@
-// app/(login)/_layout.tsx
-
 import { Stack } from "expo-router";
 
-export default function RootLayout() {
+export default function LoginLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="index" // Map to `app/index.tsx`
+        name="index"
         options={{
-          headerShown: false, // Navigation Optional
+          headerShown: false,
         }}
       />
       <Stack.Screen
@@ -27,12 +25,6 @@ export default function RootLayout() {
         name="registerAdditional"
         options={{
           title: "Register Additional",
-        }}
-      />
-      <Stack.Screen
-        name="chapter2" // Map to `app/index.tsx`
-        options={{
-          headerShown: false, // Navigation Optional
         }}
       />
     </Stack>

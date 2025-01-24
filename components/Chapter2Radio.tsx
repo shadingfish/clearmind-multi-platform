@@ -55,7 +55,11 @@ export const Chapter2Radio: React.FC<Chapter2RadioProps> = ({
       </XStack>
 
       <YStack marginLeft={"$4"} gap={"$1"}>
-        <XStack alignItems="center" width={"80%"}>
+        <XStack
+          alignItems="center"
+          width={"80%"}
+          onPress={() => setChecked("first")}
+        >
           <RadioButton.Android
             value="first"
             status={checked === "first" ? "checked" : "unchecked"}
@@ -64,7 +68,11 @@ export const Chapter2Radio: React.FC<Chapter2RadioProps> = ({
           />
           <Text>{option1}</Text>
         </XStack>
-        <XStack alignItems="center" width={"80%"}>
+        <XStack
+          alignItems="center"
+          width={"80%"}
+          onPress={() => setChecked("second")}
+        >
           <RadioButton.Android
             value="second"
             status={checked === "second" ? "checked" : "unchecked"}

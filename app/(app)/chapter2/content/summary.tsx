@@ -1,14 +1,20 @@
-// app/(login)/index.tsx
-import React, { useState } from "react";
+// app/(app)/index.tsx
+import React, { useEffect, useState } from "react";
 
 import { SummaryQuestion } from "@/components/Chapter2SummaryQuestion";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { Chapter2 } from "@/constants/data";
 import { hasEmptyValues } from "@/constants/helper";
+import { useAuth } from "@/hooks/useAuth";
 import { useToastController } from "@tamagui/toast";
-import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScrollView, Text, View, YStack } from "tamagui";
+import { useRouter } from "expo-router";
+import {
+  getChapter2Summary,
+  setChapter2Summary,
+  updateChapter2Progress,
+} from "@/hooks/Chapter2Activity";
 
 export type SummaryQuestions = {
   question1: string;
@@ -34,8 +40,25 @@ export default function Summary() {
 
   const toast = useToastController();
 
+  const { user, pending } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      getChapter2Summary(user.uid)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const answer = snapshot.val();
+            for (const [key, value] of Object.entries(answer)) {
+              updateQuestion(key as keyof SummaryQuestions, value as string);
+            }
+          }
+        })
+        .catch((err) => console.log("Error get chapter 2 summary: " + err));
+    }
+  }, [pending]);
+
   return (
-    <ScrollView>
+    <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"} paddingBottom={bottom}>
         <Text fontSize={"$5"} lineHeight={20}>
           In this part, we explored the “Passengers on the Bus,” a metaphor
@@ -72,14 +95,14 @@ export default function Summary() {
         })}
 
         <ChapterNavigationButton
-          prev={() => {
-            router.push("/(login)/chapter2/content/activity5");
-          }}
+          prev={"/(app)/chapter2/content/activity5"}
           next={() => {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
-              router.push("/(login)/chapter2");
+              setChapter2Summary(user!.uid, questions);
+              router.push("/(app)/chapter2");
+              updateChapter2Progress(user!.uid, "8_Summary");
             }
           }}
         />
