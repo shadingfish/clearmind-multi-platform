@@ -8,8 +8,10 @@ import {
   Dimensions,
   SafeAreaView,
   ScrollView,
+  Pressable,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 
@@ -39,12 +41,10 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
     }
     const tempPart3 = {
         "Opening": true,
-        "Prioritize Your Life Values": false,
-        "Discover Procrastination Reasons": true,
-        "Procrastination Tendencies": false,
-        "Tendencies Questions": true,
-        "How to Use the App": true,
-        "Summary": true,
+        "Label the Passengers on the Bus": false,
+        "Identify how it feels in your body": true,
+        "Learn How to Meditate": false,
+        "Make a Belief Statement": true,
     }
     const tempPart4 = {
         "Opening": true,
@@ -56,10 +56,16 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
         "Summary": true,
     }
 
+    const navigation = useNavigation(); // Access navigation object
+
+    const handleNavigate = (screenName: string) => {
+        onClose(); // Close the modal
+        //navigation.navigate(screenName); // Navigate to the desired screen
+    };
 
     const [part1Progress, setPart1Progress] = useState(tempPart1); //load in from context
     const [part2Progress, setPart2Progress] = useState(tempPart2); //load in from context
-    const [part3Progress, setPart3Progress] = useState({}); //load in from context
+    const [part3Progress, setPart3Progress] = useState(tempPart3); //load in from context
     const [part4Progress, setPart4Progress] = useState({}); //load in from context
 
   return (
@@ -80,7 +86,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
                         Part 1: Discovery
                     </Text>
                     {Object.entries(part1Progress).map(([key, value]) => (
-                        <View key={key} style={styles.subTitleContainer}>
+                        <Pressable key={key} style={styles.subTitleContainer}>
                             <View style={{width: 25}}>
                                 {value ?
                                     <Ionicons name="checkmark" size={20} color="black" />
@@ -92,7 +98,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
                                 <Text style={{fontSize: 16}}>{key}</Text> :
                                 <Text style={{fontSize: 16, color: "grey"}}>{key}</Text>
                             }
-                        </View>
+                        </Pressable>
                     ))}
 
                     <Text style={{...styles.chapTitle, marginTop: '5%'}}>
@@ -100,7 +106,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
                     </Text>
 
                     {Object.entries(part2Progress).map(([key, value]) => (
-                        <View key={key} style={styles.subTitleContainer}>
+                        <Pressable key={key} style={styles.subTitleContainer}>
                             <View style={{width: 25}}>
                                 {value ?
                                     <Ionicons name="checkmark" size={20} color="black" />
@@ -112,14 +118,30 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
                                 <Text style={{fontSize: 16}}>{key}</Text> :
                                 <Text style={{fontSize: 16, color: "grey"}}>{key}</Text>
                             }
-                        </View>
+                        </Pressable>
                     ))}
 
-                    <Text style={styles.chapTitle}>
+                    <Text style={{...styles.chapTitle, marginTop: '5%'}}>
                         Part 3: Practice
                     </Text>
 
-                    <Text style={styles.chapTitle}>
+                    {Object.entries(part3Progress).map(([key, value]) => (
+                        <Pressable key={key} style={styles.subTitleContainer}>
+                            <View style={{width: 25}}>
+                                {value ?
+                                    <Ionicons name="checkmark" size={20} color="black" />
+                                    :
+                                    <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>
+                                }
+                            </View>
+                            { value ?
+                                <Text style={{fontSize: 16}}>{key}</Text> :
+                                <Text style={{fontSize: 16, color: "grey"}}>{key}</Text>
+                            }
+                        </Pressable>
+                    ))}
+
+                    <Text style={{...styles.chapTitle, marginTop: '5%'}}>
                         Part 4: Determination
                     </Text>
 

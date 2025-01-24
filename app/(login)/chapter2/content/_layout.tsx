@@ -10,12 +10,17 @@ import { Text } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Button } from "tamagui";
 import SidebarModal from "@/components/SidebarModal";
+import { useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function RootLayout() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const openModal = () => setIsSidebarVisible(true);
   const closeModal = () => setIsSidebarVisible(false);
+
+  const route = useRoute();
+  const navigation = useNavigation();
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
