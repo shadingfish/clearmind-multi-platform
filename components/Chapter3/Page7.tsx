@@ -39,6 +39,19 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
     const [whichCogDistPaths, setWhichCogDistPaths] = useState<Set<string>>(data.whichCogDistPaths || new Set<String>())
     const [hasCogDist, setHasCogDist] = useState<{ [key: string]: boolean }>(data.hasCogDist || {});
     const [currTitle, setCurrTitle] = useState("");
+
+    const imageSources = {
+        "Mental Filtering": require('@/assets/images/distortion_mental_filtering_1.png'),
+        "All-or-nothing thinking": require('@/assets/images/distortion_all_or_nothing_1.png'),
+        "Overgeneralization": require('@/assets/images/distortion_overgeneralization_1.png'), 
+        "Discounting the positive": require('@/assets/images/distortion_discounting_the_positive_1.png'),
+        "Jumping to Conclusions": require('@/assets/images/distortion_jumping_to_conclusions_1.png'),
+        "Magnification": require('@/assets/images/distortion_magnification_1.png'),
+        "Emotional Reasoning": require('@/assets/images/distortion_emotional_reasoning_1.png'),
+        '"Should" Statements': require('@/assets/images/distortion_should_1.png'),
+        "Labeling": require('@/assets/images/distortion_labeling_1.png'),
+        "Personalization and Blame": require('@/assets/images/distortion_personalization_and_blame_1.png'),
+      };
     
     const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -91,7 +104,11 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 <Pressable style={styles.box} onPress={() => handlePress("Mental Filtering")}>
                     <View style={styles.circle}>
                         {   whichCogDistPaths.has("Mental Filtering") ?
-                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            (   hasCogDist["Mental Filtering"] ?
+                            <Image source={require('@/assets/images/distortion_mental_filtering_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
+                            <Image source={require('@/assets/images/distortion_mental_filtering_2.png')} style={{width: 50, height: 50, borderRadius: 25}} /> 
+                            )
+                            :
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }
                     </View>
@@ -100,7 +117,11 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 <Pressable style={styles.box} onPress={() => handlePress("All-or-nothing thinking")}>
                     <View style={styles.circle}>
                         {   whichCogDistPaths.has("All-or-nothing thinking") ?
-                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            (   hasCogDist["All-or-nothing thinking"] ?
+                                <Image source={require('@/assets/images/distortion_all_or_nothing_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
+                                <Image source={require('@/assets/images/distortion_all_or_nothing_2.png')} style={{width: 50, height: 50, borderRadius: 25}} />
+                            )
+                            :
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }
                     </View>
@@ -111,7 +132,11 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 <Pressable style={styles.box} onPress={() => handlePress("Overgeneralization")}>
                     <View style={styles.circle}>
                         {   whichCogDistPaths.has("Overgeneralization") ?
-                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            ( hasCogDist["Overgeneralization"] ?
+                                <Image source={require('@/assets/images/distortion_overgeneralization_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
+                                <Image source={require('@/assets/images/distortion_overgeneralization_2.png')} style={{width: 50, height: 50, borderRadius: 25}} />
+                            )
+                            :
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }
                     </View>
@@ -120,7 +145,11 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 <Pressable style={styles.box} onPress={() => handlePress("Discounting the positive")}>
                     <View style={styles.circle}>
                         {   whichCogDistPaths.has("Discounting the positive") ?
-                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            (   hasCogDist["Discounting the positive"] ?
+                            <Image source={require('@/assets/images/distortion_discounting_the_positive_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
+                            <Image source={require('@/assets/images/distortion_discounting_the_positive_2.png')} style={{width: 50, height: 50, borderRadius: 25}} /> 
+                            )
+                            :
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }
                     </View>
@@ -131,7 +160,11 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 <Pressable style={styles.box} onPress={() => handlePress("Jumping to Conclusions")}>
                     <View style={styles.circle}>
                         {   whichCogDistPaths.has("Jumping to Conclusions") ?
-                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            (   hasCogDist["Jumping to Conclusions"] ?
+                            <Image source={require('@/assets/images/distortion_jumping_to_conclusions_1.png')} style={{width: 50, height: 50, borderRadius: 25}} />:
+                            <Image source={require('@/assets/images/distortion_jumping_to_conclusions_2.png')} style={{width: 50, height: 50, borderRadius: 25}} />
+                            )
+                            :
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }
                     </View>
@@ -140,7 +173,10 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 <Pressable style={styles.box} onPress={() => handlePress("Magnification")}>
                     <View style={styles.circle}>
                         {   whichCogDistPaths.has("Magnification") ?
-                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            (   hasCogDist["Magnification"] ?
+                            <Image source={require('@/assets/images/distortion_magnification_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
+                            <Image source={require('@/assets/images/distortion_magnification_2.png')} style={{width: 50, height: 50, borderRadius: 25}} /> 
+                            ):
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }
                     </View>
@@ -151,7 +187,10 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 <Pressable style={styles.box} onPress={() => handlePress("Emotional Reasoning")}>
                     <View style={styles.circle}>
                         {   whichCogDistPaths.has("Emotional Reasoning") ?
-                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            (   hasCogDist["Emotional Reasoning"] ?
+                            <Image source={require('@/assets/images/distortion_emotional_reasoning_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> : 
+                            <Image source={require('@/assets/images/distortion_emotional_reasoning_2.png')} style={{width: 50, height: 50, borderRadius: 25}} />
+                            ):
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }
                     </View>
@@ -160,7 +199,10 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 <Pressable style={styles.box} onPress={() => handlePress("\"Should\" Statements")}>
                     <View style={styles.circle}>
                         {   whichCogDistPaths.has("\"Should\" Statements") ?
-                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            (   hasCogDist["\"Should\" Statements"] ?
+                            <Image source={require('@/assets/images/distortion_should_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
+                            <Image source={require('@/assets/images/distortion_should_2.png')} style={{width: 50, height: 50, borderRadius: 25}} /> 
+                            ):
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }
                     </View>
@@ -171,7 +213,11 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 <Pressable style={styles.box} onPress={() => handlePress("Labeling")}>
                     <View style={styles.circle}>
                         {   whichCogDistPaths.has("Labeling") ?
-                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            (   hasCogDist["Labeling"] ?
+                            <Image source={require('@/assets/images/distortion_labeling_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
+                            <Image source={require('@/assets/images/distortion_labeling_2.png')} style={{width: 50, height: 50, borderRadius: 25}} />
+                            )
+                            :
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }
                     </View>
@@ -180,7 +226,11 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 <Pressable style={styles.box} onPress={() => handlePress("Personalization and Blame")}>
                     <View style={styles.circle}>
                         {   whichCogDistPaths.has("Personalization and Blame") ?
-                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            (   hasCogDist["Personalization and Blame"] ?
+                            <Image source={require('@/assets/images/distortion_personalization_and_blame_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
+                            <Image source={require('@/assets/images/distortion_personalization_and_blame_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> 
+                            )
+                            :
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }
                     </View>

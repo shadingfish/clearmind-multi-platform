@@ -67,7 +67,7 @@ const Page13: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
                 <Pressable style={styles.outlineBoxOff} onPress={() => {setIsButtonPressed(!isButtonPressed)}}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View style={styles.circle}>
-                            
+                            <Image source={require('@/assets/images/icon_wash.png')} style={{width: 26, height: 26, borderRadius: 13}}></Image>
                         </View>
                         <Text style={{fontSize: 16,fontWeight: "bold"}}>
                             Wash the Dishes
@@ -77,7 +77,7 @@ const Page13: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
                 <Pressable style={styles.outlineBoxOff} onPress={() => {setIsButtonPressed(!isButtonPressed)}}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View style={styles.circle}>
-                            
+                            <Image source={require('@/assets/images/icon_wash.png')} style={{width: 26, height: 26, borderRadius: 13}}></Image>
                         </View>
                         <Text style={{fontSize: 16, fontWeight: "bold", }}>
                             Wash the Dishes
@@ -96,7 +96,7 @@ const Page13: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
                 <Pressable style={styles.outlineBoxOff} onPress={() => {setIsButton2Pressed(!isButton2Pressed)}}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View style={styles.circle}>
-                            
+                            <Image source={require('@/assets/images/icon_workout.png')} style={{width: 26, height: 26, borderRadius: 13}}></Image>
                         </View>
                         <Text style={{fontSize: 16,fontWeight: "bold"}}>
                             Workout
@@ -106,7 +106,7 @@ const Page13: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
                 <Pressable style={styles.outlineBoxOff} onPress={() => {setIsButton2Pressed(!isButton2Pressed)}}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View style={styles.circle}>
-                            
+                            <Image source={require('@/assets/images/icon_workout.png')} style={{width: 26, height: 26, borderRadius: 13}}></Image>
                         </View>
                         <Text style={{fontSize: 16, fontWeight: "bold", }}>
                             Workout

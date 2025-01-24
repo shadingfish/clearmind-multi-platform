@@ -45,7 +45,7 @@ const Page5: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 to manage stress and avoid procrastination" or "I can master challenging emotions by 
                 staying focused on my goals."
             </Text>
-            <Text>INSERT IMAGE</Text>
+            <Image source={require('@/assets/images/img_believe.png')} style={{width: '100%', height: 200, marginVertical: '5%'}}/>
             <Text style={styles.textBox}>
             You can use your belief statement like a lighthouse during tough times. 
             You can also connect your belief statement with your breathing, making 

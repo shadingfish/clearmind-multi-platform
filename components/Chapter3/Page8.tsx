@@ -65,6 +65,19 @@ const Page8: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
         "Personalization and Blame": "To combat personalization and blame, explore additional factors that could have influenced your situation. Instead of placing all the blame on yourself, consider external circumstances or the actions of others that might have also played a part.",
     }
 
+    const imageSources : { [key: string]: number }= {
+        "Mental Filtering": require('@/assets/images/distortion_mental_filtering_1.png'),
+        "All-or-nothing thinking": require('@/assets/images/distortion_all_or_nothing_1.png'),
+        "Overgeneralization": require('@/assets/images/distortion_overgeneralization_1.png'), 
+        "Discounting the positive": require('@/assets/images/distortion_discounting_the_positive_1.png'),
+        "Jumping to Conclusions": require('@/assets/images/distortion_jumping_to_conclusions_1.png'),
+        "Magnification": require('@/assets/images/distortion_magnification_1.png'),
+        "Emotional Reasoning": require('@/assets/images/distortion_emotional_reasoning_1.png'),
+        "\"Should\" Statements": require('@/assets/images/distortion_should_1.png'),
+        "Labeling": require('@/assets/images/distortion_labeling_1.png'),
+        "Personalization and Blame": require('@/assets/images/distortion_personalization_and_blame_1.png'),
+      };
+
     return (
         <ScrollView style={{width: '100%', height: '85%'}}>
             <Text style={{fontSize: 18,}}>
@@ -81,7 +94,7 @@ const Page8: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                             <View style={styles.outlineBox}>
                                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                     <View style={styles.circle}>
-
+                                        <Image source={imageSources[key]} style={{width: 26, height: 26, borderRadius: 13}} />
                                     </View>
                                     <Text key={key} style={{fontSize: 20,}}>
                                         {key}
@@ -123,6 +136,8 @@ const Page8: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
         shadowOffset: { width: 2, height: 2 }, // Shadow position for iOS
         shadowOpacity: 0.3, // Shadow opacity for iOS
         shadowRadius: 0.5, // Shadow blur radius for iOS
+        alignItems: 'center',
+        justifyContent: 'center'
     },
   });
 
