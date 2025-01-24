@@ -26,6 +26,7 @@ import * as Progress from "react-native-progress";
 import InputField from "../InputField";
 import {DropdownComponent} from "../Dropdown";
 import { Ionicons } from '@expo/vector-icons';
+import CogDistortModal from './CogDistortModal';
 
 interface CurrentPageComponentProps {
   data: {[key: string]: any},
@@ -36,6 +37,20 @@ interface CurrentPageComponentProps {
 
 const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) => {
     const [whichCogDistPaths, setWhichCogDistPaths] = useState<Set<string>>(data.whichCogDistPaths || new Set<String>())
+    const [hasCogDist, setHasCogDist] = useState<{ [key: string]: boolean }>(data.hasCogDist || {});
+    const [currTitle, setCurrTitle] = useState("");
+    
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const openModal = () => setIsModalVisible(true);
+    const closeModal = () => setIsModalVisible(false);
+
+    const addKeyValue = (key: string, value: boolean) => {
+        setHasCogDist(prevState => ({
+          ...prevState,  
+          [key]: value,  
+        }));
+    };
 
     useEffect(() => {
         console.log('dataisfilled beginning', dataFilled)
@@ -43,14 +58,15 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
         setData((prevData) => ({
             ...prevData, 
             whichCogDistPaths: whichCogDistPaths, 
+            hasCogDist: hasCogDist,
           }));
       
-          const isFilled = whichCogDistPaths.size == 10;
+          const isFilled = whichCogDistPaths.size >= 10;
           setDataFilled(isFilled);
     
           console.log('data:', data);
         
-    }, [whichCogDistPaths]); // Dependency array, this effect runs when "count" changes
+    }, [whichCogDistPaths, hasCogDist]); // Dependency array, this effect runs when "count" changes
 
     const handlePress = (pathName: string) => {
         setWhichCogDistPaths(prevPaths => {
@@ -58,10 +74,15 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
             newPaths.add(pathName);
             return newPaths;
           });
+
+        setCurrTitle(pathName);
+
+        openModal();
     };
 
     return (
         <ScrollView style={{width: '100%', height: '85%'}}>
+            <CogDistortModal isVisible={isModalVisible} onClose={closeModal} title={currTitle} hasCogDist={hasCogDist} setHasCogDist={setHasCogDist}/>
             <Text style={{fontSize: 18, marginVertical: '3%'}}>
                 Now, let's talk about the ten most common cognitive distortions with examples:
             </Text>
@@ -136,9 +157,9 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                     </View>
                     <Text style={{color: "grey"}}>Emotional Reasoning</Text>
                 </Pressable>
-                <Pressable style={styles.box} onPress={() => handlePress("Should Statements")}>
+                <Pressable style={styles.box} onPress={() => handlePress("\"Should\" Statements")}>
                     <View style={styles.circle}>
-                        {   whichCogDistPaths.has("Should Statements") ?
+                        {   whichCogDistPaths.has("\"Should\" Statements") ?
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }

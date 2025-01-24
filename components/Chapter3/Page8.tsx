@@ -36,6 +36,8 @@ const Page8: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
         setDataFilled(true);
     }, []);
 
+    const [myData, setMyData] = useState(data.hasCogDist || {})
+
     // based on the answers that they filled in before
     let tempData = {
         "Mental Filtering": true,
@@ -73,7 +75,7 @@ const Page8: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 Here are some suggestions:
             </Text>
 
-                {Object.entries(tempData)
+                {Object.entries(myData)
                     .filter(([key, value]) => value) // Filter for entries with `true` values
                         .map(([key]) => (
                             <View style={styles.outlineBox}>
