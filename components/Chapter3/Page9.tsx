@@ -55,7 +55,7 @@ const Page9: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
 
 
     return (
-        <View style={{width: '100%',}}>
+        <ScrollView style={{width: '100%', height: '85%'}}>
             <Text style={{fontSize: 18,}}>
                 In part 1, we introduced three different types of procrastination.
             </Text>
@@ -109,7 +109,7 @@ const Page9: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 value={potentialStrategy}
                 onChangeText={setPotentialStrategy}
                 />
-        </View>
+        </ScrollView>
     );
   }
   

@@ -70,32 +70,30 @@ const Page12: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
                         Can't play the video?
                     </Text>
                     <Text style={{fontSize: 16, marginBottom: '3%'}}>
-                        The 20 Breath Meditation is a concentration practice which brings
-                         your awareness to one thing and keeps it there. If your mind goes 
-                         off track, don't worry, just guide it back to the object of concentration,
-                          which is the breath and the counting.
+                        Here's how to do it:
+                    </Text>
+                    <Text style={{fontSize: 16}}>
+                        1. Sit straight and relax your shoulders.
+                    </Text>
+                    <Text style={{fontSize: 16}}>
+                        2. Place your tongue behind your upper front teeth and keep it there.
+                    </Text>
+                    <Text style={{fontSize: 16}}>
+                        3. Breathe in through your nose for 4 seconds.
+                    </Text>
+                    <Text style={{fontSize: 16}}>
+                        4. Hold your breath for 7 seconds.
                     </Text>
                     <Text style={{fontSize: 16, marginBottom: '3%'}}>
-                            Focus on your breath. Without changing how 
-                            you breathe, become aware of all the sensations that 
-                            come with breathing. Start counting your exhales using 
-                            your inner voice. As you exhale for the first time, say 
-                            "one" silently. Continue this pattern with the next exhale, 
-                            saying "two." Keep up until you've counted ten full breath cycles. 
-                            After that, count another ten cycles, but this time go in reverse 
-                            order, starting from ten and counting down to one.
+                        5. Exhale from your mouth for 8 seconds, making a whoosh sound.
                     </Text>
                     <Text style={{fontSize: 16, marginBottom: '3%'}}>
-                        Give each breath your full attention. Observe the subtle 
-                        differences in the sensations of your breath. Remember, 
-                        you're not changing your breath; you're simply using it as 
-                        a focal point to keep your mind anchored.
+                        That's one round. Repeat this 3 to 4 times.
                     </Text>
                     <Text style={{fontSize: 16,}}>
-                        After completing a cycle of 20 breaths, you 
-                        can take a few extra moments to rest while 
-                        observing the rhythm of your breath flowing in and out.
-                        If you'd like, you can do another round of 20 breaths.
+                        Remember, the key point is to keep the counts of 4, 7, and 8. 
+                        If holding your breath is hard, go faster but keep the same pattern.
+                        Use this anytime you feel stressed to help calm down quickly.
                     </Text>
                 </Pressable>
             }
