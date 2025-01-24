@@ -1,0 +1,34 @@
+{
+  "name": "Burnt",
+  "version": "0.12.2",
+  "summary": "Cross-platform toasts, powered by native elements.",
+  "description": "Cross-platform toasts, powered by native elements.",
+  "license": "MIT",
+  "authors": "Fernando Rojo <frojo@sas.upenn.edu> (https://github.com/nandorojo)",
+  "homepage": "https://github.com/nandorojo/burnt#readme",
+  "platforms": {
+    "ios": "13.0"
+  },
+  "swift_versions": "5.4",
+  "source": {
+    "git": "https://github.com/nandorojo/burnt"
+  },
+  "static_framework": true,
+  "dependencies": {
+    "SPIndicator": [
+      "~> 1.6"
+    ],
+    "SPAlert": [
+      "~> 4.2"
+    ],
+    "ExpoModulesCore": [
+
+    ]
+  },
+  "pod_target_xcconfig": {
+    "DEFINES_MODULE": "YES",
+    "SWIFT_COMPILATION_MODE": "wholemodule"
+  },
+  "source_files": "**/*.{h,m,swift}",
+  "swift_version": "5.4"
+}

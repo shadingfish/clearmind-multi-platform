@@ -3,10 +3,11 @@
 import React, { useState } from "react";
 import { Input, YStack, Label, Text } from "tamagui";
 import colors from "@/constants/colors";
+import {View} from "react-native";
 
 type InputFieldProps = {
   id: string;
-  label: string;
+  label?: string;
   placeholder: string;
   value: string;
   error?: string;
@@ -29,7 +30,7 @@ const InputField: React.FC<InputFieldProps> = ({
 
   return (
     <YStack gap="$0" width="80%">
-      <Label htmlFor={id}>{label}</Label>
+      {label ? <Label htmlFor={id}>{label}</Label> : <View/>}
       <Input
         flex={1}
         width="100%" 

@@ -1,0 +1,6 @@
+module SPIndicator {
+  umbrella header "SPIndicator-umbrella.h"
+
+  export *
+  module * { export * }
+}
