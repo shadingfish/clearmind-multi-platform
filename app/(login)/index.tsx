@@ -75,11 +75,9 @@ export default function MainScreen() {
   };
 
   const onPressLogin = () => {
-    setUsername("t2tu@ucsd.edu");
-    setPassword("123456");
     try {
       handleFirebaseLogin(username, password)
-        .then((usr) => {
+        .then(() => {
           router.replace("/(app)");
         })
         .catch((err) => {
