@@ -12,12 +12,14 @@ import {
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import { RelativePathString, router } from "expo-router";
 
 const { width } = Dimensions.get("window");
 
-const SidebarModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
+const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterName: string }> = ({
   visible,
   onClose,
+  chapterName
 }) => {
 
     // this will become context:
@@ -56,6 +58,16 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
         "Summary": true,
     }
 
+    const title2activityNum: Record<string, string> = {
+        "Opening": "opening",
+        "Your Challenging Emotions": "activity1",
+        "Passengers On The Bus": "activity2",
+        "Example of Driving the bus": "activity3",
+        "Identify your passengers": "activity4",
+        "Willingness to Carry On": "activity5",
+        "Summary": "summary",
+    }
+
     const navigation = useNavigation(); // Access navigation object
 
     const handleNavigate = (screenName: string) => {
@@ -66,7 +78,14 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
     const [part1Progress, setPart1Progress] = useState(tempPart1); //load in from context
     const [part2Progress, setPart2Progress] = useState(tempPart2); //load in from context
     const [part3Progress, setPart3Progress] = useState(tempPart3); //load in from context
-    const [part4Progress, setPart4Progress] = useState({}); //load in from context
+    const [part4Progress, setPart4Progress] = useState(tempPart4); //load in from context
+
+    const navigateToScreen = (chapterName: string, screenName: string) => {
+        console.log('we clicked')
+        const route = `/(app)/${chapterName}/content/${screenName}`; //we have to 
+        router.push(route as RelativePathString);
+        onClose();
+    };
 
   return (
     <Modal
@@ -106,7 +125,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
                     </Text>
 
                     {Object.entries(part2Progress).map(([key, value]) => (
-                        <Pressable key={key} style={styles.subTitleContainer}>
+                        <Pressable key={key} style={styles.subTitleContainer} onPress={() => navigateToScreen(chapterName, title2activityNum[key])}>
                             <View style={{width: 25}}>
                                 {value ?
                                     <Ionicons name="checkmark" size={20} color="black" />
@@ -144,6 +163,22 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
                     <Text style={{...styles.chapTitle, marginTop: '5%'}}>
                         Part 4: Determination
                     </Text>
+
+                    {Object.entries(part4Progress).map(([key, value]) => (
+                        <Pressable key={key} style={styles.subTitleContainer}>
+                            <View style={{width: 25}}>
+                                {value ?
+                                    <Ionicons name="checkmark" size={20} color="black" />
+                                    :
+                                    <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>
+                                }
+                            </View>
+                            { value ?
+                                <Text style={{fontSize: 16}}>{key}</Text> :
+                                <Text style={{fontSize: 16, color: "grey"}}>{key}</Text>
+                            }
+                        </Pressable>
+                    ))}
 
                 </ScrollView>
             </SafeAreaView>
