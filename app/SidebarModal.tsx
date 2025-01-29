@@ -13,6 +13,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { RelativePathString, router } from "expo-router";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 const { width } = Dimensions.get("window");
 
@@ -68,19 +69,19 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
         "Summary": "summary",
     }
 
-    const navigation = useNavigation(); // Access navigation object
-
-    const handleNavigate = (screenName: string) => {
-        onClose(); // Close the modal
-        //navigation.navigate(screenName); // Navigate to the desired screen
-    };
+    const { userData, setUserData } = useAuthContext();
+    console.log('userData', userData)
 
     const [part1Progress, setPart1Progress] = useState(tempPart1); //load in from context
     const [part2Progress, setPart2Progress] = useState(tempPart2); //load in from context
     const [part3Progress, setPart3Progress] = useState(tempPart3); //load in from context
     const [part4Progress, setPart4Progress] = useState(tempPart4); //load in from context
 
-    const navigateToScreen = (chapterName: string, screenName: string) => {
+    const navigateToScreen = (chapterName: string, screenName: string, value: Boolean) => {
+        if (!value) {
+            console.log('not unlocked yet')
+            return;
+        }
         console.log('we clicked')
         const route = `/(app)/${chapterName}/content/${screenName}`; //we have to 
         router.push(route as RelativePathString);
@@ -125,7 +126,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                     </Text>
 
                     {Object.entries(part2Progress).map(([key, value]) => (
-                        <Pressable key={key} style={styles.subTitleContainer} onPress={() => navigateToScreen(chapterName, title2activityNum[key])}>
+                        <Pressable key={key} style={styles.subTitleContainer} onPress={() => navigateToScreen(chapterName, title2activityNum[key], value)}>
                             <View style={{width: 25}}>
                                 {value ?
                                     <Ionicons name="checkmark" size={20} color="black" />
