@@ -1,14 +1,13 @@
 // hooks/useAuth.ts
 
-import { auth, database } from "../constants/firebaseConfig";
-import { ref, get, update } from "firebase/database";
 import {
-  getAuth,
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
   User,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { auth } from "../constants/firebaseConfig";
 
 export const useAuth = () => {
   const [authState, setAuthState] = useState<{
@@ -32,40 +31,18 @@ export const useAuth = () => {
     return () => unregisterAuthObserver();
   }, []);
 
-  const handleLogin = (username: string, password: string) => {
-    if (!username || !password) {
-      alert("Please enter username and password");
-      return;
-    }
-
-    const userRef = ref(database, `users/${username}`);
-    get(userRef).then((snapshot) => {
-      if (snapshot.exists()) {
-        const user = snapshot.val();
-        if (user.password === password) {
-          alert("Login Successful!");
-        } else {
-          alert("Incorrect password");
-        }
-      } else {
-        alert("User does not exist. Please register.");
-      }
-    });
-  };
-
-  const getUserInfo = (username: string) => {
-    const userRef = ref(database, `users/${username}`);
-    return get(userRef);
-  };
-
   const handleFirebaseLogin = (email: string, password: string) => {
     if (!email || !password) {
-      throw new Error("Please enter email and password");
+      console.log("Please enter email and password");
     }
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const handleFirebaseRegister = async (email: string, password: string) => {
+  const handleFirebaseRegister = async (
+    email: string,
+    password: string,
+    username: string
+  ) => {
     if (!email || !password) {
       alert("Please enter email and password");
       return { success: false, error: "Email and password are required." };
@@ -77,9 +54,12 @@ export const useAuth = () => {
         email,
         password
       );
-      const user = userCredential.user;
+      await updateProfile(userCredential.user, {
+        displayName: username.toLowerCase(),
+      });
 
-      alert(`Registration Successful! Welcome, ${user.email}`);
+      const user = auth.currentUser;
+
       console.log("User register:", user);
       return { success: true, user };
     } catch (error: any) {
@@ -89,23 +69,7 @@ export const useAuth = () => {
     }
   };
 
-  const getUserSecurity = (username: string) => {
-    const userRef = ref(database, `security/${username}`);
-    return get(userRef);
-  };
-
-  const updateUserPassword = (username: string, password: string) => {
-    const userRef = ref(database, `users/${username}`);
-    return update(userRef, {
-      password: password,
-    });
-  };
-
   return {
-    handleLogin,
-    getUserSecurity,
-    updateUserPassword,
-    getUserInfo,
     handleFirebaseLogin,
     handleFirebaseRegister,
     ...authState,
