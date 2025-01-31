@@ -1,8 +1,17 @@
 import "dotenv/config";
 
-export default ({ config }) => ({
+module.exports = ({ config }) => ({
   ...config,
+  android: {
+    ...config.android,
+    googleServicesFile: process.env.GOOGLE_SERVICES_JSON || "./google-services.json",
+  },
+  ios: {
+    ...config.ios,
+    googleServicesFile: process.env.GOOGLE_SERVICES_PLIST || "./GoogleService-Info.plist",
+  },
   extra: {
+    ...config.extra,
     firebaseApiKey: process.env.FIREBASE_API_KEY,
     firebaseAuthDomain: process.env.FIREBASE_AUTH_DOMAIN,
     firebaseDatabaseUrl: process.env.FIREBASE_DATABASE_URL,

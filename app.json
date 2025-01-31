@@ -34,6 +34,14 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
       ]
     ],
     "experiments": {
@@ -44,7 +52,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "1786dafd-3d4e-44cd-a39b-e51ff97b230a"
+        "projectId": "fbb8b860-727c-438e-82cb-b746b3975732"
       },
       "firebaseApiKey": "AIzaSyAN0VTXfY575A6Hr-K225hEuCFAK1U9Tbs",
       "firebaseAuthDomain": "clearmind-442ad.firebaseapp.com",

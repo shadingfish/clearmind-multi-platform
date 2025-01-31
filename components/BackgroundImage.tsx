@@ -34,12 +34,10 @@ export default function BackgroundImage() {
       <Image
         source={require("../assets/images/light_green.png")}
         style={[styles.image, { zIndex: 3 }]}
-        resizeMode="contain" 
       />
       <Image
         source={require("../assets/images/medium_green.png")}
         style={[styles.image, styles.imageOverlap, { zIndex: 2 }]}
-        resizeMode="contain"
       />
       <Image
         source={require("../assets/images/dark_green.png")}
@@ -48,7 +46,6 @@ export default function BackgroundImage() {
           styles.imageOverlap,
           { bottom: styles.imageOverlap.bottom * 2, zIndex: 1 },
         ]}
-        resizeMode="contain"
       />
     </YStack>
   );
