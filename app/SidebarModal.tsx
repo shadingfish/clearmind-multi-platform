@@ -42,12 +42,16 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
         "Willingness to Carry On": true,
         "Summary": true,
     }
-    const tempPart3 = {
-        "Opening": true,
+    const tempPart3: Record<string, boolean> = {
+        "Opening": false,
         "Label the Passengers on the Bus": false,
-        "Identify how it feels in your body": true,
+        "Identify how it feels in your body": false,
         "Learn How to Meditate": false,
-        "Make a Belief Statement": true,
+        "Make a Belief Statement": false,
+        "Be Aware of Cognitive Distortions": false,
+        "Summary of Cognitive Distortions": false,
+        "Reflecting on Cognitive Distortions in Various Procrastination Types": false,
+        "Part 3 Summary": false,
     }
     const tempPart4 = {
         "Opening": true,
@@ -59,7 +63,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
         "Summary": true,
     }
 
-    const title2activityNum: Record<string, string> = {
+    const chapter2_title2activityNum: Record<string, string> = {
         "Opening": "opening",
         "Your Challenging Emotions": "activity1",
         "Passengers On The Bus": "activity2",
@@ -69,8 +73,20 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
         "Summary": "summary",
     }
 
+    const chapter3_title2activityNum: Record<string, string> = {
+        "Opening": "opening",
+        "Label the Passengers on the Bus": "activity1",
+        "Identify how it feels in your body": "activity2",
+        "Learn How to Meditate": "activity3",
+        "Make a Belief Statement": "activity4",
+        "Be Aware of Cognitive Distortions": "activity5",
+        "Summary of Cognitive Distortions": "activity7",
+        "Reflecting on Cognitive Distortions in Various Procrastination Types": "activity8",
+        "Part 3 Summary": "summary",
+    }
+
     const { userData, setUserData, currPage } = useAuthContext();
-    //console.log('userData', userData)
+    console.log('userData', userData)
 
     const [part1Progress, setPart1Progress] = useState(userData["chapter1"]); //load in from context
     const [part2Progress, setPart2Progress] = useState(userData["chapter2"]); //load in from context
@@ -106,10 +122,10 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                         Part 1: Discovery
                     </Text>
                     {Object.entries(part1Progress).map(([key, value]) => (
-                        <Pressable key={key} style={styles.subTitleContainer}>
+                        <Pressable key={key} style={[styles.subTitleContainer, currPage === key && chapterName === "chapter1" && { backgroundColor: '#FFA500' }]}>
                             <View style={{width: 25}}>
                                 {value ?
-                                    ( currPage != key ?
+                                    ( currPage != key || chapterName != "chapter1" ?
                                         <Ionicons name="checkmark" size={20} color="black" /> :
                                         <Ionicons name="arrow-forward" size={20} color="black" />
                                     )
@@ -131,10 +147,10 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                     </Text>
 
                     {Object.entries(part2Progress).map(([key, value]) => (
-                        <Pressable key={key} style={[styles.subTitleContainer, currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen(chapterName, title2activityNum[key], value)}>
+                        <Pressable key={key} style={[styles.subTitleContainer, currPage === key && chapterName === "chapter2" && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen("chapter2", chapter2_title2activityNum[key], value)}>
                             <View style={{width: 25}}>
                                 {value ?
-                                    ( currPage != key ?
+                                    ( currPage != key || chapterName != "chapter2" ?
                                         <Ionicons name="checkmark" size={20} color="black" /> :
                                         <Ionicons name="arrow-forward" size={20} color="black" />
                                     )
@@ -143,11 +159,9 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                                 }
                             </View>
                             { value ?
-                                ( currPage != key ?
+                                ( currPage != key || chapterName != "chapter2" ?
                                     <Text style={{fontSize: 16}}>{key}</Text> :
-                                    <View>
-                                        <Text style={{fontSize: 16, fontWeight: "bold"}}>{key}</Text>
-                                    </View>
+                                    <Text style={{fontSize: 16, fontWeight: "bold"}}>{key}</Text>
                                 )
                                 :
                                 <Text style={{fontSize: 16, color: "grey"}}>{key}</Text>
@@ -160,10 +174,10 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                     </Text>
 
                     {Object.entries(part3Progress).map(([key, value]) => (
-                        <Pressable key={key} style={styles.subTitleContainer}>
+                        <Pressable key={key} style={[styles.subTitleContainer, currPage === key && chapterName === "chapter3" && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen("chapter3", chapter3_title2activityNum[key], value)}>
                             <View style={{width: 25}}>
                                 {value ?
-                                    ( currPage != key ?
+                                    ( currPage != key || chapterName != "chapter3" ?
                                         <Ionicons name="checkmark" size={20} color="black" /> :
                                         <Ionicons name="arrow-forward" size={20} color="black" />
                                     )
@@ -172,7 +186,12 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                                 }
                             </View>
                             { value ?
-                                <Text style={{fontSize: 16}}>{key}</Text> :
+                                ( currPage != key || chapterName != "chapter3" ?
+                                    <Text style={{fontSize: 16}}>{key}</Text> :
+                                    <View>
+                                        <Text style={{fontSize: 16, fontWeight: "bold"}}>{key}</Text>
+                                    </View>
+                                ) :
                                 <Text style={{fontSize: 16, color: "grey"}}>{key}</Text>
                             }
                         </Pressable>
@@ -186,7 +205,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                         <Pressable key={key} style={styles.subTitleContainer}>
                             <View style={{width: 25}}>
                                 {value ?
-                                    ( currPage != key ?
+                                    ( currPage != key || chapterName != "chapter4" ?
                                         <Ionicons name="checkmark" size={20} color="black" /> :
                                         <Ionicons name="arrow-forward" size={20} color="black" />
                                     )

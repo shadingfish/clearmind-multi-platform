@@ -151,3 +151,86 @@ export const Chapter2 = {
     "8_Summary": "0",
   },
 };
+
+
+
+export const Chapter3 = {
+  Activity: [
+    {
+      name: "OPENING",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      progress_index: "1_Opening",
+      route: "/(app)/chapter3/content/opening",
+    },
+    {
+      name: "LABEL THE PASSENGERS ON THE BUS",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      progress_index: "2_Passengers",
+      route: "/(app)/chapter3/content/activity1",
+    },
+    {
+      name: "IDENTIFY HOW IT FEELS WITHIN YOUR BODY",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      progress_index: "2_Passengers",
+      route: "/(app)/chapter3/content/activity2",
+    },
+    {
+      name: "LEARN HOW TO MEDITATE",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      progress_index: "2_Passengers",
+      route: "/(app)/chapter3/content/activity3",
+    },
+    {
+      name: "MAKE A BELIEF STATEMENT",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      progress_index: "2_Passengers",
+      route: "/(app)/chapter3/content/activity4",
+    },
+    {
+      name: "BE AWARE OF COGNITIVE DISTORTIONS",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      progress_index: "2_Passengers",
+      route: "/(app)/chapter3/content/activity5",
+    },
+    {
+      name: "SUMMARY OF COGNITIVE DISTORTIONS",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      progress_index: "2_Passengers",
+      route: "/(app)/chapter3/content/activity7",
+    },
+    {
+      name: "REFLECTING ON COGNITIVE DISTORTIONS IN VARIOUS PROCRASTINATION TYPES",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      progress_index: "2_Passengers",
+      route: "/(app)/chapter3/content/activity8",
+    },
+    {
+      name: "PART 3 SUMMARY",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      progress_index: "2_Passengers",
+      route: "/(app)/chapter3/content/activity9",
+    },
+  ],
+  EmptyProgress: {
+    "1_Opening": "0",
+    "2_Passengers": "0",
+    "3_Body": "0",
+    "4_Meditate": "0",
+    "5_Belief": "0",
+    "6_Cognitive1": "0",
+    "7_Cognitive2": "0",
+    "8_SummaryCognitive": "0",
+    "9_Reflecting": "0",
+    "10_Summary": "0",
+  },
+
+};

@@ -23,21 +23,21 @@ const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
-import InputField from "../InputField";
-import {DropdownComponent} from "../Dropdown";
 import { Ionicons } from '@expo/vector-icons';
-import CogDistortModal from '../../app/(app)/chapter3/content/CogDistortModal';
+import CogDistortModal from './CogDistortModal';
+import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
+import { router } from "expo-router";
 
 interface CurrentPageComponentProps {
-  data: {[key: string]: any},
+  /* data: {[key: string]: any},
   setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
   dataFilled: boolean,
-  setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
+  setDataFilled: React.Dispatch<React.SetStateAction<boolean>> */
 }
 
-const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) => {
-    const [whichCogDistPaths, setWhichCogDistPaths] = useState<Set<string>>(data.whichCogDistPaths || new Set<String>())
-    const [hasCogDist, setHasCogDist] = useState<{ [key: string]: boolean }>(data.hasCogDist || {});
+const Activity6: React.FC<CurrentPageComponentProps> = ({ }) => {
+    const [whichCogDistPaths, setWhichCogDistPaths] = useState<Set<string>>(new Set<string>())
+    const [hasCogDist, setHasCogDist] = useState<{ [key: string]: boolean }>({});
     const [currTitle, setCurrTitle] = useState("");
 
     const imageSources = {
@@ -65,7 +65,7 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
         }));
     };
 
-    useEffect(() => {
+    /* useEffect(() => {
         console.log('dataisfilled beginning', dataFilled)
 
         setData((prevData) => ({
@@ -79,7 +79,7 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
     
           console.log('data:', data);
         
-    }, [whichCogDistPaths, hasCogDist]); // Dependency array, this effect runs when "count" changes
+    }, [whichCogDistPaths, hasCogDist]); // Dependency array, this effect runs when "count" changes */
 
     const handlePress = (pathName: string) => {
         setWhichCogDistPaths(prevPaths => {
@@ -94,7 +94,8 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
     };
 
     return (
-        <ScrollView style={{width: '100%', height: '85%'}}>
+        <YStack margin={"$4"} gap={"$4"} flex={1}>
+        <ScrollView style={{width: '100%', height: '100%'}}>
             <CogDistortModal isVisible={isModalVisible} onClose={closeModal} title={currTitle} hasCogDist={hasCogDist} setHasCogDist={setHasCogDist}/>
             <Text style={{fontSize: 18, marginVertical: '3%'}}>
                 Now, let's talk about the ten most common cognitive distortions with examples:
@@ -240,6 +241,14 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
             
             </View>
         </ScrollView>
+
+        <ChapterNavigationButton
+                prev={"/(app)/chapter3/content/activity5"}
+                next={() => {
+                    router.push("/(app)/chapter3/content/activity7");
+                }}
+            />
+        </YStack>
     );
   }
   
@@ -277,4 +286,4 @@ const Page7: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
     },
   });
 
-  export default Page7;
+  export default Activity6;

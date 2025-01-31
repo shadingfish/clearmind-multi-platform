@@ -53,7 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         "Summary": true,
     }
     const tempPart2: Record<string, boolean> = {
-        "Opening": true,
+        "Opening": false,
         "Your Challenging Emotions": false,
         "Passengers On The Bus": false,
         "Example of Driving the bus": false,
@@ -67,6 +67,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         "Identify how it feels in your body": false,
         "Learn How to Meditate": false,
         "Make a Belief Statement": false,
+        "Be Aware of Cognitive Distortions": false,
+        "Summary of Cognitive Distortions": false,
+        "Reflecting on Cognitive Distortions in Various Procrastination Types": false,
+        "Part 3 Summary": false,
     }
     const tempPart4: Record<string, boolean> = {
         "Opening": false,
