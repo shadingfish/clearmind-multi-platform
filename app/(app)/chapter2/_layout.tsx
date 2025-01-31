@@ -23,7 +23,7 @@ export default function RootLayout() {
           },
           headerLeft: () => (
             <Button onPress={() => router.dismissTo("/(app)")} unstyled>
-              <Ionicons name="chevron-back" size={24} color="black" />
+              <Ionicons name="chevron-back" size={24} color="white" />
             </Button>
           ),
         }}

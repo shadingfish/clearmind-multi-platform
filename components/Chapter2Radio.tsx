@@ -38,10 +38,10 @@ export const Chapter2Radio: React.FC<Chapter2RadioProps> = ({
         borderWidth={1}
         borderColor={colors.hintColor}
         alignSelf="flex-start"
-        padding={"$2"}
-        borderRadius={"$10"}
+        padding={showHint ? "$1.5" : "$2"}
+        borderRadius={showHint ? "$8" : "$10"}
         onPress={() => setShowHint(!showHint)}
-        paddingHorizontal={showHint ? "$4" : "$2"}
+        paddingHorizontal={showHint ? "$3" : "$2"}
         marginTop={"$1"}
       >
         <Text color={colors.hintColor}>
@@ -83,6 +83,7 @@ export const Chapter2Radio: React.FC<Chapter2RadioProps> = ({
         </XStack>
 
         {checked != "" &&
+          correct != null &&
           (correct ? (
             <Text marginHorizontal={"$2"} color={colors.correct}>
               {correctText}
