@@ -7,8 +7,10 @@ import { useRouter } from "expo-router";
 interface AuthContextType {
   isSignedIn: boolean;
   pending: boolean;
-  userData: Record<string, Record<string, Boolean>>;
-  setUserData: (data: Record<string, Record<string, Boolean>>) => void;
+  userData: Record<string, Record<string, boolean>>;
+  setUserData: React.Dispatch<React.SetStateAction<Record<string, Record<string, boolean>>>>;
+  currPage: string,
+  setCurrPage: (data: string) => void;
 }
 
 // Create the context with an initial default value
@@ -18,7 +20,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [pending, setPending] = useState(true);
-  const [userData, setUserData] = useState<Record<string, Record<string, Boolean>>>({});
+  const [userData, setUserData] = useState<Record<string, Record<string, boolean>>>({});
+  const [currPage, setCurrPage] = useState<string>(""); //set to the title of the page and then you should know which chapter you're in modal anyway
 
   const router = useRouter();
 
@@ -40,17 +43,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []); */
 
     //just temporary
-    const tempPart1: Record<string, Boolean> = {
+    const tempPart1: Record<string, boolean> = {
         "Opening": true,
-        "Prioritize Your Life Values": false,
-        "Discover Procrastination Reasons": false,
-        "Procrastination Tendencies": false,
-        "Tendencies Questions": false,
-        "How to Use the App": false,
-        "Summary": false,
+        "Prioritize Your Life Values": true,
+        "Discover Procrastination Reasons": true,
+        "Procrastination Tendencies": true,
+        "Tendencies Questions": true,
+        "How to Use the App": true,
+        "Summary": true,
     }
-    const tempPart2: Record<string, Boolean> = {
-        "Opening": false,
+    const tempPart2: Record<string, boolean> = {
+        "Opening": true,
         "Your Challenging Emotions": false,
         "Passengers On The Bus": false,
         "Example of Driving the bus": false,
@@ -58,14 +61,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         "Willingness to Carry On": false,
         "Summary": false,
     }
-    const tempPart3: Record<string, Boolean> = {
+    const tempPart3: Record<string, boolean> = {
         "Opening": false,
         "Label the Passengers on the Bus": false,
         "Identify how it feels in your body": false,
         "Learn How to Meditate": false,
         "Make a Belief Statement": false,
     }
-    const tempPart4: Record<string, Boolean> = {
+    const tempPart4: Record<string, boolean> = {
         "Opening": false,
         "Prioritize Your Life Values": false,
         "Discover Procrastination Reasons": false,
@@ -75,11 +78,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         "Summary": false,
     }
 
-    const visited_chapters: Record<string, Record<string, Boolean>> = {
-        "Part1": tempPart1,
-        "Part2": tempPart2,
-        "Part3": tempPart3,
-        "Part4": tempPart4
+    const visited_chapters: Record<string, Record<string, boolean>> = {
+        "chapter1": tempPart1,
+        "chapter2": tempPart2,
+        "chapter3": tempPart3,
+        "chapter4": tempPart4
     }
 
     useEffect(() => {
@@ -88,7 +91,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }, []);
 
   return (
-    <AuthContext.Provider value={{ isSignedIn, pending, userData, setUserData }}>
+    <AuthContext.Provider value={{ isSignedIn, pending, userData, setUserData, currPage, setCurrPage }}>
       {children}
     </AuthContext.Provider>
   );

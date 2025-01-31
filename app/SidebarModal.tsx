@@ -69,15 +69,15 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
         "Summary": "summary",
     }
 
-    const { userData, setUserData } = useAuthContext();
-    console.log('userData', userData)
+    const { userData, setUserData, currPage } = useAuthContext();
+    //console.log('userData', userData)
 
-    const [part1Progress, setPart1Progress] = useState(tempPart1); //load in from context
-    const [part2Progress, setPart2Progress] = useState(tempPart2); //load in from context
-    const [part3Progress, setPart3Progress] = useState(tempPart3); //load in from context
-    const [part4Progress, setPart4Progress] = useState(tempPart4); //load in from context
+    const [part1Progress, setPart1Progress] = useState(userData["chapter1"]); //load in from context
+    const [part2Progress, setPart2Progress] = useState(userData["chapter2"]); //load in from context
+    const [part3Progress, setPart3Progress] = useState(userData["chapter3"]); //load in from context
+    const [part4Progress, setPart4Progress] = useState(userData["chapter4"]); //load in from context
 
-    const navigateToScreen = (chapterName: string, screenName: string, value: Boolean) => {
+    const navigateToScreen = (chapterName: string, screenName: string, value: boolean) => {
         if (!value) {
             console.log('not unlocked yet')
             return;
@@ -109,13 +109,18 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                         <Pressable key={key} style={styles.subTitleContainer}>
                             <View style={{width: 25}}>
                                 {value ?
-                                    <Ionicons name="checkmark" size={20} color="black" />
+                                    ( currPage != key ?
+                                        <Ionicons name="checkmark" size={20} color="black" /> :
+                                        <Ionicons name="arrow-forward" size={20} color="black" />
+                                    )
                                     :
                                     <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>
                                 }
                             </View>
                             { value ?
-                                <Text style={{fontSize: 16}}>{key}</Text> :
+                                <Text style={{fontSize: 16}}>{key}</Text> 
+                            
+                                :
                                 <Text style={{fontSize: 16, color: "grey"}}>{key}</Text>
                             }
                         </Pressable>
@@ -126,16 +131,25 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                     </Text>
 
                     {Object.entries(part2Progress).map(([key, value]) => (
-                        <Pressable key={key} style={styles.subTitleContainer} onPress={() => navigateToScreen(chapterName, title2activityNum[key], value)}>
+                        <Pressable key={key} style={[styles.subTitleContainer, currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen(chapterName, title2activityNum[key], value)}>
                             <View style={{width: 25}}>
                                 {value ?
-                                    <Ionicons name="checkmark" size={20} color="black" />
+                                    ( currPage != key ?
+                                        <Ionicons name="checkmark" size={20} color="black" /> :
+                                        <Ionicons name="arrow-forward" size={20} color="black" />
+                                    )
                                     :
                                     <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>
                                 }
                             </View>
                             { value ?
-                                <Text style={{fontSize: 16}}>{key}</Text> :
+                                ( currPage != key ?
+                                    <Text style={{fontSize: 16}}>{key}</Text> :
+                                    <View>
+                                        <Text style={{fontSize: 16, fontWeight: "bold"}}>{key}</Text>
+                                    </View>
+                                )
+                                :
                                 <Text style={{fontSize: 16, color: "grey"}}>{key}</Text>
                             }
                         </Pressable>
@@ -149,7 +163,10 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                         <Pressable key={key} style={styles.subTitleContainer}>
                             <View style={{width: 25}}>
                                 {value ?
-                                    <Ionicons name="checkmark" size={20} color="black" />
+                                    ( currPage != key ?
+                                        <Ionicons name="checkmark" size={20} color="black" /> :
+                                        <Ionicons name="arrow-forward" size={20} color="black" />
+                                    )
                                     :
                                     <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>
                                 }
@@ -169,7 +186,10 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                         <Pressable key={key} style={styles.subTitleContainer}>
                             <View style={{width: 25}}>
                                 {value ?
-                                    <Ionicons name="checkmark" size={20} color="black" />
+                                    ( currPage != key ?
+                                        <Ionicons name="checkmark" size={20} color="black" /> :
+                                        <Ionicons name="arrow-forward" size={20} color="black" />
+                                    )
                                     :
                                     <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>
                                 }
@@ -200,7 +220,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     right: 0,
-    width: width * 0.75, // Covers 75% of the screen width
+    width: width * 0.70, // Covers 75% of the screen width
     backgroundColor: "white",
     flex: 1,
   },
@@ -222,7 +242,10 @@ const styles = StyleSheet.create({
     subTitleContainer: {
         flexDirection: 'row', 
         alignItems: 'center', 
-        marginTop: '3%'
+        marginTop: '3%',
+        borderRadius: 5,
+        padding: '0.5%',
+        //width: '97%'
     }
 });
 

@@ -15,6 +15,7 @@ import {
   setChapter2Summary,
   updateChapter2Progress,
 } from "@/hooks/Chapter2Activity";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 export type SummaryQuestions = {
   question1: string;
@@ -56,6 +57,22 @@ export default function Summary() {
         .catch((err) => console.log("Error get chapter 2 summary: " + err));
     }
   }, [pending]);
+
+  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+
+  useEffect(() => {
+    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
+        ...prevUserData,
+        "chapter2": {
+            ...prevUserData.chapter2,
+            "Summary": true
+        }
+    }));
+
+    setCurrPage("Summary");
+  }, []);
+  //~~~END COPY PASTA~~~
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>

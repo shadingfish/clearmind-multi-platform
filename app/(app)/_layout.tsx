@@ -11,6 +11,7 @@ export default function AppRootLayout() {
   const router = useRouter();
   const { isSignedIn, pending } = useAuth();
 
+
   useEffect(() => {
     if (!isSignedIn && pending == false) {
       router.replace("/(login)");
