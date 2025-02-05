@@ -10,14 +10,8 @@ export function Provider({
   children,
   ...rest
 }: Omit<TamaguiProviderProps, "config">) {
-  const colorScheme = useColorScheme();
-
   return (
-    <TamaguiProvider
-      config={config}
-      defaultTheme={colorScheme === "dark" ? "dark" : "light"}
-      {...rest}
-    >
+    <TamaguiProvider config={config} {...rest}>
       <ToastProvider
         swipeDirection="vertical"
         // duration={1000000}
@@ -30,7 +24,7 @@ export function Provider({
       >
         {children}
         <CurrentToast />
-        <ToastViewport top="$8" left={0} right={0} />
+        <ToastViewport top="$9" left={0} right={0} />
       </ToastProvider>
     </TamaguiProvider>
   );
