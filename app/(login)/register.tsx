@@ -7,7 +7,7 @@ import { addUser, getUser, UserDataType } from "@/hooks/UserInfo";
 import { useFonts } from "expo-font";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Dimensions, ScrollView } from "react-native";
+import { Alert, Dimensions, ScrollView } from "react-native";
 import { Button, Text, XStack, YStack } from "tamagui";
 import { PrimaryButton } from "../../components/CustomButton";
 import InputField from "../../components/InputField";
@@ -86,8 +86,12 @@ export default function SignupScreen() {
     };
 
     const user = await getUser(username, email);
-    console.log(user);
-    if (user.length == 0) {
+    const usernameExists = user.some(
+      (user) => user.username === username.toLowerCase()
+    );
+    const emailExists = user.some((user) => user.email === email.toLowerCase());
+
+    if (!usernameExists && !emailExists) {
       const registerResult = await handleFirebaseRegister(
         email,
         password,
@@ -97,8 +101,22 @@ export default function SignupScreen() {
       alert("Registration complete!");
       router.push("/");
     } else {
-      alert("Username already exists. Please choose a different one.");
-      return;
+      if (usernameExists && emailExists) {
+        Alert.alert(
+          "Registration Failed",
+          "Both username and email already exist in database."
+        );
+        return;
+      } else if (usernameExists) {
+        Alert.alert(
+          "Registration Failed",
+          "Username already exists in database."
+        );
+        return;
+      } else if (emailExists) {
+        Alert.alert("Registration Failed", "Email already exists in database.");
+        return;
+      }
     }
 
     // const userRef = ref(database, `users/${username}`);

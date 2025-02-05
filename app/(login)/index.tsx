@@ -92,7 +92,12 @@ export default function MainScreen() {
       })
       .catch((err) => {
         const error = err.code.replace("auth/", "");
-        toast.show(`Login Error: ${error}`);
+        // update toast message
+        if (error == "invalid-credential") {
+          toast.show(`Login Error: Incorrect Password`);
+        } else {
+          toast.show(`Login Error: ${error}`);
+        }
         console.log("Registration failed:", err);
       });
   };
@@ -137,7 +142,7 @@ export default function MainScreen() {
         >
           <Stack width="100%" maxWidth={300} gap="$2">
             <Input
-              placeholder="Username"
+              placeholder="Username / Email"
               placeholderTextColor={colors.placeholder}
               value={username}
               onChangeText={setUsername}
@@ -160,7 +165,7 @@ export default function MainScreen() {
                 textDecorationLine="underline"
                 color={colors.linkText}
               >
-                Forgot Password?
+                Forgot Username / Password?
               </Text>
             </Button>
           </Stack>
