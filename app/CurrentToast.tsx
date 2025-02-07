@@ -1,9 +1,17 @@
 import colors from "@/constants/colors";
 import { Toast, useToastController, useToastState } from "@tamagui/toast";
-import { Button, H4, XStack, YStack, isWeb } from "tamagui";
+import { useFonts } from "expo-font";
+import { Button, H4, XStack, YStack, isWeb, Image, ZStack } from "tamagui";
 
 export function CurrentToast() {
   const currentToast = useToastState();
+  // const [fontsLoaded] = useFonts({
+  //   notoSans: require("../assets/fonts/NotoSans-VariableFont_wdth,wght.ttf"),
+  // });
+
+  // if (!fontsLoaded) {
+  //   return null;
+  // }
 
   if (!currentToast || currentToast.isHandledNatively) return null;
 
@@ -18,21 +26,37 @@ export function CurrentToast() {
       br="$6"
       // animation="quick"
     >
-      <YStack
+      <XStack
         ai="center"
         p="$2"
         gap="$2"
-        backgroundColor={colors.background}
-        borderRadius="$4"
-        paddingHorizontal="$3"
+        backgroundColor={"#FFF"}
+        borderRadius="$10"
+        style={{
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
+        }}
       >
-        <Toast.Title fow="bold" fontSize="$5">
-          {currentToast.title}
-        </Toast.Title>
-        {!!currentToast.message && (
-          <Toast.Description>{currentToast.message}</Toast.Description>
-        )}
-      </YStack>
+        <Image
+          source={require("assets/images/toast.png")}
+          height={28}
+          width={28}
+        />
+        <YStack gap={"$3"} marginRight="$2">
+          <Toast.Title fontSize={"$5"} fontWeight={900}>
+            {currentToast.title}
+          </Toast.Title>
+          {!!currentToast.message && (
+            <Toast.Description>{currentToast.message}</Toast.Description>
+          )}
+        </YStack>
+      </XStack>
     </Toast>
   );
 }
