@@ -27,49 +27,40 @@ import * as Progress from "react-native-progress";
 import {DropdownComponent} from "@/components/Dropdown";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { router } from "expo-router";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter3Context } from "@/contexts/Chapter3Context";
 
-interface CurrentPageComponentProps {
-  /* data: {[key: string]: any},
-  setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
-  dataFilled: boolean,
-  setDataFilled: React.Dispatch<React.SetStateAction<boolean>> */
-}
+type Activity2Questions = {
+    p3_body: string;
+    p3_physical: string;
+  };
 
-const Activity3: React.FC<CurrentPageComponentProps> = ({}) => {
-    const [p3_body, setP3_body] = useState("");
-    const [p3_physical, setP3_Physical] = useState("");
+const Activity2 = () => {
 
-    /* useEffect(() => {
-        console.log('dataisfilled beginning', dataFilled)
+    const {chapterData, updateChapterData} = useChapter3Context();
 
-        setData((prevData) => ({
-            ...prevData, 
-            p3_body: p3_body, 
-            p3_physical: p3_physical,
-          }));
-      
-          // Optionally, you can check if all the fields are filled and update dataFilled
-          const isFilled = p3_body !== "" && p3_physical !== "";
-          setDataFilled(isFilled);
-    
-          console.log('data:', data);
-        
-    }, [p3_body, p3_physical]); // Dependency array, this effect runs when "count" changes */
-
-    //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+    const [questions, setQuestions] = useState<Activity2Questions>(chapterData["activity2"] || {
+        p3_body: "",
+        p3_physical: "",
+      });
 
     useEffect(() => {
-        setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-            ...prevUserData,
-            "chapter3": {
-                ...prevUserData.chapter3,
-                "Identify how it feels in your body": true
-            }
-        }));
+        updateChapterData("activity2", questions);
+    }, [questions]);
 
-        setCurrPage("Identify how it feels in your body");
+    const updateQuestion = (field: keyof Activity2Questions, value: string) => {
+        console.log('value', value, 'field', field)
+        setQuestions((prev) => {
+            const updatedQuestions = { ...prev, [field]: value };   
+            return updatedQuestions;
+        });
+    };
+
+    //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+    const { updateChapterProgress } = useChapterProgressContext();
+
+    useEffect(() => {
+        updateChapterProgress("chapter3", "activity2");
     }, []);
     //~~~END COPY PASTA~~~
 
@@ -115,8 +106,8 @@ const Activity3: React.FC<CurrentPageComponentProps> = ({}) => {
             </Text>
             <DropdownComponent
                 items={body_options}
-                value={p3_body}
-                setValue={setP3_body}
+                value={questions.p3_body}
+                setValue={(text) => updateQuestion("p3_body", text)}
                 placeholder={"Head"}
             />
             <Text style={{...styles.textBox, marginBottom: 10,}}>
@@ -124,8 +115,8 @@ const Activity3: React.FC<CurrentPageComponentProps> = ({}) => {
             </Text>
             <DropdownComponent
                 items={phys_options}
-                value={p3_physical}
-                setValue={setP3_Physical}
+                value={questions.p3_physical}
+                setValue={(text) => updateQuestion("p3_physical", text)}
                 placeholder={"Tense"}
             />
         
@@ -150,4 +141,4 @@ const Activity3: React.FC<CurrentPageComponentProps> = ({}) => {
     }
   });
 
-  export default Activity3;
+  export default Activity2;

@@ -27,8 +27,8 @@ export type SummaryQuestions = {
 
 export default function Summary() {
   const router = useRouter();
-  const {chapter2Data, updateChapterData} = useChapter2Context();
-  const [questions, setQuestions] = useState<SummaryQuestions>(chapter2Data["summary"] || {
+  const {chapterData, updateChapterData} = useChapter2Context();
+  const [questions, setQuestions] = useState<SummaryQuestions>(chapterData["summary"] || {
     question1: "",
     question2: "",
     question3: "",
@@ -112,9 +112,9 @@ export default function Summary() {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
-              setChapter2Summary(user!.uid, questions);
+              //setChapter2Summary(user!.uid, questions);
               router.push("/(app)/chapter2");
-              updateChapter2Progress(user!.uid, "8_Summary");
+              //updateChapter2Progress(user!.uid, "8_Summary");
             }
           }}
         />

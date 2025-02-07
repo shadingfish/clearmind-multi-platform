@@ -9,56 +9,45 @@ import * as Progress from "react-native-progress";
 import { Ionicons } from '@expo/vector-icons';
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { router } from "expo-router";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter3Context } from "@/contexts/Chapter3Context";
 
-interface CurrentPageComponentProps {
-  /* data: {[key: string]: any},
-  setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
-  dataFilled: boolean,
-  setDataFilled: React.Dispatch<React.SetStateAction<boolean>> */
-}
 
-const Page3: React.FC<CurrentPageComponentProps> = ({ }) => {
-    const [pathsCompleted, setPathsCompleted] = useState(0);
-    const [whichPaths, setWhichPaths] = useState<Set<string>>(new Set<string>())
+type Activity3Questions = {
+    whichPaths: Set<string>;
+  };
 
-    /* useEffect(() => {
-        console.log('dataisfilled beginning', dataFilled)
+const Activity3 = () => {
+    //const [pathsCompleted, setPathsCompleted] = useState(0);
+    //const [whichPaths, setWhichPaths] = useState<Set<string>>(new Set<string>())
 
-        setData((prevData) => ({
-            ...prevData, 
-            whichPaths: whichPaths, 
-          }));
-      
-          const isFilled = whichPaths.size > 1;
-          setDataFilled(isFilled);
-    
-          console.log('data:', data);
-        
-    }, [whichPaths]); // Dependency array, this effect runs when "count" changes */
+    const {chapterData, updateChapterData} = useChapter3Context();
+
+    const [questions, setQuestions] = useState<Activity3Questions>(chapterData["activity3"] || {
+        whichPaths: new Set<string>
+      });
 
     //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+    const { updateChapterProgress } = useChapterProgressContext();
 
     useEffect(() => {
-        setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-            ...prevUserData,
-            "chapter3": {
-                ...prevUserData.chapter3,
-                "Learn How to Meditate": true
-            }
-        }));
+        updateChapterData("activity3", questions);
+    }, [questions]);
 
-        setCurrPage("Learn How to Meditate");
+    useEffect(() => {
+        updateChapterProgress("chapter3", "activity3");
     }, []);
     //~~~END COPY PASTA~~~
 
     const handlePress = (pathName: string) => {
-        setWhichPaths(prevPaths => {
-            const newPaths = new Set(prevPaths);
-            newPaths.add(pathName);
-            return newPaths;
-          });
+        setQuestions((prev) => {
+            const updatedPaths = new Set(prev.whichPaths); 
+            updatedPaths.add(pathName); 
+    
+            const updatedQuestions = { ...prev, whichPaths: updatedPaths }; 
+    
+            return updatedQuestions; 
+        });
 
         if (pathName == "The 20 Breath Meditation") {
             router.push("/(app)/chapter3/content/activity3_1");
@@ -93,7 +82,7 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ }) => {
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
                     <Pressable style={styles.box} onPress={() => handlePress("The 20 Breath Meditation")}>
                         <View style={styles.circle}>
-                            {   whichPaths.has("The 20 Breath Meditation") ?
+                            {   questions.whichPaths.has("The 20 Breath Meditation") ?
                                 <Image source={require('@/assets/images/icon_20breath.png')} style={{width: 60, height: 60, }}/> :
                                 <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                             }
@@ -102,7 +91,7 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ }) => {
                     </Pressable>
                     <Pressable style={styles.box} onPress={() => handlePress("Relaxing Breathing")}>
                         <View style={styles.circle}>
-                            {   whichPaths.has("Relaxing Breathing") ?
+                            {   questions.whichPaths.has("Relaxing Breathing") ?
                                 <Image source={require('@/assets/images/icon_478.png')} style={{width: 60, height: 60, }}/> :
                                 <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                             }
@@ -113,7 +102,7 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ }) => {
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: '2%' }}>
                     <Pressable style={styles.box} onPress={() => handlePress("Mindful Daily Tasks")}>
                         <View style={styles.circle}>
-                            {   whichPaths.has("Mindful Daily Tasks") ?
+                            {   questions.whichPaths.has("Mindful Daily Tasks") ?
                                 <Image source={require('@/assets/images/icon_everyday.png')} style={{width: 60, height: 60, }}/> :
                                 <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                             }
@@ -122,7 +111,7 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ }) => {
                     </Pressable>
                     <Pressable style={styles.box} onPress={() => handlePress("Leaves on a Stream")}>
                         <View style={styles.circle}>
-                            {   whichPaths.has("Leaves on a Stream") ?
+                            {   questions.whichPaths.has("Leaves on a Stream") ?
                                 <Image source={require('@/assets/images/icon_stream.png')} style={{width: 60, height: 60, }}/> :
                                 <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                             }
@@ -178,4 +167,4 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ }) => {
     },
   });
 
-  export default Page3;
+  export default Activity3;

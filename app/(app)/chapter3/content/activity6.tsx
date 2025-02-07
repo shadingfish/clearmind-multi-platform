@@ -27,20 +27,34 @@ import { Ionicons } from '@expo/vector-icons';
 import CogDistortModal from './CogDistortModal';
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { router } from "expo-router";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter3Context } from "@/contexts/Chapter3Context";
 
-interface CurrentPageComponentProps {
-  /* data: {[key: string]: any},
-  setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
-  dataFilled: boolean,
-  setDataFilled: React.Dispatch<React.SetStateAction<boolean>> */
-}
 
-const Activity6: React.FC<CurrentPageComponentProps> = ({ }) => {
-    const [whichCogDistPaths, setWhichCogDistPaths] = useState<Set<string>>(new Set<string>())
-    const [hasCogDist, setHasCogDist] = useState<{ [key: string]: boolean }>({});
+type Activity6Questions = {
+    whichCogDistPaths: Set<string>;
+    hasCogDist: {[key: string]: boolean};
+  };
+
+const Activity6 = () => {
+    //const [whichCogDistPaths, setWhichCogDistPaths] = useState<Set<string>>(new Set<string>())
+    //const [hasCogDist, setHasCogDist] = useState<{ [key: string]: boolean }>({});
     const [currTitle, setCurrTitle] = useState("");
 
-    const imageSources = {
+    const {chapterData, updateChapterData} = useChapter3Context();
+
+    const [questions, setQuestions] = useState<Activity6Questions>(chapterData["activity6"] || {
+        whichCogDistPaths: new Set<string>,
+        hasCogDist: {},
+      });
+
+    useEffect(() => {
+        //console.log('hasCogDist', questions.hasCogDist);
+        //console.log('whichcogdistpaths', questions.whichCogDistPaths);
+        updateChapterData("activity6", questions);
+    }, [questions]);
+
+    /* const imageSources = {
         "Mental Filtering": require('@/assets/images/distortion_mental_filtering_1.png'),
         "All-or-nothing thinking": require('@/assets/images/distortion_all_or_nothing_1.png'),
         "Overgeneralization": require('@/assets/images/distortion_overgeneralization_1.png'), 
@@ -51,42 +65,29 @@ const Activity6: React.FC<CurrentPageComponentProps> = ({ }) => {
         '"Should" Statements': require('@/assets/images/distortion_should_1.png'),
         "Labeling": require('@/assets/images/distortion_labeling_1.png'),
         "Personalization and Blame": require('@/assets/images/distortion_personalization_and_blame_1.png'),
-      };
+      }; */
     
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const openModal = () => setIsModalVisible(true);
     const closeModal = () => setIsModalVisible(false);
 
-    const addKeyValue = (key: string, value: boolean) => {
-        setHasCogDist(prevState => ({
-          ...prevState,  
-          [key]: value,  
-        }));
-    };
+    //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+    const { updateChapterProgress } = useChapterProgressContext();
 
-    /* useEffect(() => {
-        console.log('dataisfilled beginning', dataFilled)
-
-        setData((prevData) => ({
-            ...prevData, 
-            whichCogDistPaths: whichCogDistPaths, 
-            hasCogDist: hasCogDist,
-          }));
-      
-          const isFilled = whichCogDistPaths.size >= 10;
-          setDataFilled(isFilled);
-    
-          console.log('data:', data);
-        
-    }, [whichCogDistPaths, hasCogDist]); // Dependency array, this effect runs when "count" changes */
+    useEffect(() => {
+        updateChapterProgress("chapter3", "activity6");
+    }, []);
+    //~~~END COPY PASTA~~~
 
     const handlePress = (pathName: string) => {
-        setWhichCogDistPaths(prevPaths => {
-            const newPaths = new Set(prevPaths);
-            newPaths.add(pathName);
-            return newPaths;
-          });
+
+        setQuestions((prev) => {
+            const updatedPaths = new Set(prev.whichCogDistPaths); 
+            updatedPaths.add(pathName); 
+            const updatedQuestions = { ...prev, whichCogDistPaths: updatedPaths }; 
+            return updatedQuestions; 
+        });
 
         setCurrTitle(pathName);
 
@@ -96,7 +97,7 @@ const Activity6: React.FC<CurrentPageComponentProps> = ({ }) => {
     return (
         <YStack margin={"$4"} gap={"$4"} flex={1}>
         <ScrollView style={{width: '100%', height: '100%'}}>
-            <CogDistortModal isVisible={isModalVisible} onClose={closeModal} title={currTitle} hasCogDist={hasCogDist} setHasCogDist={setHasCogDist}/>
+            <CogDistortModal isVisible={isModalVisible} onClose={closeModal} title={currTitle} setQuestions={setQuestions}/>
             <Text style={{fontSize: 18, marginVertical: '3%'}}>
                 Now, let's talk about the ten most common cognitive distortions with examples:
             </Text>
@@ -104,8 +105,8 @@ const Activity6: React.FC<CurrentPageComponentProps> = ({ }) => {
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
                 <Pressable style={styles.box} onPress={() => handlePress("Mental Filtering")}>
                     <View style={styles.circle}>
-                        {   whichCogDistPaths.has("Mental Filtering") ?
-                            (   hasCogDist["Mental Filtering"] ?
+                        {   questions.whichCogDistPaths.has("Mental Filtering") ?
+                            (   questions.hasCogDist["Mental Filtering"] ?
                             <Image source={require('@/assets/images/distortion_mental_filtering_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
                             <Image source={require('@/assets/images/distortion_mental_filtering_2.png')} style={{width: 50, height: 50, borderRadius: 25}} /> 
                             )
@@ -117,8 +118,8 @@ const Activity6: React.FC<CurrentPageComponentProps> = ({ }) => {
                 </Pressable>
                 <Pressable style={styles.box} onPress={() => handlePress("All-or-nothing thinking")}>
                     <View style={styles.circle}>
-                        {   whichCogDistPaths.has("All-or-nothing thinking") ?
-                            (   hasCogDist["All-or-nothing thinking"] ?
+                        {   questions.whichCogDistPaths.has("All-or-nothing thinking") ?
+                            (   questions.hasCogDist["All-or-nothing thinking"] ?
                                 <Image source={require('@/assets/images/distortion_all_or_nothing_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
                                 <Image source={require('@/assets/images/distortion_all_or_nothing_2.png')} style={{width: 50, height: 50, borderRadius: 25}} />
                             )
@@ -132,8 +133,8 @@ const Activity6: React.FC<CurrentPageComponentProps> = ({ }) => {
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: '2%' }}>
                 <Pressable style={styles.box} onPress={() => handlePress("Overgeneralization")}>
                     <View style={styles.circle}>
-                        {   whichCogDistPaths.has("Overgeneralization") ?
-                            ( hasCogDist["Overgeneralization"] ?
+                        {   questions.whichCogDistPaths.has("Overgeneralization") ?
+                            ( questions.hasCogDist["Overgeneralization"] ?
                                 <Image source={require('@/assets/images/distortion_overgeneralization_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
                                 <Image source={require('@/assets/images/distortion_overgeneralization_2.png')} style={{width: 50, height: 50, borderRadius: 25}} />
                             )
@@ -145,8 +146,8 @@ const Activity6: React.FC<CurrentPageComponentProps> = ({ }) => {
                 </Pressable>
                 <Pressable style={styles.box} onPress={() => handlePress("Discounting the positive")}>
                     <View style={styles.circle}>
-                        {   whichCogDistPaths.has("Discounting the positive") ?
-                            (   hasCogDist["Discounting the positive"] ?
+                        {   questions.whichCogDistPaths.has("Discounting the positive") ?
+                            (   questions.hasCogDist["Discounting the positive"] ?
                             <Image source={require('@/assets/images/distortion_discounting_the_positive_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
                             <Image source={require('@/assets/images/distortion_discounting_the_positive_2.png')} style={{width: 50, height: 50, borderRadius: 25}} /> 
                             )
@@ -160,8 +161,8 @@ const Activity6: React.FC<CurrentPageComponentProps> = ({ }) => {
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: '2%' }}>
                 <Pressable style={styles.box} onPress={() => handlePress("Jumping to Conclusions")}>
                     <View style={styles.circle}>
-                        {   whichCogDistPaths.has("Jumping to Conclusions") ?
-                            (   hasCogDist["Jumping to Conclusions"] ?
+                        {   questions.whichCogDistPaths.has("Jumping to Conclusions") ?
+                            (   questions.hasCogDist["Jumping to Conclusions"] ?
                             <Image source={require('@/assets/images/distortion_jumping_to_conclusions_1.png')} style={{width: 50, height: 50, borderRadius: 25}} />:
                             <Image source={require('@/assets/images/distortion_jumping_to_conclusions_2.png')} style={{width: 50, height: 50, borderRadius: 25}} />
                             )
@@ -173,8 +174,8 @@ const Activity6: React.FC<CurrentPageComponentProps> = ({ }) => {
                 </Pressable>
                 <Pressable style={styles.box} onPress={() => handlePress("Magnification")}>
                     <View style={styles.circle}>
-                        {   whichCogDistPaths.has("Magnification") ?
-                            (   hasCogDist["Magnification"] ?
+                        {   questions.whichCogDistPaths.has("Magnification") ?
+                            (   questions.hasCogDist["Magnification"] ?
                             <Image source={require('@/assets/images/distortion_magnification_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
                             <Image source={require('@/assets/images/distortion_magnification_2.png')} style={{width: 50, height: 50, borderRadius: 25}} /> 
                             ):
@@ -187,8 +188,8 @@ const Activity6: React.FC<CurrentPageComponentProps> = ({ }) => {
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: '2%' }}>
                 <Pressable style={styles.box} onPress={() => handlePress("Emotional Reasoning")}>
                     <View style={styles.circle}>
-                        {   whichCogDistPaths.has("Emotional Reasoning") ?
-                            (   hasCogDist["Emotional Reasoning"] ?
+                        {   questions.whichCogDistPaths.has("Emotional Reasoning") ?
+                            (   questions.hasCogDist["Emotional Reasoning"] ?
                             <Image source={require('@/assets/images/distortion_emotional_reasoning_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> : 
                             <Image source={require('@/assets/images/distortion_emotional_reasoning_2.png')} style={{width: 50, height: 50, borderRadius: 25}} />
                             ):
@@ -199,8 +200,8 @@ const Activity6: React.FC<CurrentPageComponentProps> = ({ }) => {
                 </Pressable>
                 <Pressable style={styles.box} onPress={() => handlePress("\"Should\" Statements")}>
                     <View style={styles.circle}>
-                        {   whichCogDistPaths.has("\"Should\" Statements") ?
-                            (   hasCogDist["\"Should\" Statements"] ?
+                        {   questions.whichCogDistPaths.has("\"Should\" Statements") ?
+                            (   questions.hasCogDist["\"Should\" Statements"] ?
                             <Image source={require('@/assets/images/distortion_should_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
                             <Image source={require('@/assets/images/distortion_should_2.png')} style={{width: 50, height: 50, borderRadius: 25}} /> 
                             ):
@@ -213,8 +214,8 @@ const Activity6: React.FC<CurrentPageComponentProps> = ({ }) => {
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: '2%' }}>
                 <Pressable style={styles.box} onPress={() => handlePress("Labeling")}>
                     <View style={styles.circle}>
-                        {   whichCogDistPaths.has("Labeling") ?
-                            (   hasCogDist["Labeling"] ?
+                        {   questions.whichCogDistPaths.has("Labeling") ?
+                            (   questions.hasCogDist["Labeling"] ?
                             <Image source={require('@/assets/images/distortion_labeling_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
                             <Image source={require('@/assets/images/distortion_labeling_2.png')} style={{width: 50, height: 50, borderRadius: 25}} />
                             )
@@ -226,8 +227,8 @@ const Activity6: React.FC<CurrentPageComponentProps> = ({ }) => {
                 </Pressable>
                 <Pressable style={styles.box} onPress={() => handlePress("Personalization and Blame")}>
                     <View style={styles.circle}>
-                        {   whichCogDistPaths.has("Personalization and Blame") ?
-                            (   hasCogDist["Personalization and Blame"] ?
+                        {   questions.whichCogDistPaths.has("Personalization and Blame") ?
+                            (   questions.hasCogDist["Personalization and Blame"] ?
                             <Image source={require('@/assets/images/distortion_personalization_and_blame_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
                             <Image source={require('@/assets/images/distortion_personalization_and_blame_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> 
                             )

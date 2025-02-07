@@ -26,54 +26,51 @@ import * as Progress from "react-native-progress";
 import colors from "@/constants/colors";
 import { router } from "expo-router";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter3Context } from "@/contexts/Chapter3Context";
 
+type Activity1Questions = {
+    p2_recentProcrastination: string;
+    p2_feeling: string;
+    p2_because: string;
+  };
 
-interface CurrentPageComponentProps {
-  /* data: {[key: string]: any},
-  setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
-  dataFilled: boolean,
-  setDataFilled: React.Dispatch<React.SetStateAction<boolean>> */
-} 
+const Activity1 = () => {
+    //const [p2_recentProcrastination, setP2_recentProcrastination] = useState("");
+    //const [p2_feeling, setP2_feeling] = useState("");
+    //const [p2_because, setP2_Because] = useState("");
 
-const Activity1: React.FC<CurrentPageComponentProps> = ({}) => {
-    const [p2_recentProcrastination, setP2_recentProcrastination] = useState("");
-    const [p2_feeling, setP2_feeling] = useState("");
-    const [p2_because, setP2_Because] = useState("");
+    const {chapterData, updateChapterData} = useChapter3Context();
 
-    /* useEffect(() => {
-        console.log('dataisfilled beginning', dataFilled)
+    const [questions, setQuestions] = useState<Activity1Questions>(chapterData["activity1"] || {
+        p2_recentProcrastination: "",
+        p2_feeling: "",
+        p2_because: "",
+      });
 
-        setData((prevData) => ({
-            ...prevData, 
-            p2_recentProcrastination: p2_recentProcrastination, 
-            p2_feeling: p2_feeling,
-            p2_because: p2_because,
-          }));
-      
-          // Optionally, you can check if all the fields are filled and update dataFilled
-          const isFilled = p2_recentProcrastination !== "" && p2_feeling !== "" && p2_because !== "";
-          setDataFilled(isFilled);
+    const updateQuestion = (field: keyof Activity1Questions, value: string) => {
+        setQuestions((prev) => {
+            const updatedQuestions = { ...prev, [field]: value };
     
-          console.log('data:', data);
-        
-    }, [p2_recentProcrastination, p2_feeling, p2_because]); // Dependency array, this effect runs when "count" changes */
+            return updatedQuestions;
+        });
+    };
 
     //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+    const { updateChapterProgress } = useChapterProgressContext();
 
     useEffect(() => {
-        setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-            ...prevUserData,
-            "chapter3": {
-                ...prevUserData.chapter3,
-                "Label the Passengers on the Bus": true
-            }
-        }));
-
-        setCurrPage("Label the Passengers on the Bus");
+        updateChapterProgress("chapter3", "activity1");
     }, []);
     //~~~END COPY PASTA~~~
+
+    //update Chapter Context
+
+    useEffect(() => {
+        updateChapterData("activity1", questions);
+    }, [questions]);
+
+    //end
 
     return (
         <YStack margin={"$4"} gap={"$4"}>
@@ -97,8 +94,8 @@ const Activity1: React.FC<CurrentPageComponentProps> = ({}) => {
                     size="$4"
                     width={"100%"}
                     alignSelf="center"
-                    value={p2_recentProcrastination}
-                    onChangeText={setP2_recentProcrastination}
+                    value={questions.p2_recentProcrastination}
+                    onChangeText={(text) => updateQuestion("p2_recentProcrastination", text)}
                     />
                 <Text style={styles.textBox}>
                     Enter the emotion you experiencing most strongly:
@@ -114,8 +111,8 @@ const Activity1: React.FC<CurrentPageComponentProps> = ({}) => {
                             size="$4"
                             width={"50%"}
                             alignSelf="center"
-                            value={p2_feeling}
-                            onChangeText={setP2_feeling}
+                            value={questions.p2_feeling}
+                            onChangeText={(text) => updateQuestion("p2_feeling", text)}
                             style={{marginTop: '5%'}}
                             />
                 </View>
@@ -130,8 +127,8 @@ const Activity1: React.FC<CurrentPageComponentProps> = ({}) => {
                             size="$4"
                             width={"50%"}
                             alignSelf="center"
-                            value={p2_because}
-                            onChangeText={setP2_Because}
+                            value={questions.p2_because}
+                            onChangeText={(text) => updateQuestion("p2_because", text)}
                             style={{marginTop: '5%'}}
                             />
                 </View>

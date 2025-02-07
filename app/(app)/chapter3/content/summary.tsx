@@ -26,54 +26,52 @@ import * as Progress from "react-native-progress";
 import colors from "@/constants/colors";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { router } from "expo-router";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter3Context } from "@/contexts/Chapter3Context";
 
-interface CurrentPageComponentProps {
-  /* data: {[key: string]: any},
-  setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
-  dataFilled: boolean,
-  setDataFilled: React.Dispatch<React.SetStateAction<boolean>> */
-}
+type SummaryQuestions = {
+    summaryQues1: string;
+    summaryQues2: string;
+    summaryQues3: string;
+  };
 
-const Summary: React.FC<CurrentPageComponentProps> = ({  }) => {
-    const [summaryQues1, setSummaryQues1] = useState("");
-    const [summaryQues2, setSummaryQues2] = useState("");
-    const [summaryQues3, setSummaryQues3] = useState("");
+const Summary = () => {
+    //const [summaryQues1, setSummaryQues1] = useState("");
+    //const [summaryQues2, setSummaryQues2] = useState("");
+    //const [summaryQues3, setSummaryQues3] = useState("");
 
-    /* useEffect(() => {
-        console.log('dataisfilled beginning', dataFilled)
+    const {chapterData, updateChapterData} = useChapter3Context();
 
-        setData((prevData) => ({
-            ...prevData, 
-            summaryQues1: summaryQues1, 
-            summaryQues2: summaryQues2,
-            summaryQues3: summaryQues3,
-          }));
-      
-          // Optionally, you can check if all the fields are filled and update dataFilled
-          const isFilled = summaryQues1 !== "" && summaryQues2 !== "" && summaryQues3 !== "";
-          setDataFilled(isFilled);
-    
-          console.log('data:', data);
-        
-    }, [summaryQues1, summaryQues2, summaryQues3]); // Dependency array, this effect runs when "count" changes */
+    const [questions, setQuestions] = useState<SummaryQuestions>(chapterData["summary"] || {
+        summaryQues1: "",
+        summaryQues2: "",
+        summaryQues3: "",
+      });
 
-    //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+    //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+    const { updateChapterProgress } = useChapterProgressContext();
 
     useEffect(() => {
-        setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-            ...prevUserData,
-            "chapter3": {
-                ...prevUserData.chapter3,
-                "Part 3 Summary": true
-            }
-        }));
-
-        setCurrPage("Part 3 Summary");
+        updateChapterProgress("chapter3", "summary");
     }, []);
     //~~~END COPY PASTA~~~
 
+    //update Chapter Context
+
+    useEffect(() => {
+        updateChapterData("summary", questions);
+    }, [questions]);
+
+    //end
+
+    const updateQuestion = (field: keyof SummaryQuestions, value: string) => {
+        console.log('value', value, 'field', field)
+        setQuestions((prev) => {
+            const updatedQuestions = { ...prev, [field]: value };   
+            return updatedQuestions;
+        });
+    };
+    
     return (
         <YStack margin={"$4"} gap={"$4"} flex={1}>
         <ScrollView style={{width: '100%',height: '85%'}}>
@@ -108,8 +106,8 @@ const Summary: React.FC<CurrentPageComponentProps> = ({  }) => {
                 size="$4"
                 width={"100%"}
                 alignSelf="center"
-                value={summaryQues1}
-                onChangeText={setSummaryQues1}
+                value={questions.summaryQues1}
+                onChangeText={(text) => updateQuestion("summaryQues1", text)}
                 />
             <Text style={{fontSize: 16, color: "#636363", marginVertical: '5%'}}>
                 2. What are some small actions you can take to manage any cognitive 
@@ -124,8 +122,8 @@ const Summary: React.FC<CurrentPageComponentProps> = ({  }) => {
                 size="$4"
                 width={"100%"}
                 alignSelf="center"
-                value={summaryQues2}
-                onChangeText={setSummaryQues2}
+                value={questions.summaryQues2}
+                onChangeText={(text) => updateQuestion("summaryQues2", text)}
                 />
             <Text style={{fontSize: 16, color: "#636363", marginVertical: '5%'}}>
                 3. Rate the effectiveness of this part in managing your 
@@ -136,9 +134,9 @@ const Summary: React.FC<CurrentPageComponentProps> = ({  }) => {
                 <View style={styles.radioButton}>
                     <RadioButton.Android
                         value="1"
-                        status={summaryQues3 === '1' ? 
+                        status={questions.summaryQues3 === '1' ? 
                                 'checked' : 'unchecked'}
-                        onPress={() => setSummaryQues3('1')}
+                        onPress={() => updateQuestion("summaryQues3", '1')}
                         color="#1EB688"
                     />
                     <Text style={styles.radioLabel}>
@@ -149,9 +147,9 @@ const Summary: React.FC<CurrentPageComponentProps> = ({  }) => {
                 <View style={{...styles.radioButton, marginLeft: '5%'}}>
                     <RadioButton.Android
                             value="2"
-                            status={summaryQues3 === '2' ? 
+                            status={questions.summaryQues3 === '2' ? 
                                     'checked' : 'unchecked'}
-                            onPress={() => setSummaryQues3('2')}
+                            onPress={() => updateQuestion("summaryQues3", '2')}
                             color="#1EB688"
                         />
                     <Text style={styles.radioLabel}>
@@ -162,9 +160,9 @@ const Summary: React.FC<CurrentPageComponentProps> = ({  }) => {
                 <View style={{...styles.radioButton, marginLeft: '5%'}}>
                     <RadioButton.Android
                             value="3"
-                            status={summaryQues3 === '3' ? 
+                            status={questions.summaryQues3 === '3' ? 
                                     'checked' : 'unchecked'}
-                            onPress={() => setSummaryQues3('3')}
+                            onPress={() => updateQuestion("summaryQues3", '3')}
                             color="#1EB688"
                         />
                     <Text style={styles.radioLabel}>
@@ -175,9 +173,9 @@ const Summary: React.FC<CurrentPageComponentProps> = ({  }) => {
                 <View style={{...styles.radioButton, marginLeft: '5%'}}>
                     <RadioButton.Android
                             value="4"
-                            status={summaryQues3 === '4' ? 
+                            status={questions.summaryQues3 === '4' ? 
                                     'checked' : 'unchecked'}
-                            onPress={() => setSummaryQues3('4')}
+                            onPress={() => updateQuestion("summaryQues3", '4')}
                             color="#1EB688"
                         />
                     <Text style={styles.radioLabel}>
@@ -188,9 +186,9 @@ const Summary: React.FC<CurrentPageComponentProps> = ({  }) => {
                 <View style={{...styles.radioButton, marginLeft: '5%'}}>
                     <RadioButton.Android
                             value="5"
-                            status={summaryQues3 === '5' ? 
+                            status={questions.summaryQues3 === '5' ? 
                                     'checked' : 'unchecked'}
-                            onPress={() => setSummaryQues3('5')}
+                            onPress={() => updateQuestion("summaryQues3", '5')}
                             color="#1EB688"
                         />
                     <Text style={styles.radioLabel}>

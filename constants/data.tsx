@@ -206,7 +206,7 @@ export const Chapter3 = {
       route: "/(app)/chapter3/content/activity7",
     },
     {
-      name: "REFLECTING ON COGNITIVE DISTORTIONS IN VARIOUS PROCRASTINATION TYPES",
+      name: "REFLECTING ON COGNITIVE DISTORTIONS",
       icon: require("assets/images/icon_practice.png"),
       icon_done: require("assets/images/icon_practice_done.png"),
       progress_index: "2_Passengers",

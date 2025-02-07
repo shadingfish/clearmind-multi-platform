@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   StyleSheet,
@@ -102,7 +102,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                                 }
                             </View>
                             { value ?
-                                ( currPage != key ?
+                                ( currPage != key || chapterName != "chapter2" ?
                                     <Text style={{fontSize: 16}}>{chapter2activity2title["chapter2"][key]}</Text> :
                                     <View>
                                         <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter2"][key]}</Text>
@@ -131,7 +131,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                                 }
                             </View>
                             { value ?
-                                ( currPage != key ?
+                                ( currPage != key || chapterName != "chapter3" ?
                                     <Text style={{fontSize: 16}}>{chapter2activity2title["chapter3"][key]}</Text> :
                                     <View>
                                         <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter3"][key]}</Text>

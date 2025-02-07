@@ -49,7 +49,7 @@ export const chapterProgressData: Record<string, Record<string, boolean>> = {
         "summary": false
     },
     "chapter2": {
-        "opening": true,
+        "opening": false,
         "activity1": false,
         "activity2": false,
         "activity3": false,

@@ -25,7 +25,8 @@ import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { router } from "expo-router";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter3Context } from "@/contexts/Chapter3Context";
 
 interface CurrentPageComponentProps {
  /*  data: {[key: string]: any},
@@ -34,12 +35,11 @@ interface CurrentPageComponentProps {
   setDataFilled: React.Dispatch<React.SetStateAction<boolean>> */
 }
 
-const Activity7: React.FC<CurrentPageComponentProps> = ({  }) => {
-    /* useEffect(() => {
-        setDataFilled(true);
-    }, []); */
+const Activity7 = () => {
 
-    const [myData, setMyData] = useState({})
+    const {chapterData} = useChapter3Context();
+    const [myData, setMyData] = useState(chapterData["activity6"].hasCogDist || {}); //use context to set this
+    console.log('myData', chapterData);
 
     // based on the answers that they filled in before
     let tempData = {
@@ -82,19 +82,11 @@ const Activity7: React.FC<CurrentPageComponentProps> = ({  }) => {
       };
 
 
-    //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+    //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+    const { updateChapterProgress } = useChapterProgressContext();
 
     useEffect(() => {
-        setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-            ...prevUserData,
-            "chapter3": {
-                ...prevUserData.chapter3,
-                "Summary of Cognitive Distortions": true
-            }
-        }));
-
-        setCurrPage("Summary of Cognitive Distortions");
+        updateChapterProgress("chapter3", "activity7");
     }, []);
     //~~~END COPY PASTA~~~
 

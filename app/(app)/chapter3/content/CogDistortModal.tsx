@@ -1,4 +1,5 @@
 // CogDistortModal.tsx
+import { useChapter3Context } from '@/contexts/Chapter3Context';
 import React, { useEffect, useState } from 'react';
 import {
   Modal,
@@ -11,15 +12,19 @@ import {
   ScrollView
 } from 'react-native';
 
+type Activity6Questions = {
+  whichCogDistPaths: Set<string>;
+  hasCogDist: {[key: string]: boolean};
+};
+
 interface CogDistortModalProps {
   isVisible: boolean;
   onClose: () => void;
   title: string;
-  hasCogDist: { [key: string]: boolean };
-  setHasCogDist: React.Dispatch<React.SetStateAction<{ [key: string]: boolean }>>;
+  setQuestions: React.Dispatch<React.SetStateAction<Activity6Questions>>;
 }
 
-const CogDistortModal: React.FC<CogDistortModalProps> = ({ isVisible, onClose, title, hasCogDist, setHasCogDist }) => {
+const CogDistortModal: React.FC<CogDistortModalProps> = ({ isVisible, onClose, title, setQuestions }) => {
     const label2description: Record<string, string> = {
         "Mental Filtering": "Viewing the world through a negative lens. It involves focusing solely on the negative aspects while entirely disregarding the positive things in one's life.",
         "All-or-nothing thinking": "Polarized thinking. All good (or all bad), all right (or all wrong), everything (or nothing), success (or failure), nothing in between. This distortion can result in unrealistic standards for yourself and others.",
@@ -63,10 +68,16 @@ const CogDistortModal: React.FC<CogDistortModalProps> = ({ isVisible, onClose, t
     const [solPageOn, setSolPageOn] = useState(false);
 
     const addKeyValue = (key: string, value: boolean) => {
-        setHasCogDist(prevState => ({
-          ...prevState,  
-          [key]: value,  
-        }));
+
+      setQuestions((prev) => {
+        const updatedQuestions = { 
+            ...prev, 
+            hasCogDist: { ...prev.hasCogDist, [key]: value } // Correctly updating hasCogDist
+        };
+
+        return updatedQuestions;
+      });
+
     };
 
     const handleYes = () => {

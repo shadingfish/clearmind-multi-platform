@@ -5,15 +5,15 @@ import { useRouter } from "expo-router";
 import {chapterProgressData} from "../constants/chapterData"; //just temporary
 
 // Define the shape of the context
-interface Chapter2ContextType {
+interface Chapter3ContextType {
   chapterData: any;
   updateChapterData: (activity: string, data: any) => void;
 }
 
 
-const Chapter2Context = createContext<Chapter2ContextType | undefined>(undefined);
+const Chapter3Context = createContext<Chapter3ContextType | undefined>(undefined);
 
-export function Chapter2Provider({ children }: { children: React.ReactNode }) {
+export function Chapter3Provider({ children }: { children: React.ReactNode }) {
     const [chapterData, setChapterData] = useState({}); 
     //this is in format:
     /*
@@ -39,21 +39,37 @@ export function Chapter2Provider({ children }: { children: React.ReactNode }) {
     }
 
     useEffect(() => {
-      console.log('chapter2 context mounted');
+      console.log('chapter3 context mounted');
     }, [])
   
+      /*
+      
+      useEffect(() => {
+        setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
+            ...prevUserData,
+            "chapter2": {
+                ...prevUserData.chapter2,
+                "Passengers On The Bus": true
+            }
+        }));
+  
+        setCurrPage("Passengers On The Bus");
+      }, []);
+      
+      */
+  
     return (
-      <Chapter2Context.Provider value={{ chapterData, updateChapterData }}>
+      <Chapter3Context.Provider value={{ chapterData, updateChapterData }}>
         {children}
-      </Chapter2Context.Provider>
+      </Chapter3Context.Provider>
     );
   }
   
   // Custom Hook for Using the Context
-  export function useChapter2Context() {
-    const context = useContext(Chapter2Context);
+  export function useChapter3Context() {
+    const context = useContext(Chapter3Context);
     if (!context) {
-      throw new Error("useChapter2Context must be used within an AuthProvider");
+      throw new Error("useChapter3Context must be used within an AuthProvider");
     }
     return context;
   }

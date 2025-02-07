@@ -26,51 +26,47 @@ import * as Progress from "react-native-progress";
 import colors from "@/constants/colors";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { router } from "expo-router";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter3Context } from "@/contexts/Chapter3Context";
 
-interface CurrentPageComponentProps {
-  /* data: {[key: string]: any},
-  setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
-  dataFilled: boolean,
-  setDataFilled: React.Dispatch<React.SetStateAction<boolean>> */
-}
+type Activity8Questions = {
+    potentialStrategy: string;
+  };
 
-const Activity8: React.FC<CurrentPageComponentProps> = ({  }) => {
+const Activity8 = () => {
+
+    const {chapterData, updateChapterData} = useChapter3Context();
 
     const [isButtonPressed, setIsButtonPressed] = useState(false);
-    const [potentialStrategy, setPotentialStrategy] = useState("");
+    //const [potentialStrategy, setPotentialStrategy] = useState("");
 
-    //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+    const [questions, setQuestions] = useState<Activity8Questions>(chapterData["activity8"] || {
+        potentialStrategy: "",
+      });
+
+    //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+    const { updateChapterProgress } = useChapterProgressContext();
 
     useEffect(() => {
-        setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-            ...prevUserData,
-            "chapter3": {
-                ...prevUserData.chapter3,
-                "Reflecting on Cognitive Distortions in Various Procrastination Types": true
-            }
-        }));
-
-        setCurrPage("Reflecting on Cognitive Distortions in Various Procrastination Types");
+        updateChapterProgress("chapter3", "activity8");
     }, []);
     //~~~END COPY PASTA~~~
 
-    /* useEffect(() => {
-        console.log('dataisfilled beginning', dataFilled)
+    //update Chapter Context
 
-        setData((prevData) => ({
-            ...prevData, 
-            potentialStrategy: potentialStrategy, 
-          }));
-      
-          // Optionally, you can check if all the fields are filled and update dataFilled
-          const isFilled = potentialStrategy !== "";
-          setDataFilled(isFilled);
-    
-          console.log('data:', data);
-        
-    }, [potentialStrategy]); // Dependency array, this effect runs when "count" changes */
+    useEffect(() => {
+        updateChapterData("activity8", questions);
+    }, [questions]);
+
+    //end
+
+    const updateQuestion = (field: keyof Activity8Questions, value: string) => {
+        console.log('value', value, 'field', field)
+        setQuestions((prev) => {
+            const updatedQuestions = { ...prev, [field]: value };   
+            return updatedQuestions;
+        });
+    };
 
 
     return (
@@ -126,8 +122,8 @@ const Activity8: React.FC<CurrentPageComponentProps> = ({  }) => {
                 size="$4"
                 width={"100%"}
                 alignSelf="center"
-                value={potentialStrategy}
-                onChangeText={setPotentialStrategy}
+                value={questions.potentialStrategy}
+                onChangeText={(text) => updateQuestion("potentialStrategy", text)}
                 />
         </ScrollView>
 

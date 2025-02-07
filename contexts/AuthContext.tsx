@@ -34,7 +34,7 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
       setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
           ...prevUserData,
           [chapter]: {
-              ...prevUserData.chapter2,
+              ...prevUserData[chapter],
               [activity]: true
           }
       }));
@@ -50,21 +50,9 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
       return(trueCount == Object.values(userData[chapter]).length); //return true if all activities are finished
     }
 
-    /*
-    
     useEffect(() => {
-      setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-          ...prevUserData,
-          "chapter2": {
-              ...prevUserData.chapter2,
-              "Passengers On The Bus": true
-          }
-      }));
-
-      setCurrPage("Passengers On The Bus");
-    }, []);
-    
-    */
+      console.log('userData', userData);
+    }, [userData])
 
   return (
     <ChapterProgressContext.Provider value={{ userData, setUserData, currPage, setCurrPage, updateChapterProgress, isFinished }}>

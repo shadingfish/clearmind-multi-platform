@@ -59,9 +59,9 @@ export default function Activity4() {
 
   const toast = useToastController();
 
-  const { chapter2Data, updateChapterData } = useChapter2Context();
+  const { chapterData, updateChapterData } = useChapter2Context();
 
-  const [questions, setQuestions] = useState<Activity4Questions>(chapter2Data["activity4"] || {
+  const [questions, setQuestions] = useState<Activity4Questions>(chapterData["activity4"] || {
     diagram_destination: "",
     diagram_passenger_A: "",
     diagram_passenger_B: "",
@@ -77,8 +77,8 @@ export default function Activity4() {
   };
 
   useEffect(() => {
-    console.log(chapter2Data);
-  }, [chapter2Data])
+    console.log(chapterData);
+  }, [chapterData])
 
   /* useEffect(() => {
     if (user) {
