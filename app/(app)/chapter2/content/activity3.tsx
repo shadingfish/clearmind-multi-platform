@@ -58,7 +58,7 @@ export default function Activity3() {
           prev={"/(app)/chapter2/content/activity2"}
           next={() => {
             router.push("/(app)/chapter2/content/activity4");
-            updateChapter2Progress(user!.uid, "4_Example");
+            //updateChapter2Progress(user!.uid, "4_Example");
           }}
         />
       </YStack>

@@ -16,6 +16,7 @@ import { useAuth } from "@/hooks/useAuth";
   updateChapter2Progress,
 } from "@/hooks/Chapter2Activity"; */
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter2Context } from "@/contexts/Chapter2Context";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -58,7 +59,9 @@ export default function Activity4() {
 
   const toast = useToastController();
 
-  const [questions, setQuestions] = useState<Activity4Questions>({
+  const { chapter2Data, updateChapterData } = useChapter2Context();
+
+  const [questions, setQuestions] = useState<Activity4Questions>(chapter2Data["activity4"] || {
     diagram_destination: "",
     diagram_passenger_A: "",
     diagram_passenger_B: "",
@@ -66,9 +69,16 @@ export default function Activity4() {
     diagram_persuasion: "",
   });
 
+
+
   const updateQuestion = (field: keyof Activity4Questions, value: string) => {
     setQuestions((prev) => ({ ...prev, [field]: value }));
+    updateChapterData("activity4", questions);
   };
+
+  useEffect(() => {
+    console.log(chapter2Data);
+  }, [chapter2Data])
 
   /* useEffect(() => {
     if (user) {

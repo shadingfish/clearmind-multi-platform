@@ -16,6 +16,7 @@ import { useRouter } from "expo-router";
 //   updateChapter2Progress,
 // } from "@/hooks/Chapter2Activity";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter2Context } from "@/contexts/Chapter2Context";
 
 export type SummaryQuestions = {
   question1: string;
@@ -26,7 +27,8 @@ export type SummaryQuestions = {
 
 export default function Summary() {
   const router = useRouter();
-  const [questions, setQuestions] = useState<SummaryQuestions>({
+  const {chapter2Data, updateChapterData} = useChapter2Context();
+  const [questions, setQuestions] = useState<SummaryQuestions>(chapter2Data["summary"] || {
     question1: "",
     question2: "",
     question3: "",
@@ -35,8 +37,17 @@ export default function Summary() {
 
   const { bottom } = useSafeAreaInsets();
 
+  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+  const { updateChapterProgress } = useChapterProgressContext();
+
+  useEffect(() => {
+    updateChapterProgress("chapter2", "summary");
+  }, []);
+  //~~~END COPY PASTA~~~
+
   const updateQuestion = (field: keyof SummaryQuestions, value: string) => {
     setQuestions((prev) => ({ ...prev, [field]: value }));
+    updateChapterData("summary", questions);
   };
 
   const toast = useToastController();
@@ -57,14 +68,6 @@ export default function Summary() {
         .catch((err) => console.log("Error get chapter 2 summary: " + err));
     }
   }, [pending]); */
-
-  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { updateChapterProgress } = useChapterProgressContext();
-
-  useEffect(() => {
-    updateChapterProgress("chapter2", "summary");
-  }, []);
-  //~~~END COPY PASTA~~~
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>

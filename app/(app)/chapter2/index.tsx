@@ -1,5 +1,6 @@
 import { ChapterItem } from "@/components/ChapterActivityIcon";
 import { Chapter2, ChapterProgress } from "@/constants/data";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 /* import {
   getChapter2Progress,
   initChapter2Progress,
@@ -15,6 +16,8 @@ export default function Chapter2Index() {
   const [progress, setProgress] = useState<ChapterProgress>(
     Chapter2.EmptyProgress
   );
+
+  const { isFinished } = useChapterProgressContext();
 
   useEffect(() => {
     setFinished(Object.values(progress).every((value) => value === "1"));
@@ -53,7 +56,7 @@ export default function Chapter2Index() {
         );
       })}
 
-      {finished && (
+      {isFinished("chapter2") && (
         <YStack
           alignSelf="center"
           borderWidth={1}

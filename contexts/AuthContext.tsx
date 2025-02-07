@@ -11,6 +11,7 @@ interface ChapterProgressContextType {
   currPage: string,
   setCurrPage: (data: string) => void;
   updateChapterProgress: (chapter: string, activity: string) => void;
+  isFinished: (chapter: string) => boolean;
 }
 
 // Create the context with an initial default value
@@ -42,6 +43,13 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
 
     }
 
+    //checks if a chapter is finished
+    const isFinished = (chapter: string) => {
+      let trueCount = Object.values(userData[chapter]).filter(value => value).length;
+
+      return(trueCount == Object.values(userData[chapter]).length); //return true if all activities are finished
+    }
+
     /*
     
     useEffect(() => {
@@ -59,7 +67,7 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
     */
 
   return (
-    <ChapterProgressContext.Provider value={{ userData, setUserData, currPage, setCurrPage, updateChapterProgress }}>
+    <ChapterProgressContext.Provider value={{ userData, setUserData, currPage, setCurrPage, updateChapterProgress, isFinished }}>
       {children}
     </ChapterProgressContext.Provider>
   );

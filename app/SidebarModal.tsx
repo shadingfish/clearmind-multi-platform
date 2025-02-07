@@ -61,7 +61,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                         Part 1: Discovery
                     </Text>
                     {Object.entries(part1Progress).map(([key, value]) => (
-                        <Pressable key={key} style={styles.subTitleContainer}>
+                        <Pressable key={key} style={[styles.subTitleContainer, chapterName === "chapter1" && currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen("chapter1", key, value)}>
                             <View style={{width: 25}}>
                                 {value ?
                                     ( currPage != key ?
@@ -73,8 +73,12 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                                 }
                             </View>
                             { value ?
-                                <Text style={{fontSize: 16}}>{chapter2activity2title["chapter1"][key]}</Text> 
-                            
+                                ( currPage != key ?
+                                    <Text style={{fontSize: 16}}>{chapter2activity2title["chapter1"][key]}</Text> :
+                                    <View>
+                                        <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter1"][key]}</Text>
+                                    </View>
+                                )
                                 :
                                 <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter1"][key]}</Text>
                             }
@@ -86,7 +90,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                     </Text>
 
                     {Object.entries(part2Progress).map(([key, value]) => (
-                        <Pressable key={key} style={[styles.subTitleContainer, currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen(chapterName, key, value)}>
+                        <Pressable key={key} style={[styles.subTitleContainer, chapterName === "chapter2" && currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen("chapter2", key, value)}>
                             <View style={{width: 25}}>
                                 {value ?
                                     ( currPage != key ?
@@ -115,7 +119,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                     </Text>
 
                     {Object.entries(part3Progress).map(([key, value]) => (
-                        <Pressable key={key} style={styles.subTitleContainer}>
+                        <Pressable key={key} style={[styles.subTitleContainer, chapterName === "chapter3" && currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen("chapter3", key, value)}>
                             <View style={{width: 25}}>
                                 {value ?
                                     ( currPage != key ?
@@ -127,7 +131,13 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                                 }
                             </View>
                             { value ?
-                                <Text style={{fontSize: 16}}>{chapter2activity2title["chapter3"][key]}</Text> :
+                                ( currPage != key ?
+                                    <Text style={{fontSize: 16}}>{chapter2activity2title["chapter3"][key]}</Text> :
+                                    <View>
+                                        <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter3"][key]}</Text>
+                                    </View>
+                                )
+                                :
                                 <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter3"][key]}</Text>
                             }
                         </Pressable>
@@ -175,7 +185,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     right: 0,
-    width: width * 0.70, // Covers 75% of the screen width
+    width: width * 0.80, // Covers 75% of the screen width
     backgroundColor: "white",
     flex: 1,
   },
