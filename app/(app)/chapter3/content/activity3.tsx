@@ -11,15 +11,15 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { router } from "expo-router";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { useChapter3Context } from "@/contexts/Chapter3Context";
-
+import { useToastController } from "@tamagui/toast";
+import { hasEmptyValues } from "@/constants/helper";
 
 type Activity3Questions = {
     whichPaths: Set<string>;
   };
 
 const Activity3 = () => {
-    //const [pathsCompleted, setPathsCompleted] = useState(0);
-    //const [whichPaths, setWhichPaths] = useState<Set<string>>(new Set<string>())
+    const toast = useToastController();
 
     const {chapterData, updateChapterData} = useChapter3Context();
 
@@ -125,7 +125,10 @@ const Activity3 = () => {
                 <ChapterNavigationButton
                 prev={"/(app)/chapter3/content/activity2"}
                 next={() => {
-                    router.push("/(app)/chapter3/content/activity4");
+                    if (questions.whichPaths.size < 2) {
+                        toast.show("Missing Activities");
+                      } else {
+                    router.push("/(app)/chapter3/content/activity4");}
                 }}
             />
 

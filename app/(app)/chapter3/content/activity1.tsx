@@ -28,6 +28,8 @@ import { router } from "expo-router";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { useChapter3Context } from "@/contexts/Chapter3Context";
+import { useToastController } from "@tamagui/toast";
+import { hasEmptyValues } from "@/constants/helper";
 
 type Activity1Questions = {
     p2_recentProcrastination: string;
@@ -36,9 +38,8 @@ type Activity1Questions = {
   };
 
 const Activity1 = () => {
-    //const [p2_recentProcrastination, setP2_recentProcrastination] = useState("");
-    //const [p2_feeling, setP2_feeling] = useState("");
-    //const [p2_because, setP2_Because] = useState("");
+
+    const toast = useToastController();
 
     const {chapterData, updateChapterData} = useChapter3Context();
 
@@ -139,8 +140,11 @@ const Activity1 = () => {
 
             <ChapterNavigationButton
                 prev={"/(app)/chapter3/content/opening"}
-                next={() => {
+                next={() => {if (hasEmptyValues(questions)) {
+                    toast.show("Empty Input");
+                  } else {
                     router.push("/(app)/chapter3/content/activity2");
+                  }
                 }}
             />
             

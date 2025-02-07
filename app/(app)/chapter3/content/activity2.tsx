@@ -23,12 +23,14 @@ const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
+import { useToastController } from "@tamagui/toast";
 
 import {DropdownComponent} from "@/components/Dropdown";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { router } from "expo-router";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { useChapter3Context } from "@/contexts/Chapter3Context";
+import { hasEmptyValues } from "@/constants/helper";
 
 type Activity2Questions = {
     p3_body: string;
@@ -36,6 +38,7 @@ type Activity2Questions = {
   };
 
 const Activity2 = () => {
+    const toast = useToastController();
 
     const {chapterData, updateChapterData} = useChapter3Context();
 
@@ -126,7 +129,10 @@ const Activity2 = () => {
         <ChapterNavigationButton
                 prev={"/(app)/chapter3/content/activity1"}
                 next={() => {
-                    router.push("/(app)/chapter3/content/activity3");
+                    if (hasEmptyValues(questions)) {
+                        toast.show("Empty Input");
+                      } else {
+                    router.push("/(app)/chapter3/content/activity3");}
                 }}
             />
             

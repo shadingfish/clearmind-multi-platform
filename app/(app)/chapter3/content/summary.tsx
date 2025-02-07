@@ -28,6 +28,8 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { router } from "expo-router";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { useChapter3Context } from "@/contexts/Chapter3Context";
+import { hasEmptyValues } from "@/constants/helper";
+import { useToastController } from "@tamagui/toast";
 
 type SummaryQuestions = {
     summaryQues1: string;
@@ -36,9 +38,7 @@ type SummaryQuestions = {
   };
 
 const Summary = () => {
-    //const [summaryQues1, setSummaryQues1] = useState("");
-    //const [summaryQues2, setSummaryQues2] = useState("");
-    //const [summaryQues3, setSummaryQues3] = useState("");
+    const toast = useToastController();
 
     const {chapterData, updateChapterData} = useChapter3Context();
 
@@ -202,7 +202,10 @@ const Summary = () => {
         <ChapterNavigationButton
                 prev={"/(app)/chapter3/content/activity8"}
                 next={() => {
-                    router.push("/(app)/chapter3");
+                    if (hasEmptyValues(questions)) {
+                        toast.show("Empty Input");
+                    } else {
+                    router.push("/(app)/chapter3");}
                 }}
             />
 

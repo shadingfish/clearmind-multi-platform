@@ -29,7 +29,7 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { router } from "expo-router";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { useChapter3Context } from "@/contexts/Chapter3Context";
-
+import { useToastController } from "@tamagui/toast";
 
 type Activity6Questions = {
     whichCogDistPaths: Set<string>;
@@ -40,6 +40,7 @@ const Activity6 = () => {
     //const [whichCogDistPaths, setWhichCogDistPaths] = useState<Set<string>>(new Set<string>())
     //const [hasCogDist, setHasCogDist] = useState<{ [key: string]: boolean }>({});
     const [currTitle, setCurrTitle] = useState("");
+    const toast = useToastController();
 
     const {chapterData, updateChapterData} = useChapter3Context();
 
@@ -246,7 +247,10 @@ const Activity6 = () => {
         <ChapterNavigationButton
                 prev={"/(app)/chapter3/content/activity5"}
                 next={() => {
-                    router.push("/(app)/chapter3/content/activity7");
+                    if (questions.whichCogDistPaths.size < 10) {
+                        toast.show("Missing Activities");
+                      } else {
+                    router.push("/(app)/chapter3/content/activity7");}
                 }}
             />
         </YStack>
