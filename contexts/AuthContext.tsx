@@ -44,13 +44,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     //just temporary
     const tempPart1: Record<string, boolean> = {
-        "Opening": true,
-        "Prioritize Your Life Values": true,
-        "Discover Procrastination Reasons": true,
-        "Procrastination Tendencies": true,
-        "Tendencies Questions": true,
-        "How to Use the App": true,
-        "Summary": true,
+        "Opening": false,
+        "Prioritize Your Life Values": false,
+        "Discover Procrastination Reasons": false,
+        "Procrastination Tendencies": false,
+        "Tendencies Questions": false,
+        "How to Use the App": false,
+        "Summary": false,
     }
     const tempPart2: Record<string, boolean> = {
         "Opening": false,

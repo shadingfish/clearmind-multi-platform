@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     right: 0,
-    width: width * 0.70, // Covers 75% of the screen width
+    width: width * 0.80, // Covers 75% of the screen width
     backgroundColor: "white",
     flex: 1,
   },
