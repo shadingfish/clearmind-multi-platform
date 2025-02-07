@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Stack, useRouter } from "expo-router";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { ChapterProgressProvider } from "@/contexts/AuthContext";
 
 export default function AppRootLayout() {
   const router = useRouter();
@@ -20,7 +20,7 @@ export default function AppRootLayout() {
   }, [pending]);
 
   return (
-    <AuthProvider>
+    <ChapterProgressProvider>
       <Stack>
         <Stack.Screen
           name="index" // Map to `app/index.tsx`
@@ -35,6 +35,6 @@ export default function AppRootLayout() {
           }}
         />
       </Stack>
-    </AuthProvider>
+    </ChapterProgressProvider>
   );
 }

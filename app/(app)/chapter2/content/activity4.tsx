@@ -10,12 +10,12 @@ import { Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image, Input, ScrollView, Text, YStack, View } from "tamagui";
 import { useAuth } from "@/hooks/useAuth";
-import {
+/* import {
   getChapter2Activity2,
   setChapter2Activity2,
   updateChapter2Progress,
-} from "@/hooks/Chapter2Activity";
-import { useAuthContext } from "@/contexts/AuthContext";
+} from "@/hooks/Chapter2Activity"; */
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -70,7 +70,7 @@ export default function Activity4() {
     setQuestions((prev) => ({ ...prev, [field]: value }));
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (user) {
       getChapter2Activity2(user.uid)
         .then((snapshot) => {
@@ -83,21 +83,13 @@ export default function Activity4() {
         })
         .catch((err) => console.log("Error get chapter 2 activity2: " + err));
     }
-  }, [pending]);
+  }, [pending]); */
 
   //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  const { updateChapterProgress } = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Identify your passengers": true
-        }
-    }));
-
-    setCurrPage("Identify your passengers");
+    updateChapterProgress("chapter2", "activity4");
   }, []);
   //~~~END COPY PASTA~~~
 
@@ -174,9 +166,9 @@ export default function Activity4() {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
-              setChapter2Activity2(user!.uid, questions);
+              //setChapter2Activity2(user!.uid, questions);
               router.push("/(app)/chapter2/content/activity5");
-              updateChapter2Progress(user!.uid, "6_Diagram");
+              //updateChapter2Progress(user!.uid, "6_Diagram");
             }
           }}
         />

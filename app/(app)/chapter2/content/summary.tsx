@@ -15,7 +15,7 @@ import { useRouter } from "expo-router";
 //   setChapter2Summary,
 //   updateChapter2Progress,
 // } from "@/hooks/Chapter2Activity";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 export type SummaryQuestions = {
   question1: string;
@@ -59,18 +59,10 @@ export default function Summary() {
   }, [pending]); */
 
   //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  const { updateChapterProgress } = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Summary": true
-        }
-    }));
-
-    setCurrPage("Summary");
+    updateChapterProgress("chapter2", "summary");
   }, []);
   //~~~END COPY PASTA~~~
 

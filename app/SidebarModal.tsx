@@ -13,7 +13,8 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { RelativePathString, router } from "expo-router";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import {chapter2activity2title} from "../constants/chapterData";
 
 const { width } = Dimensions.get("window");
 
@@ -23,53 +24,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
   chapterName
 }) => {
 
-    // this will become context:
-    const tempPart1 = {
-        "Opening": true,
-        "Prioritize Your Life Values": false,
-        "Discover Procrastination Reasons": true,
-        "Procrastination Tendencies": false,
-        "Tendencies Questions": true,
-        "How to Use the App": true,
-        "Summary": true,
-    }
-    const tempPart2 = {
-        "Opening": true,
-        "Your Challenging Emotions": false,
-        "Passengers On The Bus": true,
-        "Example of Driving the bus": false,
-        "Identify your passengers": true,
-        "Willingness to Carry On": true,
-        "Summary": true,
-    }
-    const tempPart3 = {
-        "Opening": true,
-        "Label the Passengers on the Bus": false,
-        "Identify how it feels in your body": true,
-        "Learn How to Meditate": false,
-        "Make a Belief Statement": true,
-    }
-    const tempPart4 = {
-        "Opening": true,
-        "Prioritize Your Life Values": false,
-        "Discover Procrastination Reasons": true,
-        "Procrastination Tendencies": false,
-        "Tendencies Questions": true,
-        "How to Use the App": true,
-        "Summary": true,
-    }
-
-    const title2activityNum: Record<string, string> = {
-        "Opening": "opening",
-        "Your Challenging Emotions": "activity1",
-        "Passengers On The Bus": "activity2",
-        "Example of Driving the bus": "activity3",
-        "Identify your passengers": "activity4",
-        "Willingness to Carry On": "activity5",
-        "Summary": "summary",
-    }
-
-    const { userData, setUserData, currPage } = useAuthContext();
+    const { userData, setUserData, currPage } = useChapterProgressContext();
     //console.log('userData', userData)
 
     const [part1Progress, setPart1Progress] = useState(userData["chapter1"]); //load in from context
@@ -118,10 +73,10 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                                 }
                             </View>
                             { value ?
-                                <Text style={{fontSize: 16}}>{key}</Text> 
+                                <Text style={{fontSize: 16}}>{chapter2activity2title["chapter1"][key]}</Text> 
                             
                                 :
-                                <Text style={{fontSize: 16, color: "grey"}}>{key}</Text>
+                                <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter1"][key]}</Text>
                             }
                         </Pressable>
                     ))}
@@ -131,7 +86,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                     </Text>
 
                     {Object.entries(part2Progress).map(([key, value]) => (
-                        <Pressable key={key} style={[styles.subTitleContainer, currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen(chapterName, title2activityNum[key], value)}>
+                        <Pressable key={key} style={[styles.subTitleContainer, currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen(chapterName, key, value)}>
                             <View style={{width: 25}}>
                                 {value ?
                                     ( currPage != key ?
@@ -144,13 +99,13 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                             </View>
                             { value ?
                                 ( currPage != key ?
-                                    <Text style={{fontSize: 16}}>{key}</Text> :
+                                    <Text style={{fontSize: 16}}>{chapter2activity2title["chapter2"][key]}</Text> :
                                     <View>
-                                        <Text style={{fontSize: 16, fontWeight: "bold"}}>{key}</Text>
+                                        <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter2"][key]}</Text>
                                     </View>
                                 )
                                 :
-                                <Text style={{fontSize: 16, color: "grey"}}>{key}</Text>
+                                <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter2"][key]}</Text>
                             }
                         </Pressable>
                     ))}
@@ -172,8 +127,8 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                                 }
                             </View>
                             { value ?
-                                <Text style={{fontSize: 16}}>{key}</Text> :
-                                <Text style={{fontSize: 16, color: "grey"}}>{key}</Text>
+                                <Text style={{fontSize: 16}}>{chapter2activity2title["chapter3"][key]}</Text> :
+                                <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter3"][key]}</Text>
                             }
                         </Pressable>
                     ))}
@@ -195,8 +150,8 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                                 }
                             </View>
                             { value ?
-                                <Text style={{fontSize: 16}}>{key}</Text> :
-                                <Text style={{fontSize: 16, color: "grey"}}>{key}</Text>
+                                <Text style={{fontSize: 16}}>{chapter2activity2title["chapter4"][key]}</Text> :
+                                <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter4"][key]}</Text>
                             }
                         </Pressable>
                     ))}

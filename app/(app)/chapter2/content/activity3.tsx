@@ -3,12 +3,12 @@ import { Chapter2Radio, Chapter2RadioProps } from "@/components/Chapter2Radio";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { Chapter2 } from "@/constants/data";
 import { useAuth } from "@/hooks/useAuth";
-import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
+//import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
 import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScrollView, Text, View, YStack } from "tamagui";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 export default function Activity3() {
   const router = useRouter();
@@ -16,18 +16,10 @@ export default function Activity3() {
   const { user, pending } = useAuth();
 
   //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  const { updateChapterProgress } = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Example of Driving the bus": true
-        }
-    }));
-
-    setCurrPage("Example of Driving the bus");
+    updateChapterProgress("chapter2", "activity3");
   }, []);
   //~~~END COPY PASTA~~~
 

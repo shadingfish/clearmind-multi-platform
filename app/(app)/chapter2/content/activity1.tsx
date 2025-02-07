@@ -5,11 +5,11 @@ import React, { useEffect, useState } from "react";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { CheckboxWithLabel } from "@/components/CheckboxWithLabel";
 import colors from "@/constants/colors";
-import {
+/* import {
   getChapter2Activity1,
   updateChapter2Activity1,
   updateChapter2Progress,
-} from "@/hooks/Chapter2Activity";
+} from "@/hooks/Chapter2Activity"; */
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -23,7 +23,7 @@ import {
   XStack,
   YStack,
 } from "tamagui";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 export default function Activity1() {
   const router = useRouter();
@@ -44,18 +44,10 @@ export default function Activity1() {
   const { user, pending } = useAuth();
 
   //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  const { updateChapterProgress } = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Your Challenging Emotions": true
-        }
-    }));
-
-    setCurrPage("Your Challenging Emotions");
+    updateChapterProgress("chapter2", "activity1");
   }, []);
   //~~~END COPY PASTA~~~
 
@@ -101,12 +93,12 @@ export default function Activity1() {
   };
 
   const onPressSubmit = async () => {
-    const labels = getCheckedLabels();
+    /* const labels = getCheckedLabels();
     const selectionData = await getChapter2Activity1();
     getTop3Text(selectionData);
     if (labels.length != 0) {
       updateChapter2Activity1(user!.uid, getCheckedLabels());
-    }
+    } */
   };
 
   return (
@@ -205,7 +197,7 @@ export default function Activity1() {
           prev={"/(app)/chapter2/content/opening"}
           next={() => {
             router.push("/(app)/chapter2/content/activity2");
-            updateChapter2Progress(user!.uid, "2_Activity2_1");
+            //updateChapter2Progress(user!.uid, "2_Activity2_1");
           }}
         />
       </YStack>

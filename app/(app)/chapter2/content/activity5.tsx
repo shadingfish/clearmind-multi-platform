@@ -7,8 +7,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { ScrollView, Text, YStack } from "tamagui";
 import { useAuth } from "@/hooks/useAuth";
-import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
-import { useAuthContext } from "@/contexts/AuthContext";
+//import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 export default function Activity5() {
   const router = useRouter();
@@ -16,18 +16,10 @@ export default function Activity5() {
   const { user, pending } = useAuth();
 
   //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  const { updateChapterProgress } = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Willingness to Carry On": true
-        }
-    }));
-
-    setCurrPage("Willingness to Carry On");
+    updateChapterProgress("chapter2", "activity5");
   }, []);
   //~~~END COPY PASTA~~~
 

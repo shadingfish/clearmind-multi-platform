@@ -1,28 +1,20 @@
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useAuth } from "@/hooks/useAuth";
-import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
+//import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
 import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
 import { Text, YStack } from "tamagui";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 export default function Opening() {
   const router = useRouter();
   const { user } = useAuth();
 
   //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  const { updateChapterProgress } = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Opening": true
-        }
-    }));
-
-    setCurrPage("Opening");
+    updateChapterProgress("chapter2", "opening");
   }, []);
   //~~~END COPY PASTA~~~
 
@@ -39,7 +31,7 @@ export default function Opening() {
         prev={"/(app)/chapter2/content/chapter2"}
         next={() => {
           router.push("/(app)/chapter2/content/activity1");
-          updateChapter2Progress(user!.uid, "1_Opening");
+          //updateChapter2Progress(user!.uid, "1_Opening");
         }}
       />
     </YStack>

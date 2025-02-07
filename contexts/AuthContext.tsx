@@ -2,106 +2,74 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "@/constants/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "expo-router";
+import {chapterProgressData} from "../constants/chapterData"; //just temporary
 
 // Define the shape of the context
-interface AuthContextType {
-  isSignedIn: boolean;
-  pending: boolean;
+interface ChapterProgressContextType {
   userData: Record<string, Record<string, boolean>>;
   setUserData: React.Dispatch<React.SetStateAction<Record<string, Record<string, boolean>>>>;
   currPage: string,
   setCurrPage: (data: string) => void;
+  updateChapterProgress: (chapter: string, activity: string) => void;
 }
 
 // Create the context with an initial default value
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const ChapterProgressContext = createContext<ChapterProgressContextType | undefined>(undefined);
 
 // Context Provider Component
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [pending, setPending] = useState(true);
+export function ChapterProgressProvider({ children }: { children: React.ReactNode }) {
   const [userData, setUserData] = useState<Record<string, Record<string, boolean>>>({});
   const [currPage, setCurrPage] = useState<string>(""); //set to the title of the page and then you should know which chapter you're in modal anyway
 
-  const router = useRouter();
-
-    //add logic to connect to backend
-  /* useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsSignedIn(true);
-        setUserData({ uid: user.uid, email: user.email || "" }); // Example user data
-      } else {
-        setIsSignedIn(false);
-        setUserData({});
-        router.replace("/(login)");
-      }
-      setPending(false);
-    });
-
-    return () => unsubscribe();
-  }, []); */
-
-    //just temporary
-    const tempPart1: Record<string, boolean> = {
-        "Opening": true,
-        "Prioritize Your Life Values": true,
-        "Discover Procrastination Reasons": true,
-        "Procrastination Tendencies": true,
-        "Tendencies Questions": true,
-        "How to Use the App": true,
-        "Summary": true,
-    }
-    const tempPart2: Record<string, boolean> = {
-        "Opening": true,
-        "Your Challenging Emotions": false,
-        "Passengers On The Bus": false,
-        "Example of Driving the bus": false,
-        "Identify your passengers": false,
-        "Willingness to Carry On": false,
-        "Summary": false,
-    }
-    const tempPart3: Record<string, boolean> = {
-        "Opening": false,
-        "Label the Passengers on the Bus": false,
-        "Identify how it feels in your body": false,
-        "Learn How to Meditate": false,
-        "Make a Belief Statement": false,
-    }
-    const tempPart4: Record<string, boolean> = {
-        "Opening": false,
-        "Prioritize Your Life Values": false,
-        "Discover Procrastination Reasons": false,
-        "Procrastination Tendencies": false,
-        "Tendencies Questions": false,
-        "How to Use the App": false,
-        "Summary": false,
-    }
-
-    const visited_chapters: Record<string, Record<string, boolean>> = {
-        "chapter1": tempPart1,
-        "chapter2": tempPart2,
-        "chapter3": tempPart3,
-        "chapter4": tempPart4
-    }
-
     useEffect(() => {
-        setUserData(visited_chapters);
+        setUserData(chapterProgressData); //this would actually just be a backend call
 
     }, []);
 
+
+    //this should be called in a use effect in every activity. just pass the chapter# and activity# (opening, summary, activity#)
+    const updateChapterProgress = (chapter: string, activity: string) => {
+      
+      setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
+          ...prevUserData,
+          [chapter]: {
+              ...prevUserData.chapter2,
+              [activity]: true
+          }
+      }));
+
+      setCurrPage(activity);
+
+    }
+
+    /*
+    
+    useEffect(() => {
+      setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
+          ...prevUserData,
+          "chapter2": {
+              ...prevUserData.chapter2,
+              "Passengers On The Bus": true
+          }
+      }));
+
+      setCurrPage("Passengers On The Bus");
+    }, []);
+    
+    */
+
   return (
-    <AuthContext.Provider value={{ isSignedIn, pending, userData, setUserData, currPage, setCurrPage }}>
+    <ChapterProgressContext.Provider value={{ userData, setUserData, currPage, setCurrPage, updateChapterProgress }}>
       {children}
-    </AuthContext.Provider>
+    </ChapterProgressContext.Provider>
   );
 }
 
 // Custom Hook for Using the Context
-export function useAuthContext() {
-  const context = useContext(AuthContext);
+export function useChapterProgressContext() {
+  const context = useContext(ChapterProgressContext);
   if (!context) {
-    throw new Error("useAuthContext must be used within an AuthProvider");
+    throw new Error("useChapterProgressContext must be used within an AuthProvider");
   }
   return context;
 }
