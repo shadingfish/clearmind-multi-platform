@@ -39,7 +39,7 @@ export const ChapterItem: React.FC<{
   return (
     <XStack alignItems="center" gap={"$2"} onPress={onPress}>
       <Image source={progress[progressIndex] == "1" ? imageDone : image} />
-      <Text fontSize={"$5"}>{name}</Text>
+      <Text fontSize={"$4"}>{name}</Text>
     </XStack>
   );
 };

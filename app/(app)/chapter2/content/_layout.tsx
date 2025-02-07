@@ -180,7 +180,7 @@ export default function RootLayout() {
         <SidebarModal
           visible={isSidebarVisible}
           onClose={closeModal} // Pass the closeModal function to handle modal dismissal
-          chapterName={"chapter2"}
+          chapterName={'chapter2'}
         />
       )}
     </>

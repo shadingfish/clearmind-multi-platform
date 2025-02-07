@@ -14,6 +14,10 @@ export default function Page1() {
         <Text>Chapter 2</Text>
       </Button>
 
+      <Button onPress={() => router.push("/(app)/chapter3")}>
+        <Text>Chapter 3</Text>
+      </Button>
+
       <Button
         onPress={() => {
           auth.signOut();

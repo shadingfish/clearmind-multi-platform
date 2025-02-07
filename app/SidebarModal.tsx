@@ -93,7 +93,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                         <Pressable key={key} style={[styles.subTitleContainer, chapterName === "chapter2" && currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen("chapter2", key, value)}>
                             <View style={{width: 25}}>
                                 {value ?
-                                    ( currPage != key ?
+                                    ( currPage != key || chapterName != "chapter2" ?
                                         <Ionicons name="checkmark" size={20} color="black" /> :
                                         <Ionicons name="arrow-forward" size={20} color="black" />
                                     )
@@ -115,14 +115,14 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                     ))}
 
                     <Text style={{...styles.chapTitle, marginTop: '5%'}}>
-                        Part 3: Practice
+                        Part 2: Understanding
                     </Text>
 
                     {Object.entries(part3Progress).map(([key, value]) => (
                         <Pressable key={key} style={[styles.subTitleContainer, chapterName === "chapter3" && currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen("chapter3", key, value)}>
                             <View style={{width: 25}}>
                                 {value ?
-                                    ( currPage != key ?
+                                    ( currPage != key || chapterName != "chapter3" ?
                                         <Ionicons name="checkmark" size={20} color="black" /> :
                                         <Ionicons name="arrow-forward" size={20} color="black" />
                                     )
@@ -151,7 +151,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                         <Pressable key={key} style={styles.subTitleContainer}>
                             <View style={{width: 25}}>
                                 {value ?
-                                    ( currPage != key ?
+                                    ( currPage != key || chapterName != "chapter4" ?
                                         <Ionicons name="checkmark" size={20} color="black" /> :
                                         <Ionicons name="arrow-forward" size={20} color="black" />
                                     )
