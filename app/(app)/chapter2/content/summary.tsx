@@ -10,11 +10,11 @@ import { useToastController } from "@tamagui/toast";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScrollView, Text, View, YStack } from "tamagui";
 import { useRouter } from "expo-router";
-import {
-  getChapter2Summary,
-  setChapter2Summary,
-  updateChapter2Progress,
-} from "@/hooks/Chapter2Activity";
+// import {
+//   getChapter2Summary,
+//   setChapter2Summary,
+//   updateChapter2Progress,
+// } from "@/hooks/Chapter2Activity";
 import { useAuthContext } from "@/contexts/AuthContext";
 
 export type SummaryQuestions = {
@@ -43,7 +43,7 @@ export default function Summary() {
 
   const { user, pending } = useAuth();
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (user) {
       getChapter2Summary(user.uid)
         .then((snapshot) => {
@@ -56,7 +56,7 @@ export default function Summary() {
         })
         .catch((err) => console.log("Error get chapter 2 summary: " + err));
     }
-  }, [pending]);
+  }, [pending]); */
 
   //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
   const { userData, setUserData, currPage, setCurrPage } = useAuthContext();

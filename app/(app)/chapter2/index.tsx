@@ -1,9 +1,9 @@
 import { ChapterItem } from "@/components/ChapterActivityIcon";
 import { Chapter2, ChapterProgress } from "@/constants/data";
-import {
+/* import {
   getChapter2Progress,
   initChapter2Progress,
-} from "@/hooks/Chapter2Activity";
+} from "@/hooks/Chapter2Activity"; */
 import { useAuth } from "@/hooks/useAuth";
 import { Link, RelativePathString } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -20,7 +20,7 @@ export default function Chapter2Index() {
     setFinished(Object.values(progress).every((value) => value === "1"));
   }, [progress]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (user) {
       getChapter2Progress(user.uid)
         .then((snapshot) => {
@@ -34,7 +34,7 @@ export default function Chapter2Index() {
         })
         .catch((err) => console.log(err));
     }
-  }, [pending]);
+  }, [pending]); */
 
   return (
     <YStack flex={1} marginHorizontal={"$7"} marginVertical={"$6"} gap={"$4"}>
