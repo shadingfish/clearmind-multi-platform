@@ -13,10 +13,12 @@ export const ChapterItem: React.FC<{
 }> = ({ name, image, imageDone, progressIndex, progress, route }) => {
   const router = useRouter();
   const toast = useToastController();
-  const chaptersArray = Object.keys(progress).map((key) => ({
-    chapterKey: key,
-    progress: progress[key],
-  }));
+  const chaptersArray = Object.keys(progress)
+    .sort()
+    .map((key) => ({
+      chapterKey: key,
+      progress: progress[key],
+    }));
 
   const isPrevActivityFinished = (chapterKey: keyof ChapterProgress) => {
     const currentIndex = chaptersArray.findIndex(

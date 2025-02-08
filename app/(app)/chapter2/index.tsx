@@ -1,9 +1,7 @@
 import { ChapterItem } from "@/components/ChapterActivityIcon";
 import { Chapter2, ChapterProgress } from "@/constants/data";
-import {
-  getChapter2Progress,
-  initChapter2Progress,
-} from "@/hooks/Chapter2Activity";
+import { getChapter2Progress } from "@/hooks/Chapter2Activity";
+
 import { useAuth } from "@/hooks/useAuth";
 import { Link, RelativePathString } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -23,13 +21,13 @@ export default function Chapter2Index() {
   useEffect(() => {
     if (user) {
       getChapter2Progress(user.uid)
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            const curProgress = snapshot.val();
+        .then((res) => {
+          if (res != null) {
+            const curProgress = res;
             delete curProgress["5_Identify_your_passengers"];
             setProgress(curProgress);
           } else {
-            initChapter2Progress(user.uid);
+            console.log("error no progress");
           }
         })
         .catch((err) => console.log(err));

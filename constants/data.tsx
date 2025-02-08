@@ -34,9 +34,9 @@ export const Chapter2 = {
         "Allow yourself to feel sad but open to seek support from friends and family",
       correctOption: "second",
       correctText:
-        "You got it! Allowing yourself to feel sad but open to seek support from friends and family is an example of driving with your passengers towards your academic goal. You should allow the challenging passengers on the bus, but don’t let them impede you.",
+        "You got it! Allowing yourself to feel sad but open to seek support from friends and family is an example of driving with your passengers toward your academic goal. You should allow the challenging passengers on the bus, but don't let them impede your progress.",
       incorrectText:
-        "Not quite right! Ignoring and suppressing your emotions is an example of throwing your passengers off the bus.You are letting your challenging passengers control your journey, and you can't make progress towards your destination if you follow what your passengers want you to do.",
+        "Not quite right! Ignoring and suppressing your emotions is like throwing your passengers off the bus. You are letting your challenging passengers control the journey, and you can't make progress toward your destination if you follow what your passengers want you to do.",
     },
     {
       question:
@@ -46,9 +46,9 @@ export const Chapter2 = {
         "Embrace the learning process and don’t solely focus on the end result",
       correctOption: "second",
       correctText:
-        "You got it! Embracing the learning process itself and not solely focusing on the end result is an example of driving with your passengers.You should allow the challenging passengers on the bus, but don’t let them impede your goals.",
+        "You got it! Embracing the learning process and not solely focusing on the end result is an example of driving with your passengers. Allow the challenging passengers on the bus, but don't let them impede your goals.",
       incorrectText:
-        "Not quite right! Giving up on playing guitar halfway is an example of following what your passengers want you to do. You are letting your challenging passengers control your journey, and you can't make progress towards your destination if you follow what your passengers want you to do.",
+        "Not quite right! Giving up on playing guitar halfway is like letting your challenging passengers control your journey, hindering progress toward your destination.",
     },
     {
       question:
@@ -58,9 +58,9 @@ export const Chapter2 = {
       option2: "Eat whatever you want and commit to the diet next time",
       correctOption: "first",
       correctText:
-        "You got it! Practicing mindful eating and asking yourself whether you are really hungry or not is an example of driving with your passengers. You should allow the challenging passengers on the bus, but don’t let them impede your goals.",
+        "Well done! Practicing mindful eating and questioning whether you're truly hungry is an example of driving with your passengers. You allow them on the bus but don’t let them steer you away from your goals.",
       incorrectText:
-        "Not quite right! Eating whatever you want and committing to the diet next time is an example of doing what your passengers told you to do.  You are letting your challenging passengers control your journey, and you can't make progress towards your destination if you follow what your passengers want you to do.",
+        "Not quite right! Eating whatever you want and committing to the diet later is an example of doing what your passengers told you to do. If you let them take control, you won’t make progress toward your destination.",
     },
   ],
   SummaryQuestionData: [

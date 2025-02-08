@@ -35,9 +35,8 @@ export default function Activity1() {
     { id: "2", label: "Anger", checked: false },
     { id: "3", label: "Loneliness", checked: false },
     { id: "4", label: "Anxiety", checked: false },
-    { id: "5", label: "Overwhelm", checked: false },
-    { id: "6", label: "Doubt", checked: false },
-    { id: "7", label: "Distraction", checked: false },
+    { id: "5", label: "Doubt", checked: false },
+    { id: "6", label: "Distraction", checked: false },
   ]);
   const [checkboxOther, setCheckboxOther] = useState(false);
   const [otherInput, setOtherInput] = useState("");
@@ -47,13 +46,17 @@ export default function Activity1() {
   const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
 
   useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
+    setUserData(
+      (
+        prevUserData: Record<string, Record<string, boolean>>
+      ): Record<string, Record<string, boolean>> => ({
         ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Your Challenging Emotions": true
-        }
-    }));
+        chapter2: {
+          ...prevUserData.chapter2,
+          "Your Challenging Emotions": true,
+        },
+      })
+    );
 
     setCurrPage("Your Challenging Emotions");
   }, []);
