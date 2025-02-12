@@ -1,4 +1,4 @@
-// app/(app)/index.tsx
+// app/(app)/chapter2/content/summary.tsx
 import React, { useEffect, useState } from "react";
 
 import { SummaryQuestion } from "@/components/Chapter2SummaryQuestion";

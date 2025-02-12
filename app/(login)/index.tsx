@@ -136,6 +136,7 @@ export default function MainScreen() {
               placeholderTextColor={colors.placeholder}
               value={username}
               onChangeText={setUsername}
+              autoCapitalize="none"
             />
             <Input
               placeholder="Password"
@@ -143,6 +144,7 @@ export default function MainScreen() {
               value={password}
               onChangeText={setPassword}
               secureTextEntry
+              autoCapitalize="none"
             />
             <Button
               backgroundColor={colors.link}

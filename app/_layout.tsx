@@ -6,14 +6,12 @@ import { Slot, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import "../tamagui-web.css";
 import { Provider } from "./Provider";
-import { GestureHandlerRootView } from 'react-native-gesture-handler'; // 导入 GestureHandlerRootView
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export {
-  // 捕获 Layout 组件抛出的任何错误
   ErrorBoundary,
 } from "expo-router";
 
-// 在资源加载完成前，保持启动画面可见
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {

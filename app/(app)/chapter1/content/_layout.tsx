@@ -22,7 +22,7 @@ export default function RootLayout() {
           <Button
             unstyled
             onPress={() => {
-              router.replace("/(app)/chapter2");
+              router.replace("/(app)/chapter1");
             }}
             style={{ marginLeft: 20 }}
           >
@@ -166,57 +166,17 @@ export default function RootLayout() {
                 alignSelf: "center",
               }}
             >
-              Examples of Driving The Bus
+              How to Use the App
             </Text>
           ),
         }}
       />
-
-      {/* <Stack.Screen
-        name="activity4" // This is the name of the page and must match the url from root
-        options={{
-          headerTitle: () => (
-            <Text
-              style={{
-                fontWeight: "bold", // Bold font
-                fontSize: 19,
-                color: "#FFFFFF",
-                width: "120%",
-
-                alignSelf: "center",
-              }}
-            >
-              Identify Your Own Destination & Passengers
-            </Text>
-          ),
-        }}
-      />
-
-      <Stack.Screen
-        name="activity5" // This is the name of the page and must match the url from root
-        options={{
-          headerTitle: () => (
-            <Text
-              style={{
-                fontWeight: "bold", // Bold font
-                fontSize: 19,
-                color: "#FFFFFF",
-                alignSelf: "center",
-                width: "125%",
-              }}
-            >
-              Allow Challenging Passengers Be on Your Bus
-            </Text>
-          ),
-        }}
-      />
-
       <Stack.Screen
         name="summary" // This is the name of the page and must match the url from root
         options={{
-          title: "Part 2 Summary",
+          title: "Part 1 Summary",
         }}
-      /> */}
+      />
     </Stack>
   );
 }

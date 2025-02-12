@@ -100,10 +100,19 @@ export default function SignupScreen() {
     if (!learningExpectation)
       newErrors.learningExpectation = "Please fill out learning expectations.";
 
+    if (username.includes("@")) {
+      newErrors.username = "Username cannot contain '@'.";
+    }
+
+    if (username === email) {
+      newErrors.username = "Username cannot be the same as email.";
+      newErrors.email = "Email cannot be the same as username.";
+    }
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      setModalMessage("Please correct the highlighted errors.");
-      setModalVisible(true);
+      alert("Please correct the highlighted errors.");
+      // setModalVisible(true);
       return;
     }
 

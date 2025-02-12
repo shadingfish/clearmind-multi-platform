@@ -142,7 +142,7 @@ export default function Activity2_2() {
           next={() => {
             if (!user) return;
             updateChapter1Progress(user.uid, "4_Activity1_2_Questions");
-            router.push("/(app)/chapter1/content/summary");
+            router.push("/(app)/chapter1/content/activity3");
           }}
         />
       </YStack>

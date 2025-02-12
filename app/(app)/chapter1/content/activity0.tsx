@@ -1,8 +1,17 @@
 // app/chapter1/content/activity0.tsx
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
-import { View, Text, Button, StyleSheet, Alert, ActivityIndicator } from "react-native";
-import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
+import DraggableFlatList, {
+  RenderItemParams,
+} from "react-native-draggable-flatlist";
 import { useAuth } from "@/hooks/useAuth";
 import {
   updateChapter1Activity0,
@@ -14,9 +23,12 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import colors from "@/constants/colors";
 import { database } from "@/constants/firebaseConfig";
 import { push, set, ref, onValue } from "firebase/database";
-import { ScrollView, YStack } from "tamagui";
+import { YStack } from "tamagui";
 import { PrimaryButton } from "@/components/CustomButton";
 
+/**
+ * Initial array of value items
+ */
 const initialValues = [
   "Marriage or Intimate relationships",
   "Family",
@@ -30,6 +42,9 @@ const initialValues = [
   "Spirituality or Religion",
 ];
 
+/**
+ * Interface for tracking user activity time
+ */
 interface ActivityData {
   openTime_ms: number;
   closeTime_ms: number;
@@ -38,6 +53,9 @@ interface ActivityData {
   closeTime_str: string;
 }
 
+/**
+ * Item type for the DraggableFlatList
+ */
 type ValueItem = {
   key: string;
   label: string;
@@ -47,24 +65,33 @@ export default function Activity0() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
   const { user, pending } = useAuth();
+
+  // State for DraggableFlatList data
   const [data, setData] = useState<ValueItem[]>([]);
+  // Display for top 5 results from other users
   const [top5, setTop5] = useState<string>("");
+  // Loading state for submit
   const [loading, setLoading] = useState<boolean>(false);
 
+  // Page open/close tracking
   const pageOpenTimeRef = useRef<number>(0);
   const pageCloseTimeRef = useRef<number>(0);
 
   useEffect(() => {
+    // Record page open time
     pageOpenTimeRef.current = Date.now();
 
+    // Prepare initial data for DraggableFlatList
     const formattedData = initialValues.map((item, index) => ({
       key: `item-${index}`,
       label: item,
     }));
     setData(formattedData);
 
+    // Fetch top 5 ranking from Firebase
     fetchTop5();
 
+    // On component unmount or page leave, record time if > 2s
     return () => {
       pageCloseTimeRef.current = Date.now();
       const duration = pageCloseTimeRef.current - pageOpenTimeRef.current;
@@ -74,6 +101,9 @@ export default function Activity0() {
     };
   }, []);
 
+  /**
+   * Fetch the aggregated ranking of value items from Firebase
+   */
   const fetchTop5 = () => {
     const activityRef = ref(database, "Chapter1/activity0");
     onValue(activityRef, (snapshot) => {
@@ -81,7 +111,7 @@ export default function Activity0() {
 
       if (value) {
         const sorted = Object.entries(value)
-          .sort((a, b) => b[1] - a[1])
+          .sort((a, b) => b[1] - a[1]) // descending by count
           .slice(0, 5);
         const ranking = sorted
           .map(([key, val], index) => `${index + 1}. ${key} - ${val}`)
@@ -93,6 +123,9 @@ export default function Activity0() {
     });
   };
 
+  /**
+   * Render function for each draggable item
+   */
   const renderItem = useCallback(
     ({ item, drag, isActive }: RenderItemParams<ValueItem>) => {
       return (
@@ -110,6 +143,9 @@ export default function Activity0() {
     []
   );
 
+  /**
+   * Called when pressing the "Submit" button
+   */
   const onPressSubmit = () => {
     if (!user) {
       Alert.alert("Error", "User not authenticated.");
@@ -119,6 +155,7 @@ export default function Activity0() {
     setLoading(true);
     const sortedValues = data.map((item) => item.label);
 
+    // Save array of values
     updateChapter1Activity0(user.uid, sortedValues)
       .then(() => {
         Alert.alert("Success", "Data saved successfully.");
@@ -131,14 +168,18 @@ export default function Activity0() {
         setLoading(false);
       });
 
+    // Save to the aggregated hashmap (ranking)
     updateChapter1Activity0Hashmap(sortedValues);
   };
 
+  /**
+   * Store user ranking with numeric weighting for each item
+   */
   const updateChapter1Activity0Hashmap = async (sortedValues: string[]) => {
     if (!user) return;
 
     const updateData: { [key: string]: number } = {};
-
+    // Higher priority => higher weighting
     sortedValues.forEach((value, index) => {
       updateData[value] = 10 - index;
     });
@@ -146,6 +187,9 @@ export default function Activity0() {
     await updateChapter1Activity0(user.uid, updateData);
   };
 
+  /**
+   * Record user activity time to Firebase
+   */
   const sendTimeStampsToFirebase = () => {
     if (!user) return;
 
@@ -163,7 +207,6 @@ export default function Activity0() {
       database,
       `userActivity/${user.uid}/Chapter1_Activity0`
     );
-
     const newActivityRef = push(activityRef);
 
     set(newActivityRef, activityData)
@@ -175,6 +218,7 @@ export default function Activity0() {
       });
   };
 
+  // Show loading screen if user data is still pending
   if (pending) {
     return (
       <View style={styles.loadingContainer}>
@@ -183,51 +227,68 @@ export default function Activity0() {
     );
   }
 
-  return (
-    <ScrollView style={styles.container}>
-      <YStack>
+  /**
+   * The ListHeaderComponent will show top instructions
+   */
+  const renderListHeader = () => (
+    <YStack padding="$2">
       <Text style={styles.header}>
         Having a clear understanding of what life values are most important to you
         is the first step of your procrastination journey!
-        {"\n\n"}Drag and drop the following life values to rank them from 1
-        (most important) to 10 (least important). This activity will help you
-        identify and focus on what you care about the most in your life.
       </Text>
+      <Text style={[styles.header, { marginBottom: 20 }]}>
+        Drag and drop the following life values to rank them from 1 (most important)
+        to 10 (least important). This activity will help you identify and focus on
+        what you care about the most in your life.
+      </Text>
+    </YStack>
+  );
 
-      <DraggableFlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.key}
-        onDragEnd={({ data }) => setData(data)}
-      />
-
+  /**
+   * The ListFooterComponent will show the "Submit" button, 
+   * top-5 summary, and navigation
+   */
+  const renderListFooter = () => (
+    <YStack padding="$2" space="$3">
+      {/* Submit button */}
       <View style={styles.submitButton}>
-        < PrimaryButton title="Submit" onPress={onPressSubmit}>
-        </PrimaryButton>
-
+        <PrimaryButton title="Submit" onPress={onPressSubmit} />
         {loading && <ActivityIndicator size="small" color="#54B363" />}
       </View>
 
-      <YStack marginBottom="$5">
+      {/* Top 5 from other users */}
       <Text style={styles.top5Header}>
-        Here are the top 5 common answers provided by other users, in case you
-        are interested:
+        Here are the top 5 common answers provided by other users:
       </Text>
       <Text style={styles.top5Text}>{top5}</Text>
-      </YStack>
 
+      {/* Navigation buttons */}
       <ChapterNavigationButton
         prev={"/(app)/chapter1/content/opening"}
         next={() => {
           if (!user) return;
+          // Mark progress done
           updateChapter1Progress(user.uid, "2_Activity1_0");
           router.push("/(app)/chapter1/content/activity1");
         }}
       />
 
+      {/* Spacer at bottom */}
       <View style={styles.bottomSpacer} />
-      </YStack>
-    </ScrollView>
+    </YStack>
+  );
+
+  return (
+    <YStack flex={1} style={styles.container}>
+      <DraggableFlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.key}
+        onDragEnd={({ data }) => setData(data)}
+        ListHeaderComponent={renderListHeader}
+        ListFooterComponent={renderListFooter}
+      />
+    </YStack>
   );
 }
 
@@ -242,9 +303,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   header: {
-    fontSize: 18,
+    fontSize: 16,
     color: "#000000",
-    marginBottom: 16,
+    lineHeight: 22,
   },
   itemContainer: {
     flexDirection: "row",
@@ -266,7 +327,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   submitButton: {
-    marginTop: 16,
     alignSelf: "center",
     width: "50%",
     flexDirection: "row",
@@ -275,16 +335,17 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   top5Header: {
-    fontSize: 18,
+    fontSize: 16,
     color: "#000000",
-    marginTop: 24,
+    marginTop: 12,
     marginBottom: 8,
+    fontWeight: "bold",
   },
   top5Text: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#000000",
   },
   bottomSpacer: {
-    height: 60, // To ensure content is above the navigation buttons
+    height: 60, // leaves space for navigation or bottom safe area
   },
 });
