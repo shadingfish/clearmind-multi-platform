@@ -47,8 +47,11 @@ export default function Summary() {
 
   const updateQuestion = (field: keyof SummaryQuestions, value: string) => {
     setQuestions((prev) => ({ ...prev, [field]: value }));
-    updateChapterData("summary", questions);
   };
+
+  useEffect(() => {
+    updateChapterData("summary", questions);
+  }, [questions])
 
   const toast = useToastController();
 

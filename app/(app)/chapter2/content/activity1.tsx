@@ -24,13 +24,17 @@ import {
   YStack,
 } from "tamagui";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter2Context } from "@/contexts/Chapter2Context";
 
 export default function Activity1() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
+  
+  const { chapterData, updateChapterData } = useChapter2Context();
+
   const [topChoice, setTopChoice] = useState("undefined");
-  const [selectionText, setSelectionText] = useState("");
-  const [checkboxes, setCheckboxes] = useState([
+  const [selectionText, setSelectionText] = useState(chapterData["activity1"]?.selectionText || "");
+  const [checkboxes, setCheckboxes] = useState(chapterData["activity1"]?.checkboxes || [
     { id: "1", label: "Sadness", checked: false },
     { id: "2", label: "Anger", checked: false },
     { id: "3", label: "Loneliness", checked: false },
@@ -39,8 +43,8 @@ export default function Activity1() {
     { id: "6", label: "Doubt", checked: false },
     { id: "7", label: "Distraction", checked: false },
   ]);
-  const [checkboxOther, setCheckboxOther] = useState(false);
-  const [otherInput, setOtherInput] = useState("");
+  const [checkboxOther, setCheckboxOther] = useState(chapterData["activity1"]?.checkboxOther || false);
+  const [otherInput, setOtherInput] = useState(chapterData["activity1"]?.otherInput || "");
   const { user, pending } = useAuth();
 
   //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
@@ -50,6 +54,17 @@ export default function Activity1() {
     updateChapterProgress("chapter2", "activity1");
   }, []);
   //~~~END COPY PASTA~~~
+
+  useEffect(() => {
+    const questions = {
+      selectionText: selectionText,
+      checkboxes: checkboxes,
+      checkboxOther: checkboxOther,
+      otherInput: otherInput,
+    }
+
+    updateChapterData("activity1", questions);
+  }, [selectionText, checkboxes, checkboxOther, otherInput])
 
   if (pending) {
     return null;

@@ -73,8 +73,11 @@ export default function Activity4() {
 
   const updateQuestion = (field: keyof Activity4Questions, value: string) => {
     setQuestions((prev) => ({ ...prev, [field]: value }));
-    updateChapterData("activity4", questions);
   };
+
+  useEffect(() => {
+    updateChapterData("activity4", questions);
+  }, [questions])
 
   useEffect(() => {
     console.log(chapterData);
