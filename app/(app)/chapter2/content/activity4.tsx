@@ -15,6 +15,7 @@ import {
   setChapter2Activity2,
   updateChapter2Progress,
 } from "@/hooks/Chapter2Activity";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -83,6 +84,22 @@ export default function Activity4() {
         .catch((err) => console.log("Error get chapter 2 activity2: " + err));
     }
   }, [pending]);
+
+  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+
+  useEffect(() => {
+    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
+        ...prevUserData,
+        "chapter2": {
+            ...prevUserData.chapter2,
+            "Identify your passengers": true
+        }
+    }));
+
+    setCurrPage("Identify your passengers");
+  }, []);
+  //~~~END COPY PASTA~~~
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>

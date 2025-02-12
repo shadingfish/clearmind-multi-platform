@@ -1,6 +1,6 @@
 // app/(app)/chapter2/content/activity1.tsx
 import { Check as CheckIcon } from "@tamagui/lucide-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { CheckboxWithLabel } from "@/components/CheckboxWithLabel";
@@ -23,6 +23,7 @@ import {
   XStack,
   YStack,
 } from "tamagui";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 export default function Activity1() {
   const router = useRouter();
@@ -41,6 +42,22 @@ export default function Activity1() {
   const [checkboxOther, setCheckboxOther] = useState(false);
   const [otherInput, setOtherInput] = useState("");
   const { user, pending } = useAuth();
+
+  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+
+  useEffect(() => {
+    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
+        ...prevUserData,
+        "chapter2": {
+            ...prevUserData.chapter2,
+            "Your Challenging Emotions": true
+        }
+    }));
+
+    setCurrPage("Your Challenging Emotions");
+  }, []);
+  //~~~END COPY PASTA~~~
 
   if (pending) {
     return null;

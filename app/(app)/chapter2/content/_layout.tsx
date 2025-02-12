@@ -8,9 +8,22 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { router, Stack } from "expo-router";
 import { Text } from "react-native";
 import { Button } from "tamagui";
+import SidebarModal from "@/app/SidebarModal";
+import { useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 
 export default function RootLayout() {
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
+  const openModal = () => setIsSidebarVisible(true);
+  const closeModal = () => setIsSidebarVisible(false);
+
+  const route = useRoute();
+  const navigation = useNavigation();
+
   return (
+    <>
     <Stack
       screenOptions={() => ({
         headerTintColor: "#FFFFFF",
@@ -32,7 +45,7 @@ export default function RootLayout() {
         headerRight: () => (
           <Button
             unstyled
-            onPress={() => console.log("toggle drawer")}
+            onPress={openModal}
             style={{ marginRight: 20 }}
           >
             <MaterialIcons
@@ -163,5 +176,13 @@ export default function RootLayout() {
         }}
       />
     </Stack>
+    {isSidebarVisible && (
+        <SidebarModal
+          visible={isSidebarVisible}
+          onClose={closeModal} // Pass the closeModal function to handle modal dismissal
+          chapterName={"chapter2"}
+        />
+      )}
+    </>
   );
 }

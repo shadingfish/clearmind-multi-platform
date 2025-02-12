@@ -1,34 +1,34 @@
 // constants/firebaseConfig.ts
 
-import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
-import Constants from "expo-constants";
-import { initializeAuth, getReactNativePersistence } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from "expo-constants";
+import { initializeApp } from "firebase/app";
+import { getReactNativePersistence, initializeAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // Ensure fallback values are provided in case of undefined
 const firebaseConfig = {
   apiKey: Constants.expoConfig?.extra?.firebaseApiKey || "",
   authDomain: Constants.expoConfig?.extra?.firebaseAuthDomain || "",
-  databaseURL: Constants.expoConfig?.extra?.firebaseDatabaseUrl || "",
   projectId: Constants.expoConfig?.extra?.firebaseProjectId || "",
   storageBucket: Constants.expoConfig?.extra?.firebaseStorageBucket || "",
   messagingSenderId:
     Constants.expoConfig?.extra?.firebaseMessagingSenderId || "",
   appId: Constants.expoConfig?.extra?.firebaseAppId || "",
+  measurementId: Constants.expoConfig?.extra?.firebaseMeasurementId || "",
 };
 
 // Initialize Firebase app
 const app = initializeApp(firebaseConfig);
 
-const database = getDatabase(app);
+const database = getFirestore(app);
 
 const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage),
 });
 
 // Export Firebase services
-export { database, auth };
+export { auth, database };
 // Usually used
 // Firebase App initialization
 // import { initializeApp } from "firebase/app";

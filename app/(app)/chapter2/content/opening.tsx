@@ -2,12 +2,29 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useAuth } from "@/hooks/useAuth";
 import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, YStack } from "tamagui";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 export default function Opening() {
   const router = useRouter();
   const { user } = useAuth();
+
+  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+
+  useEffect(() => {
+    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
+        ...prevUserData,
+        "chapter2": {
+            ...prevUserData.chapter2,
+            "Opening": true
+        }
+    }));
+
+    setCurrPage("Opening");
+  }, []);
+  //~~~END COPY PASTA~~~
 
   return (
     <YStack margin={"$4"} gap={"$4"}>

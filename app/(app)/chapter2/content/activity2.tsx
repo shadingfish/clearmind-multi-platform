@@ -1,5 +1,5 @@
 // app/(app)/index.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useRouter } from "expo-router";
@@ -8,12 +8,28 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import { ScrollView, Text, View, YStack } from "tamagui";
 import { useAuth } from "@/hooks/useAuth";
 import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 export default function Activity2() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
   const [showMore, setShowMore] = useState(false);
   const { user, pending } = useAuth();
+
+  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+
+  useEffect(() => {
+    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
+        ...prevUserData,
+        "chapter2": {
+            ...prevUserData.chapter2,
+            "Passengers On The Bus": true
+        }
+    }));
+
+    setCurrPage("Passengers On The Bus");
+  }, []);
 
   if (pending) {
     return null;
