@@ -17,11 +17,11 @@ export default function Chapter2Index() {
     Chapter2.EmptyProgress
   );
 
-  const { isFinished } = useChapterProgressContext();
+  const { userData, isFinished } = useChapterProgressContext();
 
-  useEffect(() => {
+  /* useEffect(() => {
     setFinished(Object.values(progress).every((value) => value === "1"));
-  }, [progress]);
+  }, [progress]); */
 
   /* useEffect(() => {
     if (user) {
@@ -48,8 +48,9 @@ export default function Chapter2Index() {
               name={ele.name}
               image={ele.icon}
               imageDone={ele.icon_done}
-              progressIndex={ele.progress_index as keyof ChapterProgress}
-              progress={progress}
+              chapterKey={"chapter2"}
+              activityKey={ele.activityKey}
+              progress={userData}
               route={ele.route as RelativePathString}
             />
           </View>

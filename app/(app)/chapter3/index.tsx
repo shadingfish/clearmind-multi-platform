@@ -1,9 +1,10 @@
 import { ChapterItem } from "@/components/ChapterActivityIcon";
 import { Chapter3, ChapterProgress } from "@/constants/data";
-import {
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+/* import {
   getChapter2Progress,
   initChapter2Progress,
-} from "@/hooks/Chapter2Activity";
+} from "@/hooks/Chapter2Activity"; */
 import { useAuth } from "@/hooks/useAuth";
 import { Link, RelativePathString } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -16,9 +17,11 @@ export default function Chapter3Index() {
     Chapter3.EmptyProgress
   );
 
-  useEffect(() => {
+  /* useEffect(() => {
     setFinished(Object.values(progress).every((value) => value === "1"));
-  }, [progress]);
+  }, [progress]); */
+
+  const { userData, isFinished } = useChapterProgressContext();
 
   /* useEffect(() => {
     if (user) {
@@ -45,15 +48,16 @@ export default function Chapter3Index() {
               name={ele.name}
               image={ele.icon}
               imageDone={ele.icon_done}
-              progressIndex={ele.progress_index as keyof ChapterProgress}
-              progress={progress}
+              chapterKey={"chapter3"}
+              activityKey={ele.activityKey}
+              progress={userData}
               route={ele.route as RelativePathString}
             />
           </View>
         );
       })}
 
-      {finished && (
+      {isFinished("chapter3") && (
         <YStack
           alignSelf="center"
           borderWidth={1}
