@@ -149,3 +149,36 @@ export async function getChapter1Activity2_2UserInput(
   const snapshot = await get(activity2_2UserRef);
   return snapshot.val();
 }
+
+/** 获取用户在 Time Management (Activity3) 的答题情况 */
+export async function getChapter1Activity3UserInput(username: string) {
+  const activity3UserRef = ref(database, `Chapter1/activity3_user_input/${username}`);
+  const snapshot = await get(activity3UserRef);
+  return snapshot.val();
+}
+
+/** 更新用户在 Time Management (Activity3) 的答题情况 */
+export async function updateChapter1Activity3(
+  username: string,
+  data: { frequency: string; timeCommit: string }
+) {
+  const activity3UserRef = ref(database, `Chapter1/activity3_user_input/${username}`);
+  await set(activity3UserRef, data);
+}
+
+/** 获取 Chapter1 Summary */
+export async function getChapter1Summary(uid: string) {
+  const summaryRef = ref(database, `Chapter1/summary/${uid}`);
+  return await get(summaryRef);
+}
+
+/** 设置 / 更新 Chapter1 Summary */
+export async function setChapter1Summary(uid: string, data: {
+  answer1: string;
+  answer2: string;
+  answer3: string;
+  answer4: string;
+}) {
+  const summaryRef = ref(database, `Chapter1/summary/${uid}`);
+  await set(summaryRef, data);
+}

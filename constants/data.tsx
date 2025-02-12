@@ -11,9 +11,8 @@ export const Chapter1 = {
     "2_Activity1_1": "0",
     "3_Activity1_2_Discover": "0",
     "4_Activity1_2_Questions": "0",
-    "5_Summary_and_ACT": "0",
-    "6_Time_Management": "0",
-    "7_Summary": "0"
+    "5_Time_Management": "0",
+    "6_Summary": "0"
   },
   Activity: [
     {
@@ -55,21 +54,14 @@ export const Chapter1 = {
       name: "How to Use the App",
       icon: require("assets/images/icon_practice.png"),
       icon_done: require("assets/images/icon_practice_done.png"),
-      progress_index: "5_Summary_and_ACT",
+      progress_index: "5_Time_Management",
       route: "/(app)/chapter1/content/activity3",
-    },
-    {
-      name: "How to Use the App",
-      icon: require("assets/images/icon_practice.png"),
-      icon_done: require("assets/images/icon_practice_done.png"),
-      progress_index: "6_Time_Management",
-      route: "/(app)/chapter1/content/activity4",
     },
     {
       name: "Summary",
       icon: require("assets/images/icon_summary.png"),
       icon_done: require("assets/images/icon_summary_done.png"),
-      progress_index: "7_Summary",
+      progress_index: "6_Summary",
       route: "/(app)/chapter1/content/summary",
     },
   ],
@@ -110,6 +102,37 @@ export const Chapter1 = {
       hint: "Think about John's hesitation in making a decision about his major.",
     },
   ],
+  SummaryQuestionData: [
+    {
+      text: "1. Do you recognize any procrastination tendencies these days? How do these tendencies manifest in your routines and tasks?",
+      placeholder: "Input your answer for question1",
+      id: "question1",
+      ans: "answer1",
+      useRadio: false,
+    },
+    {
+      text: "2. What do you believe are the main reasons behind your procrastination behaviors, particularly when it comes to actions linked to your most important values?",
+      placeholder: "Input your answer for question2",
+      id: "question2",
+      ans: "answer2",
+      useRadio: false,
+    },
+    {
+      text: "3. Which new insight(s) have you gained from this part that you'd like to integrate for managing procrastination and better aligning with your life priorities?",
+      placeholder: "Input your answer for question3",
+      id: "question3",
+      ans: "answer3",
+      useRadio: false,
+    },
+    {
+      text: "4. Rate the effectiveness of this chapter in managing your procrastination on a scale of 1 to 5, where 1 is “not effective” and 5 is “extremely effective.”",
+      placeholder: "Input your answer for question4",
+      id: "question4",
+      ans: "answer4",
+      useRadio: true,
+    },
+  ],
+
 }
 
 export const Chapter2 = {
