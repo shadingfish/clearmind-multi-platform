@@ -12,9 +12,10 @@ import {
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { auth, database } from "@/constants/firebaseConfig";
-import { ref, get } from "firebase/database";
+import { doc, getDoc } from "firebase/firestore";
 import * as Progress from "react-native-progress"; 
 import { Button } from "tamagui";
+import { useAuth } from "@/hooks/useAuth"; 
 
 const { width } = Dimensions.get("window");
 
@@ -33,6 +34,7 @@ export default function HomePage() {
   const [username, setUsername] = useState("User");
   const [progress, setProgress] = useState(0);
   const [activeTab, setActiveTab] = useState("Learn"); 
+  const { handleFirebaseLogout, isSignedIn } = useAuth();
 
   const [statuses, setStatuses] = useState<ChapterStatus>({
     presurvey: "0",
@@ -44,18 +46,27 @@ export default function HomePage() {
   });
 
   useEffect(() => {
+    console.log("User Signed In:", isSignedIn);
+  }, [isSignedIn]);
+
+  useEffect(() => {
     const fetchUserData = async () => {
       const user = auth.currentUser;
       if (user) {
         setUsername(user.displayName || "User");
 
-        const progressRef = ref(database, `progress/${user.uid}`);
-        const progressSnapshot = await get(progressRef);
-        if (progressSnapshot.exists()) {
-          const progressData = progressSnapshot.val();
-          setStatuses(progressData);
+        const progressRef = doc(database, "ChapterProgress", user.uid);
+        const progressSnapshot = await getDoc(progressRef);
 
-          const completedChapters = Object.values(progressData).filter((status) => status === "2").length;
+        if (progressSnapshot.exists()) {
+          const progressData = progressSnapshot.data() as Partial<ChapterStatus>;
+
+          setStatuses((prev) => ({
+            ...prev,
+            ...progressData,
+          }));
+
+          const completedChapters = validchap.filter(chap => progressData[chap] === "2").length;
           setProgress((completedChapters / validchap.length) * 100);
         }
       }
@@ -138,6 +149,16 @@ export default function HomePage() {
             </TouchableOpacity>
           ))}
         </ScrollView>
+        {isSignedIn && (
+        <View style={styles.logoutContainer}>
+          <Button
+            onPress={handleFirebaseLogout}
+            backgroundColor="#FF3B30"  
+          >
+            Logout
+          </Button>
+        </View>
+      )}
       </View>
 
       {/* 底部导航栏 */}
@@ -163,6 +184,8 @@ export default function HomePage() {
       </View>
     </View>
   );
+
+
 }
 
 const styles = StyleSheet.create({
@@ -181,4 +204,5 @@ const styles = StyleSheet.create({
   activeNavIcon: { tintColor: "white" },
   navText: { fontSize: 12, color: "black" },
   activeNavText: { color: "white", fontWeight: "900"},
+  logoutContainer: { alignItems: "center", marginVertical: 10,},
 });

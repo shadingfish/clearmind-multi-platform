@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Alert, ActivityIndicator } from "re
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 import { YStack } from "tamagui";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 import RadioGroup from "@/components/RadioGroup"; 
 import { PrimaryButton } from "@/components/CustomButton";
@@ -22,6 +23,21 @@ import {
 export default function Activity3() {
   const router = useRouter();
   const { user, pending } = useAuth();
+  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+
+  useEffect(() => {
+    setUserData(
+      (prevUserData) => ({
+        ...prevUserData,
+        chapter1: {
+          ...prevUserData.chapter1,
+          "How to Use the App": true,
+        },
+      })
+    );
+
+    setCurrPage("How to Use the App");
+  }, []);
 
   // 这两个状态保存用户选择的答案
   const [frequency, setFrequency] = useState<string>("");

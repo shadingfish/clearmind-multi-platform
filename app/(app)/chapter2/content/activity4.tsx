@@ -75,7 +75,7 @@ export default function Activity4() {
       getChapter2Activity2(user.uid)
         .then((snapshot) => {
           if (snapshot.exists()) {
-            const answer = snapshot.val();
+            const answer = snapshot.data();
             for (const [key, value] of Object.entries(answer)) {
               updateQuestion(key as keyof Activity4Questions, value as string);
             }
@@ -89,13 +89,17 @@ export default function Activity4() {
   const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
 
   useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
+    setUserData(
+      (
+        prevUserData: Record<string, Record<string, boolean>>
+      ): Record<string, Record<string, boolean>> => ({
         ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Identify your passengers": true
-        }
-    }));
+        chapter2: {
+          ...prevUserData.chapter2,
+          "Identify your passengers": true,
+        },
+      })
+    );
 
     setCurrPage("Identify your passengers");
   }, []);
@@ -105,9 +109,10 @@ export default function Activity4() {
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"} paddingBottom={bottom}>
         <Text fontSize={"$5"} lineHeight={20}>
-          The destination here can be big, such as your top value mentioned in
-          Part 1, or it can be any small goal toward your top value.
-          [explanation of the difference between goal and value]
+          The destination can be something big, like your top value mentioned in
+          Part 1, or a smaller goal that moves you closer to that value. A value
+          is a guiding principle that shapes your life, while a goal is a
+          specific action or milestone that helps you live by that value.
         </Text>
 
         <Text fontSize={"$5"} lineHeight={20}>
@@ -117,13 +122,6 @@ export default function Activity4() {
           (challenging passengers) that may lead you to procrastinate toward the
           goal. Managing challenging passengers, which you will learn in Part 3,
           will be much clearer once you know who they are.
-        </Text>
-
-        <Text fontSize={"$5"} lineHeight={20}>
-          Recognizing these passengers is the first step to overcome
-          procrastination and stay on track towards your destination! Think of
-          your destination and possible challenging passengers. It can be
-          anything like “health”, or “getting homework done.”
         </Text>
 
         <Image

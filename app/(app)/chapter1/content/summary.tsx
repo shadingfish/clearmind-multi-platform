@@ -8,7 +8,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useToastController } from "@tamagui/toast";
 
 import { SummaryQuestion } from "@/components/Chapter2SummaryQuestion"; 
-// (或你也可以做一个通用组件 SummaryQuestion。只要能处理 useRadio = true/false 就行。)
 
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { Chapter1 } from "@/constants/data";
@@ -19,6 +18,7 @@ import {
   setChapter1Summary,
   updateChapter1Progress,
 } from "@/hooks/Chapter1Activity";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 // 定义问题 ID 映射到用户回答
 export type SummaryQuestions = {
@@ -33,6 +33,21 @@ export default function Summary() {
   const toast = useToastController();
   const { user, pending } = useAuth();
   const { bottom } = useSafeAreaInsets();
+  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+
+  useEffect(() => {
+    setUserData(
+      (prevUserData) => ({
+        ...prevUserData,
+        chapter1: {
+          ...prevUserData.chapter1,
+          "How to Use the App": true,
+        },
+      })
+    );
+
+    setCurrPage("How to Use the App");
+  }, []);
 
   // 保存 4 个问题的答案
   const [questions, setQuestions] = useState<SummaryQuestions>({
@@ -46,17 +61,15 @@ export default function Summary() {
   useEffect(() => {
     if (user && !pending) {
       getChapter1Summary(user.uid)
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            const data = snapshot.val();
-            // data 形如 { question1: "...", question2: "...", question3: "...", question4: "3" }
+        .then((data) => {
+          if (data) {
             setQuestions((prev) => ({
               ...prev,
-              ...data,
+              ...data, // 确保 Firestore 返回的数据正确填充到状态
             }));
           }
         })
-        .catch((err) => console.log("Error get chapter1 summary:", err));
+        .catch((err) => console.log("Error getting chapter1 summary:", err));
     }
   }, [user, pending]);
 

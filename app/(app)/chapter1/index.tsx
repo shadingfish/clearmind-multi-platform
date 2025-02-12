@@ -1,9 +1,8 @@
+//app/(app)/chapter1/index.tsx
+
 import { ChapterItem } from "@/components/ChapterActivityIcon";
 import { Chapter1, ChapterProgress } from "@/constants/data";
-import {
-  getChapter1Progress,
-  initChapter1Progress,
-} from "@/hooks/Chapter1Activity";
+import { getChapter1Progress, initChapter1Progress } from "@/hooks/Chapter1Activity";
 import { useAuth } from "@/hooks/useAuth";
 import { Link, RelativePathString } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -23,15 +22,15 @@ export default function Chapter1Index() {
   useEffect(() => {
     if (user) {
       getChapter1Progress(user.uid)
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            const curProgress = snapshot.val();
-            setProgress(curProgress);
+        .then((res) => {
+          if (res != null) {
+            setProgress(res);
           } else {
+            console.log("No progress found, initializing...");
             initChapter1Progress(user.uid);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log("Error fetching Chapter1 progress:", err));
     }
   }, [pending]);
 

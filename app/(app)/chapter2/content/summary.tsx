@@ -48,7 +48,7 @@ export default function Summary() {
       getChapter2Summary(user.uid)
         .then((snapshot) => {
           if (snapshot.exists()) {
-            const answer = snapshot.val();
+            const answer = snapshot.data();
             for (const [key, value] of Object.entries(answer)) {
               updateQuestion(key as keyof SummaryQuestions, value as string);
             }
@@ -62,13 +62,17 @@ export default function Summary() {
   const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
 
   useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
+    setUserData(
+      (
+        prevUserData: Record<string, Record<string, boolean>>
+      ): Record<string, Record<string, boolean>> => ({
         ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Summary": true
-        }
-    }));
+        chapter2: {
+          ...prevUserData.chapter2,
+          Summary: true,
+        },
+      })
+    );
 
     setCurrPage("Summary");
   }, []);
@@ -86,13 +90,14 @@ export default function Summary() {
         </Text>
 
         <Text fontSize={"$5"} lineHeight={20}>
-          Simply, close your eyes and picture yourself driving a bus. Ask
-          yourself: {"\n"} - Who are my passengers right now? {"\n"} - What are
-          they persuading me to do? {"\n"} - What do I truly want to do?
+          Simply, close your eyes and picture yourself driving a bus. Then, ask
+          yourself:
+          {"\n"} - Who are my passengers right now? {"\n"} - What are they
+          persuading me to do? {"\n"} - What do I truly want to do?
         </Text>
 
         <Text fontSize={"$5"} lineHeight={20}>
-          Following questions will help you reflect on this chapter:
+          The following questions will help you reflect on this part:
         </Text>
 
         {Chapter2.SummaryQuestionData.map((ele, i) => {

@@ -19,13 +19,17 @@ export default function Activity3() {
   const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
 
   useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
+    setUserData(
+      (
+        prevUserData: Record<string, Record<string, boolean>>
+      ): Record<string, Record<string, boolean>> => ({
         ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Example of Driving the bus": true
-        }
-    }));
+        chapter2: {
+          ...prevUserData.chapter2,
+          "Example of Driving the bus": true,
+        },
+      })
+    );
 
     setCurrPage("Example of Driving the bus");
   }, []);

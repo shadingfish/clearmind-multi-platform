@@ -23,12 +23,29 @@ import colors from "@/constants/colors";
 import { Chapter1Radio, Chapter1RadioProps } from "@/components/Chapter1Radio"; 
 import { PrimaryButton } from "@/components/CustomButton";
 import { YStack } from "tamagui";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 export default function Activity2_2() {
   const router = useRouter();
   const { user, pending } = useAuth();
   const [answers, setAnswers] = useState<{ [key: string]: number }>({});
   const [loading, setLoading] = useState<boolean>(false);
+
+  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+
+  useEffect(() => {
+    setUserData(
+      (prevUserData) => ({
+        ...prevUserData,
+        chapter1: {
+          ...prevUserData.chapter1,
+          "Tendencies Questions": true,
+        },
+      })
+    );
+
+    setCurrPage("Tendencies Questions");
+  }, []);
 
   useEffect(() => {
     if (user) {

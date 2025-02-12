@@ -48,7 +48,7 @@ export const Chapter2Radio: React.FC<Chapter2RadioProps> = ({
       >
         <Text color={colors.hintColor}>
           <Text fontWeight={showHint ? "bold" : 400}>
-            {showHint ? "Hint: " : "hints?"}
+            {showHint ? "Hint: " : "Hints?"}
           </Text>
           {showHint
             ? "When you drive with your passengers, remember that you are the one steering the bus, not the passengers. Don’t let your passengers decide where the bus goes."

@@ -1,6 +1,6 @@
 // app/(app)/chapter1/content/activity2_1.tsx
 
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/hooks/useAuth";
@@ -8,10 +8,27 @@ import { updateChapter1Progress } from "@/hooks/Chapter1Activity";
 import {ChapterNavigationButton} from "@/components/ChapterNavigateButton";
 import colors from "@/constants/colors";
 import { YStack } from "tamagui";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 const Activity2_1 = () => {
   const router = useRouter();
   const { user, pending } = useAuth();
+  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+
+  useEffect(() => {
+    setUserData(
+      (prevUserData) => ({
+        ...prevUserData,
+        chapter1: {
+          ...prevUserData.chapter1,
+          "Procrastination Tendencies": true,
+        },
+      })
+    );
+
+    setCurrPage("Procrastination Tendencies");
+  }, []);
+  
 
   if (pending) {
     return (
