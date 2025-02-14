@@ -53,6 +53,15 @@ const Activity3_3: React.FC<CurrentPageComponentProps> = ({ }) => {
         <YStack margin={"$4"} gap={"$4"}>
         <ScrollView style={{width: '100%'}}>
             <Text style={{fontSize: 18, marginBottom: '5%'}}>
+                Mindfulness is more than just sitting still to meditate. 
+                You can practice mindfulness in <Text style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>any</Text> activity you do such as a 10-minute walk. 
+                As long as you perform the activity with a full, present engagement, the activity 
+                becomes a meditation session.
+            </Text>
+            <Text style={{fontSize: 18, marginBottom: '2%', fontWeight: 'bold'}}>
+            During the walk you can:
+            </Text>
+            <Text style={{fontSize: 18, marginBottom: '5%'}}>
                 Breathe in and start to walk slowly, focusing closely on the bottom of your feet.
                  Each step offers an opportunity to reconnect with both yourself and the earth. 
                  As you walk, be mindful of every breath you take and count your steps as you inhale and exhale.

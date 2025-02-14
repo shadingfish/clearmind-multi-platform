@@ -39,9 +39,8 @@ export default function Activity1() {
     { id: "2", label: "Anger", checked: false },
     { id: "3", label: "Loneliness", checked: false },
     { id: "4", label: "Anxiety", checked: false },
-    { id: "5", label: "Overwhelm", checked: false },
-    { id: "6", label: "Doubt", checked: false },
-    { id: "7", label: "Distraction", checked: false },
+    { id: "5", label: "Doubt", checked: false },
+    { id: "6", label: "Distraction", checked: false },
   ]);
   const [checkboxOther, setCheckboxOther] = useState(chapterData["activity1"]?.checkboxOther || false);
   const [otherInput, setOtherInput] = useState(chapterData["activity1"]?.otherInput || "");

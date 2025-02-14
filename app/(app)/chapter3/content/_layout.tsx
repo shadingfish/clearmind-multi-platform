@@ -141,7 +141,7 @@ export default function RootLayout() {
                 alignSelf: "center",
               }}
             >
-              1. The 20 Breath Meditation
+              The 20 Breath Meditation
             </Text>
           ),
         }}
@@ -159,7 +159,7 @@ export default function RootLayout() {
                 alignSelf: "center",
               }}
             >
-              2. Relaxing Breathing (4-7-8) Exercise
+              Relaxing Breathing (4-7-8) Exercise
             </Text>
           ),
         }}
@@ -177,7 +177,7 @@ export default function RootLayout() {
                 alignSelf: "center",
               }}
             >
-              3. Mindful Daily Tasks
+              Mindful Daily Tasks
             </Text>
           ),
         }}
@@ -195,7 +195,7 @@ export default function RootLayout() {
                 alignSelf: "center",
               }}
             >
-              4. Leaves on a Stream
+              Leaves on a Stream
             </Text>
           ),
         }}

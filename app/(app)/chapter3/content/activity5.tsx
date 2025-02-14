@@ -54,7 +54,7 @@ const Activity5 = () => {
                     reframe your thoughts to feel better and act more positively.
                 </Text>
                 <Text style={styles.textBox}>
-                    Now, let's talk about the ten most common cognitive distortions with examples:
+                    Now, let’s talk about the ten most common cognitive distortions with examples.
                 </Text>
             </View>
 

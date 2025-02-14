@@ -114,7 +114,8 @@ const Activity3_4: React.FC<CurrentPageComponentProps> = ({ }) => {
                     </Pressable>
                 }
                 <Text style={{fontSize: 18, marginBottom: '5%'}}>
-                    There are a variety of visualizations you can also apply the same principle. Some common examples are:
+                    There are various visualizations that can be applied to the same principle. 
+                    Here are a few common examples:
                 </Text>
                 { !isButton2Pressed ?
                     <Pressable style={styles.outlineBoxOff} onPress={() => {setIsButton2Pressed(!isButton2Pressed)}}>

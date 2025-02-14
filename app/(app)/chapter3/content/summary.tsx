@@ -92,10 +92,10 @@ const Summary = () => {
                 Following questions will help you reflect on this part:
             </Text>
             <Text style={{fontSize: 16, color: "#636363", marginVertical: '5%'}}>
-                1. Did you find specific strategies or techniques in this chapter 
-                helpful for combating procrastination?
-                If yes, outline these strategies and explain how you plan to incorporate them 
-                into your future practices to improve your procrastination habits.
+                1. Did you find any meditation techniques in this section 
+                helpful for combating procrastination? If yes, describe these techniques 
+                and explain how you plan to incorporate them into your daily practices to 
+                improve your procrastination habits.
             </Text>
             <Input
                 unstyled
@@ -110,8 +110,8 @@ const Summary = () => {
                 onChangeText={(text) => updateQuestion("summaryQues1", text)}
                 />
             <Text style={{fontSize: 16, color: "#636363", marginVertical: '5%'}}>
-                2. What are some small actions you can take to manage any cognitive 
-                distortion(s) you have, in order to pursue your value/goal?
+                2. What small actions can you take to manage any cognitive distortions 
+                you experience to stay aligned with your values and goals?
             </Text>
             <Input
                 unstyled

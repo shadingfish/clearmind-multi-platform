@@ -110,18 +110,20 @@ export default function Activity4() {
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"} paddingBottom={bottom}>
         <Text fontSize={"$5"} lineHeight={20}>
-          The destination here can be big, such as your top value mentioned in
-          Part 1, or it can be any small goal toward your top value.
-          [explanation of the difference between goal and value]
+          The <Text style={{fontWeight: 'bold'}}>destination</Text> can be something big, 
+          like your <Text style={{fontWeight: 'bold'}}>top value</Text> mentioned in Part 1, or a 
+          smaller goal that moves you closer to that value.
+           A <Text style={{fontWeight: 'bold'}}>value</Text> is a guiding principle that shapes your life, 
+           while a <Text style={{fontWeight: 'bold'}}>goal</Text> is a specific action or milestone that helps 
+           you live by that value.
         </Text>
 
         <Text fontSize={"$5"} lineHeight={20}>
-          Previous examples show how people can still drive to their
-          destination, even with difficult passengers. Now, let’s think of your
-          own goal (destination) and the possible challenging thoughts
-          (challenging passengers) that may lead you to procrastinate toward the
-          goal. Managing challenging passengers, which you will learn in Part 3,
-          will be much clearer once you know who they are.
+          Previous examples show how people can still drive to their destination, 
+          even with difficult passengers. Now, let’s think of your own goal (destination) 
+          and the possible challenging thoughts (challenging passengers) that may lead you to 
+          procrastinate toward the goal. Managing challenging passengers, which you will learn 
+          in Part 3, will be much clearer once you know who they are.
         </Text>
 
         <Text fontSize={"$5"} lineHeight={20}>

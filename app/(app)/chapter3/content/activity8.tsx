@@ -119,7 +119,7 @@ const Activity8 = () => {
             </Text>
             <Input
                 unstyled
-                placeholder={"Potential strategy"}
+                placeholder={"[Text input]"}
                 borderColor={colors.border}
                 borderWidth={3}
                 borderRadius={7}

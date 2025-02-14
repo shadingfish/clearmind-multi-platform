@@ -84,13 +84,13 @@ export default function Summary() {
         </Text>
 
         <Text fontSize={"$5"} lineHeight={20}>
-          Simply, close your eyes and picture yourself driving a bus. Ask
+          Simply, close your eyes and picture yourself driving a bus. Then, ask
           yourself: {"\n"} - Who are my passengers right now? {"\n"} - What are
           they persuading me to do? {"\n"} - What do I truly want to do?
         </Text>
 
         <Text fontSize={"$5"} lineHeight={20}>
-          Following questions will help you reflect on this chapter:
+          The following questions will help you reflect on this part:
         </Text>
 
         {Chapter2.SummaryQuestionData.map((ele, i) => {

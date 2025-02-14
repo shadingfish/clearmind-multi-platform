@@ -88,7 +88,7 @@ const Activity1 = () => {
 
                 <Input
                     unstyled
-                    placeholder={"(your procrastination episode)"}
+                    placeholder={"[your procrastination episode]"}
                     borderColor={colors.border}
                     borderWidth={3}
                     borderRadius={7}
@@ -105,7 +105,7 @@ const Activity1 = () => {
                     <Text style={{...styles.textBox, marginRight: 20}}>I'm feeling: </Text>
                         <Input
                             unstyled
-                            placeholder={"(name of the emotion)"}
+                            placeholder={"[name of the emotion]"}
                             borderColor={colors.border}
                             borderWidth={3}
                             borderRadius={7}
@@ -121,7 +121,7 @@ const Activity1 = () => {
                     <Text style={{...styles.textBox, marginRight: 20}}>because: </Text>
                     <Input
                             unstyled
-                            placeholder={"(name of the emotion)"}
+                            placeholder={"[the event triggered this emotion]"}
                             borderColor={colors.border}
                             borderWidth={3}
                             borderRadius={7}

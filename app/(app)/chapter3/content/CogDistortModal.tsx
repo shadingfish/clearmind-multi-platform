@@ -30,7 +30,7 @@ const CogDistortModal: React.FC<CogDistortModalProps> = ({ isVisible, onClose, t
         "All-or-nothing thinking": "Polarized thinking. All good (or all bad), all right (or all wrong), everything (or nothing), success (or failure), nothing in between. This distortion can result in unrealistic standards for yourself and others.",
         "Overgeneralization": "Forming a rule or drawing a conclusion based on a single event or a lone piece of negative evidence. Words like \"always\", \"never\", \"forever\", often dominate their thinking. Overgeneralization can lead to an exaggerated belief that all similar future events will result in the same failure or negative experience.",
         "Discounting the positive": "Not fully accepting or believing the good things that have happened to you. Similar to mental filtering; however, in discounting the positive, these good things are actively invalidated or rejected instead of simply being ignored.",
-        "Jumping to Conclusions": "There are two different types for this distortion, mind reading and fortune telling. \n \n 1. Mind reading: Presuming that you have the ability to read others' minds and understand their thoughts. It involves anticipating a specific reaction from someone or attributing thoughts to them that may not be their actual thinking. \n \n 2. Fortune telling: Making predictions about how events will unfold in a specific way, based on little or no evidence. Usually a way to avoid facing challenging situations or tasks.",
+        "Jumping to Conclusions": "Mind reading: Presuming that you have the ability to read others' minds and understand their thoughts. It involves anticipating a specific reaction from someone or attributing thoughts to them that may not be their actual thinking.\n \nFortune telling: Making predictions about how events will unfold in a specific way, based on little or no evidence. Usually a way to avoid facing challenging situations or tasks.",
         "Magnification": "Making your problems and flaws seem much bigger and more important than they really are. It can cause worries to grow rapidly and imagine the worst possible outcomes. Magnification tends to happen when there are uncertainties beyond a person's control.",
         "Emotional Reasoning": "Evaluating yourself or a situation based on emotions at the moment.",
         '"Should" Statements': "Imposing unrealistic expectations about how things or people should be. It can lead to self-criticism, anxiety, and depression instead of approaching situations with flexibility.",
@@ -44,7 +44,7 @@ const CogDistortModal: React.FC<CogDistortModalProps> = ({ isVisible, onClose, t
         "All-or-nothing thinking": "Jack set a fitness goal of exercising three times a week. However, in the final week, he was busy at school and couldn't make it to the gym at all. This led him to perceive his entire fitness journey as a failure and gave up on both his fitness goals and routines.",
         "Overgeneralization": "Annie accidentally scratched her car twice while parking on separate occasions. Her parents, based on these incidents, concluded that she was a terrible driver who would continue to damage her car in the future.",
         "Discounting the positive": "Stella did exceptionally well on her Physics class and received top grades consistently. However, she consistently downplays her accomplishments, believing that her success is solely due to easy tests or luck, instead of her hard work.",
-        "Jumping to Conclusions": "1. Justin texted his girlfriend, but she didn't reply immediately. Justin assumed she was upset and wanted to break up, but in reality, she was busy with work and had many meetings. \n \n 2. Sara has a job interview soon, but she's convinced shell do badly and won't get the job. She's worrying excessively, assuming her future is ruined, even though the interview hasn't happened yet.",
+        "Jumping to Conclusions": "Justin texted his girlfriend, but she didn't reply immediately. Justin assumed she was upset and wanted to break up, but in reality, she was busy with work and had many meetings. \n \nExample: Sara has a job interview soon, but she's convinced she'll do badly and won't get the job. She's worrying excessively, assuming her future is ruined, even though the interview hasn't happened yet. ",
         "Magnification": "After a minor disagreement with a friend, you started believing that you had damaged your friendship irreparably. You worried that your friend now hated you and feared that no one else would ever want to be friends with you.",
         "Emotional Reasoning": "Lisa wakes up feeling anxious and worried about an upcoming presentation at work. She thinks to herself, \"I feel so anxious; I must be terrible at public speaking.\"",
         "\"Should\" Statements": "You believe that a person in a leadership role should always make decisions quickly and confidently, never showing any uncertainty or seeking input from others.",
@@ -103,26 +103,27 @@ const CogDistortModal: React.FC<CogDistortModalProps> = ({ isVisible, onClose, t
       animationType="fade"
       onRequestClose={handleOnClose}
     >
-      <TouchableWithoutFeedback onPress={handleNo}>
+      <TouchableWithoutFeedback onPress={handleNo} accessible={false}>
         <View style={styles.overlay}>
           <TouchableWithoutFeedback>
             <View style={styles.modal}>
               <Text style={styles.modalText}>{title}</Text>
-                <ScrollView style={styles.innerBox}>
+                <ScrollView style={styles.innerBox}
+                  >
                     { !solPageOn ?
-                        <View>
+                        <Pressable>
                             <Text style={{padding: '5%', fontSize: 16}}>
                                 {label2description[title]}
                             </Text>
                             <Text style={{padding: '5%', fontSize: 16}}>
                                 <Text style={{ fontWeight: 'bold' }}>Example: </Text> {label2example[title]}
                             </Text>
-                        </View> :
-                        <View>
+                        </Pressable> :
+                        <Pressable>
                             <Text style={{padding: '5%', fontSize: 16}}>
                                 <Text style={{ fontWeight: 'bold' }}>Solution: </Text> {problem2technique[title]}
                             </Text>
-                        </View>
+                        </Pressable>
                     }   
                 </ScrollView>
                 <Text style={{fontSize: 16, textAlign: 'center', marginBottom: '5%'}}>
@@ -167,7 +168,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    justifyContent: 'center'
+    justifyContent: 'center',
+
   },
   modalText: {
     fontSize: 18,
