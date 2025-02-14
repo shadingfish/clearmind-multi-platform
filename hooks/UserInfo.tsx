@@ -8,14 +8,24 @@ import {
   where,
 } from "firebase/firestore";
 
+export type SecurityQuestion = {
+  question: string;
+  answer: string;
+};
+
+export type AdditionalInfo = {
+  hasTherapyExperience: string;
+  therapyDetails: string;
+  learningExpectation: string;
+};
+
 export type UserDataType = {
   username: string;
   password: string;
   fullName: string;
   email: string;
-  hasTherapyExperience: string;
-  therapyDetails: string;
-  learningExpectation: string;
+  securityQuestions: SecurityQuestion[];
+  additionalInfo: AdditionalInfo;
 };
 
 export async function addUser(user: UserDataType, id: string) {
@@ -24,9 +34,8 @@ export async function addUser(user: UserDataType, id: string) {
       email: user.email.toLowerCase(),
       username: user.username.toLowerCase(),
       fullname: user.fullName,
-      hasTherapyExperience: user.hasTherapyExperience,
-      learningExpectation: user.learningExpectation,
-      therapyDetails: user.therapyDetails,
+      securityQuestions: user.securityQuestions,
+      additionalInfo: user.additionalInfo
     });
 
     console.log("Success");

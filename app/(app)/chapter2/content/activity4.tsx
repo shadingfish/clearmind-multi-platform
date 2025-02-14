@@ -88,7 +88,7 @@ export default function Activity4() {
       getChapter2Activity2(user.uid)
         .then((snapshot) => {
           if (snapshot.exists()) {
-            const answer = snapshot.val();
+            const answer = snapshot.data();
             for (const [key, value] of Object.entries(answer)) {
               updateQuestion(key as keyof Activity4Questions, value as string);
             }

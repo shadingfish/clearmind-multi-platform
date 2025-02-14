@@ -1,4 +1,4 @@
-// app/(app)/index.tsx
+// app/(app)/chapter2/content/summary.tsx
 import React, { useEffect, useState } from "react";
 
 import { SummaryQuestion } from "@/components/Chapter2SummaryQuestion";
@@ -62,7 +62,7 @@ export default function Summary() {
       getChapter2Summary(user.uid)
         .then((snapshot) => {
           if (snapshot.exists()) {
-            const answer = snapshot.val();
+            const answer = snapshot.data();
             for (const [key, value] of Object.entries(answer)) {
               updateQuestion(key as keyof SummaryQuestions, value as string);
             }

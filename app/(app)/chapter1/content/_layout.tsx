@@ -1,4 +1,4 @@
-// app/(app)/chapter2/content/_layout.tsx
+// app/(app)/_layout.tsx
 
 import colors from "@/constants/colors";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -8,22 +8,9 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { router, Stack } from "expo-router";
 import { Text } from "react-native";
 import { Button } from "tamagui";
-import SidebarModal from "@/app/SidebarModal";
-import { useRoute } from "@react-navigation/native";
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
 
 export default function RootLayout() {
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-
-  const openModal = () => setIsSidebarVisible(true);
-  const closeModal = () => setIsSidebarVisible(false);
-
-  const route = useRoute();
-  const navigation = useNavigation();
-
   return (
-    <>
     <Stack
       screenOptions={() => ({
         headerTintColor: "#FFFFFF",
@@ -35,7 +22,7 @@ export default function RootLayout() {
           <Button
             unstyled
             onPress={() => {
-              router.replace("/(app)/chapter2");
+              router.replace("/(app)/chapter1");
             }}
             style={{ marginLeft: 20 }}
           >
@@ -45,7 +32,7 @@ export default function RootLayout() {
         headerRight: () => (
           <Button
             unstyled
-            onPress={openModal}
+            onPress={() => console.log("toggle drawer")}
             style={{ marginRight: 20 }}
           >
             <MaterialIcons
@@ -70,7 +57,26 @@ export default function RootLayout() {
       <Stack.Screen
         name="opening" // This is the name of the page and must match the url from root
         options={{
-          title: "Part 2 Opening",
+          title: "Part 1 Opening",
+        }}
+      />
+
+      <Stack.Screen
+        name="activity0" // This is the name of the page and must match the url from root
+        options={{
+          headerTitle: () => (
+            <Text
+              style={{
+                fontWeight: "bold", // Bold font
+                fontSize: 19,
+                color: "#FFFFFF",
+                width: "120%",
+                alignSelf: "center",
+              }}
+            >
+              Prioritize Your Life Values
+            </Text>
+          ),
         }}
       />
 
@@ -93,6 +99,42 @@ export default function RootLayout() {
         }}
       />
 
+      <Stack.Screen
+        name="activity2_1" // This is the name of the page and must match the url from root
+        options={{
+          headerTitle: () => (
+            <Text
+              style={{
+                fontWeight: "bold", // Bold font
+                fontSize: 19,
+                color: "#FFFFFF",
+                width: "120%",
+                alignSelf: "center",
+              }}
+            >
+              Discover Various Types of Procrastination Tendencies
+            </Text>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="activity2_2" // This is the name of the page and must match the url from root
+        options={{
+          headerTitle: () => (
+            <Text
+              style={{
+                fontWeight: "bold", // Bold font
+                fontSize: 19,
+                color: "#FFFFFF",
+                width: "120%",
+                alignSelf: "center",
+              }}
+            >
+              Procrastination Tendencies Questions
+            </Text>
+          ),
+        }}
+      />
       <Stack.Screen
         name="activity2" // This is the name of the page and must match the url from root
         options={{
@@ -124,65 +166,17 @@ export default function RootLayout() {
                 alignSelf: "center",
               }}
             >
-              Examples of Driving The Bus
+              How to Use the App
             </Text>
           ),
         }}
       />
-
-      <Stack.Screen
-        name="activity4" // This is the name of the page and must match the url from root
-        options={{
-          headerTitle: () => (
-            <Text
-              style={{
-                fontWeight: "bold", // Bold font
-                fontSize: 19,
-                color: "#FFFFFF",
-                width: "120%",
-
-                alignSelf: "center",
-              }}
-            >
-              Identify Your Own Destination & Passengers
-            </Text>
-          ),
-        }}
-      />
-
-      <Stack.Screen
-        name="activity5" // This is the name of the page and must match the url from root
-        options={{
-          headerTitle: () => (
-            <Text
-              style={{
-                fontWeight: "bold", // Bold font
-                fontSize: 19,
-                color: "#FFFFFF",
-                alignSelf: "center",
-                width: "125%",
-              }}
-            >
-              Allow Challenging Passengers Be on Your Bus
-            </Text>
-          ),
-        }}
-      />
-
       <Stack.Screen
         name="summary" // This is the name of the page and must match the url from root
         options={{
-          title: "Part 2 Summary",
+          title: "Part 1 Summary",
         }}
       />
     </Stack>
-    {isSidebarVisible && (
-        <SidebarModal
-          visible={isSidebarVisible}
-          onClose={closeModal} // Pass the closeModal function to handle modal dismissal
-          chapterName={'chapter2'}
-        />
-      )}
-    </>
   );
 }

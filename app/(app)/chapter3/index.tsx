@@ -12,32 +12,12 @@ import { Text, View, YStack } from "tamagui";
 
 export default function Chapter3Index() {
   const { user, pending } = useAuth();
-  const [finished, setFinished] = useState(false);
+  /* const [finished, setFinished] = useState(false);
   const [progress, setProgress] = useState<ChapterProgress>(
     Chapter3.EmptyProgress
-  );
-
-  /* useEffect(() => {
-    setFinished(Object.values(progress).every((value) => value === "1"));
-  }, [progress]); */
+  ); */
 
   const { userData, isFinished } = useChapterProgressContext();
-
-  /* useEffect(() => {
-    if (user) {
-      getChapter2Progress(user.uid)
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            const curProgress = snapshot.val();
-            delete curProgress["5_Identify_your_passengers"];
-            setProgress(curProgress);
-          } else {
-            initChapter2Progress(user.uid);
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [pending]); */
 
   return (
     <YStack flex={1} marginHorizontal={"$7"} marginVertical={"$6"} gap={"$4"}>

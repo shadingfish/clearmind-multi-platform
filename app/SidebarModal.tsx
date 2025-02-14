@@ -115,7 +115,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                     ))}
 
                     <Text style={{...styles.chapTitle, marginTop: '5%'}}>
-                        Part 2: Understanding
+                        Part 3: Practice
                     </Text>
 
                     {Object.entries(part3Progress).map(([key, value]) => (
@@ -148,7 +148,7 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                     </Text>
 
                     {Object.entries(part4Progress).map(([key, value]) => (
-                        <Pressable key={key} style={styles.subTitleContainer}>
+                        <Pressable key={key} style={[styles.subTitleContainer, chapterName === "chapter4" && currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen("chapter4", key, value)}>
                             <View style={{width: 25}}>
                                 {value ?
                                     ( currPage != key || chapterName != "chapter4" ?
@@ -160,7 +160,13 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                                 }
                             </View>
                             { value ?
-                                <Text style={{fontSize: 16}}>{chapter2activity2title["chapter4"][key]}</Text> :
+                                ( currPage != key || chapterName != "chapter4" ?
+                                    <Text style={{fontSize: 16}}>{chapter2activity2title["chapter4"][key]}</Text> :
+                                    <View>
+                                        <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter4"][key]}</Text>
+                                    </View>
+                                )
+                                :
                                 <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter4"][key]}</Text>
                             }
                         </Pressable>

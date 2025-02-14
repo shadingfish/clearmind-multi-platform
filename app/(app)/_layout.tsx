@@ -29,6 +29,12 @@ export default function AppRootLayout() {
           }}
         />
         <Stack.Screen
+        name="chapter1" // Map to `app/index.tsx`
+        options={{
+          headerShown: false, // Navigation Optional
+        }}
+      />
+      <Stack.Screen
           name="chapter2" // Map to `app/index.tsx`
           options={{
             headerShown: false, // Navigation Optional
@@ -36,6 +42,12 @@ export default function AppRootLayout() {
         />
         <Stack.Screen
           name="chapter3" // Map to `app/index.tsx`
+          options={{
+            headerShown: false, // Navigation Optional
+          }}
+        />
+        <Stack.Screen
+          name="chapter4" // Map to `app/index.tsx`
           options={{
             headerShown: false, // Navigation Optional
           }}

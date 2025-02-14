@@ -31,9 +31,12 @@
     },
     "chapter4": {
         "opening": "Opening",
-        "activity1": "Prioritize Your Life Values",
-        "activity2": "Discover Procrastination Reasons",
-        "summary": "Summary"
+        "activity1": "Introduce a New Framework",
+        "activity2": "Commit to a New Goal",
+        "activity3": "Identify Your Passengers",
+        "activity4": "Willingness to Carry On",
+        "summary": "Summary",
+        "activity5": "Introduce Goal Tracker"
     }
 }//add chapter 4 in later
 

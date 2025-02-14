@@ -1,65 +1,57 @@
-// app/(app)/chapter2/index.tsx
+//app/(app)/chapter1/index.tsx
 
 import { ChapterItem } from "@/components/ChapterActivityIcon";
-import { Chapter2, ChapterProgress } from "@/constants/data";
-import { useChapterProgressContext } from "@/contexts/AuthContext";
-/* import {
-  getChapter2Progress,
-  initChapter2Progress,
-} from "@/hooks/Chapter2Activity"; */
+import { Chapter1, ChapterProgress } from "@/constants/data";
+import { getChapter1Progress, initChapter1Progress } from "@/hooks/Chapter1Activity";
 import { useAuth } from "@/hooks/useAuth";
 import { Link, RelativePathString } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Text, View, YStack } from "tamagui";
 
-export default function Chapter2Index() {
+export default function Chapter1Index() {
   const { user, pending } = useAuth();
   const [finished, setFinished] = useState(false);
   const [progress, setProgress] = useState<ChapterProgress>(
-    Chapter2.EmptyProgress
+    Chapter1.EmptyProgress
   );
 
-  const { userData, isFinished } = useChapterProgressContext();
-
-  /* useEffect(() => {
+  useEffect(() => {
     setFinished(Object.values(progress).every((value) => value === "1"));
-  }, [progress]); */
+  }, [progress]);
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (user) {
-      getChapter2Progress(user.uid)
+      getChapter1Progress(user.uid)
         .then((res) => {
           if (res != null) {
-            const curProgress = res;
-            delete curProgress["5_Identify_your_passengers"];
-            setProgress(curProgress);
+            setProgress(res);
           } else {
-            console.log("error no progress");
+            console.log("No progress found, initializing...");
+            initChapter1Progress(user.uid);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log("Error fetching Chapter1 progress:", err));
     }
-  }, [pending]); */
+  }, [pending]);
 
   return (
     <YStack flex={1} marginHorizontal={"$7"} marginVertical={"$6"} gap={"$4"}>
-      {Chapter2.Activity.map((ele, i) => {
+      {Chapter1.Activity.map((ele, i) => {
         return (
           <View key={i}>
             <ChapterItem
               name={ele.name}
               image={ele.icon}
               imageDone={ele.icon_done}
-              chapterKey={"chapter2"}
-              activityKey={ele.activityKey}
-              progress={userData}
+              progressIndex={ele.progress_index as keyof ChapterProgress}
+              progress={progress}
               route={ele.route as RelativePathString}
             />
           </View>
         );
       })}
 
-      {isFinished("chapter2") && (
+      {finished && (
         <YStack
           alignSelf="center"
           borderWidth={1}

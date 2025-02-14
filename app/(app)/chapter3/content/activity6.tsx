@@ -231,7 +231,7 @@ const Activity6 = () => {
                         {   questions.whichCogDistPaths.has("Personalization and Blame") ?
                             (   questions.hasCogDist["Personalization and Blame"] ?
                             <Image source={require('@/assets/images/distortion_personalization_and_blame_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> :
-                            <Image source={require('@/assets/images/distortion_personalization_and_blame_1.png')} style={{width: 50, height: 50, borderRadius: 25}} /> 
+                            <Image source={require('@/assets/images/distortion_personalization_and_blame_2.png')} style={{width: 50, height: 50, borderRadius: 25}} /> 
                             )
                             :
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 

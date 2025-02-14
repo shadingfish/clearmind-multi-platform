@@ -10,6 +10,9 @@ type RadioGroupProps = {
   selectedValue: string;
   onValueChange: (value: string) => void;
   error?: string;
+
+  /** 新增，用来控制横排或竖排 */
+  orientation?: "horizontal" | "vertical";
 };
 
 const RadioGroup: React.FC<RadioGroupProps> = ({
@@ -18,6 +21,7 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
   selectedValue,
   onValueChange,
   error,
+  orientation = "horizontal", // 默认横排
 }) => {
   return (
     <YStack paddingTop="$5" gap="$0" width="80%">
@@ -32,49 +36,99 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
         {label}
       </Label>
 
-      {/* Radios */}
-      <XStack gap="$2" marginTop="$0">
-        {options.map((option, index) => (
-          <Pressable
-            key={index}
-            onPress={() => onValueChange(option)}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              paddingVertical: 8,
-            }}
-          >
-            <YStack
-              width={24}
-              height={24}
-              borderRadius={12}
-              borderWidth={2}
-              borderColor={
-                selectedValue === option
-                  ? colors.primary
-                  : error
-                  ? "$red10"
-                  : "#aaa"
-              }
-              alignItems="center"
-              justifyContent="center"
-              marginRight={8}
+      {/* 根据 orientation 来决定使用 XStack 还是 YStack */}
+      {orientation === "vertical" ? (
+        <YStack gap="$0" marginTop="$0">
+          {options.map((option, index) => (
+            <Pressable
+              key={index}
+              onPress={() => onValueChange(option)}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                paddingVertical: 4,
+              }}
             >
-              {selectedValue === option && (
-                <YStack
-                  width={12}
-                  height={12}
-                  borderRadius={6}
-                  backgroundColor={colors.primary}
-                />
-              )}
-            </YStack>
-            <Text color={selectedValue === option ? colors.primary : "#000"}>
-              {option}
-            </Text>
-          </Pressable>
-        ))}
-      </XStack>
+              <YStack
+                width={24}
+                height={24}
+                borderRadius={12}
+                borderWidth={2}
+                borderColor={
+                  selectedValue === option
+                    ? colors.primary
+                    : error
+                    ? "$red10"
+                    : "#aaa"
+                }
+                alignItems="center"
+                justifyContent="center"
+                marginRight={8}
+              >
+                {selectedValue === option && (
+                  <YStack
+                    width={12}
+                    height={12}
+                    borderRadius={6}
+                    backgroundColor={colors.primary}
+                  />
+                )}
+              </YStack>
+              <Text
+                color={selectedValue === option ? colors.primary : "#000"}
+              >
+                {option}
+              </Text>
+            </Pressable>
+          ))}
+        </YStack>
+      ) : (
+        // 横排
+        <XStack gap="$2" marginTop="$0">
+          {options.map((option, index) => (
+            <Pressable
+              key={index}
+              onPress={() => onValueChange(option)}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                paddingVertical: 8,
+              }}
+            >
+              <YStack
+                width={24}
+                height={24}
+                borderRadius={12}
+                borderWidth={2}
+                borderColor={
+                  selectedValue === option
+                    ? colors.primary
+                    : error
+                    ? "$red10"
+                    : "#aaa"
+                }
+                alignItems="center"
+                justifyContent="center"
+                marginRight={8}
+              >
+                {selectedValue === option && (
+                  <YStack
+                    width={12}
+                    height={12}
+                    borderRadius={6}
+                    backgroundColor={colors.primary}
+                  />
+                )}
+              </YStack>
+              <Text
+                color={selectedValue === option ? colors.primary : "#000"}
+              >
+                {option}
+              </Text>
+            </Pressable>
+          ))}
+        </XStack>
+      )}
 
       {/* Error Message */}
       {error && <Text color="$red10">{error}</Text>}

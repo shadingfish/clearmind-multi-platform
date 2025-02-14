@@ -1,20 +1,4 @@
-// components/BackgroundImage.tsx
 
-// import React from "react";
-// import { View } from "react-native";
-// import DarkGreen from "../assets/images/dark_green.svg";
-// import MediumGreen from "../assets/images/medium_green.svg";
-// import LightGreen from "../assets/images/light_green.svg";
-
-// export default function BackgroundImage() {
-//   return (
-//     <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
-//       <DarkGreen width="100%" height={100} />
-//       <MediumGreen width="100%" height={100} style={{ marginTop: -10 }} />
-//       <LightGreen width="100%" height={100} style={{ marginTop: -10 }} />
-//     </View>
-//   );
-// }
 import React, { useState, useEffect} from "react";
 import { View, Image, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text,Pressable, TextInput } from "react-native";
 import { Label, RadioGroup, XStack, YStack } from 'tamagui'
@@ -27,14 +11,7 @@ import { useRouter } from "expo-router";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 
-interface CurrentPageComponentProps {
-  data: {[key: string]: any},
-  setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
-  dataFilled: boolean,
-  setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-const Page1: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) => {
+const Opening = () => {
 
     const router = useRouter();
 
@@ -86,4 +63,4 @@ const Page1: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
     }
   });
 
-  export default Page1;
+  export default Opening;

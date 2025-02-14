@@ -6,6 +6,7 @@ import {
   updateProfile,
   User,
 } from "firebase/auth";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { auth } from "../constants/firebaseConfig";
 
@@ -36,6 +37,22 @@ export const useAuth = () => {
       console.log("Please enter email and password");
     }
     return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  const handleFirebaseLogout = async () => {
+    const router = useRouter();
+    try {
+      await auth.signOut();
+      console.log("User logged out");
+      setAuthState({
+        isSignedIn: false,
+        pending: false,
+        user: null,
+      });
+      router.push(`/`)
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   const handleFirebaseRegister = async (
@@ -72,6 +89,7 @@ export const useAuth = () => {
   return {
     handleFirebaseLogin,
     handleFirebaseRegister,
+    handleFirebaseLogout,
     ...authState,
   };
 };

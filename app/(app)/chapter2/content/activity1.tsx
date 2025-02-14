@@ -1,4 +1,4 @@
-// app/(app)/index.tsx
+// app/(app)/chapter2/content/activity1.tsx
 import { Check as CheckIcon } from "@tamagui/lucide-icons";
 import React, { useEffect, useState } from "react";
 

@@ -1,7 +1,5 @@
-// app/(app)/chapter2/index.tsx
-
 import { ChapterItem } from "@/components/ChapterActivityIcon";
-import { Chapter2, ChapterProgress } from "@/constants/data";
+import { Chapter4, ChapterProgress } from "@/constants/data";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 /* import {
   getChapter2Progress,
@@ -12,45 +10,25 @@ import { Link, RelativePathString } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Text, View, YStack } from "tamagui";
 
-export default function Chapter2Index() {
+export default function Chapter4Index() {
   const { user, pending } = useAuth();
-  const [finished, setFinished] = useState(false);
+  /* const [finished, setFinished] = useState(false);
   const [progress, setProgress] = useState<ChapterProgress>(
-    Chapter2.EmptyProgress
-  );
+    Chapter3.EmptyProgress
+  ); */
 
   const { userData, isFinished } = useChapterProgressContext();
 
-  /* useEffect(() => {
-    setFinished(Object.values(progress).every((value) => value === "1"));
-  }, [progress]); */
-
-  /* useEffect(() => {
-    if (user) {
-      getChapter2Progress(user.uid)
-        .then((res) => {
-          if (res != null) {
-            const curProgress = res;
-            delete curProgress["5_Identify_your_passengers"];
-            setProgress(curProgress);
-          } else {
-            console.log("error no progress");
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [pending]); */
-
   return (
     <YStack flex={1} marginHorizontal={"$7"} marginVertical={"$6"} gap={"$4"}>
-      {Chapter2.Activity.map((ele, i) => {
+      {Chapter4.Activity.map((ele, i) => {
         return (
           <View key={i}>
             <ChapterItem
               name={ele.name}
               image={ele.icon}
               imageDone={ele.icon_done}
-              chapterKey={"chapter2"}
+              chapterKey={"chapter4"}
               activityKey={ele.activityKey}
               progress={userData}
               route={ele.route as RelativePathString}
@@ -59,7 +37,7 @@ export default function Chapter2Index() {
         );
       })}
 
-      {isFinished("chapter2") && (
+      {isFinished("chapter4") && (
         <YStack
           alignSelf="center"
           borderWidth={1}
@@ -74,7 +52,7 @@ export default function Chapter2Index() {
             textDecorationLine="underline"
             color={"$blue11Light"}
           >
-            <Link href={"/(app)/chapter2"}>Continue to the next part!</Link>
+            <Link href={"/(app)/chapter4"}>Continue to the next part!</Link>
           </Text>
         </YStack>
       )}
