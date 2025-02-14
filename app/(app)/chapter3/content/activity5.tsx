@@ -44,7 +44,7 @@ const Activity5 = () => {
                     Earlier you tried positive cognitive strategies which help you recognize and
                     manage when an urge to procrastinate comes up. However, is there anything we can do to even 
                     prevent the urge to procrastinate from the first place?
-                    Cognitive distortions can help.
+                    Identifying cognitive distortions can help.
                 </Text>
                 <Text style={styles.textBox}>
                     Cognitive distortions are internal mental filters or biases that 
