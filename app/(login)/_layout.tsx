@@ -27,6 +27,12 @@ export default function LoginLayout() {
           title: "Register Additional",
         }}
       />
+      <Stack.Screen
+        name="forgetPassword"
+        options={{
+          title: "Forget Password",
+        }}
+      />
     </Stack>
   );
 }

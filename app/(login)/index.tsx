@@ -37,36 +37,6 @@ export default function MainScreen() {
     return null;
   }
 
-  // const onPressForgetPassword = () => {
-  //   if (username != "") {
-  //     if (isValidUsername(username)) {
-  //       getUserInfo(username).then((snapshot) => {
-  //         if (snapshot.exists()) {
-  //           const user = snapshot.val();
-
-  //           if (user.email) {
-  //             sendPasswordResetEmail(auth, user.email)
-  //               .then(() => {
-  //                 toast.show("Password reset email sent!");
-  //               })
-  //               .catch((error) => {
-  //                 console.error("Error sending password reset email:", error);
-  //               });
-  //           } else {
-  //             router.push(`/forgetPassword/${username}` as RelativePathString);
-  //           }
-  //         } else {
-  //           toast.show("User does not exist.");
-  //         }
-  //       });
-  //     } else {
-  //       toast.show("Please input valid username");
-  //     }
-  //   } else {
-  //     toast.show("Please input username or email");
-  //   }
-  // };
-
   const onPressLogin = async () => {
     if (!username || !password) {
       toast.show("Please enter email and password");
@@ -157,7 +127,9 @@ export default function MainScreen() {
             <Button
               backgroundColor={colors.link}
               size="$1"
-              onPress={() => {}}
+              onPress={() => {
+                router.push("/forgetPassword");
+              }}
               alignSelf="flex-end"
             >
               <Text
@@ -165,7 +137,7 @@ export default function MainScreen() {
                 textDecorationLine="underline"
                 color={colors.linkText}
               >
-                Forgot Username / Password?
+                Forgot Password?
               </Text>
             </Button>
           </Stack>

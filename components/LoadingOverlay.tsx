@@ -1,6 +1,11 @@
+import { ReactNode } from "react";
 import { Spinner, YStack } from "tamagui";
 
-export default function LoadingOverlay() {
+type LoadingOverlayProps = {
+  children?: ReactNode;
+};
+
+export default function LoadingOverlay({ children }: LoadingOverlayProps) {
   return (
     <YStack
       position="absolute"
@@ -13,7 +18,7 @@ export default function LoadingOverlay() {
       backgroundColor="rgba(0, 0, 0, 0.6)"
       zIndex={1000}
     >
-      <Spinner size="large" color="$white2" />
+      {children}
     </YStack>
   );
 }
