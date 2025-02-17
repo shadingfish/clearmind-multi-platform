@@ -363,3 +363,42 @@ export const Chapter3 = {
     "8_Summary": "0",
   },
 }
+
+export const Chapter4 = {
+  Activity: [
+    {
+      name: "OPENING",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      progress_index: "1_Opening",
+      route: "/(app)/chapter4/content/opening",
+    },
+    {
+      name: "YOUR CHALLENGING EMOTIONS",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "2_Activity2",
+      route: "/(app)/chapter4/content/activity1",
+    },
+    {
+      name: "PASSENGERS ON THE BUS",
+      icon: require("assets/images/icon_text.png"),
+      icon_done: require("assets/images/icon_text_done.png"),
+      progress_index: "3_Activity3",
+      route: "/(app)/chapter4/content/activity2",
+    },
+    {
+      name: "SUMMARY",
+      icon: require("assets/images/icon_summary.png"),
+      icon_done: require("assets/images/icon_summary_done.png"),
+      progress_index: "9_Summary",
+      route: "/(app)/chapter4/content/summary",
+    },
+  ],
+  EmptyProgress: {
+    "1_Opening": "0",
+    "2_Activity2_1": "0",
+    "3_Passengers_On_The_Bus": "0",
+    "8_Summary": "0",
+  },
+}

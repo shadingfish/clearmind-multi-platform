@@ -46,6 +46,12 @@ export default function AppRootLayout() {
             headerShown: false, // Navigation Optional
           }}
         />
+      <Stack.Screen
+          name="chapter4" // Map to `app/index.tsx`
+          options={{
+            headerShown: false, // Navigation Optional
+          }}
+        />
 
       </Stack>
       

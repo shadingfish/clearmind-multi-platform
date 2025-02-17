@@ -22,7 +22,7 @@ const { width } = Dimensions.get("window");
 
 const chapters = ["presurvey", "chapter1", "chapter2", "chapter3", "chapter4", "postsurvey"] as const;
 
-const validchap = ["chapter1", "chapter2", "chapter3"] as const;
+const validchap = ["chapter1", "chapter2", "chapter3", "chapter4"] as const;
 
 type ChapterKey = typeof chapters[number];
 
