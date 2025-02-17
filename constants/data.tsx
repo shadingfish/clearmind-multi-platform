@@ -284,3 +284,82 @@ export const Chapter2 = {
     "8_Summary": "0",
   },
 };
+
+
+export const Chapter3 = {
+  Activity: [
+    {
+      name: "OPENING",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      progress_index: "1_Opening",
+      route: "/(app)/chapter3/content/opening",
+    },
+    {
+      name: "YOUR CHALLENGING EMOTIONS",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "2_Activity2",
+      route: "/(app)/chapter3/content/activity1",
+    },
+    {
+      name: "PASSENGERS ON THE BUS",
+      icon: require("assets/images/icon_text.png"),
+      icon_done: require("assets/images/icon_text_done.png"),
+      progress_index: "3_Activity3",
+      route: "/(app)/chapter3/content/activity2",
+    },
+    {
+      name: "EXAMPLE OF DRIVING THE BUS",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "4_Example",
+      route: "/(app)/chapter3/content/activity4",
+    },
+    {
+      name: "IDENTIFY YOUR PASSENGERS",
+      icon: require("assets/images/icon_diagram.png"),
+      icon_done: require("assets/images/icon_diagram_done.png"),
+      progress_index: "6_Diagram",
+      route: "/(app)/chapter3/content/activity5",
+    },
+    {
+      name: "WILLINGNESS TO CARRY ON",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "6_Willingness_to_Carry_On",
+      route: "/(app)/chapter3/content/activity6",
+    },
+    {
+      name: "WILLINGNESS TO CARRY ON",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "7_Willingness_to_Carry_On",
+      route: "/(app)/chapter3/content/activity7",
+    },
+    {
+      name: "WILLINGNESS TO CARRY ON",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "8_Willingness_to_Carry_On",
+      route: "/(app)/chapter3/content/activity8",
+    },
+    {
+      name: "SUMMARY",
+      icon: require("assets/images/icon_summary.png"),
+      icon_done: require("assets/images/icon_summary_done.png"),
+      progress_index: "9_Summary",
+      route: "/(app)/chapter3/content/summary",
+    },
+  ],
+  EmptyProgress: {
+    "1_Opening": "0",
+    "2_Activity2_1": "0",
+    "3_Passengers_On_The_Bus": "0",
+    "4_Example": "0",
+    "5_Identify_your_passengers": "0",
+    "6_Diagram": "0",
+    "7_Willingness_to_Carry_On": "0",
+    "8_Summary": "0",
+  },
+}
