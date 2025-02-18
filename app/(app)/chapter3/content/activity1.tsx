@@ -1,5 +1,3 @@
-// components/BackgroundImage.tsx
-
 // import React from "react";
 // import { View } from "react-native";
 // import DarkGreen from "../assets/images/dark_green.svg";
@@ -15,6 +13,9 @@
 //     </View>
 //   );
 // }
+
+// app/(app)/chapter3/content/activity1.tsx
+
 import React, { useState, useEffect} from "react";
 import { View, Image, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text,Pressable, TextInput } from "react-native";
 import { Label, RadioGroup, XStack, YStack, Theme, Input } from 'tamagui'
