@@ -75,8 +75,8 @@ export default function SignupScreen() {
   };
 
   const handleSubmit = async () => {
-    if (loading) return; // 防止重复提交
-    setLoading(true); // 开始注册
+    if (loading) return;
+    setLoading(true);
   
     try {
       const {
@@ -104,6 +104,13 @@ export default function SignupScreen() {
         newErrors.hasTherapyExperience = "Please select therapy experience.";
       if (!learningExpectation)
         newErrors.learningExpectation = "Please fill out learning expectations.";
+      if (question1 === question2) {
+        newErrors.answer1 = "Security questions must be different."
+      }
+      if (password.length < 6) {
+        newErrors.password = "Password's length must be at least 6"
+      }
+  
   
       if (Object.keys(newErrors).length > 0) {
         setErrors(newErrors);
@@ -112,11 +119,6 @@ export default function SignupScreen() {
         return;
       }
   
-      if (question1 === question2) {
-        alert("Security questions must be different.");
-        setLoading(false);
-        return;
-      }
   
       const userData = {
         username,
@@ -156,7 +158,7 @@ export default function SignupScreen() {
       console.error("Registration Error:", error);
       Alert.alert("Registration Failed", "An unexpected error occurred.");
     } finally {
-      setLoading(false); // 结束注册
+      setLoading(false);
     }
   };
 
