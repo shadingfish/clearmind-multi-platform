@@ -10,12 +10,13 @@ import { Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image, Input, ScrollView, Text, YStack, View } from "tamagui";
 import { useAuth } from "@/hooks/useAuth";
-import {
+/* import {
   getChapter2Activity2,
   setChapter2Activity2,
   updateChapter2Progress,
-} from "@/hooks/Chapter2Activity";
-import { useAuthContext } from "@/contexts/AuthContext";
+} from "@/hooks/Chapter2Activity"; */
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter2Context } from "@/contexts/Chapter2Context";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -58,7 +59,9 @@ export default function Activity4() {
 
   const toast = useToastController();
 
-  const [questions, setQuestions] = useState<Activity4Questions>({
+  const { chapterData, updateChapterData } = useChapter2Context();
+
+  const [questions, setQuestions] = useState<Activity4Questions>(chapterData["activity4"] || {
     diagram_destination: "",
     diagram_passenger_A: "",
     diagram_passenger_B: "",
@@ -66,11 +69,21 @@ export default function Activity4() {
     diagram_persuasion: "",
   });
 
+
+
   const updateQuestion = (field: keyof Activity4Questions, value: string) => {
     setQuestions((prev) => ({ ...prev, [field]: value }));
   };
 
   useEffect(() => {
+    updateChapterData("activity4", questions);
+  }, [questions])
+
+  useEffect(() => {
+    console.log(chapterData);
+  }, [chapterData])
+
+  /* useEffect(() => {
     if (user) {
       getChapter2Activity2(user.uid)
         .then((snapshot) => {
@@ -83,25 +96,13 @@ export default function Activity4() {
         })
         .catch((err) => console.log("Error get chapter 2 activity2: " + err));
     }
-  }, [pending]);
+  }, [pending]); */
 
   //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  const { updateChapterProgress } = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData(
-      (
-        prevUserData: Record<string, Record<string, boolean>>
-      ): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        chapter2: {
-          ...prevUserData.chapter2,
-          "Identify your passengers": true,
-        },
-      })
-    );
-
-    setCurrPage("Identify your passengers");
+    updateChapterProgress("chapter2", "activity4");
   }, []);
   //~~~END COPY PASTA~~~
 
@@ -109,19 +110,27 @@ export default function Activity4() {
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"} paddingBottom={bottom}>
         <Text fontSize={"$5"} lineHeight={20}>
-          The destination can be something big, like your top value mentioned in
-          Part 1, or a smaller goal that moves you closer to that value. A value
-          is a guiding principle that shapes your life, while a goal is a
-          specific action or milestone that helps you live by that value.
+          The <Text style={{fontWeight: 'bold'}}>destination</Text> can be something big, 
+          like your <Text style={{fontWeight: 'bold'}}>top value</Text> mentioned in Part 1, or a 
+          smaller goal that moves you closer to that value.
+           A <Text style={{fontWeight: 'bold'}}>value</Text> is a guiding principle that shapes your life, 
+           while a <Text style={{fontWeight: 'bold'}}>goal</Text> is a specific action or milestone that helps 
+           you live by that value.
         </Text>
 
         <Text fontSize={"$5"} lineHeight={20}>
-          Previous examples show how people can still drive to their
-          destination, even with difficult passengers. Now, let’s think of your
-          own goal (destination) and the possible challenging thoughts
-          (challenging passengers) that may lead you to procrastinate toward the
-          goal. Managing challenging passengers, which you will learn in Part 3,
-          will be much clearer once you know who they are.
+          Previous examples show how people can still drive to their destination, 
+          even with difficult passengers. Now, let’s think of your own goal (destination) 
+          and the possible challenging thoughts (challenging passengers) that may lead you to 
+          procrastinate toward the goal. Managing challenging passengers, which you will learn 
+          in Part 3, will be much clearer once you know who they are.
+        </Text>
+
+        <Text fontSize={"$5"} lineHeight={20}>
+          Recognizing these passengers is the first step to overcome
+          procrastination and stay on track towards your destination! Think of
+          your destination and possible challenging passengers. It can be
+          anything like “health”, or “getting homework done.”
         </Text>
 
         <Image
@@ -172,9 +181,9 @@ export default function Activity4() {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
-              setChapter2Activity2(user!.uid, questions);
+              //setChapter2Activity2(user!.uid, questions);
               router.push("/(app)/chapter2/content/activity5");
-              updateChapter2Progress(user!.uid, "6_Diagram");
+              //updateChapter2Progress(user!.uid, "6_Diagram");
             }
           }}
         />

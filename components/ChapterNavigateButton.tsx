@@ -5,7 +5,7 @@ import { Button, View, XStack } from "tamagui";
 
 interface ChapterNavigationButtonProps {
   prev: string;
-  next: () => void;
+  next?: () => void;
 }
 
 export const ChapterNavigationButton: React.FC<
@@ -28,19 +28,22 @@ export const ChapterNavigationButton: React.FC<
         </View>
       </Button>
 
-      <Button
-        unstyled
-        backgroundColor={colors.headerBackground}
-        borderRadius={3}
-        justifyContent="center"
-        alignItems="center"
-        height={"$3"}
-        onPress={next}
-      >
-        <View marginHorizontal={"$3"} marginLeft={"$5"}>
-          <AntDesign name="doubleright" size={20} color="white" />
-        </View>
-      </Button>
+      {/* Conditionally render next button */}
+      {next && (
+        <Button
+          unstyled
+          backgroundColor={colors.headerBackground}
+          borderRadius={3}
+          justifyContent="center"
+          alignItems="center"
+          height={"$3"}
+          onPress={next}
+        >
+          <View marginHorizontal={"$3"} marginLeft={"$5"}>
+            <AntDesign name="doubleright" size={20} color="white" />
+          </View>
+        </Button>
+      )}
     </XStack>
   );
 };

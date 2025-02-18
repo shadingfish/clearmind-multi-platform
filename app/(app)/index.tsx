@@ -22,7 +22,9 @@ import { useAuth } from "@/hooks/useAuth";
 const { width } = Dimensions.get("window");
 
 const chapters = ["presurvey", "chapter1", "chapter2", "chapter3", "chapter4", "postsurvey"] as const;
-const validchap = ["chapter1", "chapter2"] as const;
+
+const validchap = ["chapter1", "chapter2", "chapter3", "chapter4"] as const;
+
 type ChapterKey = typeof chapters[number];
 type ChapterStatus = Record<ChapterKey, "0" | "1" | "2">;
 
@@ -213,7 +215,7 @@ export default function HomePage() {
         {[
           { name: "Learn", icon: require("@/assets/images/learn.png"), route: "/(app)" as const},
           { name: "Tracker", icon: require("@/assets/images/tracker.png"), route: "/(app)/tracker"  as const},
-          { name: "Achieve", icon: require("@/assets/images/achievement.png"), route: "/(app)/achieve"  as const},
+          // { name: "Achieve", icon: require("@/assets/images/achievement.png"), route: "/(app)/achieve"  as const},
           { name: "Profile", icon: require("@/assets/images/profile.png"), route: "/(app)/profile"  as const},
         ].map((tab, index) => (
           <TouchableOpacity

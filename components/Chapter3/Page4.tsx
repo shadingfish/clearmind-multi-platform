@@ -79,7 +79,7 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 <Pressable style={styles.box} onPress={() => handlePress("The 20 Breath Meditation")}>
                     <View style={styles.circle}>
                         {   whichPaths.has("The 20 Breath Meditation") ?
-                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            <Image source={require('@/assets/images/icon_20breath.png')} style={{width: 60, height: 60, }}/> :
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }
                     </View>
@@ -88,7 +88,7 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 <Pressable style={styles.box} onPress={() => handlePress("Relaxing Breathing")}>
                     <View style={styles.circle}>
                         {   whichPaths.has("Relaxing Breathing") ?
-                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            <Image source={require('@/assets/images/icon_478.png')} style={{width: 60, height: 60, }}/> :
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }
                     </View>
@@ -99,7 +99,7 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 <Pressable style={styles.box} onPress={() => handlePress("Mindful Daily Tasks")}>
                     <View style={styles.circle}>
                         {   whichPaths.has("Mindful Daily Tasks") ?
-                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            <Image source={require('@/assets/images/icon_everyday.png')} style={{width: 60, height: 60, }}/> :
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }
                     </View>
@@ -108,7 +108,7 @@ const Page3: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 <Pressable style={styles.box} onPress={() => handlePress("Leaves on a Stream")}>
                     <View style={styles.circle}>
                         {   whichPaths.has("Leaves on a Stream") ?
-                            <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>P</Text> :
+                            <Image source={require('@/assets/images/icon_stream.png')} style={{width: 60, height: 60, }}/> :
                             <Text style={{fontWeight: "bold", fontSize: 50, color: "grey"}}>?</Text> 
                         }
                     </View>

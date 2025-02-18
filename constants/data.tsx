@@ -155,7 +155,7 @@ export const Chapter2 = {
       option2: "Decline the offer letter and go to a local college",
       correctOption: "first",
       correctText:
-        "You got it! Embracing the uncertainty and fear and going to your dream school is an example of driving with your passengers. You don’t let your passengers impede your goals.",
+        "Well done! Embracing the uncertainty and fear and going to your dream school is an example of driving with your passengers. You don’t let your passengers impede your goals.",
       incorrectText:
         "Not quite right! You are letting your challenging passengers control your journey, and you can't make progress towards your destination if you follow what your passengers want you to do.",
     },
@@ -191,9 +191,9 @@ export const Chapter2 = {
       option2: "Eat whatever you want and commit to the diet next time",
       correctOption: "first",
       correctText:
-        "Well done! Practicing mindful eating and questioning whether you're truly hungry is an example of driving with your passengers. You allow them on the bus but don’t let them steer you away from your goals.",
+        "You got it! Practicing mindful eating and asking yourself whether you are really hungry or not is an example of driving with your passengers. You allow them on the bus but don’t let them steer you away from your goals.",
       incorrectText:
-        "Not quite right! Eating whatever you want and committing to the diet later is an example of doing what your passengers told you to do. If you let them take control, you won’t make progress toward your destination.",
+        "Not quite right! Eating whatever you want and committing to the diet next time is an example of doing what your passengers told you to do.  If you let them take control, you won’t make progress toward your destination.",
     },
   ],
   SummaryQuestionData: [
@@ -227,49 +227,49 @@ export const Chapter2 = {
       name: "OPENING",
       icon: require("assets/images/icon_opening.png"),
       icon_done: require("assets/images/icon_opening_done.png"),
-      progress_index: "1_Opening",
+      activityKey: "opening",
       route: "/(app)/chapter2/content/opening",
     },
     {
       name: "YOUR CHALLENGING EMOTIONS",
       icon: require("assets/images/icon_practice.png"),
       icon_done: require("assets/images/icon_practice_done.png"),
-      progress_index: "2_Activity2_1",
+      activityKey: "activity1",
       route: "/(app)/chapter2/content/activity1",
     },
     {
       name: "PASSENGERS ON THE BUS",
       icon: require("assets/images/icon_text.png"),
       icon_done: require("assets/images/icon_text_done.png"),
-      progress_index: "3_Passengers_On_The_Bus",
+      activityKey: "activity2",
       route: "/(app)/chapter2/content/activity2",
     },
     {
       name: "EXAMPLE OF DRIVING THE BUS",
       icon: require("assets/images/icon_practice.png"),
       icon_done: require("assets/images/icon_practice_done.png"),
-      progress_index: "4_Example",
+      activityKey: "activity3",
       route: "/(app)/chapter2/content/activity3",
     },
     {
       name: "IDENTIFY YOUR PASSENGERS",
       icon: require("assets/images/icon_diagram.png"),
       icon_done: require("assets/images/icon_diagram_done.png"),
-      progress_index: "6_Diagram",
+      activityKey: "activity4",
       route: "/(app)/chapter2/content/activity4",
     },
     {
       name: "WILLINGNESS TO CARRY ON",
       icon: require("assets/images/icon_practice.png"),
       icon_done: require("assets/images/icon_practice_done.png"),
-      progress_index: "7_Willingness_to_Carry_On",
+      activityKey: "activity5",
       route: "/(app)/chapter2/content/activity5",
     },
     {
       name: "SUMMARY",
       icon: require("assets/images/icon_summary.png"),
       icon_done: require("assets/images/icon_summary_done.png"),
-      progress_index: "8_Summary",
+      activityKey: "summary",
       route: "/(app)/chapter2/content/summary",
     },
   ],
@@ -283,4 +283,142 @@ export const Chapter2 = {
     "7_Willingness_to_Carry_On": "0",
     "8_Summary": "0",
   },
+};
+
+
+
+export const Chapter3 = {
+  Activity: [
+    {
+      name: "OPENING",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      activityKey: "opening",
+      route: "/(app)/chapter3/content/opening",
+    },
+    {
+      name: "LABEL THE PASSENGERS ON THE BUS",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      activityKey: "activity1",
+      route: "/(app)/chapter3/content/activity1",
+    },
+    {
+      name: "IDENTIFY HOW IT FEELS WITHIN YOUR BODY",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      activityKey: "activity2",
+      route: "/(app)/chapter3/content/activity2",
+    },
+    {
+      name: "LEARN HOW TO MEDITATE",
+      icon: require("assets/images/icon_meditation.png"),
+      icon_done: require("assets/images/icon_meditation_done.png"),
+      activityKey: "activity3",
+      route: "/(app)/chapter3/content/activity3",
+    },
+    {
+      name: "MAKE A BELIEF STATEMENT",
+      icon: require("assets/images/icon_meditation.png"),
+      icon_done: require("assets/images/icon_meditation_done.png"),
+      activityKey: "activity4",
+      route: "/(app)/chapter3/content/activity4",
+    },
+    {
+      name: "BE AWARE OF COGNITIVE DISTORTIONS",
+      icon: require("assets/images/icon_diagram.png"),
+      icon_done: require("assets/images/icon_diagram_done.png"),
+      activityKey: "activity5",
+      route: "/(app)/chapter3/content/activity5",
+    },
+    {
+      name: "SUMMARY OF COGNITIVE DISTORTIONS",
+      icon: require("assets/images/icon_diagram.png"),
+      icon_done: require("assets/images/icon_diagram_done.png"),
+      activityKey: "activity6",
+      route: "/(app)/chapter3/content/activity7",
+    },
+    {
+      name: "REFLECTING ON COGNITIVE DISTORTIONS",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      activityKey: "activity7",
+      route: "/(app)/chapter3/content/activity8",
+    },
+    {
+      name: "PART 3 SUMMARY",
+      icon: require("assets/images/icon_summary.png"),
+      icon_done: require("assets/images/icon_summary_done.png"),
+      activityKey: "summary",
+      route: "/(app)/chapter3/content/activity9",
+    },
+  ],
+  EmptyProgress: {
+    "1_Opening": "0",
+    "2_Passengers": "0",
+    "3_Body": "0",
+    "4_Meditate": "0",
+    "5_Belief": "0",
+    "6_Cognitive1": "0",
+    "7_Cognitive2": "0",
+    "8_SummaryCognitive": "0",
+    "9_Reflecting": "0",
+    "10_Summary": "0",
+  },
+
+};
+
+export const Chapter4 = {
+  Activity: [
+    {
+      name: "OPENING",
+      icon: require("assets/images/icon_opening.png"),
+      icon_done: require("assets/images/icon_opening_done.png"),
+      activityKey: "opening",
+      route: "/(app)/chapter4/content/opening",
+    },
+    {
+      name: "INTRODUCE A NEW FRAMEWORK",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      activityKey: "activity1",
+      route: "/(app)/chapter4/content/activity1",
+    },
+    {
+      name: "COMMIT TO A NEW GOAL",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      activityKey: "activity2",
+      route: "/(app)/chapter4/content/activity2",
+    },
+    {
+      name: "IDENTIFY YOUR PASSENGERS",
+      icon: require("assets/images/icon_meditation.png"),
+      icon_done: require("assets/images/icon_meditation_done.png"),
+      activityKey: "activity3",
+      route: "/(app)/chapter4/content/activity3",
+    },
+    {
+      name: "WILLINGNESS TO CARRY ON",
+      icon: require("assets/images/icon_meditation.png"),
+      icon_done: require("assets/images/icon_meditation_done.png"),
+      activityKey: "activity4",
+      route: "/(app)/chapter4/content/activity4",
+    },
+    {
+      name: "SUMMARY",
+      icon: require("assets/images/icon_diagram.png"),
+      icon_done: require("assets/images/icon_diagram_done.png"),
+      activityKey: "activity5",
+      route: "/(app)/chapter4/content/summary",
+    },
+    {
+      name: "INTRODUCE GOAL TRACKER",
+      icon: require("assets/images/icon_diagram.png"),
+      icon_done: require("assets/images/icon_diagram_done.png"),
+      activityKey: "activity6",
+      route: "/(app)/chapter4/content/activity5",
+    },
+  ],
+
 };

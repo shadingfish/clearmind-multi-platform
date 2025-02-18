@@ -1,11 +1,11 @@
-// app/(app)/chapter2/content/_layout.tsx
+// app/(app)/_layout.tsx
 
 import colors from "@/constants/colors";
 import Entypo from "@expo/vector-icons/Entypo";
 import { Header } from "@react-navigation/elements";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { router, Stack } from "expo-router";
+import { RelativePathString, router, Stack } from "expo-router";
 import { Text } from "react-native";
 import { Button } from "tamagui";
 import SidebarModal from "@/app/SidebarModal";
@@ -35,7 +35,7 @@ export default function RootLayout() {
           <Button
             unstyled
             onPress={() => {
-              router.replace("/(app)/chapter2");
+              router.replace("/(app)/chapter3" as RelativePathString);
             }}
             style={{ marginLeft: 20 }}
           >
@@ -70,7 +70,7 @@ export default function RootLayout() {
       <Stack.Screen
         name="opening" // This is the name of the page and must match the url from root
         options={{
-          title: "Part 2 Opening",
+          title: "Part 3 Opening",
         }}
       />
 
@@ -87,7 +87,7 @@ export default function RootLayout() {
                 alignSelf: "center",
               }}
             >
-              Identify and Describe Your Challenging Emotions
+              Label the Passengers on the Bus
             </Text>
           ),
         }}
@@ -106,7 +106,7 @@ export default function RootLayout() {
                 alignSelf: "center",
               }}
             >
-              Passengers on the Bus Metaphor
+              Identify How it Feels Within Your Body
             </Text>
           ),
         }}
@@ -124,7 +124,78 @@ export default function RootLayout() {
                 alignSelf: "center",
               }}
             >
-              Examples of Driving The Bus
+              Learn How to Meditate
+            </Text>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="activity3_1" // This is the name of the page and must match the url from root
+        options={{
+          headerTitle: () => (
+            <Text
+              style={{
+                fontWeight: "bold", // Bold font
+                fontSize: 19,
+                color: "#FFFFFF",
+                alignSelf: "center",
+              }}
+            >
+              The 20 Breath Meditation
+            </Text>
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name="activity3_2" // This is the name of the page and must match the url from root
+        options={{
+          headerTitle: () => (
+            <Text
+              style={{
+                fontWeight: "bold", // Bold font
+                fontSize: 19,
+                color: "#FFFFFF",
+                alignSelf: "center",
+              }}
+            >
+              Relaxing Breathing (4-7-8) Exercise
+            </Text>
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name="activity3_3" // This is the name of the page and must match the url from root
+        options={{
+          headerTitle: () => (
+            <Text
+              style={{
+                fontWeight: "bold", // Bold font
+                fontSize: 19,
+                color: "#FFFFFF",
+                alignSelf: "center",
+              }}
+            >
+              Mindful Daily Tasks
+            </Text>
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name="activity3_4" // This is the name of the page and must match the url from root
+        options={{
+          headerTitle: () => (
+            <Text
+              style={{
+                fontWeight: "bold", // Bold font
+                fontSize: 19,
+                color: "#FFFFFF",
+                alignSelf: "center",
+              }}
+            >
+              Leaves on a Stream
             </Text>
           ),
         }}
@@ -144,7 +215,7 @@ export default function RootLayout() {
                 alignSelf: "center",
               }}
             >
-              Identify Your Own Destination & Passengers
+              Make a Belief Statement
             </Text>
           ),
         }}
@@ -163,7 +234,64 @@ export default function RootLayout() {
                 width: "125%",
               }}
             >
-              Allow Challenging Passengers Be on Your Bus
+              Be Aware of Cognitive Distortions
+            </Text>
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name="activity6" // This is the name of the page and must match the url from root
+        options={{
+          headerTitle: () => (
+            <Text
+              style={{
+                fontWeight: "bold", // Bold font
+                fontSize: 19,
+                color: "#FFFFFF",
+                alignSelf: "center",
+                width: "125%",
+              }}
+            >
+              Be Aware of Cognitive Distortions
+            </Text>
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name="activity7" // This is the name of the page and must match the url from root
+        options={{
+          headerTitle: () => (
+            <Text
+              style={{
+                fontWeight: "bold", // Bold font
+                fontSize: 19,
+                color: "#FFFFFF",
+                alignSelf: "center",
+                width: "125%",
+              }}
+            >
+              Summary of Cognitive Distortions
+            </Text>
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name="activity8" // This is the name of the page and must match the url from root
+        options={{
+          headerTitle: () => (
+            <Text
+              style={{
+                fontWeight: "bold", // Bold font
+                fontSize: 19,
+                color: "#FFFFFF",
+                alignSelf: "center",
+                width: "125%",
+              }}
+            >
+              Reflecting on Cognitive Distortions in Various Procrastination Types
             </Text>
           ),
         }}
@@ -172,15 +300,16 @@ export default function RootLayout() {
       <Stack.Screen
         name="summary" // This is the name of the page and must match the url from root
         options={{
-          title: "Part 2 Summary",
+          title: "Part 3 Summary",
         }}
       />
     </Stack>
+    
     {isSidebarVisible && (
         <SidebarModal
           visible={isSidebarVisible}
           onClose={closeModal} // Pass the closeModal function to handle modal dismissal
-          chapterName={'chapter2'}
+          chapterName={"chapter3"}
         />
       )}
     </>

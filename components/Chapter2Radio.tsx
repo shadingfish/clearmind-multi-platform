@@ -36,7 +36,7 @@ export const Chapter2Radio: React.FC<Chapter2RadioProps> = ({
     <YStack>
       <Text>{question}</Text>
 
-      <XStack
+      {/* <XStack
         borderWidth={1}
         borderColor={colors.hintColor}
         alignSelf="flex-start"
@@ -54,7 +54,7 @@ export const Chapter2Radio: React.FC<Chapter2RadioProps> = ({
             ? "When you drive with your passengers, remember that you are the one steering the bus, not the passengers. Don’t let your passengers decide where the bus goes."
             : ""}
         </Text>
-      </XStack>
+      </XStack> */}
 
       <YStack marginLeft={"$4"} gap={"$1"}>
         <XStack

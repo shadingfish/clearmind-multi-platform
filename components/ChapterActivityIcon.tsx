@@ -7,20 +7,20 @@ export const ChapterItem: React.FC<{
   name: string;
   image: any;
   imageDone: any;
-  progressIndex: keyof ChapterProgress;
-  progress: ChapterProgress;
+  //add chaptername
+  chapterKey: string;
+  activityKey: string; //opening, activity1, ..., summary
+  progress: Record<string, Record<string, boolean>>; //instead just pass the chapterProgressData object
   route: RelativePathString;
-}> = ({ name, image, imageDone, progressIndex, progress, route }) => {
+}> = ({ name, image, imageDone, chapterKey, activityKey, progress, route }) => {
   const router = useRouter();
   const toast = useToastController();
-  const chaptersArray = Object.keys(progress)
-    .sort()
-    .map((key) => ({
-      chapterKey: key,
-      progress: progress[key],
-    }));
+  /* const chaptersArray = Object.keys(progress).map((key) => ({
+    chapterKey: key,
+    progress: progress[key],
+  })); */
 
-  const isPrevActivityFinished = (chapterKey: keyof ChapterProgress) => {
+  /* const isPrevActivityFinished = (chapterKey: keyof ChapterProgress) => {
     const currentIndex = chaptersArray.findIndex(
       (chapter) => chapter.chapterKey === chapterKey
     );
@@ -29,10 +29,22 @@ export const ChapterItem: React.FC<{
       return prevChapter.progress === "1";
     }
     return true;
-  };
+  }; */
+
+  /* const isPrevActivityFinished = () => {
+    const chapter2Keys = Object.keys(progress[chapterKey]);
+    const index = chapter2Keys.indexOf(activityKey);
+    if (progress[chapterKey][activityKey]) {
+      return true;
+    }
+    else {
+      return false
+    }
+  }; */
+
 
   const onPress = () => {
-    if (isPrevActivityFinished(progressIndex)) {
+    if (progress[chapterKey][activityKey] || activityKey == "opening") {
       router.push(route);
     } else {
       toast.show("Please complete previous content first!");
@@ -40,8 +52,8 @@ export const ChapterItem: React.FC<{
   };
   return (
     <XStack alignItems="center" gap={"$2"} onPress={onPress}>
-      <Image source={progress[progressIndex] == "1" ? imageDone : image} />
-      <Text fontSize={"$5"}>{name}</Text>
+      <Image source={progress[chapterKey][activityKey] ? imageDone : image} />
+      <Text fontSize={"$4"}>{name}</Text>
     </XStack>
   );
 };

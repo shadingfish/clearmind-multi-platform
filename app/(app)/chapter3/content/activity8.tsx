@@ -24,37 +24,57 @@ const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
 import colors from "@/constants/colors";
+import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
+import { router } from "expo-router";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter3Context } from "@/contexts/Chapter3Context";
+import { hasEmptyValues } from "@/constants/helper";
+import { Toast } from "@tamagui/toast";
+import { useToastController } from "@tamagui/toast";
 
-interface CurrentPageComponentProps {
-  data: {[key: string]: any},
-  setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
-  dataFilled: boolean,
-  setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
-}
+type Activity8Questions = {
+    potentialStrategy: string;
+  };
 
-const Page9: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) => {
+const Activity8 = () => {
+
+    const toast = useToastController();
+    const {chapterData, updateChapterData} = useChapter3Context();
 
     const [isButtonPressed, setIsButtonPressed] = useState(false);
-    const [potentialStrategy, setPotentialStrategy] = useState(data.potentialStrategy || "");
+    //const [potentialStrategy, setPotentialStrategy] = useState("");
+
+    const [questions, setQuestions] = useState<Activity8Questions>(chapterData["activity8"] || {
+        potentialStrategy: "",
+      });
+
+    //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+    const { updateChapterProgress } = useChapterProgressContext();
 
     useEffect(() => {
-        console.log('dataisfilled beginning', dataFilled)
+        updateChapterProgress("chapter3", "activity8");
+    }, []);
+    //~~~END COPY PASTA~~~
 
-        setData((prevData) => ({
-            ...prevData, 
-            potentialStrategy: potentialStrategy, 
-          }));
-      
-          // Optionally, you can check if all the fields are filled and update dataFilled
-          const isFilled = potentialStrategy !== "";
-          setDataFilled(isFilled);
-    
-          console.log('data:', data);
-        
-    }, [potentialStrategy]); // Dependency array, this effect runs when "count" changes
+    //update Chapter Context
+
+    useEffect(() => {
+        updateChapterData("activity8", questions);
+    }, [questions]);
+
+    //end
+
+    const updateQuestion = (field: keyof Activity8Questions, value: string) => {
+        console.log('value', value, 'field', field)
+        setQuestions((prev) => {
+            const updatedQuestions = { ...prev, [field]: value };   
+            return updatedQuestions;
+        });
+    };
 
 
     return (
+        <YStack margin={"$4"} gap={"$4"} flex={1}>
         <ScrollView style={{width: '100%', height: '85%'}}>
             <Text style={{fontSize: 18,}}>
                 In part 1, we introduced three different types of procrastination.
@@ -99,17 +119,30 @@ const Page9: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
             </Text>
             <Input
                 unstyled
-                placeholder={"Potential strategy"}
+                placeholder={"[Text input]"}
                 borderColor={colors.border}
                 borderWidth={3}
                 borderRadius={7}
                 size="$4"
                 width={"100%"}
                 alignSelf="center"
-                value={potentialStrategy}
-                onChangeText={setPotentialStrategy}
+                value={questions.potentialStrategy}
+                onChangeText={(text) => updateQuestion("potentialStrategy", text)}
                 />
         </ScrollView>
+
+        <ChapterNavigationButton
+                prev={"/(app)/chapter3/content/activity7"}
+                next={() => {
+                    if (hasEmptyValues(questions)) {
+                        toast.show("Empty Input");
+                    } else {
+                    router.push("/(app)/chapter3/content/summary");
+                    }
+                }}
+            />
+
+        </YStack>
     );
   }
   
@@ -130,4 +163,4 @@ const Page9: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
 
   });
 
-  export default Page9;
+  export default Activity8;

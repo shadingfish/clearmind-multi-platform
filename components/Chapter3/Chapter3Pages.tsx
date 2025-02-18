@@ -14,11 +14,15 @@ import Page6 from "./Page6";
 import Page7 from "./Page7";
 import Page8 from "./Page8";
 import Page9 from "./Page9";
+import Page10 from "./Page10";
+import Page11 from "./Page11";
+import Page12 from "./Page12";
+import Page13 from "./Page13";
+import Page14 from "./Page14";
 import { Ionicons } from '@expo/vector-icons';
 import { Input, YStack, Label, } from "tamagui";
 import colors from "@/constants/colors";
 import InputField from "../InputField";
-import Page10 from "./Page10";
 
 
 
@@ -51,6 +55,10 @@ export default function Chapter3Pages() {
         8: Page8,
         9: Page9,
         10: Page10,
+        11: Page11,
+        12: Page12,
+        13: Page13,
+        14: Page14,
     }
 
     const pageTitle: {[key:number]: string} = {
@@ -63,7 +71,11 @@ export default function Chapter3Pages() {
         7: "Be Aware of Cognitive Distortions",
         8: "Summary of Cognitive Distortions",
         9: "Reflecting on Cognitive Distortions in Various Procrastination Types",
-        10: "Part 3 Summary"
+        10: "Part 3 Summary",
+        11: "1. The 20 Breath Meditation",
+        12: "2. Relaxing Breathing (4-7-8) Exercise",
+        13: "3. Mindful Daily Tasks",
+        14: "4. Leaves on a Stream",
     }
 
     const [currTitle, setCurrTitle] = useState(pageTitle[currPageNum]);

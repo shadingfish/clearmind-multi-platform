@@ -10,12 +10,13 @@ import { useToastController } from "@tamagui/toast";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScrollView, Text, View, YStack } from "tamagui";
 import { useRouter } from "expo-router";
-import {
-  getChapter2Summary,
-  setChapter2Summary,
-  updateChapter2Progress,
-} from "@/hooks/Chapter2Activity";
-import { useAuthContext } from "@/contexts/AuthContext";
+// import {
+//   getChapter2Summary,
+//   setChapter2Summary,
+//   updateChapter2Progress,
+// } from "@/hooks/Chapter2Activity";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter2Context } from "@/contexts/Chapter2Context";
 
 export type SummaryQuestions = {
   question1: string;
@@ -26,7 +27,8 @@ export type SummaryQuestions = {
 
 export default function Summary() {
   const router = useRouter();
-  const [questions, setQuestions] = useState<SummaryQuestions>({
+  const {chapterData, updateChapterData} = useChapter2Context();
+  const [questions, setQuestions] = useState<SummaryQuestions>(chapterData["summary"] || {
     question1: "",
     question2: "",
     question3: "",
@@ -35,15 +37,27 @@ export default function Summary() {
 
   const { bottom } = useSafeAreaInsets();
 
+  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+  const { updateChapterProgress } = useChapterProgressContext();
+
+  useEffect(() => {
+    updateChapterProgress("chapter2", "summary");
+  }, []);
+  //~~~END COPY PASTA~~~
+
   const updateQuestion = (field: keyof SummaryQuestions, value: string) => {
     setQuestions((prev) => ({ ...prev, [field]: value }));
   };
+
+  useEffect(() => {
+    updateChapterData("summary", questions);
+  }, [questions])
 
   const toast = useToastController();
 
   const { user, pending } = useAuth();
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (user) {
       getChapter2Summary(user.uid)
         .then((snapshot) => {
@@ -56,27 +70,7 @@ export default function Summary() {
         })
         .catch((err) => console.log("Error get chapter 2 summary: " + err));
     }
-  }, [pending]);
-
-  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
-
-  useEffect(() => {
-    setUserData(
-      (
-        prevUserData: Record<string, Record<string, boolean>>
-      ): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        chapter2: {
-          ...prevUserData.chapter2,
-          Summary: true,
-        },
-      })
-    );
-
-    setCurrPage("Summary");
-  }, []);
-  //~~~END COPY PASTA~~~
+  }, [pending]); */
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -91,9 +85,8 @@ export default function Summary() {
 
         <Text fontSize={"$5"} lineHeight={20}>
           Simply, close your eyes and picture yourself driving a bus. Then, ask
-          yourself:
-          {"\n"} - Who are my passengers right now? {"\n"} - What are they
-          persuading me to do? {"\n"} - What do I truly want to do?
+          yourself: {"\n"} - Who are my passengers right now? {"\n"} - What are
+          they persuading me to do? {"\n"} - What do I truly want to do?
         </Text>
 
         <Text fontSize={"$5"} lineHeight={20}>
@@ -122,9 +115,9 @@ export default function Summary() {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
-              setChapter2Summary(user!.uid, questions);
+              //setChapter2Summary(user!.uid, questions);
               router.push("/(app)/chapter2");
-              updateChapter2Progress(user!.uid, "8_Summary");
+              //updateChapter2Progress(user!.uid, "8_Summary");
             }
           }}
         />

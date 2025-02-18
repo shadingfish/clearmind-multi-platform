@@ -24,38 +24,56 @@ const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
 import colors from "@/constants/colors";
+import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
+import { router } from "expo-router";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter3Context } from "@/contexts/Chapter3Context";
+import { hasEmptyValues } from "@/constants/helper";
+import { useToastController } from "@tamagui/toast";
 
-interface CurrentPageComponentProps {
-  data: {[key: string]: any},
-  setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
-  dataFilled: boolean,
-  setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
-}
+type SummaryQuestions = {
+    summaryQues1: string;
+    summaryQues2: string;
+    summaryQues3: string;
+  };
 
-const Page10: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) => {
-    const [summaryQues1, setSummaryQues1] = useState(data.summaryQues1 || "");
-    const [summaryQues2, setSummaryQues2] = useState(data.summaryQues2 || "");
-    const [summaryQues3, setSummaryQues3] = useState(data.summaryQues2 || "");
+const Summary = () => {
+    const toast = useToastController();
+
+    const {chapterData, updateChapterData} = useChapter3Context();
+
+    const [questions, setQuestions] = useState<SummaryQuestions>(chapterData["summary"] || {
+        summaryQues1: "",
+        summaryQues2: "",
+        summaryQues3: "",
+      });
+
+    //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+    const { updateChapterProgress } = useChapterProgressContext();
 
     useEffect(() => {
-        console.log('dataisfilled beginning', dataFilled)
+        updateChapterProgress("chapter3", "summary");
+    }, []);
+    //~~~END COPY PASTA~~~
 
-        setData((prevData) => ({
-            ...prevData, 
-            summaryQues1: summaryQues1, 
-            summaryQues2: summaryQues2,
-            summaryQues3: summaryQues3,
-          }));
-      
-          // Optionally, you can check if all the fields are filled and update dataFilled
-          const isFilled = summaryQues1 !== "" && summaryQues2 !== "" && summaryQues3 !== "";
-          setDataFilled(isFilled);
+    //update Chapter Context
+
+    useEffect(() => {
+        updateChapterData("summary", questions);
+    }, [questions]);
+
+    //end
+
+    const updateQuestion = (field: keyof SummaryQuestions, value: string) => {
+        console.log('value', value, 'field', field)
+        setQuestions((prev) => {
+            const updatedQuestions = { ...prev, [field]: value };   
+            return updatedQuestions;
+        });
+    };
     
-          console.log('data:', data);
-        
-    }, [summaryQues1, summaryQues2, summaryQues3]); // Dependency array, this effect runs when "count" changes
-
     return (
+        <YStack margin={"$4"} gap={"$4"} flex={1}>
         <ScrollView style={{width: '100%',height: '85%'}}>
             <Text style={{fontSize: 18,}}>
                 In this part, we practiced some positive cognitive strategies, 
@@ -74,10 +92,10 @@ const Page10: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
                 Following questions will help you reflect on this part:
             </Text>
             <Text style={{fontSize: 16, color: "#636363", marginVertical: '5%'}}>
-                1. Did you find specific strategies or techniques in this chapter 
-                helpful for combating procrastination?
-                If yes, outline these strategies and explain how you plan to incorporate them 
-                into your future practices to improve your procrastination habits.
+                1. Did you find any meditation techniques in this section 
+                helpful for combating procrastination? If yes, describe these techniques 
+                and explain how you plan to incorporate them into your daily practices to 
+                improve your procrastination habits.
             </Text>
             <Input
                 unstyled
@@ -88,12 +106,12 @@ const Page10: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
                 size="$4"
                 width={"100%"}
                 alignSelf="center"
-                value={summaryQues1}
-                onChangeText={setSummaryQues1}
+                value={questions.summaryQues1}
+                onChangeText={(text) => updateQuestion("summaryQues1", text)}
                 />
             <Text style={{fontSize: 16, color: "#636363", marginVertical: '5%'}}>
-                2. What are some small actions you can take to manage any cognitive 
-                distortion(s) you have, in order to pursue your value/goal?
+                2. What small actions can you take to manage any cognitive distortions 
+                you experience to stay aligned with your values and goals?
             </Text>
             <Input
                 unstyled
@@ -104,8 +122,8 @@ const Page10: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
                 size="$4"
                 width={"100%"}
                 alignSelf="center"
-                value={summaryQues2}
-                onChangeText={setSummaryQues2}
+                value={questions.summaryQues2}
+                onChangeText={(text) => updateQuestion("summaryQues2", text)}
                 />
             <Text style={{fontSize: 16, color: "#636363", marginVertical: '5%'}}>
                 3. Rate the effectiveness of this part in managing your 
@@ -116,9 +134,9 @@ const Page10: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
                 <View style={styles.radioButton}>
                     <RadioButton.Android
                         value="1"
-                        status={summaryQues3 === '1' ? 
+                        status={questions.summaryQues3 === '1' ? 
                                 'checked' : 'unchecked'}
-                        onPress={() => setSummaryQues3('1')}
+                        onPress={() => updateQuestion("summaryQues3", '1')}
                         color="#1EB688"
                     />
                     <Text style={styles.radioLabel}>
@@ -129,9 +147,9 @@ const Page10: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
                 <View style={{...styles.radioButton, marginLeft: '5%'}}>
                     <RadioButton.Android
                             value="2"
-                            status={summaryQues3 === '2' ? 
+                            status={questions.summaryQues3 === '2' ? 
                                     'checked' : 'unchecked'}
-                            onPress={() => setSummaryQues3('2')}
+                            onPress={() => updateQuestion("summaryQues3", '2')}
                             color="#1EB688"
                         />
                     <Text style={styles.radioLabel}>
@@ -142,9 +160,9 @@ const Page10: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
                 <View style={{...styles.radioButton, marginLeft: '5%'}}>
                     <RadioButton.Android
                             value="3"
-                            status={summaryQues3 === '3' ? 
+                            status={questions.summaryQues3 === '3' ? 
                                     'checked' : 'unchecked'}
-                            onPress={() => setSummaryQues3('3')}
+                            onPress={() => updateQuestion("summaryQues3", '3')}
                             color="#1EB688"
                         />
                     <Text style={styles.radioLabel}>
@@ -155,9 +173,9 @@ const Page10: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
                 <View style={{...styles.radioButton, marginLeft: '5%'}}>
                     <RadioButton.Android
                             value="4"
-                            status={summaryQues3 === '4' ? 
+                            status={questions.summaryQues3 === '4' ? 
                                     'checked' : 'unchecked'}
-                            onPress={() => setSummaryQues3('4')}
+                            onPress={() => updateQuestion("summaryQues3", '4')}
                             color="#1EB688"
                         />
                     <Text style={styles.radioLabel}>
@@ -168,9 +186,9 @@ const Page10: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
                 <View style={{...styles.radioButton, marginLeft: '5%'}}>
                     <RadioButton.Android
                             value="5"
-                            status={summaryQues3 === '5' ? 
+                            status={questions.summaryQues3 === '5' ? 
                                     'checked' : 'unchecked'}
-                            onPress={() => setSummaryQues3('5')}
+                            onPress={() => updateQuestion("summaryQues3", '5')}
                             color="#1EB688"
                         />
                     <Text style={styles.radioLabel}>
@@ -180,6 +198,18 @@ const Page10: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
 
             </View>
         </ScrollView>
+
+        <ChapterNavigationButton
+                prev={"/(app)/chapter3/content/activity8"}
+                next={() => {
+                    if (hasEmptyValues(questions)) {
+                        toast.show("Empty Input");
+                    } else {
+                    router.push("/(app)/chapter3");}
+                }}
+            />
+
+        </YStack>
     );
   }
   
@@ -204,4 +234,4 @@ const Page10: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled
       },
   });
 
-  export default Page10;
+  export default Summary;

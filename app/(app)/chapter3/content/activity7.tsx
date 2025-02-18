@@ -23,20 +23,23 @@ const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
+import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
+import { router } from "expo-router";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter3Context } from "@/contexts/Chapter3Context";
 
 interface CurrentPageComponentProps {
-  data: {[key: string]: any},
+ /*  data: {[key: string]: any},
   setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
   dataFilled: boolean,
-  setDataFilled: React.Dispatch<React.SetStateAction<boolean>>
+  setDataFilled: React.Dispatch<React.SetStateAction<boolean>> */
 }
 
-const Page8: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled, setDataFilled }) => {
-    useEffect(() => {
-        setDataFilled(true);
-    }, []);
+const Activity7 = () => {
 
-    const [myData, setMyData] = useState(data.hasCogDist || {})
+    const {chapterData} = useChapter3Context();
+    const [myData, setMyData] = useState(chapterData["activity6"].hasCogDist || {}); //use context to set this
+    console.log('myData', chapterData);
 
     // based on the answers that they filled in before
     let tempData = {
@@ -78,7 +81,17 @@ const Page8: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
         "Personalization and Blame": require('@/assets/images/distortion_personalization_and_blame_1.png'),
       };
 
+
+    //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+    const { updateChapterProgress } = useChapterProgressContext();
+
+    useEffect(() => {
+        updateChapterProgress("chapter3", "activity7");
+    }, []);
+    //~~~END COPY PASTA~~~
+
     return (
+        <YStack margin={"$4"} gap={"$4"} flex={1}>
         <ScrollView style={{width: '100%', height: '85%'}}>
             <Text style={{fontSize: 18,}}>
                 Once you realize that you have experienced these thinking distortions, 
@@ -107,6 +120,15 @@ const Page8: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
                 ))}
 
         </ScrollView>
+
+        <ChapterNavigationButton
+                prev={"/(app)/chapter3/content/activity6"}
+                next={() => {
+                    router.push("/(app)/chapter3/content/activity8");
+                }}
+            />
+
+        </YStack>
     );
   }
   
@@ -141,4 +163,4 @@ const Page8: React.FC<CurrentPageComponentProps> = ({ data, setData, dataFilled,
     },
   });
 
-  export default Page8;
+  export default Activity7;
