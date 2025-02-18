@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/hooks/useAuth";
-import { updateChapter1Progress } from "@/hooks/Chapter1Activity";
+import { updateChapter1Progress} from "@/hooks/Chapter1Activity";
 import {ChapterNavigationButton} from "@/components/ChapterNavigateButton";
 import colors from "@/constants/colors";
 import { YStack } from "tamagui";

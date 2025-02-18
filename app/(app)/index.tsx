@@ -1,3 +1,5 @@
+// app/(app)/index.tsx
+
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -12,21 +14,79 @@ import {
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { auth, database } from "@/constants/firebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc} from "firebase/firestore";
 import * as Progress from "react-native-progress"; 
 import { Button } from "tamagui";
 import { useAuth } from "@/hooks/useAuth"; 
 
 const { width } = Dimensions.get("window");
 
-
 const chapters = ["presurvey", "chapter1", "chapter2", "chapter3", "chapter4", "postsurvey"] as const;
-
 const validchap = ["chapter1", "chapter2"] as const;
-
 type ChapterKey = typeof chapters[number];
-
 type ChapterStatus = Record<ChapterKey, "0" | "1" | "2">;
+
+const defaultChapterStatus: ChapterStatus = {
+  presurvey: "2",
+  chapter1: "0",
+  chapter2: "0",
+  chapter3: "0",
+  chapter4: "0",
+  postsurvey: "0",
+};
+
+async function getUserChapterProgress() {
+  const user = auth.currentUser;
+  if (!user) return null;
+
+  const progressRef = doc(database, "ChapterProgress", user.uid);
+  const snapshot = await getDoc(progressRef);
+
+  if (snapshot.exists()) {
+    return snapshot.data() as ChapterStatus;
+  } else {
+    console.log("No ChapterProgress found, initializing...");
+    await setDoc(progressRef, defaultChapterStatus);
+    return defaultChapterStatus;
+  }
+}
+
+async function updateAllChapterProgress(userId: string, chapters: ChapterKey[]) {
+  try {
+    const progressRef = doc(database, "ChapterProgress", userId);
+    const currentProgress = await getDoc(progressRef);
+
+    let updatedStatus: ChapterStatus = { ...defaultChapterStatus };
+    const currentData = currentProgress.exists() ? currentProgress.data() as ChapterStatus : defaultChapterStatus;
+
+    let startIndex = chapters.findIndex(chap => currentData[chap] === "1"); 
+    if (startIndex === -1) startIndex = 0;
+
+    for (let i = startIndex; i < chapters.length; i++) {
+      const chapterRef = doc(database, `Chapter${i + 1}`, "Progress", "users", userId);
+      const chapterDoc = await getDoc(chapterRef);
+
+      if (chapterDoc.exists()) {
+        const chapterData = chapterDoc.data();
+        const isFinished = Object.values(chapterData).every(val => val === "1");
+        const status = isFinished ? "2" : Object.values(chapterData).some(val => val === "1") ? "1" : "0";
+
+        updatedStatus[chapters[i]] = status;
+
+        if (status !== "2") break;
+      } else {
+        updatedStatus[chapters[i]] = "0";
+        break;
+      }
+    }
+
+    await setDoc(progressRef, updatedStatus, { merge: true });
+    console.log("Chapter progress updated successfully!");
+    return updatedStatus;
+  } catch (err) {
+    console.error("Error updating chapter progress:", err);
+  }
+}
 
 export default function HomePage() {
   const router = useRouter();
@@ -34,46 +94,40 @@ export default function HomePage() {
   const [username, setUsername] = useState("User");
   const [progress, setProgress] = useState(0);
   const [activeTab, setActiveTab] = useState("Learn"); 
-  const { handleFirebaseLogout, isSignedIn } = useAuth();
+  const { handleFirebaseLogout, isSignedIn, pending} = useAuth();
 
-  const [statuses, setStatuses] = useState<ChapterStatus>({
-    presurvey: "0",
-    chapter1: "0",
-    chapter2: "0",
-    chapter3: "0",
-    chapter4: "0",
-    postsurvey: "0",
-  });
+  const [statuses, setStatuses] = useState<ChapterStatus>({ ...defaultChapterStatus });
 
   useEffect(() => {
     console.log("User Signed In:", isSignedIn);
-  }, [isSignedIn]);
+    if (pending) return;
+    if (!isSignedIn) router.replace(`/(login)`);
+  }, [isSignedIn, pending]);
 
   useEffect(() => {
     const fetchUserData = async () => {
       const user = auth.currentUser;
       if (user) {
         setUsername(user.displayName || "User");
-
-        const progressRef = doc(database, "ChapterProgress", user.uid);
-        const progressSnapshot = await getDoc(progressRef);
-
-        if (progressSnapshot.exists()) {
-          const progressData = progressSnapshot.data() as Partial<ChapterStatus>;
-
-          setStatuses((prev) => ({
-            ...prev,
-            ...progressData,
-          }));
-
+        const progressData = await updateAllChapterProgress(user.uid, [...validchap]);
+        if (progressData) {
+          setStatuses(progressData);
           const completedChapters = validchap.filter(chap => progressData[chap] === "2").length;
           setProgress((completedChapters / validchap.length) * 100);
         }
       }
     };
-
     fetchUserData();
   }, []);
+
+  const handleLogout = () => {
+    console.log("current: " + isSignedIn)
+    if (isSignedIn) {
+      handleFirebaseLogout();
+    } else {
+      console.log("No user is logged in.");
+    }
+  };
 
   const chapterImages: Record<ChapterKey, Record<"0" | "1" | "2", any>> = {
     presurvey: {
@@ -132,7 +186,6 @@ export default function HomePage() {
         </View>
       </View>
 
-      {/* 白色背景的章节模块 */}
       <View style={styles.chapterSection}>
         <ScrollView contentContainerStyle={{ paddingBottom: 80, alignItems: "center" }}>
           {validchap.map((chapter, index) => (
@@ -149,19 +202,13 @@ export default function HomePage() {
             </TouchableOpacity>
           ))}
         </ScrollView>
-        {isSignedIn && (
-        <View style={styles.logoutContainer}>
-          <Button
-            onPress={handleFirebaseLogout}
-            backgroundColor="#FF3B30"  
-          >
-            Logout
-          </Button>
-        </View>
-      )}
+          <View style={styles.logoutContainer}>
+            <Button onPress={handleLogout} backgroundColor="#FF3B30">
+              Logout
+            </Button>
+          </View>
       </View>
 
-      {/* 底部导航栏 */}
       <View style={styles.bottomNav}>
         {[
           { name: "Learn", icon: require("@/assets/images/learn.png"), route: "/(app)" as const},

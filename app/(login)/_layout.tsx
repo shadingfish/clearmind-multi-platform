@@ -21,12 +21,6 @@ export default function LoginLayout() {
           title: "Register",
         }}
       />
-      <Stack.Screen
-        name="registerAdditional"
-        options={{
-          title: "Register Additional",
-        }}
-      />
     </Stack>
   );
 }

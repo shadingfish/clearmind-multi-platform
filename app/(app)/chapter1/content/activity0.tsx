@@ -12,7 +12,7 @@ import {
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { updateChapter1Activity0, getChapter1Activity0 } from "@/hooks/Chapter1Activity";
+import { updateChapter1Activity0, getChapter1Activity0, updateChapter1Progress} from "@/hooks/Chapter1Activity";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
@@ -145,6 +145,7 @@ export default function Activity0() {
 
       // 更新全局统计
       await updateChapter1Activity0Ranking(sortedValues);
+      await updateChapter1Progress(user.uid, "2_Activity1_0");
       Alert.alert("Success", "Data saved successfully!");
     } catch (error) {
       console.error("Error saving activity data:", error);
