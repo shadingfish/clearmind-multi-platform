@@ -29,6 +29,7 @@ import { router } from "expo-router";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { hasEmptyValues } from "@/constants/helper";
 import { useToastController } from "@tamagui/toast";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 type SummaryQuestions = {
     summaryQues1: string;
@@ -39,19 +40,17 @@ type SummaryQuestions = {
 const Summary = () => {
     const toast = useToastController();
 
-    const [questions, setQuestions] = useState<SummaryQuestions>(chapterData["summary"] || {
+    const [questions, setQuestions] = useState<SummaryQuestions>({
         summaryQues1: "",
         summaryQues2: "",
         summaryQues3: "",
       });
 
-    /* //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { updateChapterProgress } = useChapterProgressContext();
+      const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
-    useEffect(() => {
-        updateChapterProgress("chapter3", "summary");
-    }, []);
-    //~~~END COPY PASTA~~~ */
+      useEffect(() => {
+          setCurrPage('summary');
+      }, [])
 
     const updateQuestion = (field: keyof SummaryQuestions, value: string) => {
         console.log('value', value, 'field', field)
@@ -194,6 +193,7 @@ const Summary = () => {
                     if (hasEmptyValues(questions)) {
                         toast.show("Empty Input");
                     } else {
+                    updateChapterProgress("chapter3", "summary");
                     router.push("/(app)/chapter3");}
                 }}
             />

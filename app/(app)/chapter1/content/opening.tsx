@@ -4,24 +4,18 @@ import { updateChapter1Progress } from "@/hooks/Chapter1Activity";
 import { useRouter } from "expo-router";
 import React, {useEffect}from "react";
 import { Text, YStack } from "tamagui";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+//import { useAuthContext } from "@/contexts/AuthContext";
 
 export default function Opening() {
   const router = useRouter();
   const { user } = useAuth();
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
   
-  useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Opening": true
-        }
-    }));
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
-    setCurrPage("Opening");
-  }, []);
+  useEffect(() => {
+    setCurrPage('opening');
+  }, [])
 
   return (
     <YStack margin={"$4"} gap={"$4"}>
@@ -35,6 +29,7 @@ export default function Opening() {
       <ChapterNavigationButton
         prev={"/(app)/chapter1/content/chapter1"}
         next={() => {
+          updateChapterProgress('chapter1', 'opening');
           router.push("/(app)/chapter1/content/activity0");
           updateChapter1Progress(user!.uid, "1_Opening");
         }}

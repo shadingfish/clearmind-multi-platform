@@ -18,7 +18,8 @@ import {
   setChapter1Summary,
   updateChapter1Progress,
 } from "@/hooks/Chapter1Activity";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+//import { useAuthContext } from "@/contexts/AuthContext";
 
 // 定义问题 ID 映射到用户回答
 export type SummaryQuestions = {
@@ -33,21 +34,13 @@ export default function Summary() {
   const toast = useToastController();
   const { user, pending } = useAuth();
   const { bottom } = useSafeAreaInsets();
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  
+
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData(
-      (prevUserData) => ({
-        ...prevUserData,
-        chapter1: {
-          ...prevUserData.chapter1,
-          "How to Use the App": true,
-        },
-      })
-    );
-
-    setCurrPage("How to Use the App");
-  }, []);
+    setCurrPage('summary');
+  }, [])
 
   // 保存 4 个问题的答案
   const [questions, setQuestions] = useState<SummaryQuestions>({
@@ -97,6 +90,9 @@ export default function Summary() {
     await updateChapter1Progress(user.uid, "6_Summary");
 
     toast.show("Your answers have been saved!");
+
+    updateChapterProgress("chapter1", "summary");
+
     // 跳转到 Chapter1 主目录或其他
     router.push("/(app)/chapter1");
   };

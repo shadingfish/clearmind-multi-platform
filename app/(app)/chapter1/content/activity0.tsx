@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
 import { useAuth } from "@/hooks/useAuth";
-import { useAuthContext } from "@/contexts/AuthContext";
 import { updateChapter1Activity0, getChapter1Activity0 } from "@/hooks/Chapter1Activity";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -22,6 +21,7 @@ import { PrimaryButton } from "@/components/CustomButton";
 
 import { database } from "@/constants/firebaseConfig";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 /**
  * Initial array of value items
@@ -56,23 +56,12 @@ export default function Activity0() {
   const [top5, setTop5] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData(
-      (
-        prevUserData: Record<string, Record<string, boolean>>
-      ): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        chapter1: {
-          ...prevUserData.chapter1,
-          "Prioritize Your Life Value": true,
-        },
-      })
-    );
-
-    setCurrPage("Prioritize Your Life Value");
-  }, []);
+    setCurrPage('activity0');
+  }, [])
 
   useEffect(() => {
     // Prepare initial data for DraggableFlatList
@@ -209,7 +198,11 @@ export default function Activity0() {
 
             <ChapterNavigationButton
               prev={"/(app)/chapter1/content/opening"}
-              next={() => router.push("/(app)/chapter1/content/activity1")}
+              next={() => 
+                
+                {
+                  updateChapterProgress("chapter1", "activity0");
+                  router.push("/(app)/chapter1/content/activity1");}}
             />
           </YStack>
         )}

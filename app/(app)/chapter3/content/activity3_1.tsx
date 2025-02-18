@@ -46,7 +46,6 @@ const Activity3_1 = () => {
       }, []);
 
 
-
     return (
         <YStack margin={"$4"} gap={"$4"}>
             <ScrollView style={{width: '100%'}}>

@@ -8,7 +8,7 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import { ScrollView, Text, View, YStack } from "tamagui";
 import { useAuth } from "@/hooks/useAuth";
 import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 export default function Activity2() {
   const router = useRouter();
@@ -16,20 +16,12 @@ export default function Activity2() {
   const [showMore, setShowMore] = useState(false);
   const { user, pending } = useAuth();
 
-  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Passengers On The Bus": true
-        }
-    }));
+    setCurrPage('activity2');
+  }, [])
 
-    setCurrPage("Passengers On The Bus");
-  }, []);
 
   if (pending) {
     return null;
@@ -108,6 +100,7 @@ export default function Activity2() {
         <ChapterNavigationButton
           prev={"/(app)/chapter2/content/activity1"}
           next={() => {
+            updateChapterProgress('chapter2', 'activity2');
             router.push("/(app)/chapter2/content/activity3");
             updateChapter2Progress(user!.uid, "3_Passengers_On_The_Bus");
           }}

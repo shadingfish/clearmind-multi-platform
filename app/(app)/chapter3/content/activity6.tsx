@@ -29,6 +29,7 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { RelativePathString, router } from "expo-router";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { useToastController } from "@tamagui/toast";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 type Activity6Questions = {
     whichCogDistPaths: Set<string>;
@@ -40,6 +41,12 @@ const Activity6 = () => {
     //const [hasCogDist, setHasCogDist] = useState<{ [key: string]: boolean }>({});
     const [currTitle, setCurrTitle] = useState("");
     const toast = useToastController();
+
+    const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
+
+    useEffect(() => {
+        setCurrPage('activity6');
+    }, [])
 
     const [questions, setQuestions] = useState<Activity6Questions>({
         whichCogDistPaths: new Set<string>,
@@ -63,14 +70,6 @@ const Activity6 = () => {
 
     const openModal = () => setIsModalVisible(true);
     const closeModal = () => setIsModalVisible(false);
-
-    /* //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { updateChapterProgress } = useChapterProgressContext();
-
-    useEffect(() => {
-        updateChapterProgress("chapter3", "activity6");
-    }, []);
-    //~~~END COPY PASTA~~~ */
 
     const handlePress = (pathName: string) => {
 
@@ -241,6 +240,7 @@ const Activity6 = () => {
                     if (questions.whichCogDistPaths.size < 10) {
                         toast.show("Missing Activities");
                       } else {
+                        updateChapterProgress("chapter3", "activity6");
                     router.push("/(app)/chapter3/content/activity7" as RelativePathString);
                 }}}
             />

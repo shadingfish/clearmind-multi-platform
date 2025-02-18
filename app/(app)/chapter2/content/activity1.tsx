@@ -23,7 +23,7 @@ import {
   XStack,
   YStack,
 } from "tamagui";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 export default function Activity1() {
   const router = useRouter();
@@ -42,25 +42,11 @@ export default function Activity1() {
   const [otherInput, setOtherInput] = useState("");
   const { user, pending } = useAuth();
 
-  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData(
-      (
-        prevUserData: Record<string, Record<string, boolean>>
-      ): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        chapter2: {
-          ...prevUserData.chapter2,
-          "Your Challenging Emotions": true,
-        },
-      })
-    );
-
-    setCurrPage("Your Challenging Emotions");
-  }, []);
-  //~~~END COPY PASTA~~~
+    setCurrPage('activity1');
+  }, [])
 
   if (pending) {
     return null;
@@ -207,6 +193,7 @@ export default function Activity1() {
         <ChapterNavigationButton
           prev={"/(app)/chapter2/content/opening"}
           next={() => {
+            updateChapterProgress("chapter2", "activity1"); //for sidebarmodal
             router.push("/(app)/chapter2/content/activity2");
             updateChapter2Progress(user!.uid, "2_Activity2_1");
           }}

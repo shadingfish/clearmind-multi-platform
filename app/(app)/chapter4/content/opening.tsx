@@ -9,18 +9,17 @@ import * as Progress from "react-native-progress";
 import { RelativePathString, useRouter } from "expo-router";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 const Opening = () => {
 
     const router = useRouter();
 
-    /* //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { updateChapterProgress } = useChapterProgressContext();
+    const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
-    useEffect(() => {
-        updateChapterProgress("chapter4", "opening");
-    }, []);
-    //~~~END COPY PASTA~~~ */
+      useEffect(() => {
+          setCurrPage('opening');
+      }, [])
 
     return (
         <YStack margin={"$4"} gap={"$4"}>
@@ -45,6 +44,7 @@ const Opening = () => {
                 <ChapterNavigationButton
                     prev={"/(app)/chapter4"}
                     next={() => {
+                        updateChapterProgress("chapter4", "opening");
                     router.push("/(app)/chapter4/content/activity1" as RelativePathString);
                     }}
                 />

@@ -25,11 +25,18 @@ import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { RelativePathString, router } from "expo-router";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 const Activity7 = () => {
 
     const [myData, setMyData] = useState({}); //get from backend
+
+    const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
+
+    useEffect(() => {
+        setCurrPage('activity7');
+    }, [])
 
     // based on the answers that they filled in before
     let tempData = {
@@ -114,6 +121,7 @@ const Activity7 = () => {
         <ChapterNavigationButton
                 prev={"/(app)/chapter3/content/activity6"}
                 next={() => {
+                    updateChapterProgress("chapter3", "activity7");
                     router.push("/(app)/chapter3/content/activity8" as RelativePathString);
                 }}
             />

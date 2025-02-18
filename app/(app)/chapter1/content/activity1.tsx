@@ -22,7 +22,8 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { CheckboxWithLabel } from "@/components/CheckboxWithLabel";
 import { PrimaryButton } from "@/components/CustomButton";
 import { YStack } from "tamagui";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+//import { useAuthContext } from "@/contexts/AuthContext";
 
 // 复选框选项
 const checkboxOptions: string[] = [
@@ -45,7 +46,7 @@ export default function Activity1() {
   const { user, pending } = useAuth();
   
   // Auth Context 用于 UI 进度同步
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  //const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
 
   // 复选框状态
   const [checkboxes, setCheckboxes] = useState<string[]>([]);
@@ -53,20 +54,11 @@ export default function Activity1() {
   const [loading, setLoading] = useState<boolean>(false);
   const [existingSelections, setExistingSelections] = useState<string[]>([]);
 
-  // ✅ 记录当前用户访问的章节
-  useEffect(() => {
-    setUserData(
-      (prevUserData) => ({
-        ...prevUserData,
-        chapter1: {
-          ...prevUserData.chapter1,
-          "Discover Procrastination Reasons": true,
-        },
-      })
-    );
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
-    setCurrPage("Discover Procrastination Reasons");
-  }, []);
+  useEffect(() => {
+    setCurrPage('activity1');
+  }, [])
 
   // 获取用户之前的选择
   useEffect(() => {
@@ -174,6 +166,7 @@ export default function Activity1() {
           prev={"/(app)/chapter1/content/activity0"}
           next={() => {
             if (!user) return;
+            updateChapterProgress('chapter1', 'activity1');
             updateChapter1Progress(user.uid, "2_Activity1_1");
             router.push("/(app)/chapter1/content/activity2_1");
           }}

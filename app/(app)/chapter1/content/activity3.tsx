@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Alert, ActivityIndicator } from "re
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 import { YStack } from "tamagui";
-import { useAuthContext } from "@/contexts/AuthContext";
+//import { useAuthContext } from "@/contexts/AuthContext";
 
 import RadioGroup from "@/components/RadioGroup"; 
 import { PrimaryButton } from "@/components/CustomButton";
@@ -15,6 +15,7 @@ import {
   updateChapter1Activity3,
   updateChapter1Progress,
 } from "@/hooks/Chapter1Activity";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 /**
  * Chapter1 Activity3:
@@ -23,21 +24,13 @@ import {
 export default function Activity3() {
   const router = useRouter();
   const { user, pending } = useAuth();
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  
+
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData(
-      (prevUserData) => ({
-        ...prevUserData,
-        chapter1: {
-          ...prevUserData.chapter1,
-          "How to Use the App": true,
-        },
-      })
-    );
-
-    setCurrPage("How to Use the App");
-  }, []);
+    setCurrPage('activity3');
+  }, [])
 
   // 这两个状态保存用户选择的答案
   const [frequency, setFrequency] = useState<string>("");
@@ -93,6 +86,8 @@ export default function Activity3() {
       await updateChapter1Progress(user.uid, "5_Time_Management");
 
       Alert.alert("Success", "Your preferences have been saved successfully.");
+
+      updateChapterProgress("chapter1", "activity3");
 
       // 跳转到下一个页面： Chapter1 Summary
       router.push("/(app)/chapter1/content/summary");

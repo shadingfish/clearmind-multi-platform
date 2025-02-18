@@ -30,6 +30,7 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { RelativePathString, router } from "expo-router";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { hasEmptyValues } from "@/constants/helper";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 type Activity2Questions = {
     p3_body: string;
@@ -53,13 +54,11 @@ const Activity2 = () => {
         });
     };
 
-    /* //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { updateChapterProgress } = useChapterProgressContext();
+    const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
     useEffect(() => {
-        updateChapterProgress("chapter3", "activity2");
-    }, []);
-    //~~~END COPY PASTA~~~ */
+        setCurrPage('activity2');
+    }, [])
 
     const body_options = [
         {name: "Head"}, 
@@ -126,6 +125,7 @@ const Activity2 = () => {
                     if (hasEmptyValues(questions)) {
                         toast.show("Empty Input");
                       } else {
+                        updateChapterProgress("chapter3", "activity2");
                     router.push("/(app)/chapter3/content/activity3" as RelativePathString);}
                 }}
             />

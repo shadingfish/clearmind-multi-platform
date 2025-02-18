@@ -8,26 +8,18 @@ import { updateChapter1Progress } from "@/hooks/Chapter1Activity";
 import {ChapterNavigationButton} from "@/components/ChapterNavigateButton";
 import colors from "@/constants/colors";
 import { YStack } from "tamagui";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+//import { useAuthContext } from "@/contexts/AuthContext";
 
 const Activity2_1 = () => {
   const router = useRouter();
   const { user, pending } = useAuth();
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData(
-      (prevUserData) => ({
-        ...prevUserData,
-        chapter1: {
-          ...prevUserData.chapter1,
-          "Procrastination Tendencies": true,
-        },
-      })
-    );
-
-    setCurrPage("Procrastination Tendencies");
-  }, []);
+    setCurrPage('activity2_1');
+  }, [])
   
 
   if (pending) {
@@ -70,6 +62,7 @@ const Activity2_1 = () => {
           prev="/(app)/chapter1/content/activity1"
           next={() => {
             if (!user) return;
+            updateChapterProgress("chapter1", "activity2_1");
             updateChapter1Progress(user.uid, "3_Activity1_2_Discover");
             router.push("/(app)/chapter1/content/activity2_2");
           }}

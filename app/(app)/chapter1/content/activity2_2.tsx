@@ -23,7 +23,8 @@ import colors from "@/constants/colors";
 import { Chapter1Radio, Chapter1RadioProps } from "@/components/Chapter1Radio"; 
 import { PrimaryButton } from "@/components/CustomButton";
 import { YStack } from "tamagui";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+//import { useAuthContext } from "@/contexts/AuthContext";
 
 export default function Activity2_2() {
   const router = useRouter();
@@ -31,21 +32,11 @@ export default function Activity2_2() {
   const [answers, setAnswers] = useState<{ [key: string]: number }>({});
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData(
-      (prevUserData) => ({
-        ...prevUserData,
-        chapter1: {
-          ...prevUserData.chapter1,
-          "Tendencies Questions": true,
-        },
-      })
-    );
-
-    setCurrPage("Tendencies Questions");
-  }, []);
+    setCurrPage('activity2_2');
+  }, [])
 
   useEffect(() => {
     if (user) {
@@ -158,6 +149,7 @@ export default function Activity2_2() {
           prev="/(app)/chapter1/content/activity2_1" // Previous route
           next={() => {
             if (!user) return;
+            updateChapterProgress("chapter1", "activity2_2");
             updateChapter1Progress(user.uid, "4_Activity1_2_Questions");
             router.push("/(app)/chapter1/content/activity3");
           }}

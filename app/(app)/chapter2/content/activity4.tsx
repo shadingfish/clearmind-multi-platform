@@ -15,7 +15,7 @@ import {
   setChapter2Activity2,
   updateChapter2Progress,
 } from "@/hooks/Chapter2Activity";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -66,6 +66,12 @@ export default function Activity4() {
     diagram_persuasion: "",
   });
 
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
+
+  useEffect(() => {
+    setCurrPage('activity4');
+  }, [])
+
   const updateQuestion = (field: keyof Activity4Questions, value: string) => {
     setQuestions((prev) => ({ ...prev, [field]: value }));
   };
@@ -84,26 +90,6 @@ export default function Activity4() {
         .catch((err) => console.log("Error get chapter 2 activity2: " + err));
     }
   }, [pending]);
-
-  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
-
-  useEffect(() => {
-    setUserData(
-      (
-        prevUserData: Record<string, Record<string, boolean>>
-      ): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        chapter2: {
-          ...prevUserData.chapter2,
-          "Identify your passengers": true,
-        },
-      })
-    );
-
-    setCurrPage("Identify your passengers");
-  }, []);
-  //~~~END COPY PASTA~~~
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -172,6 +158,7 @@ export default function Activity4() {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
+              updateChapterProgress('chapter2', 'activity4');
               setChapter2Activity2(user!.uid, questions);
               router.push("/(app)/chapter2/content/activity5");
               updateChapter2Progress(user!.uid, "6_Diagram");

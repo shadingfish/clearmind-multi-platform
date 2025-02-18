@@ -11,6 +11,7 @@ import { RelativePathString, useRouter } from "expo-router";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import StarModal from "./StarModal";
 import colors from "@/constants/colors";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 type Activity2Questions = {
     specific: string,
@@ -26,7 +27,11 @@ const Activity2 = () => {
     const [currTitle, setCurrTitle] = useState("");
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    //const {chapterData, updateChapterData} = useChapter4Context();
+    const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
+
+      useEffect(() => {
+          setCurrPage('activity2');
+      }, [])
 
     const [questions, setQuestions] = useState<Activity2Questions>({
         specific: "",
@@ -172,6 +177,7 @@ const Activity2 = () => {
                 <ChapterNavigationButton
                     prev={"/(app)/chapter4/content/activity1"}
                     next={() => {
+                        updateChapterProgress("chapter4", "activity2");
                     router.push("/(app)/chapter4/content/activity2" as RelativePathString);
                     }}
                 />

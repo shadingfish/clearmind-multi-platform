@@ -29,6 +29,7 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { useToastController } from "@tamagui/toast";
 import { hasEmptyValues } from "@/constants/helper";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 type Activity1Questions = {
     p2_recentProcrastination: string;
@@ -53,6 +54,12 @@ const Activity1 = () => {
             return updatedQuestions;
         });
     };
+
+    const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
+
+    useEffect(() => {
+        setCurrPage('activity1');
+    }, [])
 
 
     return (
@@ -125,6 +132,7 @@ const Activity1 = () => {
                 next={() => {if (hasEmptyValues(questions)) {
                     toast.show("Empty Input");
                   } else {
+                    updateChapterProgress("chapter3", "activity1");
                     router.push("/(app)/chapter3/content/activity2" as RelativePathString);
                   }
                 }}

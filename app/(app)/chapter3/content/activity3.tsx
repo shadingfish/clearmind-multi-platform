@@ -12,6 +12,7 @@ import { RelativePathString, router } from "expo-router";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { useToastController } from "@tamagui/toast";
 import { hasEmptyValues } from "@/constants/helper";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 type Activity3Questions = {
     whichPaths: Set<string>;
@@ -19,6 +20,12 @@ type Activity3Questions = {
 
 const Activity3 = () => {
     const toast = useToastController();
+
+    const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
+
+    useEffect(() => {
+        setCurrPage('activity3');
+    }, [])
 
     const [questions, setQuestions] = useState<Activity3Questions>({
         whichPaths: new Set<string>
@@ -113,6 +120,7 @@ const Activity3 = () => {
                     if (questions.whichPaths.size < 2) {
                         toast.show("Missing Activities");
                       } else {
+                    updateChapterProgress("chapter3", "activity3");
                     router.push("/(app)/chapter3/content/activity4" as RelativePathString);}
                 }}
             />
