@@ -1,3 +1,4 @@
+// hooks/UserInfo.tsx
 import { database } from "@/constants/firebaseConfig";
 import {
   collection,
@@ -30,6 +31,7 @@ export type UserDataType = {
 
 export async function addUser(user: UserDataType, id: string) {
   try {
+    console.log("Adding user info");
     await setDoc(doc(database, "users", id), {
       email: user.email.toLowerCase(),
       username: user.username.toLowerCase(),
@@ -74,3 +76,4 @@ export async function getUser(username: string = "", email: string = "") {
   }
   return Array.from(res.values());
 }
+

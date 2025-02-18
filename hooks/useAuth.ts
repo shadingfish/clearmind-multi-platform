@@ -7,7 +7,7 @@ import {
   User,
 } from "firebase/auth";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import { auth } from "../constants/firebaseConfig";
 
 export const useAuth = () => {
@@ -26,7 +26,12 @@ export const useAuth = () => {
       if (user != null) {
         setAuthState({ user, pending: false, isSignedIn: true });
       } else {
-        setAuthState({ ...authState, pending: false });
+        setAuthState((prevState) => ({
+          ...prevState,
+          user: null,
+          isSignedIn: false,
+          pending: false,
+        }));
       }
     });
     return () => unregisterAuthObserver();
@@ -40,16 +45,10 @@ export const useAuth = () => {
   };
 
   const handleFirebaseLogout = async () => {
-    const router = useRouter();
+    console.log("logging out.");
     try {
       await auth.signOut();
       console.log("User logged out");
-      setAuthState({
-        isSignedIn: false,
-        pending: false,
-        user: null,
-      });
-      router.push(`/`)
     } catch (error) {
       console.error("Logout failed:", error);
     }

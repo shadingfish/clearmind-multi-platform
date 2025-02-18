@@ -7,15 +7,15 @@ import { useRouter } from "expo-router";
 import {chapterProgressData} from "../constants/chapterData"; //just temporary
 
 // Define the shape of the context
-interface Chapter3ContextType {
+interface Chapter1ContextType {
   chapterData: any;
   updateChapterData: (activity: string, data: any) => void;
 }
 
 
-const Chapter3Context = createContext<Chapter3ContextType | undefined>(undefined);
+const Chapter1Context = createContext<Chapter1ContextType | undefined>(undefined);
 
-export function Chapter3Provider({ children }: { children: React.ReactNode }) {
+export function Chapter1Provider({ children }: { children: React.ReactNode }) {
     const [chapterData, setChapterData] = useState({}); 
     //this is in format:
     /*
@@ -41,7 +41,7 @@ export function Chapter3Provider({ children }: { children: React.ReactNode }) {
     }
 
     useEffect(() => {
-      console.log('chapter3 context mounted');
+      console.log('chapter1 context mounted');
     }, [])
   
       /*
@@ -61,17 +61,17 @@ export function Chapter3Provider({ children }: { children: React.ReactNode }) {
       */
   
     return (
-      <Chapter3Context.Provider value={{ chapterData, updateChapterData }}>
+      <Chapter1Context.Provider value={{ chapterData, updateChapterData }}>
         {children}
-      </Chapter3Context.Provider>
+      </Chapter1Context.Provider>
     );
   }
   
   // Custom Hook for Using the Context
-  export function useChapter3Context() {
-    const context = useContext(Chapter3Context);
+  export function useChapter1Context() {
+    const context = useContext(Chapter1Context);
     if (!context) {
-      throw new Error("useChapter3Context must be used within an AuthProvider");
+      throw new Error("useChapter1Context must be used within an AuthProvider");
     }
     return context;
   }
