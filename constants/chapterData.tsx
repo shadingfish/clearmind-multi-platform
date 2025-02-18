@@ -182,7 +182,7 @@ export const chapterName2SidebarActivity: Record<string, Record<string, string>>
         "activity1": "Discover Procrastination Reasons",
         "activity2_1": "Procrastination Tendencies",
         "activity2_2": "Tendencies Questions",
-        "activity3": "Willingness to Carry On",
+        "activity3": "How to Use the App",
         "summary": "Summary"
     },
     "chapter2": {

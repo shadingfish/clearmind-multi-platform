@@ -16,6 +16,10 @@ interface ChapterProgressContextType {
   setCurrPage: (data: string) => void;
   updateChapterProgress: (chapter: string, activity: string) => void;
   isFinished: (chapter: string) => boolean;
+  chap1Percent: number;
+  chap2Percent: number;
+  chap3Percent: number;
+  chap4Percent: number;
 }
 
 // Create the context with an initial default value
@@ -27,6 +31,10 @@ const ChapterProgressContext = createContext<ChapterProgressContextType | undefi
 export function ChapterProgressProvider({ children }: { children: React.ReactNode }) {
   const [userData, setUserData] = useState<Record<string, Record<string, boolean>>>({});
   const [currPage, setCurrPage] = useState<string>(""); //set to the title of the page and then you should know which chapter you're in modal anyway
+  const [chap1Percent, setChap1Percent] = useState(0);
+  const [chap2Percent, setChap2Percent] = useState(0);
+  const [chap3Percent, setChap3Percent] = useState(0);
+  const [chap4Percent, setChap4Percent] = useState(0);
 
   const { user, pending } = useAuth();
   const [ch1progress, setCh1Progress] = useState<ChapterProgress>(
@@ -35,6 +43,25 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
   const [ch2progress, setCh2Progress] = useState<ChapterProgress>(
     Chapter2.EmptyProgress
   );
+
+  const getProgressStats = (progress: Record<string, boolean>) => {
+    const values = Object.values(progress);
+    const trueCount = values.filter((value) => value === true).length;
+    const totalCount = values.length;
+    
+    return Math.round((trueCount / totalCount) * 100) // Progress in percentage
+  };
+
+
+  useEffect(() => {
+    if (userData["chapter1"] && userData["chapter2"] && userData["chapter3"] && userData["chapter4"]) {
+      setChap1Percent(getProgressStats(userData["chapter1"]));
+      setChap2Percent(getProgressStats(userData["chapter2"]));
+      setChap3Percent(getProgressStats(userData["chapter3"]));
+      setChap4Percent(getProgressStats(userData["chapter4"]));
+      console.log('chap2percent', chap2Percent);
+    }
+  }, [userData])
 
   useEffect(() => {
     if (user) {
@@ -129,7 +156,7 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
     }, [userData])
 
   return (
-    <ChapterProgressContext.Provider value={{ userData, setUserData, currPage, setCurrPage, updateChapterProgress, isFinished }}>
+    <ChapterProgressContext.Provider value={{ userData, setUserData, currPage, setCurrPage, updateChapterProgress, isFinished, chap1Percent, chap2Percent, chap3Percent, chap4Percent }}>
       {children}
     </ChapterProgressContext.Provider>
   );
