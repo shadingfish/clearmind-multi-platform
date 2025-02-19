@@ -127,15 +127,15 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                                         <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>)
                                 }
                             </View>
-                            { currPage == key &&  chapterName == "chapter3"  ?
-                                (<View>
-                                    <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter3"][key]}</Text> :
-                                </View>) :
-                                ( value ?
-                                    <Text style={{fontSize: 16}}>{chapter2activity2title["chapter3"][key]}</Text> :
-                                    <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter3"][key]}</Text>
-                                )
-                            }
+                                { currPage == key &&  chapterName == "chapter3"  ?
+                                    (<View>
+                                        <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter3"][key]}</Text> :
+                                    </View>) :
+                                    ( value ?
+                                        <Text style={{fontSize: 16}}>{chapter2activity2title["chapter3"][key]}</Text> :
+                                        <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter3"][key]}</Text>
+                                    )
+                                }
                         </Pressable>
                     ))}
 

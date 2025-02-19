@@ -241,8 +241,8 @@ const Activity6 = () => {
                     if (questions.whichCogDistPaths.size < 10) {
                         toast.show("Missing Activities");
                       } else {
-                        updateChapterProgress("chapter3", "activity6");
-                        updateChapter3Progress(user!.uid, "6_activity6");
+                        //updateChapterProgress("chapter3", "activity6");
+                        //updateChapter3Progress(user!.uid, "6_activity6");
                         router.push("/(app)/chapter3/content/activity7" as RelativePathString);
                 }}}
             />
