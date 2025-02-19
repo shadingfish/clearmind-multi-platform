@@ -89,6 +89,10 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
           }
         })
         .catch((err) => console.log(err));
+
+      //add chapter3 progress
+
+      //add chapter4 progress
     }
   }, [pending]);
 
@@ -120,13 +124,13 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
               "chapter4": chapterProgressData["chapter4"], //change to backend
             }
           )
-          console.log('userdata:', userData);
+          //console.log('userdata:', userData);
           console.log('ch context chapter1 progress:', ch1progress);
           console.log('ch context chapter2 progress:', ch2progress);
         }
 
       
-    }, [ch1progress, ch2progress]);
+    }, []); //run when authcontext is mounted
 
 
     //this should be called in a use effect in every activity. just pass the chapter# and activity# (opening, summary, activity#)
@@ -151,9 +155,9 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
       return(trueCount == Object.values(userData[chapter]).length); //return true if all activities are finished
     }
 
-    useEffect(() => {
+    /* useEffect(() => {
       console.log('userData', userData);
-    }, [userData])
+    }, [userData]) */
 
   return (
     <ChapterProgressContext.Provider value={{ userData, setUserData, currPage, setCurrPage, updateChapterProgress, isFinished, chap1Percent, chap2Percent, chap3Percent, chap4Percent }}>

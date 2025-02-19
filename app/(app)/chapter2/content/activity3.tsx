@@ -16,15 +16,16 @@ export default function Activity3() {
   const { bottom } = useSafeAreaInsets();
   const { user, pending } = useAuth();
 
-  if (pending) {
-    return null;
-  }
-
   const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
   useEffect(() => {
     setCurrPage('activity3');
   }, [])
+
+  if (pending) {
+    return null;
+  }
+
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
