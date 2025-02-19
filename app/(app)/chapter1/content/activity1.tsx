@@ -1,4 +1,4 @@
-// app/chapter1/content/activity0.tsx
+// app/chapter1/content/activity1.tsx
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import {
@@ -59,14 +59,10 @@ export default function Activity1() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
   const { user, pending } = useAuth();
-
   const [data, setData] = useState<ValueItem[]>([]);
   const [top5, setTop5] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-
-
   const toast = useToastController();
-
   const {chapterData, updateChapterData} = useChapter1Context();
 
   const [questions, setQuestions] = useState<Activity1Questions>(chapterData["activity1"] || {
@@ -95,38 +91,35 @@ export default function Activity1() {
   //end
 
   /**
-   * Initialize data: Load from context or default values
+   * Load user's saved input or use defaults
    */
   useEffect(() => {
-    // Load saved ranking from context if exists
-    if (chapterData["activity1"]?.sorted_values?.length) {
-      const formattedData = chapterData["activity1"].sorted_values.map((item: string, index: number) => ({
-        key: `item-${index}`,
-        label: item,
-      }));
-      setData(formattedData);
-    } else {
-      // Use default initial values if no saved data
-      let retrieved_data;
-      if (user != null) {
-        retrieved_data = getChapter1Activity0UserInput(user.uid);
-        if (retrieved_data.length() <= 0) {
-          retrieved_data = initialValues;
-        }
-      } else {
-        retrieved_data = initialValues;
+    const loadUserInput = async () => {
+      let retrievedData: string[] = [];
+
+      // 1️⃣ Context
+      if (chapterData["activity1"]?.sorted_values?.length) {
+        retrievedData = chapterData["activity1"].sorted_values;
+      } 
+      // 2️⃣ Firestore
+      else if (user) {
+        const result = await getChapter1Activity1UserInput(user.uid);
+        retrievedData = Array.isArray(result) && result.length > 0 ? result : initialValues;
+      } 
+      // 3️⃣ Default
+      else {
+        retrievedData = initialValues;
       }
 
-      const formattedData = retrieved_data.map((item: string, index) => ({
+      const formattedData = retrievedData.map((item, index) => ({
         key: `item-${index}`,
         label: item,
       }));
       setData(formattedData);
-    }
+    };
 
-    // Fetch top 5 ranking from Firestore
-    fetchTop5();
-  }, [chapterData]);  // Re-run if context changes
+    loadUserInput();
+  }, [chapterData, user]);
 
   /**
    * 获取 `Chapter1/activity0` 排名前 5 的选择
@@ -170,7 +163,7 @@ export default function Activity1() {
     /**
    * Update `Chapter1/activity1` statistics
    */
-    const updateChapter1Activity0Ranking = async (sortedValues: string[]) => {
+    const updateChapter1Activity1Ranking = async (sortedValues: string[]) => {
       try {
         const activityRef = doc(database, "Chapter1", "Activity1");
         const snapshot = await getDoc(activityRef);
@@ -189,41 +182,47 @@ export default function Activity1() {
     };
 
     /** Update Chapter1 Activity0 */
-    const updateChapter1Activity0 = async (
+    const updateChapter1Activity1 = async (
       userId: string,
-      selection: string[] | { [key: string]: number }
+      selection: string[]
     )  => {
       try {
-        const activity0UserRef = doc(database, "Chapter1", "Activity0", "users", userId);
-        await setDoc(activity0UserRef, { selection });
-        console.log("Chapter1 Activity0 updated successfully!");
+        const activity0UserRef = doc(database, "Chapter1", "Activity1", "users", userId);
+        await setDoc(activity0UserRef, { selection }, { merge: true });
+        console.log("Chapter1 Activity1 updated successfully!");
       } catch (err) {
-        console.error("Error updating Chapter1 Activity0:", err);
+        console.error("Error updating Chapter1 Activity1:", err);
       }
     }
 
     /** Get user's input of Chapter1 Activity1 */
-    const getChapter1Activity0UserInput = async (userId: string) => {
+    const getChapter1Activity1UserInput = async (userId: string) => {
       try {
-        const activity0UserRef = doc(database, "Chapter1", "Activity0", "users", userId);
-        const snapshot = await getDoc(activity0UserRef);
+        const activity1UserRef = doc(database, "Chapter1", "Activity1", "users", userId);
+        const snapshot = await getDoc(activity1UserRef);
+
         if (snapshot.exists()) {
           const data = snapshot.data();
-          
-          // Ensure data.selection is an array before assigning
-          const sortedValues: string[] = Array.isArray(data.selection) ? data.selection : [];
-          
-          return sortedValues;
+          console.log("Fetched Data:", data);
+
+          if (data && Array.isArray(data.selection)) {
+            return data.selection;
+          } else {
+            console.warn("Data format error: 'selection' is not an array.");
+            return [];
+          }
         } else {
-          return []; // Return empty array if no data exists
+          console.warn("No data found for user.");
+          return [];
         }
       } catch (err) {
-        console.error("Error getting Chapter1 Activity0 user input:", err);
+        console.error("Error getting Chapter1 Activity1 user input:", err);
+        return [];
       }
-    }
+    };
 
   /**
-   * 提交用户排序
+   * Submit user ranking
    */
   const onPressSubmit = async () => {
     if (!user) {
@@ -235,14 +234,10 @@ export default function Activity1() {
     const sortedValues = data.map((item) => item.label);
 
     try {
-      // 存储用户排序数据
-      await setDoc(doc(database, "Chapter1", "Activity0", "users", user.uid), {
-        selection: sortedValues,
-      });
-
-      // 更新全局统计
       await updateQuestion("sorted_values", sortedValues);
-      await updateChapter1Activity0Ranking(sortedValues);
+      await updateChapterData("activity1", { sorted_values: sortedValues });
+      await updateChapter1Activity1(user.uid, sortedValues);
+      await updateChapter1Activity1Ranking(sortedValues);
       await updateChapter1Progress(user.uid, "2_Activity1");
       Alert.alert("Success", "Data saved successfully!");
     } catch (error) {
@@ -287,7 +282,7 @@ export default function Activity1() {
 
             <ChapterNavigationButton
               prev={"/(app)/chapter1/content/opening"}
-              next={() => router.push("/(app)/chapter1/content/activity1")}
+              next={() => router.push("/(app)/chapter1/content/activity2")}
             />
           </YStack>
         )}

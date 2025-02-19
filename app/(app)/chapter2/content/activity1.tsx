@@ -5,11 +5,11 @@ import React, { useEffect, useState } from "react";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { CheckboxWithLabel } from "@/components/CheckboxWithLabel";
 import colors from "@/constants/colors";
-/* import {
+import {
   getChapter2Activity1,
   updateChapter2Activity1,
   updateChapter2Progress,
-} from "@/hooks/Chapter2Activity"; */
+} from "@/hooks/Chapter2Activity";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -46,13 +46,11 @@ export default function Activity1() {
   const [otherInput, setOtherInput] = useState(chapterData["activity1"]?.otherInput || "");
   const { user, pending } = useAuth();
 
-  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { updateChapterProgress } = useChapterProgressContext();
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
   useEffect(() => {
-    updateChapterProgress("chapter2", "activity1");
-  }, []);
-  //~~~END COPY PASTA~~~
+    setCurrPage('activity1');
+  }, [])
 
   useEffect(() => {
     const questions = {
@@ -70,7 +68,7 @@ export default function Activity1() {
   }
 
   const toggleCheckbox = (id: string) => {
-    setCheckboxes((prevCheckboxes) =>
+    setCheckboxes((prevCheckboxes: any[]) =>
       prevCheckboxes.map((checkbox) =>
         checkbox.id === id
           ? { ...checkbox, checked: !checkbox.checked }
@@ -81,8 +79,8 @@ export default function Activity1() {
 
   const getCheckedLabels = () => {
     const checkboxList = checkboxes
-      .filter((checkbox) => checkbox.checked)
-      .map((checkbox) => checkbox.label);
+      .filter((checkbox: { checked: any; }) => checkbox.checked)
+      .map((checkbox: { label: any; }) => checkbox.label);
 
     if (checkboxOther) {
       checkboxList.push(otherInput);
@@ -210,6 +208,7 @@ export default function Activity1() {
         <ChapterNavigationButton
           prev={"/(app)/chapter2/content/opening"}
           next={() => {
+            updateChapterProgress("chapter2", "activity1"); //for sidebarmodal
             router.push("/(app)/chapter2/content/activity2");
             //updateChapter2Progress(user!.uid, "2_Activity2_1");
           }}

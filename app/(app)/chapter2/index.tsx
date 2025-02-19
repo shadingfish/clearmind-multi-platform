@@ -20,6 +20,11 @@ export default function Chapter2Index() {
   );
 
   const { userData, isFinished } = useChapterProgressContext();
+  useEffect(() => {
+    setFinished(Object.values(progress).every((value) => value === "1"));
+
+    //console.log('chapter2 progress:', progress);
+  }, [progress]);
 
   /* useEffect(() => {
     setFinished(Object.values(progress).every((value) => value === "1"));

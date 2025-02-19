@@ -34,13 +34,9 @@ interface SubActivity {
   setDataFilled: React.Dispatch<React.SetStateAction<boolean>> */
 }
 
-const Page11: React.FC<SubActivity> = ({ /* data, setData, dataFilled, setDataFilled  */}) => {
+const Activity3_1 = () => {
     const [playing, setPlaying] = useState(false);
     const [isButtonPressed, setIsButtonPressed] = useState(false);
-
-    /* useEffect(() => {
-        setDataFilled(true);
-    }, []); */
 
     const onStateChange = useCallback((state: string) => {
         if (state === 'ended') {
@@ -48,7 +44,6 @@ const Page11: React.FC<SubActivity> = ({ /* data, setData, dataFilled, setDataFi
           console.log('Video has finished playing!');
         }
       }, []);
-
 
 
     return (
@@ -142,4 +137,4 @@ const Page11: React.FC<SubActivity> = ({ /* data, setData, dataFilled, setDataFi
     },
   });
 
-  export default Page11;
+  export default Activity3_1;

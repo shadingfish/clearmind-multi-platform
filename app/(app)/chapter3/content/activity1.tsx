@@ -1,3 +1,5 @@
+// components/BackgroundImage.tsx
+
 // import React from "react";
 // import { View } from "react-native";
 // import DarkGreen from "../assets/images/dark_green.svg";
@@ -13,9 +15,6 @@
 //     </View>
 //   );
 // }
-
-// app/(app)/chapter3/content/activity1.tsx
-
 import React, { useState, useEffect} from "react";
 import { View, Image, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text,Pressable, TextInput } from "react-native";
 import { Label, RadioGroup, XStack, YStack, Theme, Input } from 'tamagui'
@@ -25,12 +24,12 @@ const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
 import colors from "@/constants/colors";
-import { router } from "expo-router";
+import { RelativePathString, router } from "expo-router";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
-import { useChapterProgressContext } from "@/contexts/AuthContext";
-import { useChapter3Context } from "@/contexts/Chapter3Context";
+//import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { useToastController } from "@tamagui/toast";
 import { hasEmptyValues } from "@/constants/helper";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 type Activity1Questions = {
     p2_recentProcrastination: string;
@@ -42,9 +41,7 @@ const Activity1 = () => {
 
     const toast = useToastController();
 
-    const {chapterData, updateChapterData} = useChapter3Context();
-
-    const [questions, setQuestions] = useState<Activity1Questions>(chapterData["activity1"] || {
+    const [questions, setQuestions] = useState<Activity1Questions>({
         p2_recentProcrastination: "",
         p2_feeling: "",
         p2_because: "",
@@ -58,21 +55,12 @@ const Activity1 = () => {
         });
     };
 
-    //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { updateChapterProgress } = useChapterProgressContext();
+    const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
     useEffect(() => {
-        updateChapterProgress("chapter3", "activity1");
-    }, []);
-    //~~~END COPY PASTA~~~
+        setCurrPage('activity1');
+    }, [])
 
-    //update Chapter Context
-
-    useEffect(() => {
-        updateChapterData("activity1", questions);
-    }, [questions]);
-
-    //end
 
     return (
         <YStack margin={"$4"} gap={"$4"}>
@@ -144,7 +132,8 @@ const Activity1 = () => {
                 next={() => {if (hasEmptyValues(questions)) {
                     toast.show("Empty Input");
                   } else {
-                    router.push("/(app)/chapter3/content/activity2");
+                    updateChapterProgress("chapter3", "activity1");
+                    router.push("/(app)/chapter3/content/activity2" as RelativePathString);
                   }
                 }}
             />

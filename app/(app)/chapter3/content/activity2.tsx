@@ -22,15 +22,15 @@ import type { SizeTokens } from 'tamagui'
 const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
-import * as Progress from "react-native-progress";
+import * as Progress from "react-native-progress"; 
 import { useToastController } from "@tamagui/toast";
 
 import {DropdownComponent} from "@/components/Dropdown";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
-import { router } from "expo-router";
-import { useChapterProgressContext } from "@/contexts/AuthContext";
-import { useChapter3Context } from "@/contexts/Chapter3Context";
+import { RelativePathString, router } from "expo-router";
+//import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { hasEmptyValues } from "@/constants/helper";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 type Activity2Questions = {
     p3_body: string;
@@ -40,16 +40,11 @@ type Activity2Questions = {
 const Activity2 = () => {
     const toast = useToastController();
 
-    const {chapterData, updateChapterData} = useChapter3Context();
 
-    const [questions, setQuestions] = useState<Activity2Questions>(chapterData["activity2"] || {
+    const [questions, setQuestions] = useState<Activity2Questions>({
         p3_body: "",
         p3_physical: "",
       });
-
-    useEffect(() => {
-        updateChapterData("activity2", questions);
-    }, [questions]);
 
     const updateQuestion = (field: keyof Activity2Questions, value: string) => {
         console.log('value', value, 'field', field)
@@ -59,13 +54,11 @@ const Activity2 = () => {
         });
     };
 
-    //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { updateChapterProgress } = useChapterProgressContext();
+    const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
     useEffect(() => {
-        updateChapterProgress("chapter3", "activity2");
-    }, []);
-    //~~~END COPY PASTA~~~
+        setCurrPage('activity2');
+    }, [])
 
     const body_options = [
         {name: "Head"}, 
@@ -132,7 +125,8 @@ const Activity2 = () => {
                     if (hasEmptyValues(questions)) {
                         toast.show("Empty Input");
                       } else {
-                    router.push("/(app)/chapter3/content/activity3");}
+                        updateChapterProgress("chapter3", "activity2");
+                    router.push("/(app)/chapter3/content/activity3" as RelativePathString);}
                 }}
             />
             

@@ -1,7 +1,6 @@
 // app/(app)/_layout.tsx
 
 import colors from "@/constants/colors";
-import { Chapter3Provider } from "@/contexts/Chapter3Context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router, Stack } from "expo-router";
 import React from "react";
@@ -9,7 +8,6 @@ import { Button } from "tamagui";
 
 export default function RootLayout() {
   return (
-    <Chapter3Provider>
     <Stack>
       <Stack.Screen
         name="index"
@@ -37,6 +35,5 @@ export default function RootLayout() {
         }}
       />
     </Stack>
-    </Chapter3Provider>
   );
 }

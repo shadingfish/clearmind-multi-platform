@@ -18,6 +18,7 @@ import { doc, getDoc, setDoc} from "firebase/firestore";
 import * as Progress from "react-native-progress"; 
 import { Button } from "tamagui";
 import { useAuth } from "@/hooks/useAuth"; 
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 const { width } = Dimensions.get("window");
 
@@ -106,6 +107,8 @@ export default function HomePage() {
     if (!isSignedIn) router.replace(`/(login)`);
   }, [isSignedIn, pending]);
 
+  const {chap1Percent, chap2Percent, chap3Percent, chap4Percent} = useChapterProgressContext(); //you can use this for the chapter progress
+
   useEffect(() => {
     const fetchUserData = async () => {
       const user = auth.currentUser;
@@ -165,6 +168,7 @@ export default function HomePage() {
   };
 
   return (
+    
     <View style={{ flex: 1, paddingTop: top, backgroundColor: "#54B363" }}>
       {/* 顶部欢迎信息 & 进度环 */}
       <View style={styles.topSection}>

@@ -8,9 +8,17 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { router, Stack } from "expo-router";
 import { Text } from "react-native";
 import { Button } from "tamagui";
+import React, { useState } from "react";
+import SidebarModal from "@/app/SidebarModal";
 
 export default function RootLayout() {
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
+  const openModal = () => setIsSidebarVisible(true);
+  const closeModal = () => setIsSidebarVisible(false);
+
   return (
+    <>
     <Stack
       screenOptions={() => ({
         headerTintColor: "#FFFFFF",
@@ -32,7 +40,7 @@ export default function RootLayout() {
         headerRight: () => (
           <Button
             unstyled
-            onPress={() => console.log("toggle drawer")}
+            onPress={openModal}
             style={{ marginRight: 20 }}
           >
             <MaterialIcons
@@ -62,7 +70,7 @@ export default function RootLayout() {
       />
 
       <Stack.Screen
-        name="activity0" // This is the name of the page and must match the url from root
+        name="activity1" // This is the name of the page and must match the url from root
         options={{
           headerTitle: () => (
             <Text
@@ -81,7 +89,7 @@ export default function RootLayout() {
       />
 
       <Stack.Screen
-        name="activity1" // This is the name of the page and must match the url from root
+        name="activity2" // This is the name of the page and must match the url from root
         options={{
           headerTitle: () => (
             <Text
@@ -100,7 +108,7 @@ export default function RootLayout() {
       />
 
       <Stack.Screen
-        name="activity2_1" // This is the name of the page and must match the url from root
+        name="activity3" // This is the name of the page and must match the url from root
         options={{
           headerTitle: () => (
             <Text
@@ -118,7 +126,7 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
-        name="activity2_2" // This is the name of the page and must match the url from root
+        name="activity4" // This is the name of the page and must match the url from root
         options={{
           headerTitle: () => (
             <Text
@@ -136,26 +144,7 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
-        name="activity2" // This is the name of the page and must match the url from root
-        options={{
-          headerTitle: () => (
-            <Text
-              style={{
-                fontWeight: "bold", // Bold font
-                fontSize: 19,
-                color: "#FFFFFF",
-
-                alignSelf: "center",
-              }}
-            >
-              Passengers on the Bus Metaphor
-            </Text>
-          ),
-        }}
-      />
-
-      <Stack.Screen
-        name="activity3" // This is the name of the page and must match the url from root
+        name="activity5" // This is the name of the page and must match the url from root
         options={{
           headerTitle: () => (
             <Text
@@ -178,5 +167,14 @@ export default function RootLayout() {
         }}
       />
     </Stack>
+    {isSidebarVisible && (
+        <SidebarModal
+          visible={isSidebarVisible}
+          onClose={closeModal} // Pass the closeModal function to handle modal dismissal
+          chapterName={"chapter1"}
+        />
+      )}
+    </>
+
   );
 }

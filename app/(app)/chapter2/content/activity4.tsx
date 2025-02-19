@@ -10,11 +10,11 @@ import { Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image, Input, ScrollView, Text, YStack, View } from "tamagui";
 import { useAuth } from "@/hooks/useAuth";
-/* import {
+import {
   getChapter2Activity2,
   setChapter2Activity2,
   updateChapter2Progress,
-} from "@/hooks/Chapter2Activity"; */
+} from "@/hooks/Chapter2Activity"; 
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { useChapter2Context } from "@/contexts/Chapter2Context";
 
@@ -69,7 +69,12 @@ export default function Activity4() {
     diagram_persuasion: "",
   });
 
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
+  useEffect(() => {
+    setCurrPage('activity4');
+    updateChapterProgress("chapter2", "activity4");
+  }, [])
 
   const updateQuestion = (field: keyof Activity4Questions, value: string) => {
     setQuestions((prev) => ({ ...prev, [field]: value }));
@@ -83,7 +88,7 @@ export default function Activity4() {
     console.log(chapterData);
   }, [chapterData])
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (user) {
       getChapter2Activity2(user.uid)
         .then((snapshot) => {
@@ -96,15 +101,7 @@ export default function Activity4() {
         })
         .catch((err) => console.log("Error get chapter 2 activity2: " + err));
     }
-  }, [pending]); */
-
-  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { updateChapterProgress } = useChapterProgressContext();
-
-  useEffect(() => {
-    updateChapterProgress("chapter2", "activity4");
-  }, []);
-  //~~~END COPY PASTA~~~
+  }, [pending]);
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -181,7 +178,9 @@ export default function Activity4() {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
-              //setChapter2Activity2(user!.uid, questions);
+              updateChapterProgress('chapter2', 'activity4');
+              setChapter2Activity2(user!.uid, questions);
+              updateChapter2Progress(user!.uid, "5_Identify_your_passengers")
               router.push("/(app)/chapter2/content/activity5");
               //updateChapter2Progress(user!.uid, "6_Diagram");
             }

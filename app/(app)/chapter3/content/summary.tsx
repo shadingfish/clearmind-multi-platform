@@ -26,10 +26,10 @@ import * as Progress from "react-native-progress";
 import colors from "@/constants/colors";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { router } from "expo-router";
-import { useChapterProgressContext } from "@/contexts/AuthContext";
-import { useChapter3Context } from "@/contexts/Chapter3Context";
+//import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { hasEmptyValues } from "@/constants/helper";
 import { useToastController } from "@tamagui/toast";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 type SummaryQuestions = {
     summaryQues1: string;
@@ -40,29 +40,17 @@ type SummaryQuestions = {
 const Summary = () => {
     const toast = useToastController();
 
-    const {chapterData, updateChapterData} = useChapter3Context();
-
-    const [questions, setQuestions] = useState<SummaryQuestions>(chapterData["summary"] || {
+    const [questions, setQuestions] = useState<SummaryQuestions>({
         summaryQues1: "",
         summaryQues2: "",
         summaryQues3: "",
       });
 
-    //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { updateChapterProgress } = useChapterProgressContext();
+      const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
-    useEffect(() => {
-        updateChapterProgress("chapter3", "summary");
-    }, []);
-    //~~~END COPY PASTA~~~
-
-    //update Chapter Context
-
-    useEffect(() => {
-        updateChapterData("summary", questions);
-    }, [questions]);
-
-    //end
+      useEffect(() => {
+          setCurrPage('summary');
+      }, [])
 
     const updateQuestion = (field: keyof SummaryQuestions, value: string) => {
         console.log('value', value, 'field', field)
@@ -205,6 +193,7 @@ const Summary = () => {
                     if (hasEmptyValues(questions)) {
                         toast.show("Empty Input");
                     } else {
+                    updateChapterProgress("chapter3", "summary");
                     router.push("/(app)/chapter3");}
                 }}
             />

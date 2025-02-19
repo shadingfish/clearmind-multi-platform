@@ -26,23 +26,12 @@ import * as Progress from "react-native-progress";
 import YoutubeIframe from 'react-native-youtube-iframe';
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 
-interface CurrentPageComponentProps {
-  /* data: {[key: string]: any},
-  setData: React.Dispatch<React.SetStateAction<{[key: string]: any}>>,
-  dataFilled: boolean,
-  setDataFilled: React.Dispatch<React.SetStateAction<boolean>> */
-}
-
-const Activity3_4: React.FC<CurrentPageComponentProps> = ({ }) => {
+const Activity3_4 = () => {
     const [playing, setPlaying] = useState(false);
     const [isButtonPressed, setIsButtonPressed] = useState(false);
     const [isButton2Pressed, setIsButton2Pressed] = useState(false);
     const [isButton3Pressed, setIsButton3Pressed] = useState(false);
     const [isButton4Pressed, setIsButton4Pressed] = useState(false);
-
-    /* useEffect(() => {
-        setDataFilled(true);
-    }, []); */
 
     const onStateChange = useCallback((state: string) => {
         if (state === 'ended') {

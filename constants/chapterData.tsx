@@ -1,3 +1,39 @@
+export const chapterName2SidebarActivity: Record<string, Record<string, string>> = {
+    "chapter1": {
+        "1_Opening": "opening",
+        "2_Activity1_0": "activity0",
+        "2_Activity1_1": "activity1",
+        "3_Activity1_2_Discover": "activity2_1",
+        "4_Activity1_2_Questions": "activity2_2",
+        "5_Time_Management": "activity3",
+        "6_Summary": "summary",
+    },
+    "chapter2": {
+        "1_Opening": "opening", 
+        "2_Activity2_1": "activity1", 
+        "3_Passengers_On_The_Bus": "activity2", 
+        "4_Example": "activity3", 
+        "6_Diagram": "activity4", 
+        "7_Willingness_to_Carry_On": "activity5", 
+        "8_Summary": "summary"
+    },
+    "chapter3": {
+        "opening": "opening",
+        "activity1": "activity1",
+        "activity2": "activity2",
+        "activity3": "activity3",
+        "activity4": "activity4",
+        "activity5": "activity5",
+        "activity6": "activity6",
+        "summary": "summary"
+    },
+    "chapter4": {
+        "opening": "opening",
+        "activity1": "activity1",
+        "activity2": "activity2",
+        "summary": "summary"
+    },
+}
 
 
  export const chapter2activity2title: Record<string, Record<string, string>> = {
@@ -76,69 +112,4 @@ export const chapterProgressData: Record<string, Record<string, boolean>> = {
         "activity2": false,
         "summary": false
     }
-
 }
-
-
-/*
-
-//just temporary
-    const tempPart1: Record<string, boolean> = {
-        "Opening": true,
-        "Prioritize Your Life Values": true,
-        "Discover Procrastination Reasons": true,
-        "Procrastination Tendencies": true,
-        "Tendencies Questions": true,
-        "How to Use the App": true,
-        "Summary": true,
-    }
-    const tempPart2: Record<string, boolean> = {
-        "Opening": true,
-        "Your Challenging Emotions": false,
-        "Passengers On The Bus": false,
-        "Example of Driving the bus": false,
-        "Identify your passengers": false,
-        "Willingness to Carry On": false,
-        "Summary": false,
-    }
-    const tempPart3: Record<string, boolean> = {
-        "Opening": false,
-        "Label the Passengers on the Bus": false,
-        "Identify how it feels in your body": false,
-        "Learn How to Meditate": false,
-        "Make a Belief Statement": false,
-        "Be Aware of Cognitive Distortions": false,
-        "Reflecting on Cognitive Distortions": false,
-        "Summary": false,
-    }
-    const tempPart4: Record<string, boolean> = {
-        "Opening": false,
-        "Prioritize Your Life Values": false,
-        "Discover Procrastination Reasons": false,
-        "Procrastination Tendencies": false,
-        "Tendencies Questions": false,
-        "How to Use the App": false,
-        "Summary": false,
-    }
-
-    const visited_chapters: Record<string, Record<string, boolean>> = {
-        "chapter1": tempPart1,
-        "chapter2": tempPart2,
-        "chapter3": tempPart3,
-        "chapter4": tempPart4
-    }
-
-    const title2activityNum: Record<string, string> = {
-        "Opening": "opening",
-        "Your Challenging Emotions": "activity1",
-        "Passengers On The Bus": "activity2",
-        "Example of Driving the bus": "activity3",
-        "Identify your passengers": "activity4",
-        "Willingness to Carry On": "activity5",
-        "Summary": "summary",
-    }
-
-
-
-
-*/

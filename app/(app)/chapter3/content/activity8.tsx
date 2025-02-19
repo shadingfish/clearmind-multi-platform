@@ -25,12 +25,12 @@ import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
 import colors from "@/constants/colors";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
-import { router } from "expo-router";
-import { useChapterProgressContext } from "@/contexts/AuthContext";
-import { useChapter3Context } from "@/contexts/Chapter3Context";
+import { RelativePathString, router } from "expo-router";
+//import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { hasEmptyValues } from "@/constants/helper";
 import { Toast } from "@tamagui/toast";
 import { useToastController } from "@tamagui/toast";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 type Activity8Questions = {
     potentialStrategy: string;
@@ -39,30 +39,22 @@ type Activity8Questions = {
 const Activity8 = () => {
 
     const toast = useToastController();
-    const {chapterData, updateChapterData} = useChapter3Context();
 
     const [isButtonPressed, setIsButtonPressed] = useState(false);
     //const [potentialStrategy, setPotentialStrategy] = useState("");
 
-    const [questions, setQuestions] = useState<Activity8Questions>(chapterData["activity8"] || {
+
+
+    const [questions, setQuestions] = useState<Activity8Questions>({
         potentialStrategy: "",
       });
 
-    //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { updateChapterProgress } = useChapterProgressContext();
+    
+    const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
     useEffect(() => {
-        updateChapterProgress("chapter3", "activity8");
-    }, []);
-    //~~~END COPY PASTA~~~
-
-    //update Chapter Context
-
-    useEffect(() => {
-        updateChapterData("activity8", questions);
-    }, [questions]);
-
-    //end
+        setCurrPage('activity8');
+    }, [])
 
     const updateQuestion = (field: keyof Activity8Questions, value: string) => {
         console.log('value', value, 'field', field)
@@ -137,7 +129,8 @@ const Activity8 = () => {
                     if (hasEmptyValues(questions)) {
                         toast.show("Empty Input");
                     } else {
-                    router.push("/(app)/chapter3/content/summary");
+                    updateChapterProgress("chapter3", "activity8");
+                    router.push("/(app)/chapter3/content/summary" as RelativePathString);
                     }
                 }}
             />

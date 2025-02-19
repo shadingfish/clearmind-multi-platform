@@ -26,10 +26,10 @@ import * as Progress from "react-native-progress";
 import { Ionicons } from '@expo/vector-icons';
 import CogDistortModal from './CogDistortModal';
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
-import { router } from "expo-router";
-import { useChapterProgressContext } from "@/contexts/AuthContext";
-import { useChapter3Context } from "@/contexts/Chapter3Context";
+import { RelativePathString, router } from "expo-router";
+//import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { useToastController } from "@tamagui/toast";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 type Activity6Questions = {
     whichCogDistPaths: Set<string>;
@@ -42,18 +42,16 @@ const Activity6 = () => {
     const [currTitle, setCurrTitle] = useState("");
     const toast = useToastController();
 
-    const {chapterData, updateChapterData} = useChapter3Context();
+    const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
-    const [questions, setQuestions] = useState<Activity6Questions>(chapterData["activity6"] || {
+    useEffect(() => {
+        setCurrPage('activity6');
+    }, [])
+
+    const [questions, setQuestions] = useState<Activity6Questions>({
         whichCogDistPaths: new Set<string>,
         hasCogDist: {},
       });
-
-    useEffect(() => {
-        //console.log('hasCogDist', questions.hasCogDist);
-        //console.log('whichcogdistpaths', questions.whichCogDistPaths);
-        updateChapterData("activity6", questions);
-    }, [questions]);
 
     /* const imageSources = {
         "Mental Filtering": require('@/assets/images/distortion_mental_filtering_1.png'),
@@ -72,14 +70,6 @@ const Activity6 = () => {
 
     const openModal = () => setIsModalVisible(true);
     const closeModal = () => setIsModalVisible(false);
-
-    //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { updateChapterProgress } = useChapterProgressContext();
-
-    useEffect(() => {
-        updateChapterProgress("chapter3", "activity6");
-    }, []);
-    //~~~END COPY PASTA~~~
 
     const handlePress = (pathName: string) => {
 
@@ -250,8 +240,9 @@ const Activity6 = () => {
                     if (questions.whichCogDistPaths.size < 10) {
                         toast.show("Missing Activities");
                       } else {
-                    router.push("/(app)/chapter3/content/activity7");}
-                }}
+                        updateChapterProgress("chapter3", "activity6");
+                    router.push("/(app)/chapter3/content/activity7" as RelativePathString);
+                }}}
             />
         </YStack>
     );

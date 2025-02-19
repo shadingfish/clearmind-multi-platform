@@ -40,19 +40,21 @@ export default function AppRootLayout() {
             headerShown: false, // Navigation Optional
           }}
         />
-        <Stack.Screen
+      <Stack.Screen
           name="chapter3" // Map to `app/index.tsx`
           options={{
             headerShown: false, // Navigation Optional
           }}
         />
-        <Stack.Screen
+      <Stack.Screen
           name="chapter4" // Map to `app/index.tsx`
           options={{
             headerShown: false, // Navigation Optional
           }}
         />
+
       </Stack>
+      
     </ChapterProgressProvider>
   );
 }

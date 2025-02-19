@@ -6,11 +6,12 @@ const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
-import { useRouter } from "expo-router";
-import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { RelativePathString, useRouter } from "expo-router";
+//import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import StarModal from "./StarModal";
 import colors from "@/constants/colors";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 type Activity2Questions = {
     specific: string,
@@ -26,7 +27,11 @@ const Activity2 = () => {
     const [currTitle, setCurrTitle] = useState("");
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    //const {chapterData, updateChapterData} = useChapter4Context();
+    const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
+
+      useEffect(() => {
+          setCurrPage('activity2');
+      }, [])
 
     const [questions, setQuestions] = useState<Activity2Questions>({
         specific: "",
@@ -46,13 +51,13 @@ const Activity2 = () => {
         setCurrTitle("");
     }
 
-    //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
+    /* //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
     const { updateChapterProgress } = useChapterProgressContext();
 
     useEffect(() => {
         updateChapterProgress("chapter4", "activity2");
     }, []);
-    //~~~END COPY PASTA~~~
+    //~~~END COPY PASTA~~~ */
 
     const STAR = {
         "Specific": require("@/assets/images/star_s.png"),
@@ -172,7 +177,8 @@ const Activity2 = () => {
                 <ChapterNavigationButton
                     prev={"/(app)/chapter4/content/activity1"}
                     next={() => {
-                    router.push("/(app)/chapter4/content/activity2");
+                        updateChapterProgress("chapter4", "activity2");
+                    router.push("/(app)/chapter4/content/activity2" as RelativePathString);
                     }}
                 />
             </ScrollView>

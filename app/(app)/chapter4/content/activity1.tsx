@@ -6,21 +6,20 @@ const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
-import { useRouter } from "expo-router";
-import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { RelativePathString, useRouter } from "expo-router";
+//import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 const Activity1 = () => {
 
     const router = useRouter();
 
-    //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { updateChapterProgress } = useChapterProgressContext();
+    const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
-    useEffect(() => {
-        updateChapterProgress("chapter4", "activity1");
-    }, []);
-    //~~~END COPY PASTA~~~
+      useEffect(() => {
+          setCurrPage('activity1');
+      }, [])
 
     return (
         <YStack margin={"$4"} gap={"$4"}>
@@ -41,7 +40,8 @@ const Activity1 = () => {
                 <ChapterNavigationButton
                     prev={"/(app)/chapter4/content/opening"}
                     next={() => {
-                    router.push("/(app)/chapter4/content/activity2");
+                        updateChapterProgress('chapter4', 'activity1');
+                    router.push("/(app)/chapter4/content/activity2" as RelativePathString);
                     }}
                 />
             </View>

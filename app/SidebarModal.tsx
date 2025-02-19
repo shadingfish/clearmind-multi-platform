@@ -38,10 +38,15 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
             return;
         }
         console.log('we clicked')
-        const route = `/(app)/${chapterName}/content/${screenName}`; //we have to 
+        const route = `/(app)/${chapterName}/content/${screenName}`; 
         router.push(route as RelativePathString);
         onClose();
     };
+
+    useEffect(() => {
+        console.log('currPage', currPage);
+        console.log(userData);
+    }, [currPage])
 
   return (
     <Modal
@@ -63,24 +68,21 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                     {Object.entries(part1Progress).map(([key, value]) => (
                         <Pressable key={key} style={[styles.subTitleContainer, chapterName === "chapter1" && currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen("chapter1", key, value)}>
                             <View style={{width: 25}}>
-                                {value ?
-                                    ( currPage != key ?
+                                {currPage == key &&  chapterName == "chapter1"  ?
+                                        <Ionicons name="arrow-forward" size={20} color="black" /> :
+                                        ( value ?
                                         <Ionicons name="checkmark" size={20} color="black" /> :
-                                        <Ionicons name="arrow-forward" size={20} color="black" />
-                                    )
-                                    :
-                                    <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>
+                                        <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>)
                                 }
                             </View>
-                            { value ?
-                                ( currPage != key ?
+                            { currPage == key &&  chapterName == "chapter1"  ?
+                                (<View>
+                                    <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter1"][key]}</Text> :
+                                </View>) :
+                                ( value ?
                                     <Text style={{fontSize: 16}}>{chapter2activity2title["chapter1"][key]}</Text> :
-                                    <View>
-                                        <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter1"][key]}</Text>
-                                    </View>
+                                    <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter1"][key]}</Text>
                                 )
-                                :
-                                <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter1"][key]}</Text>
                             }
                         </Pressable>
                     ))}
@@ -92,24 +94,21 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                     {Object.entries(part2Progress).map(([key, value]) => (
                         <Pressable key={key} style={[styles.subTitleContainer, chapterName === "chapter2" && currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen("chapter2", key, value)}>
                             <View style={{width: 25}}>
-                                {value ?
-                                    ( currPage != key || chapterName != "chapter2" ?
+                                {currPage == key &&  chapterName == "chapter2"  ?
+                                        <Ionicons name="arrow-forward" size={20} color="black" /> :
+                                        ( value ?
                                         <Ionicons name="checkmark" size={20} color="black" /> :
-                                        <Ionicons name="arrow-forward" size={20} color="black" />
-                                    )
-                                    :
-                                    <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>
+                                        <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>)
                                 }
                             </View>
-                            { value ?
-                                ( currPage != key || chapterName != "chapter2" ?
+                            { currPage == key &&  chapterName == "chapter2"  ?
+                                (<View>
+                                    <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter2"][key]}</Text> :
+                                </View>) :
+                                ( value ?
                                     <Text style={{fontSize: 16}}>{chapter2activity2title["chapter2"][key]}</Text> :
-                                    <View>
-                                        <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter2"][key]}</Text>
-                                    </View>
+                                    <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter2"][key]}</Text>
                                 )
-                                :
-                                <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter2"][key]}</Text>
                             }
                         </Pressable>
                     ))}
@@ -121,24 +120,21 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                     {Object.entries(part3Progress).map(([key, value]) => (
                         <Pressable key={key} style={[styles.subTitleContainer, chapterName === "chapter3" && currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen("chapter3", key, value)}>
                             <View style={{width: 25}}>
-                                {value ?
-                                    ( currPage != key || chapterName != "chapter3" ?
+                                {currPage == key &&  chapterName == "chapter3"  ?
+                                        <Ionicons name="arrow-forward" size={20} color="black" /> :
+                                        ( value ?
                                         <Ionicons name="checkmark" size={20} color="black" /> :
-                                        <Ionicons name="arrow-forward" size={20} color="black" />
-                                    )
-                                    :
-                                    <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>
+                                        <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>)
                                 }
                             </View>
-                            { value ?
-                                ( currPage != key || chapterName != "chapter3" ?
+                            { currPage == key &&  chapterName == "chapter3"  ?
+                                (<View>
+                                    <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter3"][key]}</Text> :
+                                </View>) :
+                                ( value ?
                                     <Text style={{fontSize: 16}}>{chapter2activity2title["chapter3"][key]}</Text> :
-                                    <View>
-                                        <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter3"][key]}</Text>
-                                    </View>
+                                    <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter3"][key]}</Text>
                                 )
-                                :
-                                <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter3"][key]}</Text>
                             }
                         </Pressable>
                     ))}
@@ -150,24 +146,21 @@ const SidebarModal: React.FC<{ visible: boolean; onClose: () => void; chapterNam
                     {Object.entries(part4Progress).map(([key, value]) => (
                         <Pressable key={key} style={[styles.subTitleContainer, chapterName === "chapter4" && currPage === key && { backgroundColor: '#FFA500' }]} onPress={() => navigateToScreen("chapter4", key, value)}>
                             <View style={{width: 25}}>
-                                {value ?
-                                    ( currPage != key || chapterName != "chapter4" ?
+                                {currPage == key &&  chapterName == "chapter4"  ?
+                                        <Ionicons name="arrow-forward" size={20} color="black" /> :
+                                        ( value ?
                                         <Ionicons name="checkmark" size={20} color="black" /> :
-                                        <Ionicons name="arrow-forward" size={20} color="black" />
-                                    )
-                                    :
-                                    <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>
+                                        <Ionicons name="ellipse-outline" size={12} color="grey" style={{marginLeft: 3}}/>)
                                 }
                             </View>
-                            { value ?
-                                ( currPage != key || chapterName != "chapter4" ?
+                            { currPage == key &&  chapterName == "chapter4"  ?
+                                (<View>
+                                    <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter4"][key]}</Text> :
+                                </View>) :
+                                ( value ?
                                     <Text style={{fontSize: 16}}>{chapter2activity2title["chapter4"][key]}</Text> :
-                                    <View>
-                                        <Text style={{fontSize: 16, fontWeight: "bold"}}>{chapter2activity2title["chapter4"][key]}</Text>
-                                    </View>
+                                    <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter4"][key]}</Text>
                                 )
-                                :
-                                <Text style={{fontSize: 16, color: "grey"}}>{chapter2activity2title["chapter4"][key]}</Text>
                             }
                         </Pressable>
                     ))}

@@ -4,7 +4,7 @@ import { RelativePathString, useRouter } from "expo-router";
 import { Button, View, XStack } from "tamagui";
 
 interface ChapterNavigationButtonProps {
-  prev: string;
+  prev?: string;
   next?: () => void;
 }
 

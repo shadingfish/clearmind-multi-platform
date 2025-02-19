@@ -8,11 +8,11 @@ import { RadioButton } from 'react-native-paper';
 import * as Progress from "react-native-progress";
 import { Ionicons } from '@expo/vector-icons';
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
-import { router } from "expo-router";
-import { useChapterProgressContext } from "@/contexts/AuthContext";
-import { useChapter3Context } from "@/contexts/Chapter3Context";
+import { RelativePathString, router } from "expo-router";
+//import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { useToastController } from "@tamagui/toast";
 import { hasEmptyValues } from "@/constants/helper";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 type Activity3Questions = {
     whichPaths: Set<string>;
@@ -21,23 +21,15 @@ type Activity3Questions = {
 const Activity3 = () => {
     const toast = useToastController();
 
-    const {chapterData, updateChapterData} = useChapter3Context();
+    const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
-    const [questions, setQuestions] = useState<Activity3Questions>(chapterData["activity3"] || {
+    useEffect(() => {
+        setCurrPage('activity3');
+    }, [])
+
+    const [questions, setQuestions] = useState<Activity3Questions>({
         whichPaths: new Set<string>
       });
-
-    //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { updateChapterProgress } = useChapterProgressContext();
-
-    useEffect(() => {
-        updateChapterData("activity3", questions);
-    }, [questions]);
-
-    useEffect(() => {
-        updateChapterProgress("chapter3", "activity3");
-    }, []);
-    //~~~END COPY PASTA~~~
 
     const handlePress = (pathName: string) => {
         setQuestions((prev) => {
@@ -50,16 +42,16 @@ const Activity3 = () => {
         });
 
         if (pathName == "The 20 Breath Meditation") {
-            router.push("/(app)/chapter3/content/activity3_1");
+            router.push("/(app)/chapter3/content/activity3_1" as RelativePathString);
         }
         else if (pathName == "Relaxing Breathing") {
-            router.push("/(app)/chapter3/content/activity3_2");
+            router.push("/(app)/chapter3/content/activity3_2" as RelativePathString);
         }
         else if (pathName == "Mindful Daily Tasks") {
-            router.push("/(app)/chapter3/content/activity3_3");
+            router.push("/(app)/chapter3/content/activity3_3" as RelativePathString);
         }
         else if (pathName == "Leaves on a Stream") {
-            router.push("/(app)/chapter3/content/activity3_4");
+            router.push("/(app)/chapter3/content/activity3_4" as RelativePathString);
         }
         
     };
@@ -128,7 +120,8 @@ const Activity3 = () => {
                     if (questions.whichPaths.size < 2) {
                         toast.show("Missing Activities");
                       } else {
-                    router.push("/(app)/chapter3/content/activity4");}
+                    updateChapterProgress("chapter3", "activity3");
+                    router.push("/(app)/chapter3/content/activity4" as RelativePathString);}
                 }}
             />
 

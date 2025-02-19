@@ -1,118 +1,132 @@
-// app/(app)/chapter1/content/activity2_2.tsx
+// app/(app)/chapter1/content/activity4.tsx
 
 import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
-  Button,
   Alert,
   ActivityIndicator,
   ScrollView,
 } from "react-native";
 import { Chapter1 } from "@/constants/data";
 import { useAuth } from "@/hooks/useAuth";
-import {
-  updateChapter1Activity2_2,
-  getChapter1Activity2_2UserInput,
-  updateChapter1Progress,
-} from "@/hooks/Chapter1Activity";
+import { updateChapter1Progress } from "@/hooks/Chapter1Activity";
 import { useRouter } from "expo-router";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
-import colors from "@/constants/colors";
 import { Chapter1Radio, Chapter1RadioProps } from "@/components/Chapter1Radio"; 
 import { PrimaryButton } from "@/components/CustomButton";
 import { YStack } from "tamagui";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useChapter1Context } from "@/contexts/Chapter1Context";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { database } from "@/constants/firebaseConfig";
 
-export default function Activity2_2() {
+const options = ["first", "second", "third"] as const;
+
+export default function Activity4() {
   const router = useRouter();
   const { user, pending } = useAuth();
-  const [answers, setAnswers] = useState<{ [key: string]: number }>({});
+  const { chapterData, updateChapterData } = useChapter1Context();
+  const { updateChapterProgress, setCurrPage } = useChapterProgressContext();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  // Load user answers from context or Firestore
+  const [answers, setAnswers] = useState<{ [key: string]: number }>(
+    chapterData["activity4"] || {}
+  );
 
+  // Mark activity as visited & sync progress
   useEffect(() => {
-    setUserData(
-      (prevUserData) => ({
-        ...prevUserData,
-        chapter1: {
-          ...prevUserData.chapter1,
-          "Tendencies Questions": true,
-        },
-      })
-    );
+    updateChapterProgress("chapter1", "activity4");
+    setCurrPage("activity4");
+    updateChapterData("activity4", answers);
+  }, [answers]);
 
-    setCurrPage("Tendencies Questions");
-  }, []);
-
+  // Load Firestore data if context is empty
   useEffect(() => {
-    if (user) {
-      getChapter1Activity2_2UserInput(user.uid).then((data) => {
+    const loadUserInput = async () => {
+      if (Object.keys(chapterData["activity4"] || {}).length === 0 && user) {
+        const data = await getChapter1Activity4UserAnswers(user.uid);
         if (data) {
           setAnswers(data);
+          updateChapterData("activity4", data);
         }
-      });
-    }
-  }, [user]);
+      }
+    };
 
-  const handleAnswer = (
-    questionIndex: number,
-    isCorrect: boolean,
-    selectedOptionIndex: number
-  ) => {
+    loadUserInput();
+  }, [user, chapterData]);
+
+  // Handle answer selection
+  const handleAnswer = (questionIndex: number, selectedOptionIndex: number) => {
     setAnswers((prev) => ({
       ...prev,
       [questionIndex.toString()]: selectedOptionIndex,
     }));
   };
 
-  const handleSubmit = () => {
+  // Submit answers
+  const handleSubmit = async () => {
     if (!user) {
       Alert.alert("Error", "User not authenticated.");
       return;
     }
 
-    // Ensure all questions are answered
-    const totalQuestions = Chapter1.RadioQuestionsActivity2_2.length;
-    if (Object.keys(answers).length < totalQuestions) {
+    if (Object.keys(answers).length < Chapter1.RadioQuestionsActivity2_2.length) {
       Alert.alert("Incomplete", "Please answer all questions before submitting.");
       return;
     }
 
     setLoading(true);
-    updateChapter1Activity2_2(user.uid, answers)
-      .then(() => {
-        Alert.alert("Success", "Your answers have been saved.");
-        // Update progress
-        updateChapter1Progress(user.uid, "4_Activity1_2_Questions");
-        // Navigate to the summary or next activity
-        router.push("/(app)/chapter1/content/summary");
-      })
-      .catch((error) => {
-        console.error("Error saving answers:", error);
-        Alert.alert("Error", "There was an error saving your answers. Please try again.");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    try {
+      await updateChapter1Activity4UserAnswers(user.uid, answers);
+      updateChapterData("activity4", answers);
+      Alert.alert("Success", "Your answers have been saved.");
+    } catch (error) {
+      console.error("Error saving answers:", error);
+      Alert.alert("Error", "There was an error saving your answers. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  if (pending) {
+  /** 🔄 Fetch user's answers from Firestore */
+  const getChapter1Activity4UserAnswers = async (userId: string): Promise<{ [key: string]: number } | null> => {
+    try {
+      const userRef = doc(database, "Chapter1", "Activity4", "users", userId);
+      const snapshot = await getDoc(userRef);
+      return snapshot.exists() ? (snapshot.data() as { [key: string]: number }) : null;
+    } catch (err) {
+      console.error("Error getting Activity4 user answers:", err);
+      return null;
+    }
+  };
+
+  /** 🔄 Save user's answers to Firestore */
+  const updateChapter1Activity4UserAnswers = async (userId: string, answers: { [key: string]: number }) => {
+    try {
+      const userRef = doc(database, "Chapter1", "Activity4", "users", userId);
+      await setDoc(userRef, answers, { merge: true });
+      console.log("Activity4 answers saved successfully!");
+    } catch (err) {
+      console.error("Error updating Activity4 answers:", err);
+    }
+  };
+
+  if (pending || loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color="#54B363" />
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      {/* Scrollable Content */}
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.subHeader}>
-          Now that you have a pretty good understanding about types of procrastination, let’s think about which one resonates with your own tendencies and style.
+          Now that you understand procrastination types, let's explore which resonates with you.
         </Text>
 
         {Chapter1.RadioQuestionsActivity2_2.map((question, index) => {
@@ -121,45 +135,30 @@ export default function Activity2_2() {
             option1: question.options[0],
             option2: question.options[1],
             option3: question.options[2],
-            correctOption: (() => {
-              switch (question.correctOptionIndex) {
-                case 0:
-                  return "first";
-                case 1:
-                  return "second";
-                case 2:
-                  return "third";
-                default:
-                  return "first";
-              }
-            })(),
+            correctOption: options[question.correctOptionIndex],
             correctText: getCorrectText(index),
             incorrectText: getIncorrectText(index),
             hint: question.hint,
-            onAnswer: (isCorrect, selectedOptionIndex) => handleAnswer(index, isCorrect, selectedOptionIndex),
+            onAnswer: (_, selectedOptionIndex) => handleAnswer(index, selectedOptionIndex),
           };
 
-          return (
-            <View key={index}>
-              <Chapter1Radio {...radioProps} />
-            </View>
-          );
+          return <Chapter1Radio key={index} {...radioProps} />;
         })}
 
         <View style={styles.submitButton}>
-          <PrimaryButton title="Submit" onPress={handleSubmit} ></PrimaryButton>
-          {loading && <ActivityIndicator size="small" color={colors.primary} />}
+          <PrimaryButton title="Submit" onPress={handleSubmit} />
+          {loading && <ActivityIndicator size="small" color="blue" />}
         </View>
       </ScrollView>
 
-      {/* Fixed Navigation Buttons at Bottom */}
       <YStack style={styles.navigationButtonContainer} marginBottom="$2">
         <ChapterNavigationButton
-          prev="/(app)/chapter1/content/activity2_1" // Previous route
+          prev="/(app)/chapter1/content/activity3"
           next={() => {
             if (!user) return;
-            updateChapter1Progress(user.uid, "4_Activity1_2_Questions");
-            router.push("/(app)/chapter1/content/activity3");
+            updateChapterProgress("chapter1", "activity4");
+            updateChapter1Progress(user.uid, "5_Activity4_Questions");
+            router.push("/(app)/chapter1/content/activity5");
           }}
         />
       </YStack>

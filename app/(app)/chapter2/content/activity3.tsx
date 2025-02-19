@@ -3,13 +3,14 @@ import { Chapter2Radio, Chapter2RadioProps } from "@/components/Chapter2Radio";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { Chapter2 } from "@/constants/data";
 import { useAuth } from "@/hooks/useAuth";
-//import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
+import { updateChapter2Progress } from "@/hooks/Chapter2Activity";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ScrollView, Text, View, XStack, YStack } from "tamagui";
+import { ScrollView, Text, View, YStack, XStack} from "tamagui";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 import colors from "@/constants/colors";
+
 
 export default function Activity3() {
   const router = useRouter();
@@ -17,17 +18,16 @@ export default function Activity3() {
   const { user, pending } = useAuth();
   const [showHint, setShowHint] = useState(false);
 
-  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { updateChapterProgress } = useChapterProgressContext();
-
-  useEffect(() => {
-    updateChapterProgress("chapter2", "activity3");
-  }, []);
-  //~~~END COPY PASTA~~~
-
   if (pending) {
     return null;
   }
+
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
+
+  useEffect(() => {
+    setCurrPage('activity3');
+    updateChapterProgress("chapter2", "activity3");
+  }, [])
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -73,8 +73,9 @@ export default function Activity3() {
         <ChapterNavigationButton
           prev={"/(app)/chapter2/content/activity2"}
           next={() => {
+            updateChapterProgress('chapter2', 'activity3');
+            updateChapter2Progress(user!.uid, "4_Example");
             router.push("/(app)/chapter2/content/activity4");
-            //updateChapter2Progress(user!.uid, "4_Example");
           }}
         />
       </YStack>

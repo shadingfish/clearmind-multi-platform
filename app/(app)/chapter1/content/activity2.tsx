@@ -1,10 +1,9 @@
-// app/chapter1/content/activity1.tsx
+// app/chapter1/content/activity2.tsx
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  Button,
   StyleSheet,
   Alert,
   ActivityIndicator,
@@ -12,17 +11,16 @@ import {
   TextInput,
 } from "react-native";
 import { useAuth } from "@/hooks/useAuth";
-import {
-  updateChapter1Activity1,
-  getChapter1Activity1UserInput,
-  updateChapter1Progress,
-} from "@/hooks/Chapter1Activity";
 import { useRouter } from "expo-router";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
+import { updateChapter1Progress } from "@/hooks/Chapter1Activity";
 import { CheckboxWithLabel } from "@/components/CheckboxWithLabel";
 import { PrimaryButton } from "@/components/CustomButton";
-import { YStack } from "tamagui";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapter1Context } from "@/contexts/Chapter1Context";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { database } from "@/constants/firebaseConfig";
+
 
 const checkboxOptions: string[] = [
   "Lack of Motivation",
@@ -39,61 +37,93 @@ const checkboxOptions: string[] = [
   "Other",
 ];
 
-export default function Activity1() {
+// Define question type
+type Activity2Questions = {
+  selections: string[];
+  otherInput?: string;
+};
+
+export default function Activity2() {
   const router = useRouter();
   const { user, pending } = useAuth();
-  
-  // Auth Context 用于 UI 进度同步
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  const { updateChapterProgress } = useChapterProgressContext();
+  const { chapterData, updateChapterData } = useChapter1Context();
 
-  // 复选框状态
-  const [checkboxes, setCheckboxes] = useState<string[]>([]);
-  const [otherInput, setOtherInput] = useState<string>("");
+  // Load initial state from context or default
+  const [questions, setQuestions] = useState<Activity2Questions>(
+    chapterData["activity2"] || {
+      selections: [],
+      otherInput: "",
+    }
+  );
+
   const [loading, setLoading] = useState<boolean>(false);
-  const [existingSelections, setExistingSelections] = useState<string[]>([]);
 
-  // ✅ 记录当前用户访问的章节
+  // Sync with context
   useEffect(() => {
-    setUserData(
-      (prevUserData) => ({
-        ...prevUserData,
-        chapter1: {
-          ...prevUserData.chapter1,
-          "Discover Procrastination Reasons": true,
-        },
-      })
-    );
+    updateChapterData("activity2", questions);
+  }, [questions]);
 
-    setCurrPage("Discover Procrastination Reasons");
+  // Mark page visited
+  useEffect(() => {
+    updateChapterProgress("chapter1", "activity2");
   }, []);
 
-  // 获取用户之前的选择
+  // Load previous selections from Firestore or context
   useEffect(() => {
-    if (user) {
-      getChapter1Activity1UserInput(user.uid).then((data: string[] | null) => {
+    const loadUserInput = async () => {
+      if (chapterData["activity2"]?.selections?.length) {
+        setQuestions(chapterData["activity2"]);
+      } else if (user) {
+        const data = await getChapter1Activity2UserInput(user.uid);
         if (data) {
-          setExistingSelections(data);
-          setCheckboxes(data.filter((item: string) => item !== "Other"));
-          if (data.includes("Other")) {
-            // 这里可以扩展 "Other" 的逻辑
-          }
+          setQuestions({
+            selections: data.filter((item) => item !== "Other"),
+            otherInput: data.includes("Other") ? data[data.length - 1] : "",
+          });
         }
-      });
-    }
-  }, [user]);
-
-  // 复选框状态切换
-  const toggleCheckbox = (label: string) => {
-    setCheckboxes((prev) => {
-      if (prev.includes(label)) {
-        return prev.filter((item: string) => item !== label);
-      } else {
-        return [...prev, label];
       }
-    });
+    };
+    loadUserInput();
+  }, [user, chapterData]);
+
+  /** Fetch user selections from Firestore */
+  const getChapter1Activity2UserInput = async (
+    userId: string
+  ): Promise<string[]> => {
+    try {
+      const activity2UserRef = doc(
+        database,
+        "Chapter1",
+        "Activity2",
+        "users",
+        userId
+      );
+      const snapshot = await getDoc(activity2UserRef);
+
+      if (snapshot.exists()) {
+        const data = snapshot.data();
+        return Array.isArray(data.selections) ? data.selections : [];
+      } else {
+        return [];
+      }
+    } catch (err) {
+      console.error("Error getting Chapter1 Activity2 user input:", err);
+      return [];
+    }
   };
 
-  // 提交数据
+  // Checkbox toggle handler
+  const toggleCheckbox = (label: string) => {
+    setQuestions((prev) => ({
+      ...prev,
+      selections: prev.selections.includes(label)
+        ? prev.selections.filter((item) => item !== label)
+        : [...prev.selections, label],
+    }));
+  };
+
+  // Submit handler
   const handleSubmit = async () => {
     if (!user) {
       Alert.alert("Error", "User not authenticated.");
@@ -101,24 +131,51 @@ export default function Activity1() {
     }
 
     setLoading(true);
-    let selections: string[] = [...checkboxes];
 
-    if (checkboxes.includes("Other") && otherInput.trim() !== "") {
-      selections = selections.map((item: string) =>
-        item === "Other" ? otherInput.trim() : item
+    let finalSelections = [...questions.selections];
+
+    if (
+      questions.selections.includes("Other") &&
+      questions.otherInput?.trim()
+    ) {
+      // Replace "Other" with user input
+      finalSelections = finalSelections.map((item) =>
+        item === "Other" ? questions.otherInput!.trim() : item
       );
     }
 
     try {
-      await updateChapter1Activity1(user.uid, selections);
-      await updateChapter1Progress(user.uid, "2_Activity1_1");
+      await updateChapter1Activity2(user.uid, finalSelections);
+      updateChapterData("activity2", {
+        selections: finalSelections,
+        otherInput: questions.otherInput,
+      });
       Alert.alert("Success", "Data saved successfully.");
-      router.push("/(app)/chapter1/content/activity2_1");
     } catch (error) {
       console.error("Error saving data: ", error);
       Alert.alert("Error", "Failed to save data.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  /** Save user's selections to Firestore */
+  const updateChapter1Activity2 = async (
+    userId: string,
+    selections: string[]
+  ) => {
+    try {
+      const activity2UserRef = doc(
+        database,
+        "Chapter1",
+        "Activity2",
+        "users",
+        userId
+      );
+      await setDoc(activity2UserRef, { selections }, { merge: true });
+      console.log("Chapter1 Activity2 updated successfully!");
+    } catch (err) {
+      console.error("Error updating Chapter1 Activity2:", err);
     }
   };
 
@@ -134,32 +191,36 @@ export default function Activity1() {
     <ScrollView style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.header}>
-          Reflect on whether an urge to procrastinate has ever sabotaged pursuing your values.
+          Reflect on whether an urge to procrastinate has ever sabotaged pursuing
+          your values.
         </Text>
 
         <Text style={styles.subHeader}>
-          Why did you procrastinate? If you have not procrastinated so far, consider why you might put off certain tasks.
+          Why did you procrastinate? If you have not procrastinated so far,
+          consider why you might put off certain tasks.
         </Text>
 
-        {checkboxOptions.map((label: string) => (
+        {checkboxOptions.map((label) => (
           <CheckboxWithLabel
             marginBottom="$2"
             marginTop="$2"
             key={label}
             label={label}
-            checked={checkboxes.includes(label)}
+            checked={questions.selections.includes(label)}
             onPress={() => toggleCheckbox(label)}
           />
         ))}
 
-        {checkboxes.includes("Other") && (
+        {questions.selections.includes("Other") && (
           <View style={styles.otherContainer}>
             <Text style={styles.label}>Please specify:</Text>
             <TextInput
               style={styles.input}
               placeholder="Input here"
-              value={otherInput}
-              onChangeText={setOtherInput}
+              value={questions.otherInput}
+              onChangeText={(text) =>
+                setQuestions((prev) => ({ ...prev, otherInput: text }))
+              }
             />
           </View>
         )}
@@ -170,17 +231,18 @@ export default function Activity1() {
         </View>
 
         <ChapterNavigationButton
-          prev={"/(app)/chapter1/content/activity0"}
+          prev={"/(app)/chapter1/content/activity1"}
           next={() => {
             if (!user) return;
-            updateChapter1Progress(user.uid, "2_Activity1_1");
-            router.push("/(app)/chapter1/content/activity2_1");
+            updateChapter1Progress(user.uid, "3_Activity2");
+            router.push("/(app)/chapter1/content/activity3");
           }}
         />
       </View>
     </ScrollView>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

@@ -10,13 +10,12 @@ export default function Opening() {
   const router = useRouter();
   const { user } = useAuth();
 
-  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { updateChapterProgress } = useChapterProgressContext();
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
   useEffect(() => {
+    setCurrPage('opening');
     updateChapterProgress("chapter2", "opening");
-  }, []);
-  //~~~END COPY PASTA~~~
+  }, [])
 
   return (
     <YStack margin={"$4"} gap={"$4"}>
@@ -30,6 +29,7 @@ export default function Opening() {
       <ChapterNavigationButton
         prev={"/(app)/chapter2/content/chapter2"}
         next={() => {
+          updateChapterProgress('chapter2', 'opening');
           router.push("/(app)/chapter2/content/activity1");
           //updateChapter2Progress(user!.uid, "1_Opening");
         }}

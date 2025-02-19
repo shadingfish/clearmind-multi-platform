@@ -6,26 +6,23 @@ import { useRouter } from "expo-router";
 import { useAuth } from "@/hooks/useAuth";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useToastController } from "@tamagui/toast";
-
-import { SummaryQuestion } from "@/components/Chapter2SummaryQuestion"; 
-
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
+import { SummaryQuestion } from "@/components/Chapter2SummaryQuestion";
 import { Chapter1 } from "@/constants/data";
 import { hasEmptyValues } from "@/constants/helper";
+import { useChapter1Context } from "@/contexts/Chapter1Context";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { database } from "@/constants/firebaseConfig";
+import { updateChapter1Progress } from "@/hooks/Chapter1Activity";
 
-import {
-  getChapter1Summary,
-  setChapter1Summary,
-  updateChapter1Progress,
-} from "@/hooks/Chapter1Activity";
-import { useAuthContext } from "@/contexts/AuthContext";
 
-// 定义问题 ID 映射到用户回答
-export type SummaryQuestions = {
+// 定义问题数据结构
+type SummaryQuestions = {
   answer1: string;
   answer2: string;
   answer3: string;
-  answer4: string; // for radio
+  answer4: string;
 };
 
 export default function Summary() {
@@ -33,54 +30,49 @@ export default function Summary() {
   const toast = useToastController();
   const { user, pending } = useAuth();
   const { bottom } = useSafeAreaInsets();
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  const { chapterData, updateChapterData } = useChapter1Context();
+  const { updateChapterProgress, setCurrPage } = useChapterProgressContext();
+
+  // **优先从 Context 获取数据**
+  const [questions, setQuestions] = useState<SummaryQuestions>(
+    chapterData["summary"] || {
+      answer1: "",
+      answer2: "",
+      answer3: "",
+      answer4: "",
+    }
+  );
 
   useEffect(() => {
-    setUserData(
-      (prevUserData) => ({
-        ...prevUserData,
-        chapter1: {
-          ...prevUserData.chapter1,
-          "How to Use the App": true,
-        },
-      })
-    );
-
-    setCurrPage("How to Use the App");
+    setCurrPage("summary");
   }, []);
 
-  // 保存 4 个问题的答案
-  const [questions, setQuestions] = useState<SummaryQuestions>({
-    answer1: "",
-    answer2: "",
-    answer3: "",
-    answer4: "",
-  });
-
-  // 回显：获取数据库里已保存的回答
+  // **如果 Context 为空，则从 Firestore 读取**
   useEffect(() => {
-    if (user && !pending) {
-      getChapter1Summary(user.uid)
-        .then((data) => {
-          if (data) {
-            setQuestions((prev) => ({
-              ...prev,
-              ...data, // 确保 Firestore 返回的数据正确填充到状态
-            }));
-          }
-        })
-        .catch((err) => console.log("Error getting chapter1 summary:", err));
-    }
-  }, [user, pending]);
+    const loadUserInput = async () => {
+      if (!chapterData["summary"]?.answer1 && user) {
+        const data = await getChapter1Summary(user.uid);
+        if (data) {
+          setQuestions(data);
+          updateChapterData("summary", data);
+        }
+      }
+    };
+    loadUserInput();
+  }, [user]);
 
-  // 更新某一道题的回答
+  // **同步数据到 Context**
+  useEffect(() => {
+    updateChapterData("summary", questions);
+  }, [questions]);
+
+  // **更新回答**
   const updateQuestion = (field: keyof SummaryQuestions, value: string) => {
     setQuestions((prev) => ({ ...prev, [field]: value }));
   };
 
-  // 点击「下一步」提交
+  // **提交数据**
   const handleSubmit = async () => {
-    // 判断是否有空
     if (hasEmptyValues(questions)) {
       toast.show("Please fill out all answers before submitting.");
       return;
@@ -91,14 +83,18 @@ export default function Summary() {
       return;
     }
 
-    // 保存回答
-    await setChapter1Summary(user.uid, questions);
-    // 更新进度 "6_Summary" -> "1"
-    await updateChapter1Progress(user.uid, "6_Summary");
+    try {
+      await updateChapter1Summary(user.uid, questions);
+      updateChapterData("summary", questions);
+      updateChapter1Progress(user.uid, "6_Summary");
+      updateChapterProgress("chapter1", "summary");
 
-    toast.show("Your answers have been saved!");
-    // 跳转到 Chapter1 主目录或其他
-    router.push("/(app)/chapter1");
+      toast.show("Your answers have been saved!");
+      router.push("/(app)/chapter1");
+    } catch (error) {
+      console.error("Error saving summary:", error);
+      toast.show("Error saving answers. Please try again.");
+    }
   };
 
   return (
@@ -113,29 +109,44 @@ export default function Summary() {
           Following questions will help you reflect on this chapter:
         </Text>
 
-        {/* 遍历 Chapter1.SummaryQuestionData */}
-        {Chapter1.SummaryQuestionData.map((ele, i) => {
-          return (
-            <View key={i}>
-              <SummaryQuestion
-                question={ele.text}
-                placeholder={ele.placeholder}
-                value={questions[ele.ans as keyof SummaryQuestions]}
-                onChange={(val) =>
-                  updateQuestion(ele.ans as keyof SummaryQuestions, val)
-                }
-                useRadio={ele.useRadio}
-              />
-            </View>
-          );
-        })}
+        {/* 显示所有问题 */}
+        {Chapter1.SummaryQuestionData.map((ele, i) => (
+          <View key={i}>
+            <SummaryQuestion
+              question={ele.text}
+              placeholder={ele.placeholder}
+              value={questions[ele.ans as keyof SummaryQuestions]}
+              onChange={(val) => updateQuestion(ele.ans as keyof SummaryQuestions, val)}
+              useRadio={ele.useRadio}
+            />
+          </View>
+        ))}
 
-        {/* 底部导航按钮 */}
-        <ChapterNavigationButton
-          prev={"/(app)/chapter1/content/activity3"} // 例如 "How to Use the App" 
-          next={handleSubmit}
-        />
+        <ChapterNavigationButton prev="/(app)/chapter1/content/activity5" next={handleSubmit} />
       </YStack>
     </ScrollView>
   );
 }
+
+// **获取用户的总结数据**
+const getChapter1Summary = async (userId: string): Promise<SummaryQuestions | null> => {
+  try {
+    const summaryRef = doc(database, "Chapter1", "Summary", "users", userId);
+    const snapshot = await getDoc(summaryRef);
+    return snapshot.exists() ? (snapshot.data() as SummaryQuestions) : null;
+  } catch (err) {
+    console.error("Error getting Chapter1 summary:", err);
+    return null;
+  }
+};
+
+// **保存用户的总结数据**
+const updateChapter1Summary = async (userId: string, data: SummaryQuestions) => {
+  try {
+    const summaryRef = doc(database, "Chapter1", "Summary", "users", userId);
+    await setDoc(summaryRef, data, { merge: true });
+    console.log("Chapter1 Summary updated successfully!");
+  } catch (err) {
+    console.error("Error updating Chapter1 Summary:", err);
+  }
+};

@@ -10,13 +10,13 @@ import { useToastController } from "@tamagui/toast";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScrollView, Text, View, YStack } from "tamagui";
 import { useRouter } from "expo-router";
-// import {
-//   getChapter2Summary,
-//   setChapter2Summary,
-//   updateChapter2Progress,
-// } from "@/hooks/Chapter2Activity";
+import {
+  getChapter2Summary,
+  setChapter2Summary,
+  updateChapter2Progress,
+} from "@/hooks/Chapter2Activity";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
-import { useChapter2Context } from "@/contexts/Chapter2Context";
+import {useChapter2Context} from "@/contexts/Chapter2Context";
 
 export type SummaryQuestions = {
   question1: string;
@@ -57,7 +57,13 @@ export default function Summary() {
 
   const { user, pending } = useAuth();
 
-  /* useEffect(() => {
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
+
+  useEffect(() => {
+    setCurrPage('summary');
+  }, [])
+
+  useEffect(() => {
     if (user) {
       getChapter2Summary(user.uid)
         .then((snapshot) => {
@@ -70,7 +76,7 @@ export default function Summary() {
         })
         .catch((err) => console.log("Error get chapter 2 summary: " + err));
     }
-  }, [pending]); */
+  }, [pending]);
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -115,7 +121,8 @@ export default function Summary() {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
-              //setChapter2Summary(user!.uid, questions);
+              updateChapterProgress('chapter2', 'summary');
+              setChapter2Summary(user!.uid, questions);
               router.push("/(app)/chapter2");
               //updateChapter2Progress(user!.uid, "8_Summary");
             }

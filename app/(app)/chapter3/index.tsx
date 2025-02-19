@@ -1,6 +1,6 @@
 import { ChapterItem } from "@/components/ChapterActivityIcon";
 import { Chapter3, ChapterProgress } from "@/constants/data";
-import { useChapterProgressContext } from "@/contexts/AuthContext";
+//import { useChapterProgressContext } from "@/contexts/AuthContext";
 /* import {
   getChapter2Progress,
   initChapter2Progress,
@@ -12,12 +12,16 @@ import { Text, View, YStack } from "tamagui";
 
 export default function Chapter3Index() {
   const { user, pending } = useAuth();
-  /* const [finished, setFinished] = useState(false);
+  const [finished, setFinished] = useState(false);
   const [progress, setProgress] = useState<ChapterProgress>(
     Chapter3.EmptyProgress
-  ); */
+  );
 
-  const { userData, isFinished } = useChapterProgressContext();
+  useEffect(() => {
+    setFinished(Object.values(progress).every((value) => value === "1"));
+  }, [progress]);
+
+  //const { userData, isFinished } = useChapterProgressContext();
 
   return (
     <YStack flex={1} marginHorizontal={"$7"} marginVertical={"$6"} gap={"$4"}>
@@ -28,16 +32,15 @@ export default function Chapter3Index() {
               name={ele.name}
               image={ele.icon}
               imageDone={ele.icon_done}
-              chapterKey={"chapter3"}
-              activityKey={ele.activityKey}
-              progress={userData}
+              progressIndex={ele.progress_index as keyof ChapterProgress}
+              progress={progress}
               route={ele.route as RelativePathString}
             />
           </View>
         );
       })}
 
-      {isFinished("chapter3") && (
+      {finished && (
         <YStack
           alignSelf="center"
           borderWidth={1}
@@ -52,7 +55,7 @@ export default function Chapter3Index() {
             textDecorationLine="underline"
             color={"$blue11Light"}
           >
-            <Link href={"/(app)/chapter3"}>Continue to the next part!</Link>
+            <Link href={"/(app)/chapter2"}>Continue to the next part!</Link>
           </Text>
         </YStack>
       )}
