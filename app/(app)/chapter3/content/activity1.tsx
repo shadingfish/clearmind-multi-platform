@@ -30,6 +30,8 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useToastController } from "@tamagui/toast";
 import { hasEmptyValues } from "@/constants/helper";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
+import { useAuth } from "@/hooks/useAuth";
 
 type Activity1Questions = {
     p2_recentProcrastination: string;
@@ -38,7 +40,7 @@ type Activity1Questions = {
   };
 
 const Activity1 = () => {
-
+    const { user, pending } = useAuth();
     const toast = useToastController();
 
     const [questions, setQuestions] = useState<Activity1Questions>({
@@ -133,6 +135,7 @@ const Activity1 = () => {
                     toast.show("Empty Input");
                   } else {
                     updateChapterProgress("chapter3", "activity1");
+                    updateChapter3Progress(user!.uid, "1_activity1");
                     router.push("/(app)/chapter3/content/activity2" as RelativePathString);
                   }
                 }}

@@ -11,9 +11,11 @@ import { useRouter } from "expo-router";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
+import { useAuth } from "@/hooks/useAuth";
 
 const Opening = () => {
-
+    const { user, pending } = useAuth();
     const router = useRouter();
 
     const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
@@ -47,6 +49,7 @@ const Opening = () => {
                     prev={"/(app)/chapter3"}
                     next={() => {
                     updateChapterProgress("chapter3", "opening");
+                    updateChapter3Progress(user!.uid, "0_opening");
                     router.push("/(app)/chapter3/content/activity1");
                     //updateChapter2Progress(user!.uid, "1_Opening");
                     }}

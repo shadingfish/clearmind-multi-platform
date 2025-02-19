@@ -30,6 +30,8 @@ import { router } from "expo-router";
 import { hasEmptyValues } from "@/constants/helper";
 import { useToastController } from "@tamagui/toast";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
+import { useAuth } from "@/hooks/useAuth";
 
 type SummaryQuestions = {
     summaryQues1: string;
@@ -38,6 +40,7 @@ type SummaryQuestions = {
   };
 
 const Summary = () => {
+    const { user, pending } = useAuth();
     const toast = useToastController();
 
     const [questions, setQuestions] = useState<SummaryQuestions>({
@@ -194,6 +197,7 @@ const Summary = () => {
                         toast.show("Empty Input");
                     } else {
                     updateChapterProgress("chapter3", "summary");
+                    updateChapter3Progress(user!.uid, "9_summary");
                     router.push("/(app)/chapter3");}
                 }}
             />

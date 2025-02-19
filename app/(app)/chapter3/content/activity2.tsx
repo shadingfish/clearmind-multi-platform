@@ -31,6 +31,8 @@ import { RelativePathString, router } from "expo-router";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { hasEmptyValues } from "@/constants/helper";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
+import { useAuth } from "@/hooks/useAuth";
 
 type Activity2Questions = {
     p3_body: string;
@@ -38,6 +40,7 @@ type Activity2Questions = {
   };
 
 const Activity2 = () => {
+    const { user, pending } = useAuth();
     const toast = useToastController();
 
 
@@ -126,7 +129,8 @@ const Activity2 = () => {
                         toast.show("Empty Input");
                       } else {
                         updateChapterProgress("chapter3", "activity2");
-                    router.push("/(app)/chapter3/content/activity3" as RelativePathString);}
+                        updateChapter3Progress(user!.uid, "2_activity2");
+                        router.push("/(app)/chapter3/content/activity3" as RelativePathString);}
                 }}
             />
             

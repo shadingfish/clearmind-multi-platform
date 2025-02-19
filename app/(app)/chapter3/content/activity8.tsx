@@ -31,13 +31,15 @@ import { hasEmptyValues } from "@/constants/helper";
 import { Toast } from "@tamagui/toast";
 import { useToastController } from "@tamagui/toast";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
+import { useAuth } from "@/hooks/useAuth";
 
 type Activity8Questions = {
     potentialStrategy: string;
   };
 
 const Activity8 = () => {
-
+    const { user, pending } = useAuth();
     const toast = useToastController();
 
     const [isButtonPressed, setIsButtonPressed] = useState(false);
@@ -130,6 +132,7 @@ const Activity8 = () => {
                         toast.show("Empty Input");
                     } else {
                     updateChapterProgress("chapter3", "activity8");
+                    updateChapter3Progress(user!.uid, "8_activity8");
                     router.push("/(app)/chapter3/content/summary" as RelativePathString);
                     }
                 }}

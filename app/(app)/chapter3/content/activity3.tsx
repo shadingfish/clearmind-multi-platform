@@ -13,12 +13,15 @@ import { RelativePathString, router } from "expo-router";
 import { useToastController } from "@tamagui/toast";
 import { hasEmptyValues } from "@/constants/helper";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
+import { useAuth } from "@/hooks/useAuth";
 
 type Activity3Questions = {
     whichPaths: Set<string>;
   };
 
 const Activity3 = () => {
+    const { user, pending } = useAuth();
     const toast = useToastController();
 
     const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
@@ -121,6 +124,7 @@ const Activity3 = () => {
                         toast.show("Missing Activities");
                       } else {
                     updateChapterProgress("chapter3", "activity3");
+                    updateChapter3Progress(user!.uid, "3_activity3");
                     router.push("/(app)/chapter3/content/activity4" as RelativePathString);}
                 }}
             />

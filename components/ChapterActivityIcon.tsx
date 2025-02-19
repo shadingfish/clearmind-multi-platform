@@ -24,6 +24,7 @@ export const ChapterItem: React.FC<{
     const currentIndex = chaptersArray.findIndex(
       (chapter) => chapter.chapterKey === chapterKey
     );
+    console.log('isPrevActivityFinished', chapterKey, currentIndex);
     if (currentIndex > 0) {
       const prevChapter = chaptersArray[currentIndex - 1];
       return prevChapter.progress === "1";

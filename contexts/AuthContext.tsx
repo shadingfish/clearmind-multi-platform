@@ -4,9 +4,10 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "expo-router";
 import {chapterName2SidebarActivity, chapterProgressData} from "../constants/chapterData"; //just temporary
 import { useAuth } from "@/hooks/useAuth";
-import { Chapter1, Chapter2, ChapterProgress } from "@/constants/data";
+import { Chapter1, Chapter2, Chapter3, ChapterProgress } from "@/constants/data";
 import { getChapter2Progress } from "@/hooks/Chapter2Activity";
 import { getChapter1Progress, initChapter1Progress } from "@/hooks/Chapter1Activity";
+import { getChapter3Progress, initChapter3Progress } from "@/hooks/Chapter3Activity";
 
 // Define the shape of the context
 interface ChapterProgressContextType {
@@ -42,6 +43,9 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
   );
   const [ch2progress, setCh2Progress] = useState<ChapterProgress>(
     Chapter2.EmptyProgress
+  );
+  const [ch3progress, setCh3Progress] = useState<ChapterProgress>(
+    Chapter3.EmptyProgress
   );
 
   const getProgressStats = (progress: Record<string, boolean>) => {
@@ -90,7 +94,18 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
         })
         .catch((err) => console.log(err));
 
-      //add chapter3 progress
+      //get ch2 progress
+      getChapter3Progress(user.uid)
+        .then((res) => {
+          if (res != null) {
+            const curProgress = res;
+            setCh3Progress(curProgress);
+            console.log('ch3 auth context get', curProgress);
+          } else {
+            console.log("error no progress");
+          }
+        })
+        .catch((err) => console.log(err));
 
       //add chapter4 progress
     }
@@ -100,6 +115,7 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
     chapterData: Record<string, string>,
     mapping: Record<string, string>
   ): Map<string, boolean> => {
+    //print('here in mapchapterprogress')
     const result = new Map<string, boolean>();
   
     // Iterate over the mapping keys to maintain order
@@ -113,24 +129,24 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
   };
 
     useEffect(() => {
-        if (ch1progress && ch2progress) { //should be all chapters
+        if (ch1progress && ch2progress && ch3progress) { //should be all chapters
           //setUserData(chapterProgressData); //this would actually just be a backend call
 
           setUserData(
             {
               "chapter1": Object.fromEntries(mapChapterProgress(ch1progress, chapterName2SidebarActivity["chapter1"])),
               "chapter2": Object.fromEntries(mapChapterProgress(ch2progress, chapterName2SidebarActivity["chapter2"])),
-              "chapter3": chapterProgressData["chapter3"], //change to backend
+              "chapter3": Object.fromEntries(mapChapterProgress(ch3progress, chapterName2SidebarActivity["chapter3"])), //change to backend
               "chapter4": chapterProgressData["chapter4"], //change to backend
             }
           )
           //console.log('userdata:', userData);
           console.log('ch context chapter1 progress:', ch1progress);
           console.log('ch context chapter2 progress:', ch2progress);
+          console.log('ch context chapter3 progress:', ch3progress);
         }
-
       
-    }, []); //run when authcontext is mounted
+    }, [ch1progress, ch2progress, ch3progress]); //run when authcontext is mounted
 
 
     //this should be called in a use effect in every activity. just pass the chapter# and activity# (opening, summary, activity#)
@@ -155,9 +171,9 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
       return(trueCount == Object.values(userData[chapter]).length); //return true if all activities are finished
     }
 
-    /* useEffect(() => {
+    useEffect(() => {
       console.log('userData', userData);
-    }, [userData]) */
+    }, [userData])
 
   return (
     <ChapterProgressContext.Provider value={{ userData, setUserData, currPage, setCurrPage, updateChapterProgress, isFinished, chap1Percent, chap2Percent, chap3Percent, chap4Percent }}>

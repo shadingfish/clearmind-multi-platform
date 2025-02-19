@@ -70,7 +70,7 @@ export default function Chapter2Index() {
             textDecorationLine="underline"
             color={"$blue11Light"}
           >
-            <Link href={"/(app)/chapter2"}>Continue to the next part!</Link>
+            <Link href={"/(app)/chapter3"}>Continue to the next part!</Link>
           </Text>
         </YStack>
       )}

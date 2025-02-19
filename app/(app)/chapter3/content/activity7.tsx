@@ -26,10 +26,12 @@ import * as Progress from "react-native-progress";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { RelativePathString, router } from "expo-router";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
+import { useAuth } from "@/hooks/useAuth";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 const Activity7 = () => {
-
+    const { user, pending } = useAuth();
     const [myData, setMyData] = useState({}); //get from backend
 
     const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
@@ -122,6 +124,7 @@ const Activity7 = () => {
                 prev={"/(app)/chapter3/content/activity6"}
                 next={() => {
                     updateChapterProgress("chapter3", "activity7");
+                    updateChapter3Progress(user!.uid, "7_activity7");
                     router.push("/(app)/chapter3/content/activity8" as RelativePathString);
                 }}
             />

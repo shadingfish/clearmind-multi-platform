@@ -30,6 +30,8 @@ import { RelativePathString, router } from "expo-router";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { useToastController } from "@tamagui/toast";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
+import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
 
 type Activity6Questions = {
     whichCogDistPaths: Set<string>;
@@ -37,8 +39,7 @@ type Activity6Questions = {
   };
 
 const Activity6 = () => {
-    //const [whichCogDistPaths, setWhichCogDistPaths] = useState<Set<string>>(new Set<string>())
-    //const [hasCogDist, setHasCogDist] = useState<{ [key: string]: boolean }>({});
+    const { user, pending } = useAuth();
     const [currTitle, setCurrTitle] = useState("");
     const toast = useToastController();
 
@@ -241,7 +242,8 @@ const Activity6 = () => {
                         toast.show("Missing Activities");
                       } else {
                         updateChapterProgress("chapter3", "activity6");
-                    router.push("/(app)/chapter3/content/activity7" as RelativePathString);
+                        updateChapter3Progress(user!.uid, "6_activity6");
+                        router.push("/(app)/chapter3/content/activity7" as RelativePathString);
                 }}}
             />
         </YStack>

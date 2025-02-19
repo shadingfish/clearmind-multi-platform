@@ -157,14 +157,16 @@ export const chapterName2SidebarActivity: Record<string, Record<string, string>>
         "8_Summary": "summary"
     },
     "chapter3": {
-        "opening": "opening",
-        "activity1": "activity1",
-        "activity2": "activity2",
-        "activity3": "activity3",
-        "activity4": "activity4",
-        "activity5": "activity5",
-        "activity6": "activity6",
-        "summary": "summary"
+        "0_opening": "opening",
+        "1_activity1": "activity1",
+        "2_activity2": "activity2",
+        "3-activity3": "activity3",
+        "4_activity4": "activity4",
+        "5_activity5": "activity5",
+        "6_activity6": "activity6",
+        "7_activity7": "activity7",
+        "8_activity8": "activity8",
+        "9_summary": "summary"
     },
     "chapter4": {
         "opening": "opening",
@@ -197,11 +199,13 @@ export const chapterName2SidebarActivity: Record<string, Record<string, string>>
     "chapter3": {
         "opening": "Opening",
         "activity1": "Label the Passengers on the Bus",
-        "activity2": "Identify how it feels in your body",
-        "activity3": "Learn How to Meditate",
-        "activity4": "Make a Belief Statement",
-        "activity5": "Be Aware of Cognitive Distortions",
-        "activity6": "Reflecting on Cognitive Distortions",
+        "activity2": "Identify How it Feels in Your Body",
+        "activity3": "Learn How it Feels in Your Body ",
+        "activity4": "Learn How to Meditate",
+        "activity5": "Make a Belief Statement",
+        "activity6": "Be Aware of Cognitive Distortions",
+        "activity7": "Summary of Cognitive Distortions",
+        "activity8": "Reflecting on Cognitive Distortions",
         "summary": "Summary"
     },
     "chapter4": {
