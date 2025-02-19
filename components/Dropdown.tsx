@@ -8,12 +8,14 @@ interface DropDownProps {
   items: { name: string }[];
   value: string;
   setValue: (val: string) => void;
+  placeholder?: string;
 }
 
 export const DropdownComponent: React.FC<DropDownProps> = ({
   items,
   value,
   setValue,
+  placeholder,
 }) => {
   const [isFocus, setIsFocus] = useState(false);
 
@@ -40,7 +42,7 @@ export const DropdownComponent: React.FC<DropDownProps> = ({
       maxHeight={300}
       labelField="name"
       valueField="name"
-      placeholder={!isFocus ? "Select question" : "..."}
+      placeholder={!isFocus ? placeholder : "..."}
       value={value}
       onFocus={() => setIsFocus(true)}
       onBlur={() => setIsFocus(false)}

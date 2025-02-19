@@ -1,4 +1,4 @@
-// app/(app)/index.tsx
+// app/(app)/chapter2/content/summary.tsx
 import React, { useEffect, useState } from "react";
 
 import { SummaryQuestion } from "@/components/Chapter2SummaryQuestion";
@@ -15,7 +15,7 @@ import {
   setChapter2Summary,
   updateChapter2Progress,
 } from "@/hooks/Chapter2Activity";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 export type SummaryQuestions = {
   question1: string;
@@ -43,12 +43,18 @@ export default function Summary() {
 
   const { user, pending } = useAuth();
 
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
+
+  useEffect(() => {
+    setCurrPage('summary');
+  }, [])
+
   useEffect(() => {
     if (user) {
       getChapter2Summary(user.uid)
         .then((snapshot) => {
           if (snapshot.exists()) {
-            const answer = snapshot.val();
+            const answer = snapshot.data();
             for (const [key, value] of Object.entries(answer)) {
               updateQuestion(key as keyof SummaryQuestions, value as string);
             }
@@ -57,22 +63,6 @@ export default function Summary() {
         .catch((err) => console.log("Error get chapter 2 summary: " + err));
     }
   }, [pending]);
-
-  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
-
-  useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Summary": true
-        }
-    }));
-
-    setCurrPage("Summary");
-  }, []);
-  //~~~END COPY PASTA~~~
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -86,13 +76,14 @@ export default function Summary() {
         </Text>
 
         <Text fontSize={"$5"} lineHeight={20}>
-          Simply, close your eyes and picture yourself driving a bus. Ask
-          yourself: {"\n"} - Who are my passengers right now? {"\n"} - What are
-          they persuading me to do? {"\n"} - What do I truly want to do?
+          Simply, close your eyes and picture yourself driving a bus. Then, ask
+          yourself:
+          {"\n"} - Who are my passengers right now? {"\n"} - What are they
+          persuading me to do? {"\n"} - What do I truly want to do?
         </Text>
 
         <Text fontSize={"$5"} lineHeight={20}>
-          Following questions will help you reflect on this chapter:
+          The following questions will help you reflect on this part:
         </Text>
 
         {Chapter2.SummaryQuestionData.map((ele, i) => {
@@ -117,6 +108,7 @@ export default function Summary() {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
+              updateChapterProgress('chapter2', 'summary');
               setChapter2Summary(user!.uid, questions);
               router.push("/(app)/chapter2");
               updateChapter2Progress(user!.uid, "8_Summary");

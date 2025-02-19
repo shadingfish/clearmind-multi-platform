@@ -1,4 +1,4 @@
-// app/(app)/index.tsx
+// app/(app)/chapter2/content/activity1.tsx
 import { Check as CheckIcon } from "@tamagui/lucide-icons";
 import React, { useEffect, useState } from "react";
 
@@ -23,7 +23,7 @@ import {
   XStack,
   YStack,
 } from "tamagui";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 export default function Activity1() {
   const router = useRouter();
@@ -35,29 +35,18 @@ export default function Activity1() {
     { id: "2", label: "Anger", checked: false },
     { id: "3", label: "Loneliness", checked: false },
     { id: "4", label: "Anxiety", checked: false },
-    { id: "5", label: "Overwhelm", checked: false },
-    { id: "6", label: "Doubt", checked: false },
-    { id: "7", label: "Distraction", checked: false },
+    { id: "5", label: "Doubt", checked: false },
+    { id: "6", label: "Distraction", checked: false },
   ]);
   const [checkboxOther, setCheckboxOther] = useState(false);
   const [otherInput, setOtherInput] = useState("");
   const { user, pending } = useAuth();
 
-  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Your Challenging Emotions": true
-        }
-    }));
-
-    setCurrPage("Your Challenging Emotions");
-  }, []);
-  //~~~END COPY PASTA~~~
+    setCurrPage('activity1');
+  }, [])
 
   if (pending) {
     return null;
@@ -204,6 +193,7 @@ export default function Activity1() {
         <ChapterNavigationButton
           prev={"/(app)/chapter2/content/opening"}
           next={() => {
+            updateChapterProgress("chapter2", "activity1"); //for sidebarmodal
             router.push("/(app)/chapter2/content/activity2");
             updateChapter2Progress(user!.uid, "2_Activity2_1");
           }}

@@ -1,9 +1,9 @@
+// app/(app)/chapter2/index.tsx
+
 import { ChapterItem } from "@/components/ChapterActivityIcon";
 import { Chapter2, ChapterProgress } from "@/constants/data";
-import {
-  getChapter2Progress,
-  initChapter2Progress,
-} from "@/hooks/Chapter2Activity";
+import { getChapter2Progress } from "@/hooks/Chapter2Activity";
+
 import { useAuth } from "@/hooks/useAuth";
 import { Link, RelativePathString } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -18,18 +18,20 @@ export default function Chapter2Index() {
 
   useEffect(() => {
     setFinished(Object.values(progress).every((value) => value === "1"));
+
+    //console.log('chapter2 progress:', progress);
   }, [progress]);
 
   useEffect(() => {
     if (user) {
       getChapter2Progress(user.uid)
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            const curProgress = snapshot.val();
+        .then((res) => {
+          if (res != null) {
+            const curProgress = res;
             delete curProgress["5_Identify_your_passengers"];
             setProgress(curProgress);
           } else {
-            initChapter2Progress(user.uid);
+            console.log("error no progress");
           }
         })
         .catch((err) => console.log(err));
@@ -68,7 +70,7 @@ export default function Chapter2Index() {
             textDecorationLine="underline"
             color={"$blue11Light"}
           >
-            <Link href={"/(app)/chapter2"}>Continue to the next part!</Link>
+            <Link href={"/(app)/chapter3"}>Continue to the next part!</Link>
           </Text>
         </YStack>
       )}

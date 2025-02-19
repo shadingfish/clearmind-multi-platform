@@ -4,8 +4,8 @@ import { RelativePathString, useRouter } from "expo-router";
 import { Button, View, XStack } from "tamagui";
 
 interface ChapterNavigationButtonProps {
-  prev: string;
-  next: () => void;
+  prev?: string;
+  next?: () => void;
 }
 
 export const ChapterNavigationButton: React.FC<

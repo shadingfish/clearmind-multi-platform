@@ -2,106 +2,191 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "@/constants/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "expo-router";
+import {chapterName2SidebarActivity, chapterProgressData} from "../constants/chapterData"; //just temporary
+import { useAuth } from "@/hooks/useAuth";
+import { Chapter1, Chapter2, Chapter3, ChapterProgress } from "@/constants/data";
+import { getChapter2Progress } from "@/hooks/Chapter2Activity";
+import { getChapter1Progress, initChapter1Progress } from "@/hooks/Chapter1Activity";
+import { getChapter3Progress, initChapter3Progress } from "@/hooks/Chapter3Activity";
 
 // Define the shape of the context
-interface AuthContextType {
-  isSignedIn: boolean;
-  pending: boolean;
+interface ChapterProgressContextType {
   userData: Record<string, Record<string, boolean>>;
   setUserData: React.Dispatch<React.SetStateAction<Record<string, Record<string, boolean>>>>;
   currPage: string,
   setCurrPage: (data: string) => void;
+  updateChapterProgress: (chapter: string, activity: string) => void;
+  isFinished: (chapter: string) => boolean;
+  chap1Percent: number;
+  chap2Percent: number;
+  chap3Percent: number;
+  chap4Percent: number;
 }
 
 // Create the context with an initial default value
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const ChapterProgressContext = createContext<ChapterProgressContextType | undefined>(undefined);
+
+
 
 // Context Provider Component
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [pending, setPending] = useState(true);
+export function ChapterProgressProvider({ children }: { children: React.ReactNode }) {
   const [userData, setUserData] = useState<Record<string, Record<string, boolean>>>({});
   const [currPage, setCurrPage] = useState<string>(""); //set to the title of the page and then you should know which chapter you're in modal anyway
+  const [chap1Percent, setChap1Percent] = useState(0);
+  const [chap2Percent, setChap2Percent] = useState(0);
+  const [chap3Percent, setChap3Percent] = useState(0);
+  const [chap4Percent, setChap4Percent] = useState(0);
 
-  const router = useRouter();
+  const { user, pending } = useAuth();
+  const [ch1progress, setCh1Progress] = useState<ChapterProgress>(
+    Chapter1.EmptyProgress
+  );
+  const [ch2progress, setCh2Progress] = useState<ChapterProgress>(
+    Chapter2.EmptyProgress
+  );
+  const [ch3progress, setCh3Progress] = useState<ChapterProgress>(
+    Chapter3.EmptyProgress
+  );
 
-    //add logic to connect to backend
-  /* useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsSignedIn(true);
-        setUserData({ uid: user.uid, email: user.email || "" }); // Example user data
-      } else {
-        setIsSignedIn(false);
-        setUserData({});
-        router.replace("/(login)");
+  const getProgressStats = (progress: Record<string, boolean>) => {
+    const values = Object.values(progress);
+    const trueCount = values.filter((value) => value === true).length;
+    const totalCount = values.length;
+    
+    return Math.round((trueCount / totalCount) * 100) // Progress in percentage
+  };
+
+
+  useEffect(() => {
+    if (userData["chapter1"] && userData["chapter2"] && userData["chapter3"] && userData["chapter4"]) {
+      setChap1Percent(getProgressStats(userData["chapter1"]));
+      setChap2Percent(getProgressStats(userData["chapter2"]));
+      setChap3Percent(getProgressStats(userData["chapter3"]));
+      setChap4Percent(getProgressStats(userData["chapter4"]));
+      console.log('chap2percent', chap2Percent);
+    }
+  }, [userData])
+
+  useEffect(() => {
+    if (user) {
+      //get ch1 progress
+      getChapter1Progress(user.uid)
+        .then((res) => {
+          if (res != null) {
+            setCh1Progress(res);
+          } else {
+            console.log("No progress found, initializing...");
+            initChapter1Progress(user.uid);
+          }
+        })
+      .catch((err) => console.log("Error fetching Chapter1 progress:", err));
+
+      //get ch2 progress
+      getChapter2Progress(user.uid)
+        .then((res) => {
+          if (res != null) {
+            const curProgress = res;
+            delete curProgress["5_Identify_your_passengers"];
+            setCh2Progress(curProgress);
+          } else {
+            console.log("error no progress");
+          }
+        })
+        .catch((err) => console.log(err));
+
+      //get ch2 progress
+      getChapter3Progress(user.uid)
+        .then((res) => {
+          if (res != null) {
+            const curProgress = res;
+            setCh3Progress(curProgress);
+            console.log('ch3 auth context get', curProgress);
+          } else {
+            console.log("error no progress");
+          }
+        })
+        .catch((err) => console.log(err));
+
+      //add chapter4 progress
+    }
+  }, [pending]);
+
+  const mapChapterProgress = (
+    chapterData: Record<string, string>,
+    mapping: Record<string, string>
+  ): Map<string, boolean> => {
+    //print('here in mapchapterprogress')
+    const result = new Map<string, boolean>();
+  
+    // Iterate over the mapping keys to maintain order
+    for (const key of Object.keys(mapping)) {
+      if (key in chapterData) {
+        result.set(mapping[key], chapterData[key] === "1");
       }
-      setPending(false);
-    });
+    }
+  
+    return result;
+  };
 
-    return () => unsubscribe();
-  }, []); */
+    useEffect(() => {
+        if (ch1progress && ch2progress && ch3progress) { //should be all chapters
+          //setUserData(chapterProgressData); //this would actually just be a backend call
 
-    //just temporary
-    const tempPart1: Record<string, boolean> = {
-        "Opening": true,
-        "Prioritize Your Life Values": true,
-        "Discover Procrastination Reasons": true,
-        "Procrastination Tendencies": true,
-        "Tendencies Questions": true,
-        "How to Use the App": true,
-        "Summary": true,
-    }
-    const tempPart2: Record<string, boolean> = {
-        "Opening": true,
-        "Your Challenging Emotions": false,
-        "Passengers On The Bus": false,
-        "Example of Driving the bus": false,
-        "Identify your passengers": false,
-        "Willingness to Carry On": false,
-        "Summary": false,
-    }
-    const tempPart3: Record<string, boolean> = {
-        "Opening": false,
-        "Label the Passengers on the Bus": false,
-        "Identify how it feels in your body": false,
-        "Learn How to Meditate": false,
-        "Make a Belief Statement": false,
-    }
-    const tempPart4: Record<string, boolean> = {
-        "Opening": false,
-        "Prioritize Your Life Values": false,
-        "Discover Procrastination Reasons": false,
-        "Procrastination Tendencies": false,
-        "Tendencies Questions": false,
-        "How to Use the App": false,
-        "Summary": false,
+          setUserData(
+            {
+              "chapter1": Object.fromEntries(mapChapterProgress(ch1progress, chapterName2SidebarActivity["chapter1"])),
+              "chapter2": Object.fromEntries(mapChapterProgress(ch2progress, chapterName2SidebarActivity["chapter2"])),
+              "chapter3": Object.fromEntries(mapChapterProgress(ch3progress, chapterName2SidebarActivity["chapter3"])), //change to backend
+              "chapter4": chapterProgressData["chapter4"], //change to backend
+            }
+          )
+          //console.log('userdata:', userData);
+          console.log('ch context chapter1 progress:', ch1progress);
+          console.log('ch context chapter2 progress:', ch2progress);
+          console.log('ch context chapter3 progress:', ch3progress);
+        }
+      
+    }, [ch1progress, ch2progress, ch3progress]); //run when authcontext is mounted
+
+
+    //this should be called in a use effect in every activity. just pass the chapter# and activity# (opening, summary, activity#)
+    const updateChapterProgress = (chapter: string, activity: string) => {
+      
+      setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
+          ...prevUserData,
+          [chapter]: {
+              ...prevUserData[chapter],
+              [activity]: true
+          }
+      }));
+
+      //setCurrPage(activity);
+
     }
 
-    const visited_chapters: Record<string, Record<string, boolean>> = {
-        "chapter1": tempPart1,
-        "chapter2": tempPart2,
-        "chapter3": tempPart3,
-        "chapter4": tempPart4
+    //checks if a chapter is finished
+    const isFinished = (chapter: string) => {
+      let trueCount = Object.values(userData[chapter]).filter(value => value).length;
+
+      return(trueCount == Object.values(userData[chapter]).length); //return true if all activities are finished
     }
 
     useEffect(() => {
-        setUserData(visited_chapters);
-
-    }, []);
+      console.log('userData', userData);
+    }, [userData])
 
   return (
-    <AuthContext.Provider value={{ isSignedIn, pending, userData, setUserData, currPage, setCurrPage }}>
+    <ChapterProgressContext.Provider value={{ userData, setUserData, currPage, setCurrPage, updateChapterProgress, isFinished, chap1Percent, chap2Percent, chap3Percent, chap4Percent }}>
       {children}
-    </AuthContext.Provider>
+    </ChapterProgressContext.Provider>
   );
 }
 
 // Custom Hook for Using the Context
-export function useAuthContext() {
-  const context = useContext(AuthContext);
+export function useChapterProgressContext() {
+  const context = useContext(ChapterProgressContext);
   if (!context) {
-    throw new Error("useAuthContext must be used within an AuthProvider");
+    throw new Error("useChapterProgressContext must be used within an AuthProvider");
   }
   return context;
 }

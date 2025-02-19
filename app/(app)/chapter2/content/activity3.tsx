@@ -1,4 +1,4 @@
-// app/(app)/index.tsx
+// app/(app)/chapter2/content/activity3.tsx
 import { Chapter2Radio, Chapter2RadioProps } from "@/components/Chapter2Radio";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { Chapter2 } from "@/constants/data";
@@ -8,32 +8,24 @@ import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScrollView, Text, View, YStack } from "tamagui";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+
 
 export default function Activity3() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
   const { user, pending } = useAuth();
 
-  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
   useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Example of Driving the bus": true
-        }
-    }));
-
-    setCurrPage("Example of Driving the bus");
-  }, []);
-  //~~~END COPY PASTA~~~
+    setCurrPage('activity3');
+  }, [])
 
   if (pending) {
     return null;
   }
+
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -65,6 +57,7 @@ export default function Activity3() {
         <ChapterNavigationButton
           prev={"/(app)/chapter2/content/activity2"}
           next={() => {
+            updateChapterProgress('chapter2', 'activity3');
             router.push("/(app)/chapter2/content/activity4");
             updateChapter2Progress(user!.uid, "4_Example");
           }}

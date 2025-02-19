@@ -15,7 +15,7 @@ import {
   setChapter2Activity2,
   updateChapter2Progress,
 } from "@/hooks/Chapter2Activity";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -66,6 +66,12 @@ export default function Activity4() {
     diagram_persuasion: "",
   });
 
+  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
+
+  useEffect(() => {
+    setCurrPage('activity4');
+  }, [])
+
   const updateQuestion = (field: keyof Activity4Questions, value: string) => {
     setQuestions((prev) => ({ ...prev, [field]: value }));
   };
@@ -75,7 +81,7 @@ export default function Activity4() {
       getChapter2Activity2(user.uid)
         .then((snapshot) => {
           if (snapshot.exists()) {
-            const answer = snapshot.val();
+            const answer = snapshot.data();
             for (const [key, value] of Object.entries(answer)) {
               updateQuestion(key as keyof Activity4Questions, value as string);
             }
@@ -85,29 +91,14 @@ export default function Activity4() {
     }
   }, [pending]);
 
-  //~~~JUST COPY PAST THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-  const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
-
-  useEffect(() => {
-    setUserData((prevUserData: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => ({
-        ...prevUserData,
-        "chapter2": {
-            ...prevUserData.chapter2,
-            "Identify your passengers": true
-        }
-    }));
-
-    setCurrPage("Identify your passengers");
-  }, []);
-  //~~~END COPY PASTA~~~
-
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"} paddingBottom={bottom}>
         <Text fontSize={"$5"} lineHeight={20}>
-          The destination here can be big, such as your top value mentioned in
-          Part 1, or it can be any small goal toward your top value.
-          [explanation of the difference between goal and value]
+          The destination can be something big, like your top value mentioned in
+          Part 1, or a smaller goal that moves you closer to that value. A value
+          is a guiding principle that shapes your life, while a goal is a
+          specific action or milestone that helps you live by that value.
         </Text>
 
         <Text fontSize={"$5"} lineHeight={20}>
@@ -117,13 +108,6 @@ export default function Activity4() {
           (challenging passengers) that may lead you to procrastinate toward the
           goal. Managing challenging passengers, which you will learn in Part 3,
           will be much clearer once you know who they are.
-        </Text>
-
-        <Text fontSize={"$5"} lineHeight={20}>
-          Recognizing these passengers is the first step to overcome
-          procrastination and stay on track towards your destination! Think of
-          your destination and possible challenging passengers. It can be
-          anything like “health”, or “getting homework done.”
         </Text>
 
         <Image
@@ -174,6 +158,7 @@ export default function Activity4() {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
+              updateChapterProgress('chapter2', 'activity4');
               setChapter2Activity2(user!.uid, questions);
               router.push("/(app)/chapter2/content/activity5");
               updateChapter2Progress(user!.uid, "6_Diagram");

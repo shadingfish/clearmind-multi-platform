@@ -1,0 +1,6 @@
+module Pods_clearmind {
+  umbrella header "Pods-clearmind-umbrella.h"
+
+  export *
+  module * { export * }
+}

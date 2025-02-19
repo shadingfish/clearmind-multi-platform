@@ -1,4 +1,4 @@
-// app/(app)/_layout.tsx
+// app/(app)/chapter2/content/_layout.tsx
 
 import colors from "@/constants/colors";
 import Entypo from "@expo/vector-icons/Entypo";
