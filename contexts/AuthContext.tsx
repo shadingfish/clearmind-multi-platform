@@ -27,8 +27,6 @@ interface ChapterProgressContextType {
 // Create the context with an initial default value
 const ChapterProgressContext = createContext<ChapterProgressContextType | undefined>(undefined);
 
-
-
 // Context Provider Component
 export function ChapterProgressProvider({ children }: { children: React.ReactNode }) {
   const [userData, setUserData] = useState<Record<string, Record<string, boolean>>>({});

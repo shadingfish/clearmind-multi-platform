@@ -1,10 +1,10 @@
-// contexts/Chapter3Context.tsx
+// contexts/Chapter1Context.tsx
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { auth } from "@/constants/firebaseConfig";
-import { onAuthStateChanged } from "firebase/auth";
-import { useRouter } from "expo-router";
-import {chapterProgressData} from "../constants/chapterData"; //just temporary
+// import { auth } from "@/constants/firebaseConfig";
+// import { onAuthStateChanged } from "firebase/auth";
+// import { useRouter } from "expo-router";
+// import {chapterProgressData} from "../constants/chapterData"; //just temporary
 
 // Define the shape of the context
 interface Chapter1ContextType {
@@ -75,4 +75,3 @@ export function Chapter1Provider({ children }: { children: React.ReactNode }) {
     }
     return context;
   }
-  

@@ -1,12 +1,12 @@
 export const chapterName2SidebarActivity: Record<string, Record<string, string>> = {
     "chapter1": {
         "1_Opening": "opening",
-        "2_Activity1_0": "activity0",
-        "2_Activity1_1": "activity1",
-        "3_Activity1_2_Discover": "activity2_1",
-        "4_Activity1_2_Questions": "activity2_2",
-        "5_Time_Management": "activity3",
-        "6_Summary": "summary",
+        "2_Activity1": "activity1",
+        "3_Activity2": "activity2",
+        "4_Activity3_Discover": "activity3",
+        "5_Activity4_Questions": "activity4",
+        "6_Time_Management": "activity5",
+        "7_Summary": "summary"
     },
     "chapter2": {
         "1_Opening": "opening", 
