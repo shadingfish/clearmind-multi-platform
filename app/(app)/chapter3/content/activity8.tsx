@@ -31,10 +31,10 @@ import { hasEmptyValues } from "@/constants/helper";
 import { Toast } from "@tamagui/toast";
 import { useToastController } from "@tamagui/toast";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
-import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
+import { getChapter3Activity8, setChapter3Activity8, updateChapter3Progress } from "@/hooks/Chapter3Activity";
 import { useAuth } from "@/hooks/useAuth";
 
-type Activity8Questions = {
+export type Activity8Questions = {
     potentialStrategy: string;
   };
 
@@ -57,6 +57,21 @@ const Activity8 = () => {
     useEffect(() => {
         setCurrPage('activity8');
     }, [])
+
+    useEffect(() => {
+        if (user) {
+          getChapter3Activity8(user.uid)
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                const answer = snapshot.data();
+                for (const [key, value] of Object.entries(answer)) {
+                  updateQuestion(key as keyof Activity8Questions, value as string);
+                }
+              }
+            })
+            .catch((err) => console.log("Error get chapter 3 activity2:", err));
+        }
+      }, [pending]);
 
     const updateQuestion = (field: keyof Activity8Questions, value: string) => {
         console.log('value', value, 'field', field)
@@ -133,6 +148,7 @@ const Activity8 = () => {
                     } else {
                     updateChapterProgress("chapter3", "activity8");
                     updateChapter3Progress(user!.uid, "8_activity8");
+                    setChapter3Activity8(user!.uid, questions);
                     router.push("/(app)/chapter3/content/summary" as RelativePathString);
                     }
                 }}

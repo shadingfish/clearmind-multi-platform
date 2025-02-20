@@ -56,12 +56,6 @@ const Activity3 = () => {
         }
       }, [pending]);
 
-    /* useEffect(() => {
-        if (user) {
-            setChapter3Activity3(user!.uid, questions);
-        }
-    }, [user, questions]) */
-
     const handlePress = (pathName: string) => {
         setQuestions((prev) => {
             const updatedPaths = new Set(prev.whichPaths); 
