@@ -30,10 +30,10 @@ import { router } from "expo-router";
 import { hasEmptyValues } from "@/constants/helper";
 import { useToastController } from "@tamagui/toast";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
-import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
+import { getChapter3Summary, setChapter3Summary, updateChapter3Progress } from "@/hooks/Chapter3Activity";
 import { useAuth } from "@/hooks/useAuth";
 
-type SummaryQuestions = {
+export type SummaryQuestions = {
     summaryQues1: string;
     summaryQues2: string;
     summaryQues3: string;
@@ -54,6 +54,21 @@ const Summary = () => {
       useEffect(() => {
           setCurrPage('summary');
       }, [])
+
+      useEffect(() => {
+        if (user) {
+          getChapter3Summary(user.uid)
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                const answer = snapshot.data();
+                for (const [key, value] of Object.entries(answer)) {
+                  updateQuestion(key as keyof SummaryQuestions, value as string);
+                }
+              }
+            })
+            .catch((err) => console.log("Error get chapter 3 summary:", err));
+        }
+      }, [pending]);
 
     const updateQuestion = (field: keyof SummaryQuestions, value: string) => {
         console.log('value', value, 'field', field)
@@ -198,6 +213,7 @@ const Summary = () => {
                     } else {
                     updateChapterProgress("chapter3", "summary");
                     updateChapter3Progress(user!.uid, "9_summary");
+                    setChapter3Summary(user!.uid, questions);
                     router.push("/(app)/chapter3");}
                 }}
             />

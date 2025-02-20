@@ -31,9 +31,9 @@ import { RelativePathString, router } from "expo-router";
 import { useToastController } from "@tamagui/toast";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { useAuth } from "@/hooks/useAuth";
-import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
+import { getChapter3Activity6, setChapter3Activity6, updateChapter3Progress } from "@/hooks/Chapter3Activity";
 
-type Activity6Questions = {
+export type Activity6Questions = {
     whichCogDistPaths: Set<string>;
     hasCogDist: {[key: string]: boolean};
   };
@@ -51,21 +51,31 @@ const Activity6 = () => {
 
     const [questions, setQuestions] = useState<Activity6Questions>({
         whichCogDistPaths: new Set<string>,
-        hasCogDist: {},
+        hasCogDist: {}, 
       });
 
-    /* const imageSources = {
-        "Mental Filtering": require('@/assets/images/distortion_mental_filtering_1.png'),
-        "All-or-nothing thinking": require('@/assets/images/distortion_all_or_nothing_1.png'),
-        "Overgeneralization": require('@/assets/images/distortion_overgeneralization_1.png'), 
-        "Discounting the positive": require('@/assets/images/distortion_discounting_the_positive_1.png'),
-        "Jumping to Conclusions": require('@/assets/images/distortion_jumping_to_conclusions_1.png'),
-        "Magnification": require('@/assets/images/distortion_magnification_1.png'),
-        "Emotional Reasoning": require('@/assets/images/distortion_emotional_reasoning_1.png'),
-        '"Should" Statements': require('@/assets/images/distortion_should_1.png'),
-        "Labeling": require('@/assets/images/distortion_labeling_1.png'),
-        "Personalization and Blame": require('@/assets/images/distortion_personalization_and_blame_1.png'),
-      }; */
+      useEffect(() => {
+        if (user) {
+          getChapter3Activity6(user.uid)
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                const answer = snapshot.data();
+                console.log('answer', answer)
+                setQuestions({
+                    whichCogDistPaths: new Set(answer.whichCogDistPaths ?? []), // Convert array to Set
+                    hasCogDist: answer.hasCogDist ?? {}, // Ensure hasCogDist is not undefined
+                  });
+              }
+            })
+            .catch((err) => console.log("Error get chapter 3 activity3:", err));
+        }
+      }, [pending]);
+
+      useEffect(() => { //since it's longer, they can save their progress
+        if (user && questions && questions.whichCogDistPaths.size > 0) {
+            setChapter3Activity6(user!.uid, questions);
+        }
+      }, [user, questions])
     
     const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -243,6 +253,7 @@ const Activity6 = () => {
                       } else {
                         //updateChapterProgress("chapter3", "activity6");
                         //updateChapter3Progress(user!.uid, "6_activity6");
+                        //setChapter3Activity6(user!.uid, questions);
                         router.push("/(app)/chapter3/content/activity7" as RelativePathString);
                 }}}
             />

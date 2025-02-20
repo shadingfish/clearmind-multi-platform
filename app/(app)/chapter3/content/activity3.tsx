@@ -13,10 +13,10 @@ import { RelativePathString, router } from "expo-router";
 import { useToastController } from "@tamagui/toast";
 import { hasEmptyValues } from "@/constants/helper";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
-import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
+import { getChapter3Activity3, setChapter3Activity3, updateChapter3Progress } from "@/hooks/Chapter3Activity";
 import { useAuth } from "@/hooks/useAuth";
 
-type Activity3Questions = {
+export type Activity3Questions = {
     whichPaths: Set<string>;
   };
 
@@ -34,12 +34,35 @@ const Activity3 = () => {
         whichPaths: new Set<string>
       });
 
+      useEffect(() => {
+        if (user) {
+          getChapter3Activity3(user.uid)
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                const answer = snapshot.data();
+                console.log('answer', answer)
+                setQuestions((prevQuestions) => ({
+                    ...prevQuestions,
+                    ...Object.fromEntries(
+                      Object.entries(answer).map(([key, value]) => [
+                        key,
+                        new Set(value as string[]),
+                      ])
+                    ),
+                  }));
+              }
+            })
+            .catch((err) => console.log("Error get chapter 3 activity3:", err));
+        }
+      }, [pending]);
+
     const handlePress = (pathName: string) => {
         setQuestions((prev) => {
             const updatedPaths = new Set(prev.whichPaths); 
             updatedPaths.add(pathName); 
     
             const updatedQuestions = { ...prev, whichPaths: updatedPaths }; 
+            setChapter3Activity3(user!.uid, updatedQuestions);
     
             return updatedQuestions; 
         });

@@ -26,15 +26,29 @@ import * as Progress from "react-native-progress";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { RelativePathString, router } from "expo-router";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
-import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
+import { getChapter3Activity6, updateChapter3Progress } from "@/hooks/Chapter3Activity";
 import { useAuth } from "@/hooks/useAuth";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 const Activity7 = () => {
     const { user, pending } = useAuth();
-    const [myData, setMyData] = useState({}); //get from backend
+    const [myData, setMyData] = useState({}); //get from backend ... this is hasCogDist
 
     const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
+
+    useEffect(() => {
+        if (user) {
+          getChapter3Activity6(user.uid)
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                const answer = snapshot.data();
+                console.log('answer', answer)
+                setMyData(answer.hasCogDist || {});
+              }
+            })
+            .catch((err) => console.log("Error get chapter 3 activity3:", err));
+        }
+      }, [pending]);
 
     useEffect(() => {
         setCurrPage('activity7');
@@ -79,15 +93,6 @@ const Activity7 = () => {
         "Labeling": require('@/assets/images/distortion_labeling_1.png'),
         "Personalization and Blame": require('@/assets/images/distortion_personalization_and_blame_1.png'),
       };
-
-
-    /* //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { updateChapterProgress } = useChapterProgressContext();
-
-    useEffect(() => {
-        updateChapterProgress("chapter3", "activity7");
-    }, []);
-    //~~~END COPY PASTA~~~ */
 
     return (
         <YStack margin={"$4"} gap={"$4"} flex={1}>

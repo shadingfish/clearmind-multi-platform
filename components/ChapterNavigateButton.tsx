@@ -28,19 +28,21 @@ export const ChapterNavigationButton: React.FC<
         </View>
       </Button>
 
-      <Button
-        unstyled
-        backgroundColor={colors.headerBackground}
-        borderRadius={3}
-        justifyContent="center"
-        alignItems="center"
-        height={"$3"}
-        onPress={next}
-      >
-        <View marginHorizontal={"$3"} marginLeft={"$5"}>
-          <AntDesign name="doubleright" size={20} color="white" />
-        </View>
-      </Button>
+      { next ?
+        <Button
+          unstyled
+          backgroundColor={colors.headerBackground}
+          borderRadius={3}
+          justifyContent="center"
+          alignItems="center"
+          height={"$3"}
+          onPress={next}
+        >
+          <View marginHorizontal={"$3"} marginLeft={"$5"}>
+            <AntDesign name="doubleright" size={20} color="white" />
+          </View>
+        </Button> : <View/>
+      }
     </XStack>
   );
 };

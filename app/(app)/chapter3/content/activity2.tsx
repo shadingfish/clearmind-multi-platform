@@ -31,10 +31,10 @@ import { RelativePathString, router } from "expo-router";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { hasEmptyValues } from "@/constants/helper";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
-import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
+import { getChapter3Activity2, setChapter3Activity2, updateChapter3Progress } from "@/hooks/Chapter3Activity";
 import { useAuth } from "@/hooks/useAuth";
 
-type Activity2Questions = {
+export type Activity2Questions = {
     p3_body: string;
     p3_physical: string;
   };
@@ -48,6 +48,21 @@ const Activity2 = () => {
         p3_body: "",
         p3_physical: "",
       });
+
+      useEffect(() => {
+        if (user) {
+          getChapter3Activity2(user.uid)
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                const answer = snapshot.data();
+                for (const [key, value] of Object.entries(answer)) {
+                  updateQuestion(key as keyof Activity2Questions, value as string);
+                }
+              }
+            })
+            .catch((err) => console.log("Error get chapter 3 activity2:", err));
+        }
+      }, [pending]);
 
     const updateQuestion = (field: keyof Activity2Questions, value: string) => {
         console.log('value', value, 'field', field)
@@ -130,6 +145,7 @@ const Activity2 = () => {
                       } else {
                         updateChapterProgress("chapter3", "activity2");
                         updateChapter3Progress(user!.uid, "2_activity2");
+                        setChapter3Activity2(user!.uid, questions);
                         router.push("/(app)/chapter3/content/activity3" as RelativePathString);}
                 }}
             />

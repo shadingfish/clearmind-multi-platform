@@ -30,10 +30,10 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useToastController } from "@tamagui/toast";
 import { hasEmptyValues } from "@/constants/helper";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
-import { updateChapter3Progress } from "@/hooks/Chapter3Activity";
+import { getChapter3Activity1, setChapter3Activity1, updateChapter3Progress } from "@/hooks/Chapter3Activity";
 import { useAuth } from "@/hooks/useAuth";
 
-type Activity1Questions = {
+export type Activity1Questions = {
     p2_recentProcrastination: string;
     p2_feeling: string;
     p2_because: string;
@@ -49,13 +49,33 @@ const Activity1 = () => {
         p2_because: "",
       });
 
+      useEffect(() => {
+        if (user) {
+          getChapter3Activity1(user.uid)
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                const answer = snapshot.data();
+                for (const [key, value] of Object.entries(answer)) {
+                  updateQuestion(key as keyof Activity1Questions, value as string);
+                }
+              }
+            })
+            .catch((err) => console.log("Error get chapter 3 activity1:", err));
+        }
+      }, [pending]);
+
     const updateQuestion = (field: keyof Activity1Questions, value: string) => {
         setQuestions((prev) => {
             const updatedQuestions = { ...prev, [field]: value };
+
+
     
             return updatedQuestions;
         });
+
     };
+
+
 
     const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
@@ -136,6 +156,7 @@ const Activity1 = () => {
                   } else {
                     updateChapterProgress("chapter3", "activity1");
                     updateChapter3Progress(user!.uid, "1_activity1");
+                    setChapter3Activity1(user!.uid, questions);
                     router.push("/(app)/chapter3/content/activity2" as RelativePathString);
                   }
                 }}
