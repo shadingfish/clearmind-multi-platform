@@ -12,7 +12,7 @@ export const Chapter1 = {
     "3_Activity1_2_Discover": "0",
     "4_Activity1_2_Questions": "0",
     "5_Time_Management": "0",
-    "6_Summary": "0"
+    "6_Summary": "0",
   },
   Activity: [
     {
@@ -132,8 +132,7 @@ export const Chapter1 = {
       useRadio: true,
     },
   ],
-
-}
+};
 
 export const Chapter2 = {
   RadioQuestion: [
@@ -285,7 +284,6 @@ export const Chapter2 = {
   },
 };
 
-
 export const Chapter3 = {
   Activity: [
     {
@@ -363,7 +361,7 @@ export const Chapter3 = {
     "8_activity8": "0",
     "9_summary": "0",
   },
-}
+};
 
 export const Chapter4 = {
   Activity: [
@@ -375,18 +373,32 @@ export const Chapter4 = {
       route: "/(app)/chapter4/content/opening",
     },
     {
-      name: "YOUR CHALLENGING EMOTIONS",
-      icon: require("assets/images/icon_practice.png"),
+      name: "INTRODUCE A NEW FRAMEWORK",
+      icon: require("assets/images/icon_text.png"),
       icon_done: require("assets/images/icon_practice_done.png"),
       progress_index: "2_Activity2",
       route: "/(app)/chapter4/content/activity1",
     },
     {
-      name: "PASSENGERS ON THE BUS",
-      icon: require("assets/images/icon_text.png"),
-      icon_done: require("assets/images/icon_text_done.png"),
+      name: "COMMIT TO A NEW GOAL",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
       progress_index: "3_Activity3",
       route: "/(app)/chapter4/content/activity2",
+    },
+    {
+      name: "IDENTIFY YOUR PASSENGERS",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "3_Activity3",
+      route: "/(app)/chapter4/content/activity3",
+    },
+    {
+      name: "WILLINGNESS TO CARRY ON",
+      icon: require("assets/images/icon_practice.png"),
+      icon_done: require("assets/images/icon_practice_done.png"),
+      progress_index: "3_Activity3",
+      route: "/(app)/chapter4/content/activity4",
     },
     {
       name: "SUMMARY",
@@ -397,9 +409,11 @@ export const Chapter4 = {
     },
   ],
   EmptyProgress: {
-    "1_Opening": "0",
-    "2_Activity2_1": "0",
-    "3_Passengers_On_The_Bus": "0",
-    "8_Summary": "0",
+    "0_opening": "0",
+    "1_activity1": "0",
+    "2_activity2": "0",
+    "3_activity3": "0",
+    "4_activity4": "0",
+    "5_summary": "0",
   },
-}
+};

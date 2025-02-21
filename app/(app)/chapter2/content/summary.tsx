@@ -17,7 +17,7 @@ import {
 } from "@/hooks/Chapter2Activity";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 
-export type SummaryQuestions = {
+type SummaryQuestions = {
   question1: string;
   question2: string;
   question3: string;
@@ -43,11 +43,11 @@ export default function Summary() {
 
   const { user, pending } = useAuth();
 
-  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
+  const { updateChapterProgress, setCurrPage } = useChapterProgressContext();
 
   useEffect(() => {
-    setCurrPage('summary');
-  }, [])
+    setCurrPage("summary");
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -108,7 +108,7 @@ export default function Summary() {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
-              updateChapterProgress('chapter2', 'summary');
+              updateChapterProgress("chapter2", "summary");
               setChapter2Summary(user!.uid, questions);
               router.push("/(app)/chapter2");
               updateChapter2Progress(user!.uid, "8_Summary");

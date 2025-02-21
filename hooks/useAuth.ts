@@ -39,17 +39,15 @@ export const useAuth = () => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const handleFirebaseLogout = async () => {
-    const router = useRouter();
+  const handleFirebaseLogout = () => {
     try {
-      await auth.signOut();
+      auth.signOut();
       console.log("User logged out");
       setAuthState({
         isSignedIn: false,
         pending: false,
         user: null,
       });
-      router.push(`/`)
     } catch (error) {
       console.error("Logout failed:", error);
     }

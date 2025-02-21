@@ -12,5 +12,9 @@ export const isValidUsername = (str: string): boolean => {
 };
 
 export const hasEmptyValues = (questions: object) => {
-  return Object.values(questions).some((value) => value.trim() === "");
+  return Object.values(questions).some(
+    (value) =>
+      (typeof value === "string" && value.trim() === "") ||
+      (Array.isArray(value) && value.length === 0)
+  );
 };
