@@ -137,6 +137,24 @@ export default function RootLayout() {
             title: "Part 4 Summary",
           }}
         />
+        <Stack.Screen
+          name="activity5" // This is the name of the page and must match the url from root
+          options={{
+            headerTitle: () => (
+              <Text
+                style={{
+                  fontWeight: "bold", // Bold font
+                  fontSize: 19,
+                  color: "#FFFFFF",
+                  alignSelf: "center",
+                  width: "125%",
+                }}
+              >
+                Introduce Goal Tracker
+              </Text>
+            ),
+          }}
+        />
       </Stack>
 
       {isSidebarVisible && (

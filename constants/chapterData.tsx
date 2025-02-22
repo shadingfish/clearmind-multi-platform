@@ -175,6 +175,7 @@ export const chapterName2SidebarActivity: Record<
     "3_activity3": "activity3",
     "4_activity4": "activity4",
     "5_summary": "summary",
+    "6_activity5": "activity5",
   },
 };
 

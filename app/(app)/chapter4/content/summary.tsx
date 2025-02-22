@@ -120,7 +120,9 @@ const Summary = () => {
               toast.show("Empty Input");
             } else {
               updateChapterProgress("chapter4", "Summary");
-              router.push("/(app)/chapter4/" as RelativePathString);
+              router.push(
+                "(app)/chapter4/content/activity5" as RelativePathString
+              );
             }
           }}
         />
