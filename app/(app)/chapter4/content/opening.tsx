@@ -1,27 +1,11 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Dimensions,
-  StyleSheet,
-  Text,
-  Pressable,
-  TextInput,
-} from "react-native";
-import { Label, RadioGroup, XStack, YStack } from "tamagui";
-import type { SizeTokens } from "tamagui";
-const { width } = Dimensions.get("window");
-const { height } = Dimensions.get("window");
-import { RadioButton } from "react-native-paper";
-import * as Progress from "react-native-progress";
-import { RelativePathString, useRouter } from "expo-router";
-//import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { updateChapter4Progress } from "@/hooks/Chapter4Activity";
 import { useAuth } from "@/hooks/useAuth";
+import { RelativePathString, useRouter } from "expo-router";
+import React, { useEffect } from "react";
+import { StyleSheet, Text } from "react-native";
+import { YStack } from "tamagui";
 
 const Opening = () => {
   const router = useRouter();

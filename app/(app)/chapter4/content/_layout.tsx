@@ -4,23 +4,18 @@ import colors from "@/constants/colors";
 import Entypo from "@expo/vector-icons/Entypo";
 import { Header } from "@react-navigation/elements";
 
+import SidebarModal from "@/app/SidebarModal";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { RelativePathString, router, Stack } from "expo-router";
+import { useState } from "react";
 import { Text } from "react-native";
 import { Button } from "tamagui";
-import SidebarModal from "@/app/SidebarModal";
-import { useRoute } from "@react-navigation/native";
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
 
 export default function RootLayout() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const openModal = () => setIsSidebarVisible(true);
   const closeModal = () => setIsSidebarVisible(false);
-
-  const route = useRoute();
-  const navigation = useNavigation();
 
   return (
     <>

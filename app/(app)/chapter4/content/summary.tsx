@@ -1,21 +1,20 @@
-import { RelativePathString, useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { Input, ScrollView, Text, View, YStack } from "tamagui";
-//import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import RadioButtonGroup from "@/components/RadioButtonGroup";
 import colors from "@/constants/colors";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { RelativePathString, useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { Input, ScrollView, Text, View, YStack } from "tamagui";
 
 import CheckboxList from "@/components/CheckboxList";
 import { hasEmptyValues } from "@/constants/helper";
-import { useToastController } from "@tamagui/toast";
-import { useAuth } from "@/hooks/useAuth";
 import {
   getChapter4Summary,
   setChapter4Summary,
   updateChapter4Progress,
 } from "@/hooks/Chapter4Activity";
+import { useAuth } from "@/hooks/useAuth";
+import { useToastController } from "@tamagui/toast";
 
 export type Chp4SummaryQuestions = {
   question1: string;

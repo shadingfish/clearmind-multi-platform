@@ -1,13 +1,9 @@
 import { ChapterItem } from "@/components/ChapterActivityIcon";
 import { Chapter4, ChapterProgress } from "@/constants/data";
 import { getChapter4Progress } from "@/hooks/Chapter4Activity";
-//import { useChapterProgressContext } from "@/contexts/AuthContext";
-/* import {
-  getChapter2Progress,
-  initChapter2Progress,
-} from "@/hooks/Chapter2Activity"; */
+
 import { useAuth } from "@/hooks/useAuth";
-import { Link, RelativePathString } from "expo-router";
+import { RelativePathString } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Text, View, YStack } from "tamagui";
 

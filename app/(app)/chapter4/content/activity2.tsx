@@ -1,3 +1,14 @@
+import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
+import colors from "@/constants/colors";
+import { hasEmptyValues } from "@/constants/helper";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
+import {
+  getChapter4Activity2,
+  setChapter4Activity2,
+  updateChapter4Progress,
+} from "@/hooks/Chapter4Activity";
+import { useAuth } from "@/hooks/useAuth";
+import { useToastController } from "@tamagui/toast";
 import { RelativePathString, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -8,21 +19,9 @@ import {
   Text,
   View,
 } from "react-native";
-import { Input, YStack } from "tamagui";
-//import { useChapterProgressContext } from "@/contexts/AuthContext";
-import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
-import colors from "@/constants/colors";
-import { useChapterProgressContext } from "@/contexts/AuthContext";
-import StarModal from "./StarModal";
-import { hasEmptyValues } from "@/constants/helper";
-import { useToastController } from "@tamagui/toast";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useAuth } from "@/hooks/useAuth";
-import {
-  getChapter4Activity2,
-  setChapter4Activity2,
-  updateChapter4Progress,
-} from "@/hooks/Chapter4Activity";
+import { Input, YStack } from "tamagui";
+import StarModal from "./StarModal";
 
 type Ch4Activity2Questions = {
   S: string;
@@ -63,14 +62,6 @@ const Activity2 = () => {
     setIsModalVisible(false);
     setCurrTitle("");
   };
-
-  /* //~~~JUST COPY PASTE THIS INTO EACH ACTIVITY AND CHANGE THE CHAPTER AND TITLE ACCORDINGLY~~~
-    const { updateChapterProgress } = useChapterProgressContext();
-
-    useEffect(() => {
-        updateChapterProgress("chapter4", "activity2");
-    }, []);
-    //~~~END COPY PASTA~~~ */
 
   const STAR = {
     Specific: require("@/assets/images/star_s.png"),

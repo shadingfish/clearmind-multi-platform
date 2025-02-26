@@ -1,12 +1,11 @@
-import { RelativePathString, useRouter } from "expo-router";
-import React, { useEffect } from "react";
-import { StyleSheet, Text } from "react-native";
-import { YStack } from "tamagui";
-//import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { updateChapter4Progress } from "@/hooks/Chapter4Activity";
 import { useAuth } from "@/hooks/useAuth";
+import { RelativePathString, useRouter } from "expo-router";
+import React, { useEffect } from "react";
+import { StyleSheet, Text } from "react-native";
+import { YStack } from "tamagui";
 
 const Activity1 = () => {
   const router = useRouter();

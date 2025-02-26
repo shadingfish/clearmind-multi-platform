@@ -1,12 +1,11 @@
-import { RelativePathString, useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { ScrollView, Text, View, YStack } from "tamagui";
-//import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
-import YoutubePlayer from "react-native-youtube-iframe";
-import { useAuth } from "@/hooks/useAuth";
 import { updateChapter4Progress } from "@/hooks/Chapter4Activity";
+import { useAuth } from "@/hooks/useAuth";
+import { RelativePathString, useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import YoutubePlayer from "react-native-youtube-iframe";
+import { ScrollView, Text, View, YStack } from "tamagui";
 
 const Activity5 = () => {
   const router = useRouter();

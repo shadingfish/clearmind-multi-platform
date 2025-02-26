@@ -1,18 +1,17 @@
-import { RelativePathString, useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { YStack, Text, Input } from "tamagui";
-//import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
-import { useChapterProgressContext } from "@/contexts/AuthContext";
 import colors from "@/constants/colors";
 import { hasEmptyValues } from "@/constants/helper";
-import { useToastController } from "@tamagui/toast";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 import {
   getChapter4Activity3,
   setChapter4Activity3,
   updateChapter4Progress,
 } from "@/hooks/Chapter4Activity";
 import { useAuth } from "@/hooks/useAuth";
+import { useToastController } from "@tamagui/toast";
+import { RelativePathString, useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { Input, Text, YStack } from "tamagui";
 
 type Ch4Activity3Questions = {
   answer1: string;
