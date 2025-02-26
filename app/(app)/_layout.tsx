@@ -29,6 +29,12 @@ export default function AppRootLayout() {
           }}
         />
         <Stack.Screen
+        name="presurvey" // Map to `app/index.tsx`
+        options={{
+          headerShown: false, // Navigation Optional
+        }}
+      />
+        <Stack.Screen
         name="chapter1" // Map to `app/index.tsx`
         options={{
           headerShown: false, // Navigation Optional
