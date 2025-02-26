@@ -194,7 +194,7 @@ export default function HomePage() {
 
       <View style={styles.chapterSection}>
         <ScrollView contentContainerStyle={{ paddingBottom: 80, alignItems: "center" }}>
-          {validchap.map((chapter, index) => (
+          {validchap.map((chapter, index) => ( //add if presurvey, show modal
             <TouchableOpacity
               key={index}
               onPress={() => router.push(`/(app)/${chapter}`)}

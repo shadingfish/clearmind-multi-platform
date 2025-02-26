@@ -6,17 +6,24 @@ import { Header } from "@react-navigation/elements";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { RelativePathString, router, Stack } from "expo-router";
-import { Text } from "react-native";
+import { Dimensions, SafeAreaView, Text, View } from "react-native";
+
 import { Button } from "tamagui";
 import SidebarModal from "@/app/SidebarModal";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import React, { useState } from "react";
+import * as Progress from "react-native-progress";
 
 export default function RootLayout() {
     
   const route = useRoute();
   const navigation = useNavigation();
+
+  const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
+
+  const [pagesCompleted, setPagesCompleted] = useState<number>(0); //or could be part of context! let's do that
 
   return (
     <>
@@ -38,15 +45,21 @@ export default function RootLayout() {
             <Entypo name="home" size={24} color="white" />
           </Button>
         ),
-        header: ({ options, route }) => (
-          //@ts-ignore
-          <Header
-            {...options}
-            headerStyle={{
-              height: 100,
-              backgroundColor: colors.headerBackground,
-            }}
-          />
+        header: () => (
+          <SafeAreaView style={{ justifyContent: "center", alignItems: "center" }}>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+              ClearMind Pre-Survey
+            </Text>
+            <Progress.Bar
+              style={{ marginTop: '5%' }}
+              progress={pagesCompleted / 14} //this needs to be updated on next probably, probably read from backend?
+              width={windowWidth * 0.8}
+              height={5}
+              color="#1EB688"
+              unfilledColor="#D3D3D3"
+              borderColor="#D3D3D3"
+            />
+          </SafeAreaView>
         ),
       })}
     >
