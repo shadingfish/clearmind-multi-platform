@@ -334,7 +334,7 @@ export const Chapter3 = {
       name: "SUMMARY OF COGNITIVE DISTORTIONS",
       icon: require("assets/images/icon_practice.png"),
       icon_done: require("assets/images/icon_practice_done.png"),
-      progress_index: "6_activity6",
+      progress_index: "7_activity7",
       route: "/(app)/chapter3/content/activity7",
     },
     {
