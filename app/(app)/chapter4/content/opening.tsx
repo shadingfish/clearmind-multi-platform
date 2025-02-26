@@ -20,15 +20,22 @@ import { RelativePathString, useRouter } from "expo-router";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { updateChapter4Progress } from "@/hooks/Chapter4Activity";
+import { useAuth } from "@/hooks/useAuth";
 
 const Opening = () => {
   const router = useRouter();
+  const { user, pending } = useAuth();
 
   const { updateChapterProgress, setCurrPage } = useChapterProgressContext();
 
   useEffect(() => {
     setCurrPage("opening");
   }, []);
+
+  if (pending) {
+    return null;
+  }
 
   return (
     <YStack margin={"$4"} gap={"$4"}>
@@ -51,6 +58,7 @@ const Opening = () => {
       <ChapterNavigationButton
         prev={"/(app)/chapter4"}
         next={() => {
+          updateChapter4Progress(user!.uid, "1_Opening");
           updateChapterProgress("chapter4", "opening");
           router.push(
             "/(app)/chapter4/content/activity1" as RelativePathString

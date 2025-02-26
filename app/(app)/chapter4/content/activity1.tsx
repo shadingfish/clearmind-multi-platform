@@ -5,15 +5,22 @@ import { YStack } from "tamagui";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { updateChapter4Progress } from "@/hooks/Chapter4Activity";
+import { useAuth } from "@/hooks/useAuth";
 
 const Activity1 = () => {
   const router = useRouter();
+  const { user, pending } = useAuth();
 
   const { updateChapterProgress, setCurrPage } = useChapterProgressContext();
 
   useEffect(() => {
     setCurrPage("activity1");
   }, []);
+
+  if (pending) {
+    return null;
+  }
 
   return (
     <YStack margin={"$4"} gap={"$4"}>
@@ -34,6 +41,7 @@ const Activity1 = () => {
       <ChapterNavigationButton
         prev={"/(app)/chapter4/content/opening"}
         next={() => {
+          updateChapter4Progress(user!.uid, "2_Activity4_1");
           updateChapterProgress("chapter4", "activity1");
           router.push(
             "/(app)/chapter4/content/activity2" as RelativePathString

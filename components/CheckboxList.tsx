@@ -1,5 +1,5 @@
 import { Check as CheckIcon } from "@tamagui/lucide-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Checkbox,
   CheckboxProps,
@@ -16,8 +16,8 @@ interface Option {
 }
 
 interface CheckboxListProps {
-  id: string;
-  onSelectionChange: (val: string[]) => void;
+  value: string[];
+  onChange: (val: string[]) => void;
 }
 
 const options: Option[] = [
@@ -27,72 +27,58 @@ const options: Option[] = [
   { id: "option4", label: "Part 4 - Determination" },
 ];
 
-export default function CheckboxList({
-  id,
-  onSelectionChange,
-}: CheckboxListProps) {
-  const [selected, setSelected] = useState<string[]>([]);
-
+export default function CheckboxList({ value, onChange }: CheckboxListProps) {
   const handleSelectionChange = (checked: CheckedState, label: string) => {
     const isChecked = checked === true;
     const newSelection = isChecked
-      ? [...selected, label]
-      : selected.filter((item) => item !== label);
+      ? [...value, label]
+      : value.filter((item) => item !== label);
 
-    setSelected(newSelection);
-    if (onSelectionChange) {
-      onSelectionChange(newSelection);
-    }
+    onChange(newSelection);
   };
 
   const CheckboxWithLabel = ({
-    id,
     size,
     label,
     ...checkboxProps
   }: CheckboxProps & { label?: string }) => {
-    const checkboxId = `${label}-${id}`;
     return (
-      <View>
-        <XStack
-          width={300}
-          alignItems="center"
-          gap="$3"
-          onPress={() =>
-            handleSelectionChange(!selected.includes(label!), label!)
-          }
+      <XStack
+        width={300}
+        alignItems="center"
+        gap="$3"
+        onPress={() => handleSelectionChange(!value.includes(label!), label!)}
+      >
+        <Checkbox
+          size={size}
+          backgroundColor={"transparent"}
+          borderColor={"black"}
+          {...checkboxProps}
         >
-          <Checkbox
-            id={checkboxId}
-            size={size}
-            backgroundColor={"transparent"}
-            borderColor={"black"}
-            {...checkboxProps}
-          >
-            <Checkbox.Indicator>
-              <CheckIcon />
-            </Checkbox.Indicator>
-          </Checkbox>
+          <Checkbox.Indicator>
+            <CheckIcon />
+          </Checkbox.Indicator>
+        </Checkbox>
 
-          <Text fontSize={"$4"}>{label}</Text>
-        </XStack>
-      </View>
+        <Text fontSize={"$4"}>{label}</Text>
+      </XStack>
     );
   };
 
   return (
     <YStack marginLeft={"$5"} gap={"$2"}>
-      {options.map((option) => (
-        <CheckboxWithLabel
-          id={id}
-          size={"$3"}
-          key={option.id}
-          label={option.label}
-          checked={selected.includes(option.label)}
-          onCheckedChange={(checked) =>
-            handleSelectionChange(checked, option.label)
-          }
-        />
+      {options.map((option, i) => (
+        <View key={i}>
+          <CheckboxWithLabel
+            size={"$3"}
+            key={option.id}
+            label={option.label}
+            checked={value.includes(option.label)}
+            onCheckedChange={(checked) =>
+              handleSelectionChange(checked, option.label)
+            }
+          />
+        </View>
       ))}
     </YStack>
   );

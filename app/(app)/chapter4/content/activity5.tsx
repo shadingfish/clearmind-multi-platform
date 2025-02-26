@@ -5,16 +5,23 @@ import { ScrollView, Text, View, YStack } from "tamagui";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 import YoutubePlayer from "react-native-youtube-iframe";
+import { useAuth } from "@/hooks/useAuth";
+import { updateChapter4Progress } from "@/hooks/Chapter4Activity";
 
 const Activity5 = () => {
   const router = useRouter();
   const [showMore, setShowMore] = useState(false);
+  const { user, pending } = useAuth();
 
   const { updateChapterProgress, setCurrPage } = useChapterProgressContext();
 
   useEffect(() => {
     setCurrPage("activity5");
   }, []);
+
+  if (pending) {
+    return null;
+  }
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -97,9 +104,10 @@ const Activity5 = () => {
         </Text>
 
         <ChapterNavigationButton
-          prev={"/(app)/chapter4"}
+          prev={"/(app)/chapter4/content/summary"}
           next={() => {
-            updateChapterProgress("chapter5", "Summary");
+            updateChapter4Progress(user!.uid, "7_Activity4_5_intro_tracker");
+            updateChapterProgress("chapter5", "activity5");
             router.push("/(app)/chapter4/" as RelativePathString);
           }}
         />

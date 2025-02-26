@@ -17,16 +17,23 @@ import StarModal from "./StarModal";
 import { hasEmptyValues } from "@/constants/helper";
 import { useToastController } from "@tamagui/toast";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  getChapter4Activity2,
+  setChapter4Activity2,
+  updateChapter4Progress,
+} from "@/hooks/Chapter4Activity";
 
-type Activity2Questions = {
-  specific: string;
-  trackable: string;
-  achievable: string;
-  relevant: string;
+type Ch4Activity2Questions = {
+  S: string;
+  T: string;
+  A: string;
+  R: string;
 };
 
 const Activity2 = () => {
   const toast = useToastController();
+  const { user, pending } = useAuth();
 
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
@@ -40,11 +47,11 @@ const Activity2 = () => {
     setCurrPage("activity2");
   }, []);
 
-  const [questions, setQuestions] = useState<Activity2Questions>({
-    specific: "",
-    trackable: "",
-    achievable: "",
-    relevant: "",
+  const [questions, setQuestions] = useState<Ch4Activity2Questions>({
+    S: "",
+    T: "",
+    A: "",
+    R: "",
   });
 
   const openModal = (title: string) => {
@@ -72,12 +79,33 @@ const Activity2 = () => {
     Relevant: require("@/assets/images/star_r.png"),
   };
 
-  const updateQuestion = (field: keyof Activity2Questions, value: string) => {
+  const updateQuestion = (
+    field: keyof Ch4Activity2Questions,
+    value: string
+  ) => {
     setQuestions((prev) => {
       const updatedQuestions = { ...prev, [field]: value };
       return updatedQuestions;
     });
   };
+
+  useEffect(() => {
+    if (user) {
+      getChapter4Activity2(user.uid)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const answer = snapshot.data();
+            for (const [key, value] of Object.entries(answer)) {
+              updateQuestion(
+                key as keyof Ch4Activity2Questions,
+                value as string
+              );
+            }
+          }
+        })
+        .catch((err) => console.log("Error get chapter 4 activity2: " + err));
+    }
+  }, [pending]);
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -136,8 +164,8 @@ const Activity2 = () => {
             size="$4"
             width={"100%"}
             alignSelf="center"
-            value={questions.specific}
-            onChangeText={(text) => updateQuestion("specific", text)}
+            value={questions.S}
+            onChangeText={(text) => updateQuestion("S", text)}
           />
           <Input
             unstyled
@@ -148,8 +176,8 @@ const Activity2 = () => {
             size="$4"
             width={"100%"}
             alignSelf="center"
-            value={questions.trackable}
-            onChangeText={(text) => updateQuestion("trackable", text)}
+            value={questions.T}
+            onChangeText={(text) => updateQuestion("T", text)}
           />
           <Input
             unstyled
@@ -160,8 +188,8 @@ const Activity2 = () => {
             size="$4"
             width={"100%"}
             alignSelf="center"
-            value={questions.achievable}
-            onChangeText={(text) => updateQuestion("achievable", text)}
+            value={questions.A}
+            onChangeText={(text) => updateQuestion("A", text)}
           />
           <Input
             unstyled
@@ -172,8 +200,8 @@ const Activity2 = () => {
             size="$4"
             width={"100%"}
             alignSelf="center"
-            value={questions.relevant}
-            onChangeText={(text) => updateQuestion("relevant", text)}
+            value={questions.R}
+            onChangeText={(text) => updateQuestion("R", text)}
           />
         </YStack>
 
@@ -206,7 +234,9 @@ const Activity2 = () => {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
+              updateChapter4Progress(user!.uid, "3_Activity4_2");
               updateChapterProgress("chapter4", "activity2");
+              setChapter4Activity2(user!.uid, questions);
               router.push(
                 "/(app)/chapter4/content/activity3" as RelativePathString
               );

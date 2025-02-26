@@ -7,8 +7,14 @@ import { useChapterProgressContext } from "@/contexts/AuthContext";
 import colors from "@/constants/colors";
 import { hasEmptyValues } from "@/constants/helper";
 import { useToastController } from "@tamagui/toast";
+import {
+  getChapter4Activity3,
+  setChapter4Activity3,
+  updateChapter4Progress,
+} from "@/hooks/Chapter4Activity";
+import { useAuth } from "@/hooks/useAuth";
 
-type Activity3Questions = {
+type Ch4Activity3Questions = {
   answer1: string;
   answer2: string;
 };
@@ -16,15 +22,19 @@ type Activity3Questions = {
 const Activity3 = () => {
   const router = useRouter();
   const toast = useToastController();
+  const { user, pending } = useAuth();
 
   const { updateChapterProgress, setCurrPage } = useChapterProgressContext();
 
-  const [questions, setQuestions] = useState<Activity3Questions>({
+  const [questions, setQuestions] = useState<Ch4Activity3Questions>({
     answer1: "",
     answer2: "",
   });
 
-  const updateQuestion = (field: keyof Activity3Questions, value: string) => {
+  const updateQuestion = (
+    field: keyof Ch4Activity3Questions,
+    value: string
+  ) => {
     setQuestions((prev) => {
       const updatedQuestions = { ...prev, [field]: value };
       return updatedQuestions;
@@ -34,6 +44,24 @@ const Activity3 = () => {
   useEffect(() => {
     setCurrPage("activity3");
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      getChapter4Activity3(user.uid)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const answer = snapshot.data();
+            for (const [key, value] of Object.entries(answer)) {
+              updateQuestion(
+                key as keyof Ch4Activity3Questions,
+                value as string
+              );
+            }
+          }
+        })
+        .catch((err) => console.log("Error get chapter 4 activity3: " + err));
+    }
+  }, [pending]);
 
   return (
     <YStack margin={"$4"} gap={"$4"}>
@@ -87,7 +115,9 @@ const Activity3 = () => {
           if (hasEmptyValues(questions)) {
             toast.show("Empty Input");
           } else {
+            updateChapter4Progress(user!.uid, "4_Activity4_3");
             updateChapterProgress("chapter4", "activity3");
+            setChapter4Activity3(user!.uid, questions);
             router.push(
               "/(app)/chapter4/content/activity4" as RelativePathString
             );

@@ -23,6 +23,7 @@ import {
   getChapter3Progress,
   initChapter3Progress,
 } from "@/hooks/Chapter3Activity";
+import { getChapter4Progress } from "@/hooks/Chapter4Activity";
 
 // Define the shape of the context
 interface ChapterProgressContextType {
@@ -138,17 +139,17 @@ export function ChapterProgressProvider({
         .catch((err) => console.log(err));
 
       //add chapter4 progress
-      // getChapter4Progress(user.uid)
-      //   .then((res) => {
-      //     if (res != null) {
-      //       const curProgress = res;
-      //       setCh4Progress(curProgress);
-      //       console.log("ch3 auth context get", curProgress);
-      //     } else {
-      //       console.log("error no progress");
-      //     }
-      //   })
-      //   .catch((err) => console.log(err));
+      getChapter4Progress(user.uid)
+        .then((res) => {
+          if (res != null) {
+            const curProgress = res;
+            setCh4Progress(curProgress);
+            console.log("ch3 auth context get", curProgress);
+          } else {
+            console.log("error no progress");
+          }
+        })
+        .catch((err) => console.log(err));
     }
   }, [pending]);
 

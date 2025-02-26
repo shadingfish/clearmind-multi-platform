@@ -10,8 +10,14 @@ import { useChapterProgressContext } from "@/contexts/AuthContext";
 import CheckboxList from "@/components/CheckboxList";
 import { hasEmptyValues } from "@/constants/helper";
 import { useToastController } from "@tamagui/toast";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  getChapter4Summary,
+  setChapter4Summary,
+  updateChapter4Progress,
+} from "@/hooks/Chapter4Activity";
 
-type SummaryQuestions = {
+export type Chp4SummaryQuestions = {
   question1: string;
   question2: string;
   question3: string[];
@@ -21,7 +27,7 @@ type SummaryQuestions = {
 const Summary = () => {
   const router = useRouter();
   const toast = useToastController();
-  const [questions, setQuestions] = useState<SummaryQuestions>({
+  const [questions, setQuestions] = useState<Chp4SummaryQuestions>({
     question1: "",
     question2: "",
     question3: [],
@@ -29,17 +35,38 @@ const Summary = () => {
   });
 
   const updateQuestion = (
-    field: keyof SummaryQuestions,
+    field: keyof Chp4SummaryQuestions,
     value: string | string[]
   ) => {
     setQuestions((prev) => ({ ...prev, [field]: value }));
   };
 
   const { updateChapterProgress, setCurrPage } = useChapterProgressContext();
+  const { user, pending } = useAuth();
 
   useEffect(() => {
     setCurrPage("summary");
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      getChapter4Summary(user.uid)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const answer = snapshot.data();
+            console.log(answer);
+            for (const [key, value] of Object.entries(answer)) {
+              console.log(key, value);
+              updateQuestion(
+                key as keyof Chp4SummaryQuestions,
+                value as string
+              );
+            }
+          }
+        })
+        .catch((err) => console.log("Error get chapter 4 activity3: " + err));
+    }
+  }, [pending]);
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
@@ -95,8 +122,8 @@ const Summary = () => {
           </Text>
           <View>
             <CheckboxList
-              id="3"
-              onSelectionChange={(val) => updateQuestion("question3", val)}
+              value={questions.question3}
+              onChange={(val) => updateQuestion("question3", val)}
             />
           </View>
         </YStack>
@@ -107,19 +134,21 @@ const Summary = () => {
           </Text>
           <View>
             <CheckboxList
-              id="4"
-              onSelectionChange={(val) => updateQuestion("question4", val)}
+              value={questions.question4}
+              onChange={(val) => updateQuestion("question4", val)}
             />
           </View>
         </YStack>
 
         <ChapterNavigationButton
-          prev={"/(app)/chapter4"}
+          prev={"/(app)/chapter4/content/activity4"}
           next={() => {
             if (hasEmptyValues(questions)) {
               toast.show("Empty Input");
             } else {
-              updateChapterProgress("chapter4", "Summary");
+              updateChapter4Progress(user!.uid, "6_Summary");
+              updateChapterProgress("chapter4", "summary");
+              setChapter4Summary(user!.uid, questions);
               router.push(
                 "(app)/chapter4/content/activity5" as RelativePathString
               );

@@ -1,5 +1,6 @@
 import { ChapterItem } from "@/components/ChapterActivityIcon";
 import { Chapter4, ChapterProgress } from "@/constants/data";
+import { getChapter4Progress } from "@/hooks/Chapter4Activity";
 //import { useChapterProgressContext } from "@/contexts/AuthContext";
 /* import {
   getChapter2Progress,
@@ -21,7 +22,21 @@ export default function Chapter4Index() {
     setFinished(Object.values(progress).every((value) => value === "1"));
   }, [progress]);
 
-  //const { userData, isFinished } = useChapterProgressContext();
+  useEffect(() => {
+    if (user) {
+      getChapter4Progress(user.uid)
+        .then((res) => {
+          if (res != null) {
+            const curProgress = res;
+            setProgress(curProgress);
+            console.log("curProgress ch4", curProgress);
+          } else {
+            console.log("error no ch3 progress");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [pending]);
 
   return (
     <YStack flex={1} marginHorizontal={"$7"} marginVertical={"$6"} gap={"$4"}>
@@ -49,14 +64,7 @@ export default function Chapter4Index() {
           paddingVertical={"$2"}
           alignItems="center"
         >
-          <Text fontSize={"$5"}>&#127881; You have finished this Part! </Text>
-          <Text
-            fontSize={"$5"}
-            textDecorationLine="underline"
-            color={"$blue11Light"}
-          >
-            <Link href={"/(app)/chapter3"}>Continue to the next part!</Link>
-          </Text>
+          <Text fontSize={"$5"}>&#127881; You have finished all Part! </Text>
         </YStack>
       )}
     </YStack>

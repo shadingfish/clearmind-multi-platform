@@ -169,13 +169,13 @@ export const chapterName2SidebarActivity: Record<
     "9_summary": "summary",
   },
   chapter4: {
-    "0_opening": "opening",
-    "1_activity1": "activity1",
-    "2_activity2": "activity2",
-    "3_activity3": "activity3",
-    "4_activity4": "activity4",
-    "5_summary": "summary",
-    "6_activity5": "activity5",
+    "1_Opening": "opening",
+    "2_Activity4_1": "activity1",
+    "3_Activity4_2": "activity2",
+    "4_Activity4_3": "activity3",
+    "5_Activity4_4": "activity4",
+    "6_Summary": "summary",
+    "7_Activity4_5_intro_tracker": "activity5",
   },
 };
 

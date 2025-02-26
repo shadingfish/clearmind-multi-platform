@@ -6,10 +6,17 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
 import colors from "@/constants/colors";
 import { useToastController } from "@tamagui/toast";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  getChapter4Activity4,
+  setChapter4Activity4,
+  updateChapter4Progress,
+} from "@/hooks/Chapter4Activity";
 
 const Activity4 = () => {
   const router = useRouter();
   const toast = useToastController();
+  const { user, pending } = useAuth();
 
   const [question, setQuestion] = useState("");
 
@@ -18,6 +25,19 @@ const Activity4 = () => {
   useEffect(() => {
     setCurrPage("activity4");
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      getChapter4Activity4(user.uid)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const answer = snapshot.data();
+            setQuestion(answer["answer1"]);
+          }
+        })
+        .catch((err) => console.log("Error get chapter 4 activity4: " + err));
+    }
+  }, [pending]);
 
   return (
     <YStack margin={"$4"} gap={"$4"}>
@@ -53,7 +73,9 @@ const Activity4 = () => {
           if (question == "") {
             toast.show("Empty Input");
           } else {
+            updateChapter4Progress(user!.uid, "5_Activity4_4");
             updateChapterProgress("chapter4", "activity4");
+            setChapter4Activity4(user!.uid, { answer1: question });
             router.push(
               "/(app)/chapter4/content/summary" as RelativePathString
             );
