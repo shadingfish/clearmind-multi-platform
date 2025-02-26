@@ -71,10 +71,11 @@ const Summary = () => {
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
       <YStack margin={"$4"} gap={"$4"}>
         <Text fontSize={"$5"} lineHeight={20}>
-          Keep in mind that you can allow difficult feelings to come and go
-          without fighting and arguing with them. They only gain control if you
-          permit it. Consider them like background noise, even if they seem loud
-          at times.
+          Before we unlock the goal tracker feature, let’s summarize the key
+          points covered in this section. In this part, we integrated
+          goal-setting principles with Acceptance and Commitment Therapy. We
+          also revisited key concepts from previous sections, including coping
+          with challenging passengers and strategies for staying focused.
         </Text>
 
         <Text fontSize={"$5"} lineHeight={20}>
@@ -83,9 +84,9 @@ const Summary = () => {
 
         <YStack gap={"$1"}>
           <Text color={"#808080"} lineHeight={18}>
-            1. Rate the effectiveness of this chapter in managing your
-            procrastination tendencies on a scale of 1 to 5, where 1 represents
-            “not effective at all” and 5 represents “extremely effective.”
+            1. Rate the effectiveness of this part in managing your
+            procrastination on a scale of 1 to 5, where 1 is "not effective" and
+            5 is "extremely effective."
           </Text>
           <RadioButtonGroup
             options={["1", "2", "3", "4", "5"]}
@@ -101,7 +102,7 @@ const Summary = () => {
           </Text>
           <Input
             unstyled
-            placeholder={"Input your answer for question2"}
+            placeholder={""}
             placeholderTextColor={colors.placeholder}
             borderColor={colors.border}
             borderWidth={3}

@@ -25,7 +25,7 @@ const Activity1 = () => {
     <YStack margin={"$4"} gap={"$4"}>
       <Text style={{ fontSize: 18 }}>
         While goal-setting is an essential strategy for addressing
-        procrastination tendencies, science says it's not enough! When the
+        procrastination tendencies, science says it’s not enough! When the
         process of goal-setting is combined with personal values, it is the most
         effective.
       </Text>

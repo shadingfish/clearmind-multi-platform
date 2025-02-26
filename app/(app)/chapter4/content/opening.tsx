@@ -27,11 +27,9 @@ const Opening = () => {
         In part three, we practiced some positive cognitive strategies, such as
         breath meditation and the Stop Breathe Believe practice, which are
         useful for overcoming procrastination. We discussed common cognitive
-        distortions and the ways to shift to positive thinking. We've learned
+        distortions and the ways to shift to positive thinking. We’ve learned
         that changing our thinking patterns and embracing positive mindsets help
-        us overcome the urge to procrastinate. In this section, we'll recap key
-        concepts from previous chapters and introduce a new framework designed
-        to help you manage procrastination on a daily basis.
+        us overcome the urge to procrastinate.
       </Text>
       <Text style={styles.textBox}>
         In this section, we'll recap key concepts from previous parts and

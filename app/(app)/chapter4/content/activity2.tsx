@@ -148,7 +148,7 @@ const Activity2 = () => {
         <YStack gap={"$3"}>
           <Input
             unstyled
-            placeholder={"[specific]"}
+            placeholder={"Specific:"}
             borderColor={colors.border}
             borderWidth={3}
             borderRadius={7}
@@ -160,7 +160,7 @@ const Activity2 = () => {
           />
           <Input
             unstyled
-            placeholder={"[trackable]"}
+            placeholder={"Trackable:"}
             borderColor={colors.border}
             borderWidth={3}
             borderRadius={7}
@@ -172,7 +172,7 @@ const Activity2 = () => {
           />
           <Input
             unstyled
-            placeholder={"[achievable]"}
+            placeholder={"Achievable:"}
             borderColor={colors.border}
             borderWidth={3}
             borderRadius={7}
@@ -184,7 +184,7 @@ const Activity2 = () => {
           />
           <Input
             unstyled
-            placeholder={"[relevant]"}
+            placeholder={"Relevant:"}
             borderColor={colors.border}
             borderWidth={3}
             borderRadius={7}
@@ -209,8 +209,8 @@ const Activity2 = () => {
           </Text>
           <Text style={{ color: "grey" }}>
             <Text style={{ fontWeight: "bold" }}>Achievable:</Text> I will break
-            down my final review into seven chapters, which is manageable
-            alongside my other responsibilities.
+            down my final review into seven parts, which is manageable alongside
+            my other responsibilities.
           </Text>
           <Text style={{ color: "grey", marginBottom: "3%" }}>
             <Text style={{ fontWeight: "bold" }}>Relevant:</Text> This goal

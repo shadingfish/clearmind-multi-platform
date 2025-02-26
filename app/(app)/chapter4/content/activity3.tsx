@@ -90,14 +90,14 @@ const Activity3 = () => {
       <Text fontSize={"$5"} lineHeight={20}>
         Those challenging passengers can be pretty persuasive when trying to
         talk you out of doing things that truly matter to you. They could say
-        things like, ”You're incapable of doing it,“ or ”Just give up this
-        time.“ Let's write down some excuses your passengers might use to
+        things like, "You're incapable of doing it," or "Just give up this
+        time." Let's write down some excuses your passengers might use to
         convince you to quit your goal for the week.
       </Text>
 
       <Input
         unstyled
-        placeholder={"input here"}
+        placeholder={"My passengers might say..."}
         borderColor={colors.border}
         borderWidth={3}
         borderRadius={7}

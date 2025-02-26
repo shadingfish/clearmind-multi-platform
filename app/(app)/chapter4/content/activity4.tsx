@@ -55,7 +55,7 @@ const Activity4 = () => {
 
       <Input
         unstyled
-        placeholder={"The strategy I would like to use ..."}
+        placeholder={"The strategies I’d like to use are..."}
         borderColor={colors.border}
         borderWidth={3}
         borderRadius={7}

@@ -34,7 +34,7 @@ const CogDistortModal: React.FC<CogDistortModalProps> = ({
     Trackable:
       "You need a mechanism to track and measure your progress to keep on track and see how you're doing with your goal. Set a reasonable time frame to give you a sense of urgency and motivation. For example, if you want to improve your fitness and plan to run 3 miles twice a week, keep a fitness journal. In the journal, record the date, the distance you run, how long it takes, and how you feel during your run. Over time, this record will show how you're doing and motivate you to stick with your goal.",
     Achievable:
-      "Pushing your limits while keeping your goals realistically attainable is essential. You should evaluate your available resources and abilities to ensure that your goals align with what you can realistically achieve. It would be beneficial to take your past experiences and other people's experiences with similar goals into account, which helps you to evaluate the feasibility of your goals.",
+      "Pushing your limits while keeping your goals realistically attainable is essential. You should evaluate your available resources and abilities to ensure that your goals align with what you can realistically achieve. It would be beneficial to take your past experiences and other people’s experiences with similar goals into account, which helps you to evaluate the feasibility of your goals.",
     Relevant:
       "Your goals should be relevant to your life. You want to ensure your goal aligns with your values and long-term ambitions. This alignment between your goals and values is crucial because it provides a profound sense of purpose and motivation. How does this goal connect with your values and the person you're striving to be?",
   };
