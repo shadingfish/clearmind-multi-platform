@@ -1,5 +1,4 @@
 // CogDistortModal.tsx
-import { useChapter3Context } from '@/contexts/Chapter3Context';
 import React, { useEffect, useState } from 'react';
 import {
   Modal,

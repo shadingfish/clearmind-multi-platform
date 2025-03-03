@@ -19,6 +19,7 @@ import * as Progress from "react-native-progress";
 import { Button } from "tamagui";
 import { useAuth } from "@/hooks/useAuth"; 
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import StartPresurveyModal from "./presurvey/StartPresurveyModal";
 
 const { width } = Dimensions.get("window");
 
@@ -101,6 +102,9 @@ export default function HomePage() {
 
   const [statuses, setStatuses] = useState<ChapterStatus>({ ...defaultChapterStatus });
 
+  const [presurveyModalVisible, setPresurveyModalVisible] = useState(false);
+  const [startPresurvey, setStartPresurvey] = useState(false);
+
   useEffect(() => {
     console.log("User Signed In:", isSignedIn);
     if (pending) return;
@@ -131,6 +135,22 @@ export default function HomePage() {
       handleFirebaseLogout();
     } else {
       console.log("No user is logged in.");
+    }
+  };
+
+  useEffect(() => {
+    if (startPresurvey) {
+      router.push("/(app)/presurvey" as RelativePathString)
+      //setStartPresurvey(false);
+    }
+  }, [startPresurvey])
+
+  const handleValidChapPress = (chapter: string) => {
+    if (chapter == "presurvey") { //display modal
+      setPresurveyModalVisible(true);
+    }
+    else {
+      router.push(`/(app)/${chapter}` as RelativePathString)
     }
   };
 
@@ -171,6 +191,7 @@ export default function HomePage() {
     
     <View style={{ flex: 1, paddingTop: top, backgroundColor: "#54B363" }}>
       {/* 顶部欢迎信息 & 进度环 */}
+      <StartPresurveyModal isVisible={presurveyModalVisible} onClose={() => {setPresurveyModalVisible(false)}} setStartPresurvey={setStartPresurvey}/>
       <View style={styles.topSection}>
         <View style={styles.textContainer}>
           <Text style={styles.title}>Hi, {username}!</Text>
@@ -197,7 +218,7 @@ export default function HomePage() {
           {validchap.map((chapter, index) => ( //add if presurvey, show modal
             <TouchableOpacity
               key={index}
-              onPress={() => router.push(`/(app)/${chapter}` as RelativePathString)}
+              onPress={() => handleValidChapPress(chapter)} // presurvey has a modal pop up first
               style={styles.chapterButton}
             >
               <ImageBackground
