@@ -8,6 +8,7 @@ import { useToastController } from "@tamagui/toast";
 import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { hasEmptyValues } from "@/constants/helper";
 import { router, RelativePathString } from "expo-router";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 
 const Activity2 = () => {
@@ -24,6 +25,11 @@ const Activity2 = () => {
 
     const windowWidth = Dimensions.get("window").width;
     const windowHeight = Dimensions.get("window").height;
+
+    const {setPresurveyProgress} = useChapterProgressContext();
+    useEffect(() => {
+      setPresurveyProgress(2)
+    }, [])
 
     useEffect(() => {
         setData((prevData) => ({

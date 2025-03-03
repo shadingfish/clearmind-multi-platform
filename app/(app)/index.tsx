@@ -11,7 +11,7 @@ import {
   Image,
   StyleSheet
 } from "react-native";
-import { useRouter } from "expo-router";
+import { RelativePathString, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { auth, database } from "@/constants/firebaseConfig";
 import { doc, getDoc, setDoc} from "firebase/firestore";
@@ -197,7 +197,7 @@ export default function HomePage() {
           {validchap.map((chapter, index) => ( //add if presurvey, show modal
             <TouchableOpacity
               key={index}
-              onPress={() => router.push(`/(app)/${chapter}`)}
+              onPress={() => router.push(`/(app)/${chapter}` as RelativePathString)}
               style={styles.chapterButton}
             >
               <ImageBackground
@@ -227,7 +227,7 @@ export default function HomePage() {
             style={[styles.navButton, activeTab === tab.name && styles.activeNavButton]}
             onPress={() => {
               setActiveTab(tab.name);
-              router.push(tab.route);
+              router.push(tab.route as RelativePathString);
             }}
           >
             <Image source={tab.icon} style={[styles.navIcon, activeTab === tab.name && styles.activeNavIcon]} />

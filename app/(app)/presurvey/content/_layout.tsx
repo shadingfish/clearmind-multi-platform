@@ -14,6 +14,7 @@ import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import * as Progress from "react-native-progress";
+import { useChapterProgressContext } from "@/contexts/AuthContext";
 
 export default function RootLayout() {
     
@@ -23,7 +24,8 @@ export default function RootLayout() {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
 
-  const [pagesCompleted, setPagesCompleted] = useState<number>(0); //or could be part of context! let's do that
+  const {presurveyProgress} = useChapterProgressContext();
+  //const [pagesCompleted, setPagesCompleted] = useState<number>(presurveyProgress); //or could be part of context! let's do that
 
   return (
     <>
@@ -42,17 +44,30 @@ export default function RootLayout() {
             }}
             style={{ marginLeft: 20 }}
           >
-            <Entypo name="home" size={24} color="white" />
+            <Entypo name="home" size={24} color="black" />
           </Button>
         ),
         header: () => (
           <SafeAreaView style={{ justifyContent: "center", alignItems: "center" }}>
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-              ClearMind Pre-Survey
-            </Text>
+            <View style={{flexDirection: 'row',marginLeft: 20, alignItems: 'center'}}>
+              <View style={{ }}>
+                <Button
+                  unstyled
+                  onPress={() => {
+                    router.replace("/(app)" as RelativePathString);
+                  }}
+                  style={{}}
+                  >
+                  <Entypo name="home" size={24} color="black" />
+                </Button>
+              </View>
+              <Text style={{ fontSize: 20, fontWeight: "bold", flex: 2, textAlign: 'center', marginRight: 30 }}>
+                ClearMind Pre-Survey
+              </Text>
+            </View>
             <Progress.Bar
               style={{ marginTop: '5%' }}
-              progress={pagesCompleted / 14} //this needs to be updated on next probably, probably read from backend?
+              progress={presurveyProgress / 14} //this needs to be updated on next probably, probably read from backend?
               width={windowWidth * 0.8}
               height={5}
               color="#1EB688"
