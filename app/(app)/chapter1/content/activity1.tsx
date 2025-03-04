@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
+  Image,
   Button,
   StyleSheet,
   Alert,
@@ -13,6 +14,7 @@ import {
 } from "react-native";
 import { useAuth } from "@/hooks/useAuth";
 import {
+  getChapter1Activity0UserInput,
   updateChapter1Activity1,
   getChapter1Activity1UserInput,
   updateChapter1Progress,
@@ -43,17 +45,15 @@ const checkboxOptions: string[] = [
 export default function Activity1() {
   const router = useRouter();
   const { user, pending } = useAuth();
-  
-  // Auth Context 用于 UI 进度同步
-  //const { userData, setUserData, currPage, setCurrPage } = useAuthContext();
 
-  // 复选框状态
+  const { updateChapterProgress, setCurrPage } = useChapterProgressContext();
+
+  const [topValue, setTopValue] = useState<string>("");
+  const [textWhyValue, setTextWhyValue] = useState<string>("");
+  const [textProcrastinate, setTextProcrastinate] = useState<string>("");
   const [checkboxes, setCheckboxes] = useState<string[]>([]);
-  const [otherInput, setOtherInput] = useState<string>("");
+  const [otherText, setOtherText] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [existingSelections, setExistingSelections] = useState<string[]>([]);
-
-  const {updateChapterProgress, setCurrPage} = useChapterProgressContext();
 
   useEffect(() => {
     setCurrPage('activity1');
@@ -62,13 +62,18 @@ export default function Activity1() {
   // 获取用户之前的选择
   useEffect(() => {
     if (user) {
-      getChapter1Activity1UserInput(user.uid).then((data: string[] | null) => {
+      getChapter1Activity0UserInput(user.uid).then((data) => {
+        if (data && Array.isArray(data.selection) && data.selection.length > 0) {
+          setTopValue(data.selection[0]);
+        }
+      });
+
+      getChapter1Activity1UserInput(user.uid).then((data) => {
         if (data) {
-          setExistingSelections(data);
-          setCheckboxes(data.filter((item: string) => item !== "Other"));
-          if (data.includes("Other")) {
-            // 这里可以扩展 "Other" 的逻辑
-          }
+          setTextWhyValue(data.textWhyValue || "");  
+          setTextProcrastinate(data.textProcrastinate || ""); 
+          setCheckboxes(Array.isArray(data.checkboxes) ? data.checkboxes : []); 
+          setOtherText(data.otherText || ""); 
         }
       });
     }
@@ -76,42 +81,26 @@ export default function Activity1() {
 
   // 复选框状态切换
   const toggleCheckbox = (label: string) => {
-    setCheckboxes((prev) => {
-      if (prev.includes(label)) {
-        return prev.filter((item: string) => item !== label);
-      } else {
-        return [...prev, label];
-      }
-    });
+    setCheckboxes((prev) =>
+      prev.includes(label) ? prev.filter((item) => item !== label) : [...prev, label]
+    );
   };
 
-  // 提交数据
+
   const handleSubmit = async () => {
-    if (!user) {
-      Alert.alert("Error", "User not authenticated.");
-      return;
-    }
+    if (!user) return Alert.alert("Error", "User not authenticated.");
 
     setLoading(true);
-    let selections: string[] = [...checkboxes];
+    await updateChapter1Activity1(user.uid, {
+      topValue,
+      textWhyValue,
+      textProcrastinate,
+      checkboxes,
+      otherText: checkboxes.includes("Other") ? otherText : "",
+    });
 
-    if (checkboxes.includes("Other") && otherInput.trim() !== "") {
-      selections = selections.map((item: string) =>
-        item === "Other" ? otherInput.trim() : item
-      );
-    }
-
-    try {
-      await updateChapter1Activity1(user.uid, selections);
-      await updateChapter1Progress(user.uid, "2_Activity1_1");
-      Alert.alert("Success", "Data saved successfully.");
-      router.push("/(app)/chapter1/content/activity2_1");
-    } catch (error) {
-      console.error("Error saving data: ", error);
-      Alert.alert("Error", "Failed to save data.");
-    } finally {
-      setLoading(false);
-    }
+    await updateChapter1Progress(user.uid, "2_Activity1_1");
+    setLoading(false);
   };
 
   if (pending) {
@@ -125,41 +114,24 @@ export default function Activity1() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.header}>
-          Reflect on whether an urge to procrastinate has ever sabotaged pursuing your values.
-        </Text>
-
-        <Text style={styles.subHeader}>
-          Why did you procrastinate? If you have not procrastinated so far, consider why you might put off certain tasks.
-        </Text>
-
-        {checkboxOptions.map((label: string) => (
-          <CheckboxWithLabel
-            marginBottom="$2"
-            marginTop="$2"
-            key={label}
-            label={label}
-            checked={checkboxes.includes(label)}
-            onPress={() => toggleCheckbox(label)}
-          />
-        ))}
-
-        {checkboxes.includes("Other") && (
-          <View style={styles.otherContainer}>
-            <Text style={styles.label}>Please specify:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Input here"
-              value={otherInput}
-              onChangeText={setOtherInput}
-            />
-          </View>
-        )}
+      <Text style={styles.header}>You chose {topValue} as one of your top life values. Think about why those values are important and meaningful to you. Have you ever made any effort to pursue these values?</Text>
+      <TextInput style={styles.input} value={textWhyValue} onChangeText={setTextWhyValue} />
+      <Text style={styles.header}>Have you ever procrastinated on pursuing these values? If you have not, can you think of a situation where you would procrastinate?</Text>
+      <TextInput style={styles.input} value={textProcrastinate} onChangeText={setTextProcrastinate} />
+      {checkboxOptions.map((label) => (
+        <CheckboxWithLabel marginBottom="$2" marginTop="$2" key={label} label={label} checked={checkboxes.includes(label)} onPress={() => toggleCheckbox(label)} />
+      ))}
+      {checkboxes.includes("Other") && <TextInput style={styles.input} value={otherText} onChangeText={setOtherText} />}
 
         <View style={styles.submitButton}>
           <PrimaryButton title="Submit" onPress={handleSubmit} />
           {loading && <ActivityIndicator size="small" color="#54B363" />}
         </View>
+
+        <YStack marginTop="20">
+        <Text style={styles.header}>Here are some common answers provided by other users:</Text>
+        <Image source={require("@/assets/images/word_cloud.png")} style={styles.wordCloud} />
+        </YStack>
 
         <ChapterNavigationButton
           prev={"/(app)/chapter1/content/activity0"}
@@ -217,10 +189,17 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
+    borderWidth: 2,
+    borderColor: "#54B363",
     borderRadius: 4,
     padding: 8,
     fontSize: 16,
+    marginBottom: 16
   },
+  wordCloud: {
+      width: 300,
+      height: 200,
+      alignSelf: "center",
+      resizeMode: "contain",
+    },
 });

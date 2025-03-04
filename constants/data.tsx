@@ -111,14 +111,14 @@ export const Chapter1 = {
       useRadio: false,
     },
     {
-      text: "2. What do you believe are the main reasons behind your procrastination behaviors, particularly when it comes to actions linked to your most important values?",
+      text: "2. What do you think are the main reasons behind your procrastination, especially when it comes to tasks related to your most important values?",
       placeholder: "Input your answer for question2",
       id: "question2",
       ans: "answer2",
       useRadio: false,
     },
     {
-      text: "3. Which new insight(s) have you gained from this part that you'd like to integrate for managing procrastination and better aligning with your life priorities?",
+      text: "3. What did you learn from this part that can help you manage procrastination and focus on your priorities?",
       placeholder: "Input your answer for question3",
       id: "question3",
       ans: "answer3",

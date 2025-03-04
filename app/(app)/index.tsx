@@ -1,6 +1,7 @@
 // app/(app)/index.tsx
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback} from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   View,
   ImageBackground,
@@ -23,8 +24,10 @@ import { useChapterProgressContext } from "@/contexts/AuthContext";
 const { width } = Dimensions.get("window");
 
 const chapters = ["presurvey", "chapter1", "chapter2", "chapter3", "chapter4", "postsurvey"] as const;
+const upper_chapters = ["Presurvey", "Chapter1", "Chapter2", "Chapter3", "Chapter4", "Postsurvey"] as const;
 
-const validchap = ["chapter1", "chapter2", "chapter3", "chapter4"] as const;
+const validchap = ["chapter1", "chapter2", "chapter3"] as const;
+const upper_validchap = ["Chapter1", "Chapter2", "Chapter3"] as const;
 
 type ChapterKey = typeof chapters[number];
 type ChapterStatus = Record<ChapterKey, "0" | "1" | "2">;
@@ -54,43 +57,6 @@ async function getUserChapterProgress() {
   }
 }
 
-async function updateAllChapterProgress(userId: string, chapters: ChapterKey[]) {
-  try {
-    const progressRef = doc(database, "ChapterProgress", userId);
-    const currentProgress = await getDoc(progressRef);
-
-    let updatedStatus: ChapterStatus = { ...defaultChapterStatus };
-    const currentData = currentProgress.exists() ? currentProgress.data() as ChapterStatus : defaultChapterStatus;
-
-    let startIndex = chapters.findIndex(chap => currentData[chap] === "1"); 
-    if (startIndex === -1) startIndex = 0;
-
-    for (let i = startIndex; i < chapters.length; i++) {
-      const chapterRef = doc(database, `Chapter${i + 1}`, "Progress", "users", userId);
-      const chapterDoc = await getDoc(chapterRef);
-
-      if (chapterDoc.exists()) {
-        const chapterData = chapterDoc.data();
-        const isFinished = Object.values(chapterData).every(val => val === "1");
-        const status = isFinished ? "2" : Object.values(chapterData).some(val => val === "1") ? "1" : "0";
-
-        updatedStatus[chapters[i]] = status;
-
-        if (status !== "2") break;
-      } else {
-        updatedStatus[chapters[i]] = "0";
-        break;
-      }
-    }
-
-    await setDoc(progressRef, updatedStatus, { merge: true });
-    console.log("Chapter progress updated successfully!");
-    return updatedStatus;
-  } catch (err) {
-    console.error("Error updating chapter progress:", err);
-  }
-}
-
 export default function HomePage() {
   const router = useRouter();
   const { top } = useSafeAreaInsets();
@@ -101,11 +67,70 @@ export default function HomePage() {
 
   const [statuses, setStatuses] = useState<ChapterStatus>({ ...defaultChapterStatus });
 
+  async function updateAllChapterProgress(userId: string, chapters: ChapterKey[]) {
+    // console.log("updateAllChapterProgress")
+    try {
+      const progressRef = doc(database, "ChapterProgress", userId);
+      const currentProgress = await getDoc(progressRef);
+      // console.log(progressRef)
+  
+      let updatedStatus: ChapterStatus = { ...defaultChapterStatus };
+      const currentData = currentProgress.exists() ? currentProgress.data() as ChapterStatus : defaultChapterStatus;
+      // console.log("currentData: ")
+      // console.log(currentData)
+  
+      for (let i = 0; i < chapters.length; i++) {
+        const upperChapterName = upper_validchap[i]; 
+        const chapterRef = doc(database, upperChapterName, "Progress", "users", userId);
+        // console.log(`Fetching progress for: ${upperChapterName}`);
+        const chapterDoc = await getDoc(chapterRef);
+        // console.log(chapterDoc.exists())
+  
+        if (chapterDoc.exists()) {
+          const chapterData = chapterDoc.data();
+          // console.log("chapterData")
+          // console.log(chapterData)
+          const isFinished = Object.values(chapterData).every(val => val === "1");
+          updatedStatus[chapters[i]] = isFinished ? "2" : Object.values(chapterData).some(val => val === "1") ? "1" : "0";
+        }
+      }
+      // console.log("updatedStatus: ")
+      // console.log(updatedStatus)
+  
+      await setDoc(progressRef, updatedStatus, { merge: true });
+      return updatedStatus;
+    } catch (err) {
+      console.error("Error updating chapter progress:", err);
+    }
+  }
+
+  const fetchUserProgress = useCallback(async () => {
+    const user = auth.currentUser;
+    if (user) {
+      setUsername(user.displayName || "User");
+      const progressData = await updateAllChapterProgress(user.uid, [...validchap]);
+      if (progressData) {
+        setStatuses(progressData);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     console.log("User Signed In:", isSignedIn);
     if (pending) return;
     if (!isSignedIn) router.replace(`/(login)`);
   }, [isSignedIn, pending]);
+
+  useEffect(() => {
+    const completedChapters = validchap.filter(chap => statuses[chap] === "2").length;
+    setProgress((completedChapters / validchap.length) * 100);
+  }, [statuses]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchUserProgress();
+    }, [])
+  );
 
   const {chap1Percent, chap2Percent, chap3Percent, chap4Percent} = useChapterProgressContext(); //you can use this for the chapter progress
 
@@ -128,49 +153,18 @@ export default function HomePage() {
   const handleLogout = () => {
     console.log("current: " + isSignedIn)
     if (isSignedIn) {
+      console.log("Signing out");
       handleFirebaseLogout();
+      router.push(`/`)
     } else {
       console.log("No user is logged in.");
     }
   };
 
-  const chapterImages: Record<ChapterKey, Record<"0" | "1" | "2", any>> = {
-    presurvey: {
-      "0": require("@/assets/images/imgbutton_presurvey_0.png"),
-      "1": require("@/assets/images/imgbutton_presurvey_1.png"),
-      "2": require("@/assets/images/imgbutton_presurvey_2.png"),
-    },
-    chapter1: {
-      "0": require("@/assets/images/imgbutton_chapter1_0.png"),
-      "1": require("@/assets/images/imgbutton_chapter1_1.png"),
-      "2": require("@/assets/images/imgbutton_chapter1_2.png"),
-    },
-    chapter2: {
-      "0": require("@/assets/images/imgbutton_chapter2_0.png"),
-      "1": require("@/assets/images/imgbutton_chapter2_1.png"),
-      "2": require("@/assets/images/imgbutton_chapter2_2.png"),
-    },
-    chapter3: {
-      "0": require("@/assets/images/imgbutton_chapter3_0.png"),
-      "1": require("@/assets/images/imgbutton_chapter3_1.png"),
-      "2": require("@/assets/images/imgbutton_chapter3_2.png"),
-    },
-    chapter4: {
-      "0": require("@/assets/images/imgbutton_chapter4_0.png"),
-      "1": require("@/assets/images/imgbutton_chapter4_1.png"),
-      "2": require("@/assets/images/imgbutton_chapter4_2.png"),
-    },
-    postsurvey: {
-      "0": require("@/assets/images/imgbutton_postsurvey_0.png"),
-      "1": require("@/assets/images/imgbutton_postsurvey_1.png"),
-      "2": require("@/assets/images/imgbutton_postsurvey_2.png"),
-    },
-  };
 
   return (
     
     <View style={{ flex: 1, paddingTop: top, backgroundColor: "#54B363" }}>
-      {/* 顶部欢迎信息 & 进度环 */}
       <View style={styles.topSection}>
         <View style={styles.textContainer}>
           <Text style={styles.title}>Hi, {username}!</Text>
@@ -208,37 +202,14 @@ export default function HomePage() {
             </TouchableOpacity>
           ))}
         </ScrollView>
-          <View style={styles.logoutContainer}>
+          {/* <View style={styles.logoutContainer}>
             <Button onPress={handleLogout} backgroundColor="#FF3B30">
               Logout
             </Button>
-          </View>
-      </View>
-
-      <View style={styles.bottomNav}>
-        {[
-          { name: "Learn", icon: require("@/assets/images/learn.png"), route: "/(app)" as const},
-          { name: "Tracker", icon: require("@/assets/images/tracker.png"), route: "/(app)/tracker"  as const},
-          { name: "Achieve", icon: require("@/assets/images/achievement.png"), route: "/(app)/achieve"  as const},
-          { name: "Profile", icon: require("@/assets/images/profile.png"), route: "/(app)/profile"  as const},
-        ].map((tab, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[styles.navButton, activeTab === tab.name && styles.activeNavButton]}
-            onPress={() => {
-              setActiveTab(tab.name);
-              router.push(tab.route);
-            }}
-          >
-            <Image source={tab.icon} style={[styles.navIcon, activeTab === tab.name && styles.activeNavIcon]} />
-            <Text style={[styles.navText, activeTab === tab.name && styles.activeNavText]}>{tab.name}</Text>
-          </TouchableOpacity>
-        ))}
+          </View> */}
       </View>
     </View>
   );
-
-
 }
 
 const styles = StyleSheet.create({
@@ -259,3 +230,36 @@ const styles = StyleSheet.create({
   activeNavText: { color: "white", fontWeight: "900"},
   logoutContainer: { alignItems: "center", marginVertical: 10,},
 });
+
+const chapterImages: Record<ChapterKey, Record<"0" | "1" | "2", any>> = {
+  presurvey: {
+    "0": require("@/assets/images/imgbutton_presurvey_0.png"),
+    "1": require("@/assets/images/imgbutton_presurvey_1.png"),
+    "2": require("@/assets/images/imgbutton_presurvey_2.png"),
+  },
+  chapter1: {
+    "0": require("@/assets/images/imgbutton_chapter1_0.png"),
+    "1": require("@/assets/images/imgbutton_chapter1_1.png"),
+    "2": require("@/assets/images/imgbutton_chapter1_2.png"),
+  },
+  chapter2: {
+    "0": require("@/assets/images/imgbutton_chapter2_0.png"),
+    "1": require("@/assets/images/imgbutton_chapter2_1.png"),
+    "2": require("@/assets/images/imgbutton_chapter2_2.png"),
+  },
+  chapter3: {
+    "0": require("@/assets/images/imgbutton_chapter3_0.png"),
+    "1": require("@/assets/images/imgbutton_chapter3_1.png"),
+    "2": require("@/assets/images/imgbutton_chapter3_2.png"),
+  },
+  chapter4: {
+    "0": require("@/assets/images/imgbutton_chapter4_0.png"),
+    "1": require("@/assets/images/imgbutton_chapter4_1.png"),
+    "2": require("@/assets/images/imgbutton_chapter4_2.png"),
+  },
+  postsurvey: {
+    "0": require("@/assets/images/imgbutton_postsurvey_0.png"),
+    "1": require("@/assets/images/imgbutton_postsurvey_1.png"),
+    "2": require("@/assets/images/imgbutton_postsurvey_2.png"),
+  },
+};

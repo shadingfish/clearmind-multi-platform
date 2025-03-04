@@ -1,3 +1,4 @@
+// hooks/UserInfo.tsx
 import { database } from "@/constants/firebaseConfig";
 import {
   collection,

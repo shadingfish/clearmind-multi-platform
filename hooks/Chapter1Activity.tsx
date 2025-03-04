@@ -80,11 +80,17 @@ export async function getChapter1Activity0UserInput(userId: string) {
 /** 更新 Chapter1 Activity1 */
 export async function updateChapter1Activity1(
   userId: string,
-  selections: string[] | { [key: string]: number }
+  data: {
+    topValue: string;
+    textWhyValue: string;
+    textProcrastinate: string;
+    checkboxes: string[];
+    otherText: string;
+  }
 ) {
   try {
     const activity1UserRef = doc(database, "Chapter1", "Activity1", "users", userId);
-    await setDoc(activity1UserRef, { selections });
+    await setDoc(activity1UserRef, data, { merge: true });
     console.log("Chapter1 Activity1 updated successfully!");
   } catch (err) {
     console.error("Error updating Chapter1 Activity1:", err);
@@ -103,20 +109,32 @@ export async function getChapter1Activity1() {
 }
 
 /** 获取用户 Chapter1 Activity1 选择 */
-export async function getChapter1Activity1UserInput(userId: string): Promise<string[]> {
+export async function getChapter1Activity1UserInput(userId: string): Promise<{
+  topValue: string;
+  textWhyValue: string;
+  textProcrastinate: string;
+  checkboxes: string[];
+  otherText: string;
+} | null> {
   try {
     const activity1UserRef = doc(database, "Chapter1", "Activity1", "users", userId);
     const res = await getDoc(activity1UserRef);
 
     if (res.exists()) {
       const data = res.data();
-      return Array.isArray(data.selections) ? data.selections : [];
+      return {
+        topValue: data.topValue || "",
+        textWhyValue: data.textWhyValue || "",
+        textProcrastinate: data.textProcrastinate || "",
+        checkboxes: Array.isArray(data.checkboxes) ? data.checkboxes : [],
+        otherText: data.otherText || "",
+      };
     } else {
-      return [];
+      return null;
     }
   } catch (err) {
     console.error("Error getting Chapter1 Activity1 user input:", err);
-    return [];
+    return null;
   }
 }
 

@@ -79,7 +79,7 @@ export default function Activity2_2() {
         // Update progress
         updateChapter1Progress(user.uid, "4_Activity1_2_Questions");
         // Navigate to the summary or next activity
-        router.push("/(app)/chapter1/content/summary");
+        router.push("/(app)/chapter1/content/activity3");
       })
       .catch((error) => {
         console.error("Error saving answers:", error);
@@ -102,10 +102,6 @@ export default function Activity2_2() {
     <View style={styles.container}>
       {/* Scrollable Content */}
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text style={styles.subHeader}>
-          Now that you have a pretty good understanding about types of procrastination, let’s think about which one resonates with your own tendencies and style.
-        </Text>
-
         {Chapter1.RadioQuestionsActivity2_2.map((question, index) => {
           const radioProps: Chapter1RadioProps = {
             question: question.question,
@@ -141,6 +137,10 @@ export default function Activity2_2() {
           <PrimaryButton title="Submit" onPress={handleSubmit} ></PrimaryButton>
           {loading && <ActivityIndicator size="small" color={colors.primary} />}
         </View>
+
+        <Text style={styles.subHeader}>
+          Now that you have a pretty good understanding about types of procrastination, let’s think about which one resonates with your own tendencies and style.
+        </Text>
       </ScrollView>
 
       {/* Fixed Navigation Buttons at Bottom */}

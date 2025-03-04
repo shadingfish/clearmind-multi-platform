@@ -10,9 +10,8 @@ type RadioGroupProps = {
   selectedValue: string;
   onValueChange: (value: string) => void;
   error?: string;
-
-  /** 新增，用来控制横排或竖排 */
   orientation?: "horizontal" | "vertical";
+  fontSize?: number;
 };
 
 const RadioGroup: React.FC<RadioGroupProps> = ({
@@ -21,7 +20,8 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
   selectedValue,
   onValueChange,
   error,
-  orientation = "horizontal", // 默认横排
+  orientation = "horizontal",
+  fontSize = 16,
 }) => {
   return (
     <YStack paddingTop="$5" gap="$0" width="80%">
@@ -29,7 +29,8 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
       <Label
         style={{
           textAlign: "left",
-          lineHeight: 20,
+          lineHeight: fontSize * 1.5, // 动态行高
+          fontSize: fontSize, // 稍大一点
           maxWidth: "100%",
         }}
       >
@@ -75,7 +76,10 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
                 )}
               </YStack>
               <Text
-                color={selectedValue === option ? colors.primary : "#000"}
+                style={{
+                  fontSize: fontSize,
+                  color: selectedValue === option ? colors.primary : "#000",
+                }}
               >
                 {option}
               </Text>
@@ -121,7 +125,10 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
                 )}
               </YStack>
               <Text
-                color={selectedValue === option ? colors.primary : "#000"}
+                style={{
+                  fontSize: fontSize,
+                  color: selectedValue === option ? colors.primary : "#000",
+                }}
               >
                 {option}
               </Text>

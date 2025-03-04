@@ -40,16 +40,15 @@ export const useAuth = () => {
   };
 
   const handleFirebaseLogout = async () => {
-    const router = useRouter();
     try {
+      console.log("logging out");
       await auth.signOut();
       console.log("User logged out");
       setAuthState({
         isSignedIn: false,
         pending: false,
         user: null,
-      });
-      router.push(`/`)
+      });      
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -93,39 +92,3 @@ export const useAuth = () => {
     ...authState,
   };
 };
-
-// const auth = getAuth();
-// signInWithEmailAndPassword(auth, email, password)
-// .then((userCredential) => {
-//   // Signed in
-//   const user = userCredential.user;
-//   // ...
-// })
-// .catch((error) => {
-//   const errorCode = error.code;
-//   const errorMessage = error.message;
-// });
-
-// const handleFirebaseLogin = (email: string, password: string) => {
-//   if (!email || !password) {
-//     alert("Please enter email and password");
-//     return;
-//   }
-//   auth
-//     .createUserWithEmailAndPassword(email, password)
-//     .then(() => {
-//       console.log('User account created & signed in!');
-//     })
-//     .catch(error => {
-//       if (error.code === 'auth/email-already-in-use') {
-//         alert("That email address is already in use!");
-//         console.log('That email address is already in use!');
-//       }
-
-//       if (error.code === 'auth/invalid-email') {
-//         alert("That email address is invalid!");
-//         console.log('That email address is invalid!');
-//       }
-//       console.error(error);
-//     });
-// };

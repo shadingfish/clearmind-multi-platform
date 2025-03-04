@@ -1,5 +1,7 @@
+// app/modal.tsx
+
 import { PrimaryButton } from "@/components/CustomButton";
-import React from "react";
+import React, { ReactNode }  from "react";
 import { Paragraph, Text, View, YStack } from "tamagui";
 
 type ModalScreenProps = {
@@ -7,6 +9,7 @@ type ModalScreenProps = {
   title: string;
   message: string;
   onClose: () => void;
+  children?: ReactNode;
 };
 
 export default function ModalScreen({
@@ -14,6 +17,7 @@ export default function ModalScreen({
   title,
   message,
   onClose,
+  children
 }: ModalScreenProps) {
   if (!visible) return null;
 
@@ -51,6 +55,7 @@ export default function ModalScreen({
         <Paragraph fontFamily="$body" textAlign="center" marginBottom="$4">
           {message}
         </Paragraph>
+        {children}
         <PrimaryButton size="$4" alignSelf="center" onPress={onClose}>
           Close
         </PrimaryButton>

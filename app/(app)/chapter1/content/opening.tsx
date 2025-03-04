@@ -20,10 +20,7 @@ export default function Opening() {
   return (
     <YStack margin={"$4"} gap={"$4"}>
       <Text fontSize={"$5"} lineHeight={25}>
-        In this chapter, you will:
-        1. Identify your life values.
-        2. Explore various kinds of procrastination and the underlying reasons behind procrastination behaviors.
-        3. Be introduced to Acceptance and Commitment Therapy, which can help you manage procrastination tendencies.
+      {`In this chapter, you will:\n1. Identify your life values.\n2. Explore various kinds of procrastination and the underlying reasons behind procrastination behaviors.\n3. Be introduced to Acceptance and Commitment Therapy.`}
       </Text>
 
       <ChapterNavigationButton

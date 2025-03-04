@@ -32,15 +32,12 @@ export default function Activity3() {
     setCurrPage('activity3');
   }, [])
 
-  // 这两个状态保存用户选择的答案
   const [frequency, setFrequency] = useState<string>("");
   const [timeCommit, setTimeCommit] = useState<string>("");
 
-  // 用于记录页面打开时间（可选，仅如果你需要统计用户停留）
   const openTimeRef = useRef<number>(0);
 
   useEffect(() => {
-    // 组件挂载时记录打开时间
     openTimeRef.current = Date.now();
 
     return () => {
@@ -52,7 +49,6 @@ export default function Activity3() {
     };
   }, []);
 
-  // 如果已有用户填写过答案，则可以在这里回显
   useEffect(() => {
     if (user) {
       getChapter1Activity3UserInput(user.uid).then((saved) => {
@@ -64,7 +60,6 @@ export default function Activity3() {
     }
   }, [user]);
 
-  // 按照原生安卓逻辑：点「下一步」时，更新进度 & 保存选择 & 跳转到 Summary
   const handleNext = async () => {
     if (!frequency || !timeCommit) {
       Alert.alert("Incomplete", "Please answer both questions before proceeding.");
@@ -76,20 +71,17 @@ export default function Activity3() {
       return;
     }
 
-    // 将两道题的答案写到 Firebase
     try {
       await updateChapter1Activity3(user.uid, {
         frequency,
         timeCommit,
       });
-      // 更新进度： 5_Time_Management -> "1"
       await updateChapter1Progress(user.uid, "5_Time_Management");
 
       Alert.alert("Success", "Your preferences have been saved successfully.");
 
       updateChapterProgress("chapter1", "activity3");
 
-      // 跳转到下一个页面： Chapter1 Summary
       router.push("/(app)/chapter1/content/summary");
     } catch (error) {
       console.error("Error saving time management info:", error);
@@ -117,8 +109,7 @@ export default function Activity3() {
 
         {/* 段落2 */}
         <Text style={styles.paragraph}>
-          There is really one thing we want you to do: engage with the app on a regular basis until
-          completing the content! So tell us how regularly you want to use the app.
+         There is really ONE thing we want you to do: engage with the app on a regular basis until completing the content! So tell us how regularly you want to use the app.
         </Text>
 
         {/* Question 1 */}
@@ -143,7 +134,6 @@ export default function Activity3() {
           onValueChange={(value) => setTimeCommit(value)}
         />
 
-        {/* 显示当前选择（类似原生的 response TextView） */}
         {!!frequency && !!timeCommit && (
           <Text style={styles.selectionText}>
             Your planned frequency to use the App is: {frequency}; 
@@ -151,7 +141,6 @@ export default function Activity3() {
           </Text>
         )}
 
-        {/* 通知说明等文案 */}
         <Text style={styles.paragraph}>
           Based on your responses, we have enabled notifications to keep you on track of your study plan. 
           You can change your notification preferences by:
@@ -164,7 +153,6 @@ export default function Activity3() {
 
       </ScrollView>
 
-      {/* 底部固定导航：上一步/下一步 */}
       <YStack style={styles.navigationContainer}>
         <ChapterNavigationButton
           prev="/(app)/chapter1/content/activity2_2"
@@ -175,7 +163,6 @@ export default function Activity3() {
   );
 }
 
-// 样式定义
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -184,7 +171,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 16,
-    paddingBottom: 60, // 给底部留空
+    paddingBottom: 60,
   },
   loadingContainer: {
     flex: 1,

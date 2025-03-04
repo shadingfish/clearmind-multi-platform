@@ -1,4 +1,4 @@
-// app/(app)/register.tsx
+// app/(login)/register.tsx
 
 import React, { useState } from "react";
 import { ScrollView, Dimensions, Alert, ActivityIndicator} from "react-native";
