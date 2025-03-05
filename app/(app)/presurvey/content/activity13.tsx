@@ -12,10 +12,13 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { hasEmptyValues } from "@/constants/helper";
 import { router, RelativePathString } from "expo-router";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { getPresurveyActivity, setPresurveyActivity } from "@/hooks/PresurveyActivity";
+import { useAuth } from "@/hooks/useAuth";
 
 
 const Activity13 = () =>{
     const toast = useToastController();
+    const { user, pending } = useAuth();
     const [ques57, setQues57] = useState<string>("");
     const [ques58, setQues58] = useState<string>("");
     const [ques59, setQues59] = useState<string>("");
@@ -33,7 +36,7 @@ const Activity13 = () =>{
       setPresurveyProgress(13)
     }, [])
 
-    useEffect(() => {
+    /* useEffect(() => {
 
         setData((prevData) => ({
             ...prevData, 
@@ -45,7 +48,42 @@ const Activity13 = () =>{
           }));
     
           console.log('data:', data);
-    }, [ques57, ques58, ques59, ques60, ques61]); // Dependency array, this effect runs when "count" changes
+    }, [ques57, ques58, ques59, ques60, ques61]); */
+
+    const updateQuestion = (field: string, value: string) => {
+        setData((prev) => {
+            const updatedQuestions = { ...prev, [field]: value };
+            return updatedQuestions;
+        });
+      };
+
+    useEffect(() => {
+      if (user) {
+        console.log('getPresurveyActivity13')
+        getPresurveyActivity(user.uid, "Activity13")
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              const answer = snapshot.data();
+              for (const [key, value] of Object.entries(answer)) {
+                updateQuestion(key as string, value as string);
+                console.log(key, value)
+              }
+            }
+            else {
+              //console.log('setting data here');
+              setData((prevData) => ({
+                ...prevData, 
+                ques57: "", 
+                ques58: "",
+                ques59: "",
+                ques60: "",
+                ques61: "",
+              }));
+            }
+          })
+          .catch((err) => console.log("Error get presurvey activity13:", err));
+      }
+    }, [pending]);
 
     return (
         <YStack margin={"$4"} gap={"$4"}>
@@ -76,8 +114,8 @@ const Activity13 = () =>{
                         <RadioButton.Android
                         key={option}
                         value={option}
-                        status={ques57 === option ? 'checked' : 'unchecked'}
-                        onPress={() => setQues57(option)} // Set the selected gender
+                        status={data?.ques57 === option ? 'checked' : 'unchecked'}
+                        onPress={() => updateQuestion("ques57", option)} // Set the selected gender
                         color="#1EB688"
                         />
                         <Text style={styles.radioLabel}>
@@ -101,8 +139,8 @@ const Activity13 = () =>{
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques58 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues58(option)} // Set the selected gender
+                            status={data?.ques58 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion("ques58", option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -126,8 +164,8 @@ const Activity13 = () =>{
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques59 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues59(option)} // Set the selected gender
+                            status={data?.ques59 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion("ques59", option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -151,8 +189,8 @@ const Activity13 = () =>{
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques60 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues60(option)} // Set the selected gender
+                            status={data?.ques60 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion("ques60", option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -176,8 +214,8 @@ const Activity13 = () =>{
                         <RadioButton.Android
                         key={option}
                         value={option}
-                        status={ques61 === option ? 'checked' : 'unchecked'}
-                        onPress={() => setQues61(option)} // Set the selected gender
+                        status={data?.ques61 === option ? 'checked' : 'unchecked'}
+                        onPress={() => updateQuestion("ques61", option)} // Set the selected gender
                         color="#1EB688"
                         />
                         <Text style={styles.radioLabel}>
@@ -194,6 +232,7 @@ const Activity13 = () =>{
             next={() => {if (hasEmptyValues(data)) {
                 toast.show("Empty Input");
             } else {
+                setPresurveyActivity(user!.uid, data, "Activity13");
                 router.push("/(app)/presurvey/content/activity14" as RelativePathString);
             }
             }}
