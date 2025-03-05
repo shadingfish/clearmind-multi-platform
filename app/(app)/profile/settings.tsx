@@ -13,16 +13,18 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { auth, database } from "@/constants/firebaseConfig";
-import { writeBatch, getDoc, doc, deleteDoc, collection, getDocs, runTransaction, getFirestore } from "firebase/firestore";
+import { doc, collection, getDocs, runTransaction } from "firebase/firestore";
 import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
-import { getAuth } from "firebase/auth";
 import { Ionicons } from "@expo/vector-icons";
+import { setLogLevel } from "firebase/firestore";
 
 export default function SettingsScreen() {
+  setLogLevel("debug");
   const router = useRouter();
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordForDelete, setPasswordForDelete] = useState("");
   const [passwordVisible, setPasswordVisible] = useState({
     old: false,
     new: false,
@@ -30,8 +32,7 @@ export default function SettingsScreen() {
   });
   const [selectedNotification, setSelectedNotification] = useState("Daily");
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const db = getFirestore();
-  const auth = getAuth();
+  const passwordFields = ["old", "new", "confirm"] as const;
 
   const handleChangePassword = async () => {
     if (newPassword !== confirmPassword) {
@@ -49,6 +50,7 @@ export default function SettingsScreen() {
       const credential = EmailAuthProvider.credential(user.email, oldPassword);
       await reauthenticateWithCredential(user, credential);
       await updatePassword(user, newPassword);
+      setOldPassword(newPassword);
 
       Alert.alert("Success", "Password changed successfully.");
 
@@ -61,48 +63,55 @@ export default function SettingsScreen() {
   const handleDeleteAccount = async () => {
     try {
       const user = auth.currentUser;
-      if (!user) return;
-      const userId = user.uid;
-  
-      console.log("🔍 Scanning Firestore for user data to delete:", userId);
-  
-      const rootCollections = ["users", "ChapterProgress"];
-      const chapters = ["Presurvey", "Chapter1", "Chapter2", "Chapter3", "Chapter4", "Postsurvey"];
-  
-      let deleteRefs: any[] = [];
-  
-      // 📌 Collect all root-level user documents
-      for (const collectionName of rootCollections) {
-        const userDocRef = doc(db, collectionName, userId);
-        deleteRefs.push(userDocRef);
-      }
-  
-      // 📌 Collect all user documents inside each Chapter/{activity}/users/{uid}
-      for (const chapter of chapters) {
-        const chapterRef = collection(db, chapter);
-        const activitiesSnapshot = await getDocs(chapterRef);
-  
-        for (const activityDoc of activitiesSnapshot.docs) {
-          const userDocRef = doc(db, `${chapter}/${activityDoc.id}/users`, userId);
-          deleteRefs.push(userDocRef);
-        }
-      }
-  
-      // **🚀 Run Transaction for Atomic Deletion**
-      if (deleteRefs.length === 0) {
-        console.error("❌ No user data found for deletion.");
+      if (!user || !user.email) {
+        Alert.alert("Error", "No authenticated user found.");
         return;
       }
+      console.log("Current user uid:", user.uid);
+      const credential = EmailAuthProvider.credential(user.email, passwordForDelete);
+      // const userId = user.uid;
   
-      await runTransaction(db, async (transaction) => {
-        for (const docRef of deleteRefs) {
-          transaction.delete(docRef);
-        }
-      });
+      // console.log("🔍 Scanning Firestore for user data to delete:", userId);
   
-      console.log("✅ Successfully deleted all user data!");
+      // const rootCollections = ["users", "ChapterProgress"];
+      // const chapters = ["Presurvey", "Chapter1", "Chapter2", "Chapter3", "Chapter4", "Postsurvey"];
+  
+      // let deleteRefs: any[] = [];
+  
+      // // 📌 Collect all root-level user documents
+      // for (const collectionName of rootCollections) {
+      //   const userDocRef = doc(database, collectionName, userId);
+      //   deleteRefs.push(userDocRef);
+      // }
+  
+      // // 📌 Collect all user documents inside each Chapter/{activity}/users/{uid}
+      // for (const chapter of chapters) {
+      //   const chapterRef = collection(database, chapter);
+      //   const activitiesSnapshot = await getDocs(chapterRef);
+  
+      //   for (const activityDoc of activitiesSnapshot.docs) {
+      //     const userDocRef = doc(database, `${chapter}/${activityDoc.id}/users`, userId);
+      //     deleteRefs.push(userDocRef);
+      //   }
+      // }
+  
+      // // **🚀 Run Transaction for Atomic Deletion**
+      // if (deleteRefs.length === 0) {
+      //   console.error("❌ No user data found for deletion.");
+      //   return;
+      // }
+  
+      // await runTransaction(database, async (transaction) => {
+      //   for (const docRef of deleteRefs) {
+      //     transaction.delete(docRef);
+      //   }
+      // });
+  
+      // console.log("✅ Successfully deleted all user data!");
       
       // **🔥 Finally, delete Firebase Auth user**
+      await reauthenticateWithCredential(user, credential);
+      console.log("User re-authenticated");
       await user.delete();
       console.log("✅ User account deleted!");
   
@@ -130,7 +139,7 @@ export default function SettingsScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>CHANGE PASSWORD</Text>
 
-          {["old", "new", "confirm"].map((type, index) => (
+          {passwordFields.map((type, index) => (
             <View key={index} style={styles.inputWrapper}>
               <Text style={styles.label}>
                 {type === "old" ? "Old Password:" : type === "new" ? "New Password:" : "Re-Enter New Password:"}
@@ -179,6 +188,17 @@ export default function SettingsScreen() {
         {/* Delete Account */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>DELETE ACCOUNT</Text>
+          <Text>Please fill your current passowrd</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+                    style={styles.input}
+                    placeholder="Current Password"
+                    value={ passwordForDelete }
+                    onChangeText={(text) =>
+                      setPasswordForDelete(text)
+                    }
+                  />
+          </View>
           <TouchableOpacity style={styles.deleteButton} onPress={() => setIsModalVisible(true)}>
             <Text style={styles.deleteText}>DELETE ACCOUNT</Text>
           </TouchableOpacity>
@@ -258,6 +278,6 @@ const styles = StyleSheet.create({
   radioChecked: { width: 12, height: 12, borderRadius: 6, backgroundColor: "#4CAF50" },
   radioText: { fontSize: 14, color: "#333" },
 
-  deleteButton: { backgroundColor: "#FF3B30", padding: 12, borderRadius: 5, alignItems: "center" },
+  deleteButton: { backgroundColor: "#FF3B30", padding: 12, borderRadius: 5, alignItems: "center", marginTop: 12},
   deleteText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
 });

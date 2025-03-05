@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "target": "es2020",
+      // 不要再加 "dom" 或 "dom.iterable"
+      "lib": ["es2020"],
+  
+      // 指明只在本目录搜源文件
+      "rootDir": "src",
+      "outDir": "lib",
+  
+      // 强烈建议加
+      "types": [
+        "node", 
+        "firebase-functions",
+        "firebase-admin"
+        // 不要写 "react-native" 之类
+      ],
+  
+      "strict": true,
+      "esModuleInterop": true,
+  
+      // 如果你想临时忽略第三方库的类型冲突，最简单：
+      // "skipLibCheck": true
+    },
+    "include": [
+      // 只编译 functions/src 下文件
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      // 排除掉父级 node_modules
+      "../node_modules",
+      // 如果在根目录安装了 react-native/types, 也排除
+      "../**/react-native"
+    ]
+  }
