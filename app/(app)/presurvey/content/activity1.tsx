@@ -31,7 +31,7 @@ import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { getChapter3Activity1 } from "@/hooks/Chapter3Activity";
 import { useAuth } from "@/hooks/useAuth";
 import { Activity1Questions } from "../../chapter3/content/activity1";
-import { getPresurveyActivity, getPresurveyActivity1, setPresurveyActivity, setPresurveyActivity1 } from "@/hooks/PresurveyActivity";
+import { getPresurveyActivity, setPresurveyActivity } from "@/hooks/PresurveyActivity";
 
 const Activity1 = () => {
     const toast = useToastController();

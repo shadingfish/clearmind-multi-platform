@@ -8,6 +8,7 @@ import { Chapter1, Chapter2, Chapter3, ChapterProgress } from "@/constants/data"
 import { getChapter2Progress } from "@/hooks/Chapter2Activity";
 import { getChapter1Progress, initChapter1Progress } from "@/hooks/Chapter1Activity";
 import { getChapter3Progress, initChapter3Progress } from "@/hooks/Chapter3Activity";
+import { getPostsurveyPagesBackend, getPresurveyPagesBackend } from "@/hooks/PresurveyActivity";
 
 // Define the shape of the context
 interface ChapterProgressContextType {
@@ -25,8 +26,14 @@ interface ChapterProgressContextType {
   setPresurveyProgress: (data: number) => void;
   presurveyPercent: number;
   postsurveyProgress: number;
+  setPresurveyPercent: (data: number) => void;
+  setPostsurveyPercent: (data: number) => void;
   setPostsurveyProgress: (data: number) => void;
   postsurveyPercent: number;
+  presurveyPagesCompleted: number;
+  postsurveyPagesCompleted: number;
+  setPresurveyPagesCompleted: (data: number) => void;
+  setPostsurveyPagesCompleted: (data: number) => void;
 }
 
 // Create the context with an initial default value
@@ -42,6 +49,8 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
   const [chap4Percent, setChap4Percent] = useState(0);
   const [presurveyProgress, setPresurveyProgress] = useState(1);
   const [postsurveyProgress, setPostsurveyProgress] = useState(1);
+  const [presurveyPagesCompleted, setPresurveyPagesCompleted] = useState(0);
+  const [postsurveyPagesCompleted, setPostsurveyPagesCompleted] = useState(0);
   const [presurveyPercent, setPresurveyPercent] = useState(0);
   const [postsurveyPercent, setPostsurveyPercent] = useState(0);
 
@@ -65,8 +74,32 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
   };
 
   useEffect(() => { //should read from backend
-    setPresurveyPercent(Math.round((presurveyProgress / 14) * 100))
-  }, [presurveyProgress])
+    if (user) {
+      getPresurveyPagesBackend(user.uid)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.data();
+            setPresurveyPagesCompleted(data?.pagesCompleted);
+            setPresurveyPercent(Math.round((data?.pagesCompleted / 14) * 100));
+          }
+        })
+        .catch((err) => console.log("Error fetching presurvey progress:", err));
+
+        getPostsurveyPagesBackend(user.uid)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.data();
+            setPostsurveyPagesCompleted(data?.pagesCompleted);
+            setPostsurveyPercent(Math.round((data?.pagesCompleted / 14) * 100));
+          }
+        })
+        .catch((err) => console.log("Error fetching postsurvey progress:", err));
+    }
+  }, [pending])
+
+  useEffect(() => {
+    console.log('presurvey percent, postsurveypercent', presurveyPercent, postsurveyPercent)
+  }, [presurveyProgress, postsurveyProgress, presurveyPercent, postsurveyPercent])
 
 
   useEffect(() => {
@@ -188,7 +221,11 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
     }, [userData])
 
   return (
-    <ChapterProgressContext.Provider value={{ userData, setUserData, currPage, setCurrPage, updateChapterProgress, isFinished, chap1Percent, chap2Percent, chap3Percent, chap4Percent, presurveyProgress, setPresurveyProgress, presurveyPercent, postsurveyProgress, setPostsurveyProgress, postsurveyPercent }}>
+    <ChapterProgressContext.Provider value={{ userData, setUserData, currPage, setCurrPage, 
+                                              updateChapterProgress, isFinished, chap1Percent, chap2Percent, chap3Percent, chap4Percent, 
+                                              presurveyProgress, setPresurveyProgress, presurveyPercent, setPresurveyPercent, postsurveyProgress, setPostsurveyProgress, 
+                                              postsurveyPercent, setPostsurveyPercent, presurveyPagesCompleted, postsurveyPagesCompleted, setPresurveyPagesCompleted, 
+                                              setPostsurveyPagesCompleted }}>
       {children}
     </ChapterProgressContext.Provider>
   );

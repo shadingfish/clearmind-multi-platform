@@ -12,20 +12,35 @@ import { Button } from "tamagui";
 import SidebarModal from "@/app/SidebarModal";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Progress from "react-native-progress";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { setPostsurveyPagesBackend } from "@/hooks/PresurveyActivity";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function RootLayout() {
-    
+  const { user, pending } = useAuth();
+  
   const route = useRoute();
   const navigation = useNavigation();
 
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
+  
+  const {postsurveyProgress, postsurveyPagesCompleted, setPostsurveyPagesCompleted, setPostsurveyPercent} = useChapterProgressContext();
 
-  const {postsurveyProgress} = useChapterProgressContext();
-  //const [pagesCompleted, setPagesCompleted] = useState<number>(presurveyProgress); //or could be part of context! let's do that
+  useEffect(() => { //runs whenever presurveyProgress changes
+    if (user) {
+      if (postsurveyProgress > postsurveyPagesCompleted) {
+          setPostsurveyPagesCompleted(postsurveyProgress);
+          setPostsurveyPercent(Math.round((postsurveyProgress / 14) * 100));
+          setPostsurveyPagesBackend(
+            user.uid,
+            postsurveyProgress,
+          )
+        }
+     }
+  }, [pending, postsurveyProgress])
 
   return (
     <>
