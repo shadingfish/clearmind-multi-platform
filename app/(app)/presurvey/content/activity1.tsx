@@ -31,7 +31,7 @@ import { useChapterProgressContext } from "@/contexts/AuthContext";
 import { getChapter3Activity1 } from "@/hooks/Chapter3Activity";
 import { useAuth } from "@/hooks/useAuth";
 import { Activity1Questions } from "../../chapter3/content/activity1";
-import { getPresurveyActivity1, setPresurveyActivity1 } from "@/hooks/PresurveyActivity";
+import { getPresurveyActivity, getPresurveyActivity1, setPresurveyActivity, setPresurveyActivity1 } from "@/hooks/PresurveyActivity";
 
 const Activity1 = () => {
     const toast = useToastController();
@@ -42,8 +42,6 @@ const Activity1 = () => {
     const [gender, setGender] = useState<string>("");
     const [yearsSchooling, setYearsSchooling] = useState<string>("");
     const [data, setData] = useState<{[key: string]: any}>({});
-
-    const [loaded, setLoaded] = useState(false);
 
     const yearOptions = ["0-1 year", "1-2 years","2-3 years", "3-4 years", "4+ years"]
 
@@ -86,7 +84,7 @@ const Activity1 = () => {
     useEffect(() => {
       if (user) {
         console.log('getPresurveyActivity1')
-        getPresurveyActivity1(user.uid)
+        getPresurveyActivity(user.uid, "Activity1")
           .then((snapshot) => {
             if (snapshot.exists()) {
               const answer = snapshot.data();
@@ -108,8 +106,6 @@ const Activity1 = () => {
           })
           .catch((err) => console.log("Error get presurvey activity1:", err));
       }
-
-      setLoaded(true);
     }, [pending]);
 
 
@@ -239,7 +235,7 @@ const Activity1 = () => {
                 next={() => {if (hasEmptyValues(data)) {
                     toast.show("Empty Input");
                 } else {
-                    setPresurveyActivity1(user!.uid, data);
+                    setPresurveyActivity(user!.uid, data, "Activity1");
                     router.push("/(app)/presurvey/content/activity2" as RelativePathString);
                 }
                 }}

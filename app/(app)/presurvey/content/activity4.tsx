@@ -11,9 +11,12 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { hasEmptyValues } from "@/constants/helper";
 import { router, RelativePathString } from "expo-router";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { getPresurveyActivity, setPresurveyActivity } from "@/hooks/PresurveyActivity";
+import { useAuth } from "@/hooks/useAuth";
 
   const Activity4 = () =>{
     const toast = useToastController();
+    const { user, pending } = useAuth();
     const [ques11, setQues11] = useState<string>("");
     const [ques12, setQues12] = useState<string>("");
     const [ques13, setQues13] = useState<string>("");
@@ -31,7 +34,7 @@ import { useChapterProgressContext } from "@/contexts/AuthContext";
       setPresurveyProgress(4)
     }, [])
 
-    useEffect(() => {
+    /* useEffect(() => {
 
         setData((prevData) => ({
             ...prevData, 
@@ -43,7 +46,42 @@ import { useChapterProgressContext } from "@/contexts/AuthContext";
           }));
     
           console.log('data:', data);
-    }, [ques11, ques12, ques13, ques14, ques15]); // Dependency array, this effect runs when "count" changes
+    }, [ques11, ques12, ques13, ques14, ques15]); */ // Dependency array, this effect runs when "count" changes
+
+    const updateQuestion = (field: string, value: string) => {
+        setData((prev) => {
+            const updatedQuestions = { ...prev, [field]: value };
+            return updatedQuestions;
+        });
+      };
+
+    useEffect(() => {
+      if (user) {
+        console.log('getPresurveyActivity4')
+        getPresurveyActivity(user.uid, "Activity4")
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              const answer = snapshot.data();
+              for (const [key, value] of Object.entries(answer)) {
+                updateQuestion(key as string, value as string);
+                console.log(key, value)
+              }
+            }
+            else {
+              //console.log('setting data here');
+              setData((prevData) => ({
+                ...prevData, 
+                ques11: "", 
+                ques12: "",
+                ques13: "",
+                ques14: "",
+                ques15: "",
+              }));
+            }
+          })
+          .catch((err) => console.log("Error get presurvey activity4:", err));
+      }
+    }, [pending]);
 
     return (
         <YStack margin={"$4"} gap={"$4"}>
@@ -81,8 +119,8 @@ import { useChapterProgressContext } from "@/contexts/AuthContext";
                         <RadioButton.Android
                         key={option}
                         value={option}
-                        status={ques11 === option ? 'checked' : 'unchecked'}
-                        onPress={() => setQues11(option)} // Set the selected gender
+                        status={data?.ques11 === option ? 'checked' : 'unchecked'}
+                        onPress={() => updateQuestion('ques11', option)} // Set the selected gender
                         color="#1EB688"
                         />
                         <Text style={styles.radioLabel}>
@@ -106,8 +144,8 @@ import { useChapterProgressContext } from "@/contexts/AuthContext";
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques12 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues12(option)} // Set the selected gender
+                            status={data?.ques12 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion('ques12', option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -131,8 +169,8 @@ import { useChapterProgressContext } from "@/contexts/AuthContext";
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques13 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues13(option)} // Set the selected gender
+                            status={data?.ques13 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion('ques13', option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -156,8 +194,8 @@ import { useChapterProgressContext } from "@/contexts/AuthContext";
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques14 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues14(option)} // Set the selected gender
+                            status={data?.ques14 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion('ques14', option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -181,8 +219,8 @@ import { useChapterProgressContext } from "@/contexts/AuthContext";
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques15 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues15(option)} // Set the selected gender
+                            status={data?.ques15 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion('ques15', option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -199,6 +237,7 @@ import { useChapterProgressContext } from "@/contexts/AuthContext";
             next={() => {if (hasEmptyValues(data)) {
                 toast.show("Empty Input");
             } else {
+                setPresurveyActivity(user!.uid, data, "Activity4");
                 router.push("/(app)/presurvey/content/activity5" as RelativePathString);
             }
             }}

@@ -11,9 +11,13 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { hasEmptyValues } from "@/constants/helper";
 import { router, RelativePathString } from "expo-router";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
+import { getPresurveyActivity, setPresurveyActivity } from "@/hooks/PresurveyActivity";
 
 const Activity3 = () =>  {
     const toast = useToastController();
+    const { user, pending } = useAuth();
+
     const [ques6, setQues6] = useState<string>("");
     const [ques7, setQues7] = useState<string>("");
     const [ques8, setQues8] = useState<string>("");
@@ -31,7 +35,7 @@ const Activity3 = () =>  {
       setPresurveyProgress(3)
     }, [])
 
-    useEffect(() => {
+    /* useEffect(() => {
         setData((prevData) => ({
             ...prevData, 
             ques6: ques6, 
@@ -43,7 +47,42 @@ const Activity3 = () =>  {
       
     
           console.log('data:', data);
-    }, [ques6, ques7, ques8, ques9, ques10]); // Dependency array, this effect runs when "count" changes
+    }, [ques6, ques7, ques8, ques9, ques10]); */ // Dependency array, this effect runs when "count" changes
+
+    const updateQuestion = (field: string, value: string) => {
+        setData((prev) => {
+            const updatedQuestions = { ...prev, [field]: value };
+            return updatedQuestions;
+        });
+      };
+
+    useEffect(() => {
+      if (user) {
+        console.log('getPresurveyActivity3')
+        getPresurveyActivity(user.uid, "Activity3")
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              const answer = snapshot.data();
+              for (const [key, value] of Object.entries(answer)) {
+                updateQuestion(key as string, value as string);
+                console.log(key, value)
+              }
+            }
+            else {
+              //console.log('setting data here');
+              setData((prevData) => ({
+                ...prevData, 
+                ques6: "", 
+                ques7: "",
+                ques8: "",
+                ques9: "",
+                ques10: "",
+              }));
+            }
+          })
+          .catch((err) => console.log("Error get presurvey activity3:", err));
+      }
+    }, [pending]);
 
     return (
         <YStack margin={"$4"} gap={"$4"}>
@@ -81,8 +120,8 @@ const Activity3 = () =>  {
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques6 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues6(option)} // Set the selected gender
+                            status={data?.ques6 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion('ques6', option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -106,8 +145,8 @@ const Activity3 = () =>  {
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques7 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues7(option)} // Set the selected gender
+                            status={data?.ques7 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion('ques7', option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -131,8 +170,8 @@ const Activity3 = () =>  {
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques8 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues8(option)} // Set the selected gender
+                            status={data?.ques8 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion('ques8', option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -156,8 +195,8 @@ const Activity3 = () =>  {
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques9 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues9(option)} // Set the selected gender
+                            status={data?.ques9 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion('ques9', option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -181,8 +220,8 @@ const Activity3 = () =>  {
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques10 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues10(option)} // Set the selected gender
+                            status={data?.ques10 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion('ques10', option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -199,6 +238,7 @@ const Activity3 = () =>  {
             next={() => {if (hasEmptyValues(data)) {
                 toast.show("Empty Input");
             } else {
+                setPresurveyActivity(user!.uid, data, "Activity3");
                 router.push("/(app)/presurvey/content/activity4" as RelativePathString);
             }
             }}

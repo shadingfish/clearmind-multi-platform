@@ -7,7 +7,7 @@ export function getPresurveyActivity1(userId: string) {
     return getDoc(activity1);
   }
   
-  export function setPresurveyActivity1(
+export function setPresurveyActivity1(
     userId: string,
     data: {[key: string]: any}
   ) {
@@ -17,5 +17,24 @@ export function getPresurveyActivity1(userId: string) {
       .catch((err) => {
         console.log("Set presurvey activity1 error:", err);
       });
+}
+
+/* Presurvey Activity */
+export function getPresurveyActivity(userId: string, activityNum: string) {
+    const activity = doc(database, `Presurvey/${activityNum}/users/${userId}`);
+    return getDoc(activity);
   }
+  
+export function setPresurveyActivity(
+    userId: string,
+    data: {[key: string]: any},
+    activityNum: string
+  ) {
+    const activity = doc(database, `Presurvey/${activityNum}/users/${userId}`);
+    setDoc(activity, data)
+      .then(() => console.log("success"))
+      .catch((err) => {
+        console.log(`Set presurvey ${activityNum} error:`, err);
+      });
+}
 

@@ -11,9 +11,13 @@ import { ChapterNavigationButton } from "@/components/ChapterNavigateButton";
 import { hasEmptyValues } from "@/constants/helper";
 import { router, RelativePathString } from "expo-router";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { getPresurveyActivity, setPresurveyActivity } from "@/hooks/PresurveyActivity";
+import { useAuth } from "@/hooks/useAuth";
 
 const Activity5 = () =>{
     const toast = useToastController();
+    const { user, pending } = useAuth();
+
     const [ques16, setQues16] = useState<string>("");
     const [ques17, setQues17] = useState<string>("");
     const [ques18, setQues18] = useState<string>("");
@@ -31,7 +35,7 @@ const Activity5 = () =>{
       setPresurveyProgress(5)
     }, [])
 
-    useEffect(() => {
+    /* useEffect(() => {
 
         setData((prevData) => ({
             ...prevData, 
@@ -43,7 +47,42 @@ const Activity5 = () =>{
           }));
 
           console.log('data:', data);
-    }, [ques16, ques17, ques18, ques19, ques20]); // Dependency array, this effect runs when "count" changes
+    }, [ques16, ques17, ques18, ques19, ques20]); */ // Dependency array, this effect runs when "count" changes
+
+    const updateQuestion = (field: string, value: string) => {
+        setData((prev) => {
+            const updatedQuestions = { ...prev, [field]: value };
+            return updatedQuestions;
+        });
+      };
+
+    useEffect(() => {
+      if (user) {
+        console.log('getPresurveyActivity5')
+        getPresurveyActivity(user.uid, "Activity5")
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              const answer = snapshot.data();
+              for (const [key, value] of Object.entries(answer)) {
+                updateQuestion(key as string, value as string);
+                console.log(key, value)
+              }
+            }
+            else {
+              //console.log('setting data here');
+              setData((prevData) => ({
+                ...prevData, 
+                ques16: "", 
+                ques17: "",
+                ques18: "",
+                ques19: "",
+                ques20: "",
+              }));
+            }
+          })
+          .catch((err) => console.log("Error get presurvey activity5:", err));
+      }
+    }, [pending]);
 
     return (
         <YStack margin={"$4"} gap={"$4"}>
@@ -81,8 +120,8 @@ const Activity5 = () =>{
                         <RadioButton.Android
                         key={option}
                         value={option}
-                        status={ques16 === option ? 'checked' : 'unchecked'}
-                        onPress={() => setQues16(option)} // Set the selected gender
+                        status={data?.ques16 === option ? 'checked' : 'unchecked'}
+                        onPress={() => updateQuestion("ques16", option)} // Set the selected gender
                         color="#1EB688"
                         />
                         <Text style={styles.radioLabel}>
@@ -106,8 +145,8 @@ const Activity5 = () =>{
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques17 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues17(option)} // Set the selected gender
+                            status={data?.ques17 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion("ques17", option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -131,8 +170,8 @@ const Activity5 = () =>{
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques18 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues18(option)} // Set the selected gender
+                            status={data?.ques18 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion("ques18", option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -156,8 +195,8 @@ const Activity5 = () =>{
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques19 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues19(option)} // Set the selected gender
+                            status={data?.ques19 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion("ques19", option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -181,8 +220,8 @@ const Activity5 = () =>{
                             <RadioButton.Android
                             key={option}
                             value={option}
-                            status={ques20 === option ? 'checked' : 'unchecked'}
-                            onPress={() => setQues20(option)} // Set the selected gender
+                            status={data?.ques20 === option ? 'checked' : 'unchecked'}
+                            onPress={() => updateQuestion("ques20", option)} // Set the selected gender
                             color="#1EB688"
                             />
                             <Text style={styles.radioLabel}>
@@ -199,6 +238,7 @@ const Activity5 = () =>{
             next={() => {if (hasEmptyValues(data)) {
                 toast.show("Empty Input");
             } else {
+                setPresurveyActivity(user!.uid, data, "Activity5");
                 router.push("/(app)/presurvey/content/activity6" as RelativePathString);
             }
             }}
