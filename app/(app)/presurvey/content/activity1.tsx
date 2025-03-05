@@ -28,15 +28,22 @@ import { hasEmptyValues } from "@/constants/helper";
 import { router, RelativePathString } from "expo-router";
 import { useToastController } from "@tamagui/toast";
 import { useChapterProgressContext } from "@/contexts/AuthContext";
+import { getChapter3Activity1 } from "@/hooks/Chapter3Activity";
+import { useAuth } from "@/hooks/useAuth";
+import { Activity1Questions } from "../../chapter3/content/activity1";
+import { getPresurveyActivity1, setPresurveyActivity1 } from "@/hooks/PresurveyActivity";
 
 const Activity1 = () => {
     const toast = useToastController();
+    const { user, pending } = useAuth();
 
     const [age, setAge] = useState<string>("");
     const [major, setMajor] = useState<string>("");
     const [gender, setGender] = useState<string>("");
     const [yearsSchooling, setYearsSchooling] = useState<string>("");
     const [data, setData] = useState<{[key: string]: any}>({});
+
+    const [loaded, setLoaded] = useState(false);
 
     const yearOptions = ["0-1 year", "1-2 years","2-3 years", "3-4 years", "4+ years"]
 
@@ -49,23 +56,61 @@ const Activity1 = () => {
       setPresurveyProgress(1)
     }, [])
 
+    /* useEffect(() => {
+
+      if (loaded && !(age == "" || gender == "" || major == "" || yearsSchooling == "")) {
+        setData((prevData) => ({
+          ...prevData, // Spread the previous data
+          age: age, // Add the new value for age
+          gender: gender, // Add the new value for gender
+          major: major, // Add the new value for major
+          yearsSchooling: yearsSchooling, // Add the new value for yearsSchooling
+        }));
+    
+        // Optionally, you can check if all the fields are filled and update dataFilled
+        //const isFilled = age !== "" && gender !== "" && major !== "" && yearsSchooling !== "";
+        //setDataFilled(isFilled);
+
+        console.log('data:', data);
+      }
+
+    }, [loaded, age, gender, major, yearsSchooling]); */ // Dependency array, this effect runs when "count" changes
+
+    const updateQuestion = (field: string, value: string) => {
+        setData((prev) => {
+            const updatedQuestions = { ...prev, [field]: value };
+            return updatedQuestions;
+        });
+      };
+
     useEffect(() => {
+      if (user) {
+        console.log('getPresurveyActivity1')
+        getPresurveyActivity1(user.uid)
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              const answer = snapshot.data();
+              for (const [key, value] of Object.entries(answer)) {
+                updateQuestion(key as string, value as string);
+                console.log(key, value)
+              }
+            }
+            else {
+              console.log('setting data here');
+              setData((prevData) => ({
+                ...prevData, // Spread the previous data
+                age: "", // Add the new value for age
+                gender: "", // Add the new value for gender
+                major: "", // Add the new value for major
+                yearsSchooling: "", // Add the new value for yearsSchooling
+              }));
+            }
+          })
+          .catch((err) => console.log("Error get presurvey activity1:", err));
+      }
 
-      setData((prevData) => ({
-        ...prevData, // Spread the previous data
-        age: age, // Add the new value for age
-        gender: gender, // Add the new value for gender
-        major: major, // Add the new value for major
-        yearsSchooling: yearsSchooling, // Add the new value for yearsSchooling
-      }));
-  
-      // Optionally, you can check if all the fields are filled and update dataFilled
-      //const isFilled = age !== "" && gender !== "" && major !== "" && yearsSchooling !== "";
-      //setDataFilled(isFilled);
-
-      console.log('data:', data);
-
-    }, [age, gender, major, yearsSchooling]); // Dependency array, this effect runs when "count" changes
+      setLoaded(true);
+    }, [pending]);
 
 
     return (
@@ -92,8 +137,8 @@ const Activity1 = () => {
             style={styles.textInputLine}
             placeholder="age"
             placeholderTextColor="#aaa"
-            onChangeText={(value) => setAge(value)} 
-            value={age} 
+            onChangeText={(value) => updateQuestion("age", value)} 
+            value={data?.age} 
             maxLength={3}
         />
 
@@ -108,9 +153,9 @@ const Activity1 = () => {
                 <View style={styles.radioButton}>
                     <RadioButton.Android
                         value="Male"
-                        status={gender === 'Male' ? 
+                        status={data?.gender === 'Male' ? 
                                 'checked' : 'unchecked'}
-                        onPress={() => setGender('Male')}
+                        onPress={() => updateQuestion("gender", "Male")}
                         color="#1EB688"
                     />
                     <Text style={styles.radioLabel}>
@@ -121,9 +166,9 @@ const Activity1 = () => {
                 <View style={{...styles.radioButton, marginLeft: '5%'}}>
                     <RadioButton.Android
                         value="Female"
-                        status={gender === 'Female' ? 
+                        status={data?.gender === 'Female' ? 
                                  'checked' : 'unchecked'}
-                        onPress={() => setGender('Female')}
+                        onPress={() => updateQuestion("gender", "Female")}
                         color="#1EB688"
                     />
                     <Text style={styles.radioLabel}>
@@ -134,9 +179,9 @@ const Activity1 = () => {
                 <View style={{...styles.radioButton, marginLeft: '5%'}}>
                     <RadioButton.Android
                         value="Other"
-                        status={gender === 'Other' ? 
+                        status={data?.gender === 'Other' ? 
                                  'checked' : 'unchecked'}
-                        onPress={() => setGender('Other')}
+                        onPress={() => updateQuestion("gender", "Other")}
                         color="#1EB688"
                     />
                     <Text style={styles.radioLabel}>
@@ -158,8 +203,8 @@ const Activity1 = () => {
             style={styles.textInputLine}
             placeholder="major"
             placeholderTextColor="#aaa"
-            onChangeText={(value) => setMajor(value)} 
-            value={major} 
+            onChangeText={(value) => updateQuestion("major", value)} 
+            value={data?.major} 
             maxLength={50}
         />
 
@@ -176,8 +221,8 @@ const Activity1 = () => {
                     <RadioButton.Android
                       key={option}
                       value={option}
-                      status={yearsSchooling === option ? 'checked' : 'unchecked'}
-                      onPress={() => setYearsSchooling(option)} // Set the selected gender
+                      status={data?.yearsSchooling === option ? 'checked' : 'unchecked'}
+                      onPress={() => updateQuestion("yearsSchooling", option)} // Set the selected gender
                       color="#1EB688"
                     />
                     <Text style={styles.radioLabel}>
@@ -194,6 +239,7 @@ const Activity1 = () => {
                 next={() => {if (hasEmptyValues(data)) {
                     toast.show("Empty Input");
                 } else {
+                    setPresurveyActivity1(user!.uid, data);
                     router.push("/(app)/presurvey/content/activity2" as RelativePathString);
                 }
                 }}
