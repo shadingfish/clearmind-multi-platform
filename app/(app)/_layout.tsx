@@ -58,6 +58,12 @@ export default function AppRootLayout() {
             headerShown: false, // Navigation Optional
           }}
         />
+      <Stack.Screen
+          name="postsurvey" // Map to `app/index.tsx`
+          options={{
+            headerShown: false, // Navigation Optional
+          }}
+        />
 
       </Stack>
       

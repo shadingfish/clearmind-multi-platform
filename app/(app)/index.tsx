@@ -25,7 +25,7 @@ const { width } = Dimensions.get("window");
 
 const chapters = ["presurvey", "chapter1", "chapter2", "chapter3", "chapter4", "postsurvey"] as const;
 
-const validchap = ["presurvey", "chapter1", "chapter2", "chapter3", "chapter4"] as const;
+const validchap = ["presurvey", "chapter1", "chapter2", "chapter3", "chapter4", "postsurvey"] as const;
 
 type ChapterKey = typeof chapters[number];
 type ChapterStatus = Record<ChapterKey, "0" | "1" | "2">;

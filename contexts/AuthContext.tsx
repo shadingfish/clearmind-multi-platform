@@ -24,12 +24,13 @@ interface ChapterProgressContextType {
   presurveyProgress: number;
   setPresurveyProgress: (data: number) => void;
   presurveyPercent: number;
+  postsurveyProgress: number;
+  setPostsurveyProgress: (data: number) => void;
+  postsurveyPercent: number;
 }
 
 // Create the context with an initial default value
 const ChapterProgressContext = createContext<ChapterProgressContextType | undefined>(undefined);
-
-
 
 // Context Provider Component
 export function ChapterProgressProvider({ children }: { children: React.ReactNode }) {
@@ -40,7 +41,9 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
   const [chap3Percent, setChap3Percent] = useState(0);
   const [chap4Percent, setChap4Percent] = useState(0);
   const [presurveyProgress, setPresurveyProgress] = useState(1);
+  const [postsurveyProgress, setPostsurveyProgress] = useState(1);
   const [presurveyPercent, setPresurveyPercent] = useState(0);
+  const [postsurveyPercent, setPostsurveyPercent] = useState(0);
 
   const { user, pending } = useAuth();
   const [ch1progress, setCh1Progress] = useState<ChapterProgress>(
@@ -61,7 +64,7 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
     return Math.round((trueCount / totalCount) * 100) // Progress in percentage
   };
 
-  useEffect(() => { //read from backend
+  useEffect(() => { //should read from backend
     setPresurveyPercent(Math.round((presurveyProgress / 14) * 100))
   }, [presurveyProgress])
 
@@ -185,7 +188,7 @@ export function ChapterProgressProvider({ children }: { children: React.ReactNod
     }, [userData])
 
   return (
-    <ChapterProgressContext.Provider value={{ userData, setUserData, currPage, setCurrPage, updateChapterProgress, isFinished, chap1Percent, chap2Percent, chap3Percent, chap4Percent, presurveyProgress, setPresurveyProgress, presurveyPercent }}>
+    <ChapterProgressContext.Provider value={{ userData, setUserData, currPage, setCurrPage, updateChapterProgress, isFinished, chap1Percent, chap2Percent, chap3Percent, chap4Percent, presurveyProgress, setPresurveyProgress, presurveyPercent, postsurveyProgress, setPostsurveyProgress, postsurveyPercent }}>
       {children}
     </ChapterProgressContext.Provider>
   );
